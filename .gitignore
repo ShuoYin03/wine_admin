@@ -1,4 +1,6 @@
-./files
-./auction_data.json
-./graphQL_test.py
-./Restful_test.py
+*.env
+auction_data.json
+graphQL_test.py
+output.txt
+Restful_test.py
+files/
