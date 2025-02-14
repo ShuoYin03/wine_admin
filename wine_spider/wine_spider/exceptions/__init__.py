@@ -1,5 +1,6 @@
-from .exceptions import CityNotFoundException
+from .exceptions import CityNotFoundException, InvalidDateInputException
 
 __all__ = [
-    "CityNotFoundException"
+    "CityNotFoundException",
+    "InvalidDateInputException"
 ]

@@ -4,3 +4,8 @@ graphQL_test.py
 output.txt
 Restful_test.py
 files/
+
+__pycache__/
+*.pyc
+*.pyo
+*.pyd

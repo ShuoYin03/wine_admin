@@ -6,8 +6,37 @@
 
 # useful for handling different item types with a single interface
 from itemadapter import ItemAdapter
-
+from .database import DatabaseClient
+from .items import AuctionItem, AuctionSalesItem, LotItem
 
 class WineSpiderPipeline:
     def process_item(self, item, spider):
+        return item
+
+
+class DataStoragePipeline:
+    def open_spider(self, spider):
+        self.db_client = DatabaseClient(
+            dbname="wine_admin",
+            user="postgres",
+            password="341319",
+            host="localhost",
+            port="5432"
+        )
+
+    def close_spider(self, spider):
+        self.db_client.close()
+
+    def process_item(self, item, spider):
+        item_data = ItemAdapter(item).asdict()
+
+        if type(item) == AuctionItem:
+            self.db_client.insert_item("auction", item_data)
+        elif type(item) == AuctionSalesItem:
+            self.db_client.insert_item("auction_Sales", item_data)
+        elif type(item) == LotItem:
+            self.db_client.insert_item("lot", item_data)
+        else:
+            raise ValueError(f"Unknown item type: {item.get('item_type')}")
+        
         return item
