@@ -10,17 +10,23 @@ LOT_ID_QUERY = """
                         ...LotNavigationDropdownLotFragment
                     }
                 }
-
-                }
-            }
-            auctionAutochargeConfig(auctionId: $auctionId) {
-                __typename
             }
         }
-        
-        fragment LotNavigationDropdownLotFragment on LotCard {
-            lotId
+        auctionAutochargeConfig(auctionId: $auctionId) {
+            __typename
         }
+    }
+    
+    fragment LotNavigationDropdownLotFragment on LotCard {
+        lotId
+        slug {
+            lotSlug
+            auctionSlug {
+                year
+                name
+            }
+        }
+    }
 """
 
 LOT_DESCRIPTION_QUERY = """

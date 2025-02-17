@@ -84,6 +84,9 @@ class SothebysClient:
         self.page.goto(url, wait_until="networkidle", timeout=10000)
         return self.page.content()
     
+    def locate(self, selector):
+        return self.page.locator(selector)
+    
     def auction_query(self, cookies):
         pass
 

@@ -6,9 +6,9 @@ import requests
 from bs4 import BeautifulSoup
 from dotenv import load_dotenv
 from wine_spider.helpers.date_parser import parse_quarter
-from wine_spider.items import AuctionItem, AuctionSalesItem
-from wine_spider.helpers.captcha_parser import CaptchaParser
+from wine_spider.items import AuctionItem, AuctionSalesItem, LotItem
 from wine_spider.helpers.continent_parser import find_continent
+from wine_spider.helpers.volumn_parser import parse_volumn
 from wine_spider.website_clients.sothebys_client import SothebysClient
 from wine_spider.spiders.querys.sothebys import get_lot_id_query, get_lot_description_query
 
@@ -88,67 +88,84 @@ class SothebysSpider(scrapy.Spider):
                 """
             }
             
-            # yield scrapy.Request(
-            #     url=auction_api_url,
-            #     method='POST',
-            #     body=json.dumps(payload),
-            #     callback=self.parse_auction_api_response,
-            # )
-
             yield scrapy.Request(
                 url=self.client.api_url,
-                method='GET',
-                callback=self.get_all_lot_ids,
-                meta={"viking_id": viking_id},
+                method='POST',
+                body=json.dumps(payload),
+                callback=self.parse_auction_api_response,
             )
 
-    def get_all_lot_ids(self, response):
-        viking_id = response.meta.get("viking_id")
-        lot_id_urls = response.css(".css-davmek::attr(src)").getall()
-        lot_id_url = lot_id_urls[0]
-        lot_id = re.search(r"/lot/([a-f0-9\-]+)/", lot_id_url).group(1)
-        
-        payload = {
-            "operationName": "LotQuery",
-            "variables": {
-                "auctionId": viking_id,
-                "countryOfOrigin": "GB",
-                "id": lot_id,
-                "language": "ENGLISH"
-            },
-            "query": get_lot_id_query()
-        }
+            # yield scrapy.Request(
+            #     url=url,
+            #     method='GET',
+            #     callback=self.get_all_lot_ids,
+            #     meta={"viking_id": viking_id},
+            # )
 
-        yield scrapy.Request(
-            url=self.client.api_url,
-            method='POST',
-            headers={'Content-Type': 'application/json'},
-            body=json.dumps(payload),
-            callback=self.query_lots,
-            meta={
-                "viking_id": viking_id
-            },
-        )
+            lots = []
+            response = self.client.go_to(url)
+            lots.extend(parse_lots_page(response))
+
+            soup = BeautifulSoup(response, "html.parser")
+            pagination = soup.select(".pagination-module_pagination__TRr2-")
+            page_count = pagination[0].find_all("li")[-2].text
+            
+            for page in range(2, page_count):
+                pagination_button = self.client.locate(f'li >> button[aria-label="Go to page {page}."]')
+                pagination_button.scroll_into_view_if_needed()
+                pagination_button.click()
+                response = self.client.page.content()
+                lots.extend(parse_lots_page(response))
+
+    def get_all_lot_ids(self, response):
+        # viking_id = response.meta.get("viking_id")
+        # lot_id_urls = response.css(".css-davmek::attr(src)").getall()
+        # lot_id_url = lot_id_urls[0]
+        # lot_id = re.search(r"/lot/([a-f0-9\-]+)/", lot_id_url).group(1)
+        
+        # payload = {
+        #     "operationName": "LotQuery",
+        #     "variables": {
+        #         "auctionId": viking_id,
+        #         "countryOfOrigin": "GB",
+        #         "id": lot_id,
+        #         "language": "ENGLISH"
+        #     },
+        #     "query": get_lot_id_query()
+        # }
+
+        # yield scrapy.Request(
+        #     url=self.client.api_url,
+        #     method='POST',
+        #     headers={'Content-Type': 'application/json'},
+        #     body=json.dumps(payload),
+        #     callback=self.query_lots,
+        #     meta={
+        #         "viking_id": viking_id
+        #     },
+        # )
+        pass
 
     def query_lots(self, response):
         viking_id = response.meta.get("viking_id")
-
-        base_url = "https://www.sothebys.com/en/buy/auction/2025"
-        lot_paths = [os.path.join(base_url, lot["slug"]["lotSlug"], lot["slug"]["auctionSlug"]["name"]) for lot in json.loads(response.text)['data']['lot']['auction']['lotCards']]
+        base_url = "https://www.sothebys.com/en/buy/auction"
+        lot_paths = [os.path.join(base_url, lot['slug']['auctionSlug']['year'],  lot['slug']['auctionSlug']['name'], lot['slug']['lotSlug']) for lot in json.loads(response.text)['data']['lot']['auction']['lotCards']]
         lot_ids = [lot['lotId'] for lot in json.loads(response.text)['data']['lot']['auction']['lotCards']]
 
-        lot_data = []
+        lot_data = {}
         for lot_path in lot_paths[:10]:
             response = self.client.go_to(lot_path)
             soup = BeautifulSoup(response, "html.parser")
-            lot_title = soup.find("h1", class_="headline-module_headline24Regular__FNS1U css-g38yz4")
-            lot_auction_house = soup.find("div", class_="css-1aw519d").find("p").find("em", recursive=False)
-            price = soup.find("p", class_="label-module_label16Medium__Z4VRX css-xrn2do") 
-            lot_data.append({
+            
+            lot_number = soup.find("div", attrs={"data-testid": "lotDropDown"}).find("p")
+            lot_title = soup.find("h1", attrs={"data-cy": "lot-title", "data-testid": "lotTitle"})
+            lot_auction_house = soup.find("div", attrs={"data-testid": "lotDetails"}).find("p", lambda tag: tag.find("em"))
+            price = soup.find("div", attrs={"data-testid": "lotBidAmount"}).find_all("p")[1]
+            lot_data[lot_number.text.split(" ")[-1]] = {
                 "title": lot_title.text,
                 "auction_house": lot_auction_house.text,
                 "price": price.text
-            })
+            }
 
         payload = {
             "operationName": "LotCardsQuery",
@@ -205,6 +222,9 @@ class SothebysSpider(scrapy.Spider):
             """
         }
 
+        with open("lots_data.json", "w", encoding="utf-8") as f:
+            json.dump(lot_data, f, indent=4)
+
         yield scrapy.Request(
             url=self.client.api_url,
             method='POST',
@@ -217,37 +237,51 @@ class SothebysSpider(scrapy.Spider):
         )
 
     def query_lot_description(self, response):
-        with open("response.json", "w") as f:
-            json.dump(response.json(), f, indent=4)
+        viking_id = response.meta.get("viking_id")
+        lot_data = response.meta.get("lot_data")
 
-        with open("lots_data.txt", "r") as f:
-            f.writelines(json.dumps(response.meta.get("lot_data")))
-        # viking_id = response.meta.get("viking_id")
+        lot_sales_data = {
+            "total_sold": 0,
+            "total_low_estimate": 0,
+            "total_high_estimate": 0,
+            "total_sales": 0,
+            "volumn_sold": 0,
+        }
 
-        # lot_sales_data = {
-        #     "total_sold": 0,
-        #     "total_low_estimate": 0,
-        #     "total_high_estimate": 0,
-        #     "total_sales": 0
-        # }
+        top_lot = None
+        top_lot_price = None
+        current_cellar = None
+        single_cellar = True
+        for lot in response.json()['data']['auction']['lot_ids']:
+            lot_sales_data["total_low_estimate"] += lot['estimateV2']['lowEstimate']['amount']
+            lot_sales_data["total_high_estimate"] += lot['estimateV2']['highEstimate']['amount']
+            lot_sales_data["total_sales"] += lot['bidState']['sold']['premiums']['finalPrice']['amount'] if lot['bidState']['sold']['isSold'] else 0
+            lot_sales_data["volumn_sold"] += parse_volumn(lot["title"])
+            current_sold = lot_data[lot["lotId"]]["price"].split(" ")[0]
+            lot_sales_data["total_sold"] += current_sold
 
-        # for lot in response.json()['data']['auction']['lot_ids']:
-        #     lot_sales_data["total_low_estimate"] += lot['estimateV2']['lowEstimate']['amount']
-        #     lot_sales_data["total_high_estimate"] += lot['estimateV2']['highEstimate']['amount']
-        #     lot_sales_data["total_sales"] += lot['bidState']['sold']['premiums']['finalPrice']['amount'] if lot['bidState']['sold']['isSold'] else 0
+            if not top_lot or current_sold > top_lot_price:
+                top_lot = lot["lotId"]
+                top_lot_price = current_sold
+            
+            if not current_cellar:
+                current_cellar = lot_data[lot["lotId"]]["auction_house"]
+            elif current_cellar != lot_data[lot["lotId"]]["auction_house"]: 
+                single_cellar = False
 
-        # auction_sales_item = AuctionSalesItem()
-        # auction_sales_item['id'] = viking_id['id']
-        # auction_sales_item['lots'] = len(response.json()['data']['auction']['lot_ids'])
-        # auction_sales_item['sold'] = lot_sales_data["total_sold"]
-        # auction_sales_item['total_low_estimate'] = find_continent(data['location']['name'])
-        # auction_sales_item['total_high_estimate'] = data['dates']['acceptsBids']
-        # auction_sales_item['total_sales'] = data['dates']['closed']
-        # auction_sales_item['volumn_sold'] = int(data['dates']['closed'].split("-")[0])
-        # auction_sales_item['value_sold'] = parse_quarter(int(data['dates']['closed'].split("-")[1]))
-        # auction_sales_item['top_lot'] = "PAST"
-        # auction_sales_item['sale_type'] = "PAST"
-        # auction_sales_item['exch'] = "PAST"
+        auction_sales_item = AuctionSalesItem()
+        auction_sales_item['id'] = viking_id
+        auction_sales_item['lots'] = len(response.json()['data']['auction']['lot_ids'])
+        auction_sales_item['sold'] = lot_sales_data["total_sold"]
+        auction_sales_item['total_low_estimate'] = lot_sales_data["total_low_estimate"]
+        auction_sales_item['total_high_estimate'] = lot_sales_data["total_high_estimate"]
+        auction_sales_item['total_sales'] = lot_sales_data["total_sales"]
+        auction_sales_item['volumn_sold'] = lot_sales_data["volumn_sold"]
+        auction_sales_item['value_sold'] = lot_sales_data["total_sales"]
+        auction_sales_item['top_lot'] = top_lot
+        auction_sales_item['sale_type'] = "PAST"
+        auction_sales_item['single_cellar'] = single_cellar
+        auction_sales_item['exch'] = None
 
         # lots = [(lot["lotId"], lot) for lot in json.loads(response.text)['data']['auction']['lot_ids']]
         # lot_api_url = "https://clientapi.prod.sothelabs.com/graphql"
@@ -302,32 +336,34 @@ class SothebysSpider(scrapy.Spider):
     def parse_lot_api_response(self, response):
         try:
             pass
-            # total_lots = len(response.json()['data']['auction']['lot_ids'])
-            # total_sold = 0
-            # total_low_estimate = 0
-            # total_high_estimate = 0
-            # for lot in response.json()['data']['auction']['lot_ids']:
-            #     total_sold += 1 if lot['bidState']['sold']['isSold'] else 0
-            #     total_low_estimate += lot['estimateV2']['lowEstimate']['amount']
-            #     total_high_estimate += lot['estimateV2']['highEstimate']['amount']
 
-            #     auction_sales_item = AuctionSalesItem()
-            #     auction_sales_item['lot_id'] = lot['lotId']
-            #     auction_sales_item['title'] = lot['title']
-            #     auction_sales_item['lot_number'] = lot['lotNumber']['lotNumber']
-            #     auction_sales_item['starting_bid'] = lot['bidState']['startingBid']['amount']
-            #     auction_sales_item['sold'] = lot['bidState']['sold']['isSold']
-            #     auction_sales_item['final_price'] = lot['bidState']['sold']['premiums']['finalPrice']['amount'] if lot['bidState']['sold']['isSold'] else None
-            #     auction_sales_item['low_estimate'] = lot['estimateV2']['lowEstimate']['amount']
-            #     auction_sales_item['high_estimate'] = lot['estimateV2']['highEstimate']['amount']
-            #     auction_sales_item['currency'] = lot['estimateV2']['highEstimate']['currency']
-            #     auction_sales_item['total_lots'] = total_lots
-            #     auction_sales_item['total_sold'] = total_sold       
-            #     auction_sales_item['total_low_estimate'] = total_low_estimate
-            #     auction_sales_item['total_high_estimate'] = total_high_estimate                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             
-
-            #     yield auction_sales_item
         except json.JSONDecodeError:
             self.logger.error(f"Failed to parse JSON for Viking IDs")
+
+
+def parse_lots_page(html):
+    lots = []
+    soup = BeautifulSoup(html, "html.parser")
+    script_tag = soup.find("script", {"id": "__NEXT_DATA__", "type": "application/json"})
+    data = json.loads(script_tag.string)['props']['pageProps']['algoliaJson']['hits']
+
+    for item in data:
+        lot = LotItem()
+        lot['id'] = item['objectID']
+        lot['auction_id'] = item['auctionId']
+        lot['lot_producer'] = item['Winery']
+        lot['wine_name'] = item['title']
+        lot['vintage'] = item['Vintage']
+        lot['unit_format'] = item['Spirit Bottle Size']
+        lot['unit'] = item['Spirit Bottle Size']
+        lot['currency'] = item['currency']
+        lot['low_estimate'] = item['lowEstimate']
+        lot['high_estimate'] = item['highEstimate']
+        lot['region'] = item['Region']
+        lot['country'] = item['Country']
+        lots.append(lot)
+    
+    return lots
+        
 
 

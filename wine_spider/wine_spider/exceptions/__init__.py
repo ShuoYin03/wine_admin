@@ -1,6 +1,7 @@
-from .exceptions import CityNotFoundException, InvalidDateInputException
+from .exceptions import CityNotFoundException, InvalidDateInputException, UnknownWineVolumnUnitException
 
 __all__ = [
     "CityNotFoundException",
-    "InvalidDateInputException"
+    "InvalidDateInputException",
+    "UnknownWineVolumnUnitException"
 ]

@@ -1,11 +1,15 @@
 *.env
-auction_data.json
-graphQL_test.py
-output.txt
-Restful_test.py
 files/
 
 __pycache__/
 *.pyc
 *.pyo
 *.pyd
+lots_data.json
+response.json
+test.html
+html_parse.py
+output.json
+sothebys1.html
+sothebys2.html
+test.py
