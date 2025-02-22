@@ -10,7 +10,7 @@ class InvalidDateInputException(Exception):
         self.message = f"{message}: {date_input}"
         super().__init__(self.message)
 
-class UnknownWineVolumnUnitException(Exception):
+class UnknownWineVolumnFormatException(Exception):
     def __init__(self, volumn_unit, message="Unknown wine volumn unit"):
         self.volumn_unit = volumn_unit
         self.message = f"{message}: {volumn_unit}"

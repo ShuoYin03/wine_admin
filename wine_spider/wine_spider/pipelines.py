@@ -31,11 +31,14 @@ class DataStoragePipeline:
         item_data = ItemAdapter(item).asdict()
 
         if type(item) == AuctionItem:
-            self.db_client.insert_item("auction", item_data)
+            self.db_client.insert_item("auctions", item_data)
         elif type(item) == AuctionSalesItem:
-            self.db_client.insert_item("auction_Sales", item_data)
+            self.db_client.insert_item("auction_sales", item_data)
         elif type(item) == LotItem:
-            self.db_client.insert_item("lot", item_data)
+            if item.get('success'):
+                self.db_client.insert_item("lots", item_data)
+            else:
+                self.db_client.insert_item("failed_lots", item_data)
         else:
             raise ValueError(f"Unknown item type: {item.get('item_type')}")
         

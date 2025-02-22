@@ -17,9 +17,6 @@ class CaptchaParser:
         background = Image.new("RGB", image.size, (255, 255, 255))
         background.paste(image, (1, 1), image)
 
-        with open('captcha.png', 'wb') as f:
-            background.save(f, format='PNG')
-
         self.ocr.set_ranges(6)
         result = self.ocr.classification(background, probability=True)
         s = ""

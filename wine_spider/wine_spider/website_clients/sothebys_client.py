@@ -6,6 +6,7 @@ from bs4 import BeautifulSoup
 from dotenv import load_dotenv
 from playwright.sync_api import sync_playwright
 from wine_spider.helpers.captcha_parser import CaptchaParser
+import scrapy
 
 load_dotenv()
 
@@ -14,9 +15,10 @@ PASSWORD = os.getenv('PASSWORD')
 captchaParser = CaptchaParser()
 
 class SothebysClient:
-    def __init__(self):            
-        self.playwright = sync_playwright().start() 
+    def __init__(self):  
+        self.api_url = "https://clientapi.prod.sothelabs.com/graphql"
 
+        self.playwright = sync_playwright().start() 
         self.browser = self.playwright.chromium.launch(
             headless=False,
             args=[
@@ -25,31 +27,25 @@ class SothebysClient:
                 "--start-maximized"
             ]
         )
-        self.context = self.browser.new_context(
-            user_agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36",
-        )
-        self.page = self.context.new_page()
 
-        self.api_url = "https://clientapi.prod.sothelabs.com/graphql"
-        self.login()
-    
-    def get_csrf(self):
-        params = {
-            "client": "M0egh8p8NswdGM6X53jp128a2bTOHN2E",
-            "protocol": "oauth2",
-            "audience": "https://customer.api.sothebys.com",
-            "language": "en",
-            "redirect_uri": "https://www.sothebys.com/api/auth0callback?language=en&resource=fromHeader&src=",
-            "response_type": "code",
-            "scope": "openid email offline_access",
-            "ui_locales": "en"
-        }
+        self.cookies_path = "wine_spider/login_state/sothebys_cookies.json"
+        if os.path.exists(self.cookies_path):
+            self.context = self.browser.new_context(
+                user_agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36",
+                storage_state=self.cookies_path
+            )
 
-        response = requests.get("https://accounts.sothebys.com/login", params=params)
-        print(response.cookies.get_dict())
-        csrf = response.cookies.get_dict()['_csrf']
-        return csrf
-        
+            self.page = self.context.new_page()
+        else:
+            self.context = self.browser.new_context(
+                user_agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36",
+            )
+
+            self.page = self.context.new_page()
+            self.login()
+            time.sleep(5)
+            self.context.storage_state(path=self.cookies_path)
+
     def login(self):
         self.page.goto("https://www.sothebys.com/en", wait_until="networkidle", timeout=10000)
 
@@ -87,14 +83,135 @@ class SothebysClient:
     def locate(self, selector):
         return self.page.locator(selector)
     
-    def auction_query(self, cookies):
-        pass
+    def wait_text(self, text):
+        element = self.page.wait_for_selector(
+            'p[data-testid="lotTitle"]:has-text("{}")'.format(text),
+            state="attached",
+            timeout=30000
+        )
+        return element.text_content()
+
+    def auction_query(self, viking_id):
+        payload = {
+                "operationName": "AuctionQuery",
+                "variables": {
+                    "id": viking_id,
+                    "language": "ENGLISH"
+                },
+                "query": """
+                    query AuctionQuery($id: String!, $language: TranslationLanguage!) {
+                        auction(id: $id, language: $language) {
+                            id
+                            auctionId
+                            title
+                            currency
+                            location: locationV2 {
+                                name
+                            }
+                            dates {
+                                acceptsBids
+                                closed    
+                            }
+                            sessions {
+                                lotRange {
+                                    fromLotNr
+                                    toLotNr
+                                }
+                            }
+                            state
+                        }
+                    }
+                """
+            }
+        
+        return payload
 
     def lot_query(self, cookies):
         pass
     
-    def lot_card_query(self, cookies):
-        pass
+    def lot_card_query(self, viking_id, lot_ids):
+        payload = {
+            "operationName": "LotCardsQuery",
+            "variables": {
+                "id": viking_id,
+                "lotIds": lot_ids,
+                "language": "ENGLISH"
+            },
+            "query": """
+                query LotCardsQuery($id: String!, $lotIds: [String!]!, $language: TranslationLanguage!) {
+                    auction(id: $id, language: $language) {
+                        lot_ids: lotCardsFromIds(ids: $lotIds) {
+                            ...LotItemFragment
+                        }
+                    }
+                }
+
+                fragment LotItemFragment on LotCard {
+                    lotId
+                    bidState {
+                        ...BidStateFragment
+                    }
+                }
+
+                fragment BidStateFragment on BidState {
+                    bidType: bidTypeV2 {
+                        __typename
+                    }
+                    startingBid: startingBidV2 {
+                        ...AmountFragment
+                    }
+                }
+
+                fragment AmountFragment on Amount {
+                    currency
+                    amount
+                }
+            """
+        }
+
+        return payload
+
+    def extract_algolia_api_key(self, html):
+        soup = BeautifulSoup(html, "html.parser")
+        script_tag = soup.find("script", {"id": "__NEXT_DATA__", "type": "application/json"})
+        algolia_api_key = json.loads(script_tag.string)['props']['pageProps']['algoliaSearchKey']
+
+        return algolia_api_key
+
+    def algolia_api(self, auction_id, api_key, page):
+        url = "https://kar1ueupjd-dsn.algolia.net/1/indexes/prod_lots/query?x-algolia-agent=Algolia%20for%20JavaScript%20(4.14.3)%3B%20Browser"
+
+        headers = {
+            "accept-encoding": "gzip, deflate",
+            "accept": "*/*",
+            "accept-language": "en,zh-CN;q=0.9,zh;q=0.8,it;q=0.7",
+            "connection": "keep-alive",
+            "content-type": "application/x-www-form-urlencoded",
+            "origin": "https://www.sothebys.com",
+            "referer": "https://www.sothebys.com/",
+            "sec-ch-ua": '"Not(A:Brand";v="99", "Google Chrome";v="133", "Chromium";v="133"',
+            "sec-ch-ua-mobile": "?0",
+            "sec-ch-ua-platform": '"Windows"',
+            "sec-fetch-dest": "empty",
+            "sec-fetch-mode": "cors",
+            "sec-fetch-site": "cross-site",
+            "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36",
+            "x-algolia-api-key": api_key,
+            "x-algolia-application-id": "KAR1UEUPJD",
+        }
+
+        payload = {
+            "query": "",
+            "filters": f"auctionId:'{auction_id}' AND objectTypes:'All' AND NOT isHidden:true AND NOT restrictedInCountries:'GB'",
+            "facetFilters": [["withdrawn:false"], []],
+            "hitsPerPage": 48,
+            "page": page,
+            "facets": ["*"],
+            "numericFilters": [],
+        }
+
+        response = requests.post(url, headers=headers, json=payload)
+        return response.json()
 
     def close(self):
         self.browser.close()

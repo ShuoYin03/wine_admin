@@ -15,13 +15,19 @@ class DatabaseClient:
     def insert_item(self, table_name, item_data):
         columns = item_data.keys()
         values = [item_data[col] for col in columns]
-        query = sql.SQL("INSERT INTO {} ({}) VALUES ({})").format(
+        query = sql.SQL("INSERT INTO {} ({}) VALUES ({}) ON CONFLICT DO NOTHING").format(
             sql.Identifier(table_name),
             sql.SQL(', ').join(map(sql.Identifier, columns)),
             sql.SQL(', ').join(sql.Placeholder() * len(values))
         )
-        self.cursor.execute(query, values)
-        self.conn.commit()
+
+        try:
+            self.cursor.execute(query, values)
+            self.conn.commit()
+        except Exception as e:
+            self.conn.rollback()
+            print(item_data)
+            print(e)
 
     def close(self):
         self.cursor.close()

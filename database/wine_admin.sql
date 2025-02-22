@@ -1,4 +1,4 @@
-CREATE TABLE IF NOT EXISTS Auction (
+CREATE TABLE IF NOT EXISTS auctions (
     id TEXT PRIMARY KEY,
     Auction_Title VARCHAR(255),
     Auction_House VARCHAR(255),
@@ -11,24 +11,49 @@ CREATE TABLE IF NOT EXISTS Auction (
     Auction_Type VARCHAR(50)
 );
 
-CREATE TABLE IF NOT EXISTS Lot (
+CREATE TABLE IF NOT EXISTS lots (
     id TEXT PRIMARY KEY,
-    AuctionId TEXT,
+    Auction_Id TEXT,
     Lot_Producer VARCHAR(255),
-    Lot_Wine_Name VARCHAR(255),
-    Lot_Vintage INT,
-    Lot_Unit_Format VARCHAR(100),
-    Lot_Unit INT,
+    Wine_Name VARCHAR(255),
+    Vintage INT,
+    Unit_Format VARCHAR(100),
+	Bottle_Size VARCHAR(100),
+    Unit INT,
     Original_Currency VARCHAR(10),
-    Lot_Start_Price INT,
-    Lot_End_Price INT,
-    Lot_Sold BOOLEAN,
-    Lot_Region VARCHAR(50),
-    Lot_Country VARCHAR(50),
-    FOREIGN KEY (AuctionId) REFERENCES Auction(id)
+    Start_Price INT,
+    End_Price INT,
+	Low_Estimate INT,
+	High_Estimate INT,
+    Sold BOOLEAN,
+    Region VARCHAR(50),
+    Country VARCHAR(50),
+    Success BOOLEAN,
+	FOREIGN KEY (AuctionId) REFERENCES Auctions(id)
 );
 
-CREATE TABLE IF NOT EXISTS AuctionSales (
+CREATE TABLE IF NOT EXISTS failed_lots (
+    id TEXT PRIMARY KEY,
+    Auction_Id TEXT,
+    Lot_Producer VARCHAR(255),
+    Wine_Name VARCHAR(255),
+    Vintage INT,
+    Unit_Format VARCHAR(100),
+	Bottle_Size VARCHAR(100),
+    Unit INT,
+    Original_Currency VARCHAR(10),
+    Start_Price INT,
+    End_Price INT,
+	Low_Estimate INT,
+	High_Estimate INT,
+    Sold BOOLEAN,
+    Region VARCHAR(50),
+    Country VARCHAR(50),
+    Success BOOLEAN,
+	FOREIGN KEY (AuctionId) REFERENCES Auctions(id)
+);
+
+CREATE TABLE IF NOT EXISTS auction_sales (
     id TEXT PRIMARY KEY,
     Lots INT,
     Sold INT,
@@ -42,5 +67,7 @@ CREATE TABLE IF NOT EXISTS AuctionSales (
     Sale_Type VARCHAR(50),
     Single_Cellar BOOLEAN,
     Ex_Ch BOOLEAN,
-    FOREIGN KEY (Top_Lot) REFERENCES Lot(id)
+	FOREIGN KEY (Top_Lot) REFERENCES Lots(id),
+	FOREIGN KEY (id) REFERENCES Auctions(id)
 );
+

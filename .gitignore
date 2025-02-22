@@ -5,11 +5,8 @@ __pycache__/
 *.pyc
 *.pyo
 *.pyd
-lots_data.json
-response.json
-test.html
-html_parse.py
-output.json
-sothebys1.html
-sothebys2.html
+
 test.py
+useless_code.py
+login_state/
+scrapy_log.txt

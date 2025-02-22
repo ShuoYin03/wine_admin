@@ -25,7 +25,7 @@ class AuctionSalesItem(scrapy.Item):
     top_lot = scrapy.Field()
     sale_type = scrapy.Field()
     single_cellar = scrapy.Field()
-    exch = scrapy.Field()
+    ex_ch = scrapy.Field()
 
 class LotItem(scrapy.Item):
     id = scrapy.Field()
@@ -34,8 +34,9 @@ class LotItem(scrapy.Item):
     wine_name = scrapy.Field()
     vintage = scrapy.Field()
     unit_format = scrapy.Field()
+    bottle_size = scrapy.Field()
     unit = scrapy.Field()
-    currency = scrapy.Field()
+    original_currency = scrapy.Field()
     start_price = scrapy.Field()
     end_price = scrapy.Field()
     low_estimate = scrapy.Field()
@@ -43,35 +44,4 @@ class LotItem(scrapy.Item):
     sold = scrapy.Field()
     region = scrapy.Field()
     country = scrapy.Field()
-
-
-# AuctionSales:
-# auctionId
-# numOfLots
-# sold
-# currency
-# totalLowEstimate
-# totalHighEstimate
-# totalSales
-# volumeSold
-# valueSold
-# topLot
-
-# SingleCellar
-
-
-# Lots:
-# lotId
-# auctionId
-# Winery
-# wineName
-# vintage
-# format
-# unit
-# currency
-
-# sold
-# region
-# country
-
-
+    success = scrapy.Field()
