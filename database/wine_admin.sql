@@ -29,6 +29,7 @@ CREATE TABLE IF NOT EXISTS lots (
     Region VARCHAR(50),
     Country VARCHAR(50),
     Success BOOLEAN,
+    Url TEXT,
 	FOREIGN KEY (AuctionId) REFERENCES Auctions(id)
 );
 
@@ -50,6 +51,7 @@ CREATE TABLE IF NOT EXISTS failed_lots (
     Region VARCHAR(50),
     Country VARCHAR(50),
     Success BOOLEAN,
+    Url TEXT,
 	FOREIGN KEY (AuctionId) REFERENCES Auctions(id)
 );
 

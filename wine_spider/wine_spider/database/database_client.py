@@ -10,6 +10,7 @@ class DatabaseClient:
             host=host,
             port=port
         )
+        self.conn.autocommit = True
         self.cursor = self.conn.cursor()
 
     def insert_item(self, table_name, item_data):

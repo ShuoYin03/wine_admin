@@ -15,3 +15,14 @@ class UnknownWineVolumnFormatException(Exception):
         self.volumn_unit = volumn_unit
         self.message = f"{message}: {volumn_unit}"
         super().__init__(self.message)
+
+class AmbiguousRegionAndCountryMatchException(Exception):
+    def __init__(self, title, message="Ambiguous region and country match"):
+        self.message = f"{message}: {title}"
+        super().__init__(self.message)
+
+class NoMatchedRegionAndCountryException(Exception):
+    def __init__(self, title, message="No matched region or country"):
+        self.title = title
+        self.message = f"{message}: , {title}"
+        super().__init__(self.message)

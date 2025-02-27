@@ -5,7 +5,8 @@ import requests
 from bs4 import BeautifulSoup
 from dotenv import load_dotenv
 from playwright.sync_api import sync_playwright
-from wine_spider.helpers.captcha_parser import CaptchaParser
+from playwright.async_api import async_playwright
+from wine_spider.helpers.sothebys.captcha_parser import CaptchaParser
 import scrapy
 
 load_dotenv()
@@ -77,11 +78,11 @@ class SothebysClient:
         login_btn.click()
 
     def go_to(self, url):
-        self.page.goto(url, wait_until="networkidle", timeout=10000)
+        self.page.goto(url, wait_until="networkidle", timeout=30000)
         return self.page.content()
     
     def locate(self, selector):
-        return self.page.locator(selector)
+        return self.page.wait_for_selector(selector)
     
     def wait_text(self, text):
         element = self.page.wait_for_selector(
@@ -179,6 +180,40 @@ class SothebysClient:
         return algolia_api_key
 
     def algolia_api(self, auction_id, api_key, page):
+        url = "https://kar1ueupjd-dsn.algolia.net/1/indexes/prod_lots/query?x-algolia-agent=Algolia%20for%20JavaScript%20(4.14.3)%3B%20Browser"
+
+        headers = {
+            "accept-encoding": "gzip, deflate",
+            "accept": "*/*",
+            "accept-language": "en,zh-CN;q=0.9,zh;q=0.8,it;q=0.7",
+            "connection": "keep-alive",
+            "content-type": "application/x-www-form-urlencoded",
+            "origin": "https://www.sothebys.com",
+            "referer": "https://www.sothebys.com/",
+            "sec-ch-ua": '"Not(A:Brand";v="99", "Google Chrome";v="133", "Chromium";v="133"',
+            "sec-ch-ua-mobile": "?0",
+            "sec-ch-ua-platform": '"Windows"',
+            "sec-fetch-dest": "empty",
+            "sec-fetch-mode": "cors",
+            "sec-fetch-site": "cross-site",
+            "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36",
+            "x-algolia-api-key": api_key,
+            "x-algolia-application-id": "KAR1UEUPJD",
+        }
+
+        payload = {
+            "query": "",
+            "filters": f"auctionId:'{auction_id}' AND objectTypes:'All' AND NOT isHidden:true AND NOT restrictedInCountries:'GB'",
+            "facetFilters": [["withdrawn:false"], []],
+            "hitsPerPage": 48,
+            "page": page,
+            "facets": ["*"],
+            "numericFilters": [],
+        }
+
+        return url, headers, payload
+    
+    def algolia_api_query(self, auction_id, api_key, page):
         url = "https://kar1ueupjd-dsn.algolia.net/1/indexes/prod_lots/query?x-algolia-agent=Algolia%20for%20JavaScript%20(4.14.3)%3B%20Browser"
 
         headers = {

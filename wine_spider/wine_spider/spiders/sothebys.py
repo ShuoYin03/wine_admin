@@ -2,14 +2,14 @@ import os
 import json
 import time
 import scrapy
+import pandas as pd
 from bs4 import BeautifulSoup
 from dotenv import load_dotenv
-from wine_spider.helpers.date_parser import parse_quarter
-from wine_spider.items import AuctionItem, AuctionSalesItem, LotItem
-from wine_spider.helpers.continent_parser import find_continent
-from wine_spider.helpers.volumn_parser import parse_volumn, parse_unit
+from wine_spider.helpers import parse_quarter
+from wine_spider.items import AuctionItem, LotItem
+from wine_spider.helpers import find_continent
+from wine_spider.helpers import parse_volumn_and_unit_from_title, parse_year_from_title, match_lot_info
 from wine_spider.website_clients.sothebys_client import SothebysClient
-from wine_spider.spiders.querys.sothebys import get_lot_id_query, get_lot_description_query
 
 load_dotenv()
 
@@ -24,15 +24,19 @@ class SothebysSpider(scrapy.Spider):
         "kar1ueupjd-2.algolianet.com",
         "algolia.net"
     ]
-    start_urls = ["https://www.sothebys.com/en/results?from=&to=&f2=0000017e-b9db-d1d4-a9fe-bdfb5bbc0000&f2=00000164-609a-d1db-a5e6-e9fffcc80000&q="]
+    start_urls = ["https://www.sothebys.com/en/results?from=&to=&f2=00000164-609a-d1db-a5e6-e9fffcc80000&q="]
 
     def __init__(self, *args, **kwargs):
         super(SothebysSpider, self).__init__(*args, **kwargs)
+        base_dir = os.path.dirname(os.path.abspath(__file__))
+        self.lwin_df = pd.read_excel(os.path.join(base_dir, "LWIN wines.xls"))
+        self.base_url = "https://www.sothebys.com"
         self.client = SothebysClient()
 
     def parse(self, response):
         total_pages = int(response.css('li.SearchModule-pageCounts span[data-page-count]::text').get())
-        base_url = "https://www.sothebys.com/en/results?from=&to=&f2=0000017e-b9db-d1d4-a9fe-bdfb5bbc0000&q=&p={}"
+        self.logger.info(f"Crawling Total pages: {total_pages}")
+        base_url = "https://www.sothebys.com/en/results?from=&to=&f2=00000164-609a-d1db-a5e6-e9fffcc80000&q=&p={}"
         for page in range(1, 2):
             url = base_url.format(page)
             yield scrapy.Request(
@@ -54,6 +58,8 @@ class SothebysSpider(scrapy.Spider):
     def parse_viking_ids(self, response):
         data = json.loads(response.text)
         data = [(asset_data.get("vikingId"), asset_data.get("url")) for _, asset_data in data.items()]
+        first_open = True
+
         for viking_id, url in data:
             payload = self.client.auction_query(viking_id)
             
@@ -64,22 +70,45 @@ class SothebysSpider(scrapy.Spider):
                 callback=self.parse_auction_api_response,
             )
 
-            lots = []
-            lot_ids = []
+            # yield scrapy.Request(
+            #     url=url,
+            #     callback=
+            #     meta={"playwright": True},
+            # )
+
             response = self.client.go_to(url)
-            algolia_api_key = self.client.extract_algolia_api_key(response)
-            algolia_response = self.client.algolia_api(viking_id, algolia_api_key, 0)
-            success_lot = parse_lots_page(response, algolia_response)
-            lots.extend(success_lot)
+
             try:
-                close = self.client.locate("#io01")
-                close.click()
+                if first_open:
+                    frame_locator = self.client.locate("iframe[title='Modal Message']")
+                    frame_locator = self.client.page.frame_locator("iframe[title='Modal Message']")
+                    close = frame_locator.locator("#io01")
+                    close.click()
+                    first_open = False
             except Exception:
                 pass
 
-            soup = BeautifulSoup(response, "html.parser")
-            pagination = soup.select(".pagination-module_pagination__TRr2-")
-            page_count = int(pagination[0].find_all("li")[-2].text) + 1
+            algolia_api_key = self.client.extract_algolia_api_key(response)
+            algolia_url, algolia_headers, algolia_payload = self.client.algolia_api(viking_id, algolia_api_key, 0)
+
+            yield scrapy.Request(
+                url=algolia_url,
+                method='POST',
+                headers=algolia_headers,
+                body=json.dumps(algolia_payload),
+                callback=self.parse_lots_page,
+                meta={
+                    "viking_id": viking_id,
+                    "algolia_page_response": response,
+                }
+            )
+
+            try:
+                soup = BeautifulSoup(response, "html.parser")
+                pagination = soup.select(".pagination-module_pagination__TRr2-")
+                page_count = int(pagination[0].find_all("li")[-2].text) + 1
+            except Exception:
+                print("Unable to find page number for the following url:", url)
             
             for page in range(2, page_count):
                 pagination_button = self.client.locate(f'li >> button[aria-label="Go to page {page}."]')
@@ -88,73 +117,28 @@ class SothebysSpider(scrapy.Spider):
                 time.sleep(2.5)
                 response = self.client.page.content()
                 
-                algolia_response = self.client.algolia_api(viking_id, algolia_api_key, page - 1)
-                success_lot = parse_lots_page(response, algolia_response)
-                lots.extend(success_lot)
+                algolia_url, algolia_headers, algolia_payload = self.client.algolia_api(viking_id, algolia_api_key, page - 1)
 
-            auction_sales_item = AuctionSalesItem()
-            sold = 0
-            total_low_estimate = 0
-            total_high_estimate = 0
-            total_sales = 0
-            volumn_sold = 0
-            top_lot = None
-            top_lot_price = None
-            current_cellar = None
-            single_cellar = True
+                yield scrapy.Request(
+                    url=algolia_url,
+                    method='POST',
+                    headers=algolia_headers,
+                    body=json.dumps(algolia_payload),
+                    callback=self.parse_lots_page,
+                    meta={
+                        "viking_id": viking_id,
+                        "algolia_page_response": response,
+                    }
+                )
 
-            for lot in lots:
-                self.logger.info(lot)
-                sold += 1 if lot['sold'] else 0
-                total_low_estimate += lot['low_estimate']
-                total_high_estimate += lot['high_estimate']
-                total_sales += lot['end_price'] if lot['sold'] else 0
-                try:
-                    volumn_sold += parse_volumn(lot['unit'], lot['bottle_size'], lot['wine_name']) if lot['sold'] else 0
-                except Exception:
-                    lot['success'] = False
-                if lot['sold'] and (not top_lot or lot['end_price'] > top_lot_price):
-                    top_lot = lot['id']
-                    top_lot_price = lot['end_price']
-                if not current_cellar:
-                    current_cellar = lot['lot_producer']
-                elif current_cellar != lot['lot_producer']:
-                    single_cellar = False
-                lot_ids.append(lot['id'])
-            
-            payload = self.client.lot_card_query(viking_id, lot_ids)
-
-            yield scrapy.Request(
-                url=self.client.api_url,
-                method='POST',
-                body=json.dumps(payload),
-                callback=self.parse_lot_api_response,
-                meta={
-                    "lots": lots
-                },
-            )
-
-            auction_sales_item['id'] = viking_id
-            auction_sales_item['lots'] = len(lots)
-            auction_sales_item['sold'] = sold
-            auction_sales_item['currency'] = lots[0]['original_currency']
-            auction_sales_item['total_low_estimate'] = total_low_estimate
-            auction_sales_item['total_high_estimate'] = total_high_estimate
-            auction_sales_item['total_sales'] = total_sales
-            auction_sales_item['volumn_sold'] = volumn_sold
-            auction_sales_item['value_sold'] = total_sales
-            auction_sales_item['top_lot'] = top_lot
-            auction_sales_item['sale_type'] = "PAST"
-            auction_sales_item['single_cellar'] = single_cellar
-            auction_sales_item['ex_ch'] = False
-
-            yield auction_sales_item
+    # def parse_auction_page(self, response):
+    #     pass
 
     def parse_auction_api_response(self, response):
         try:
             data = json.loads(response.text)['data']['auction']
             auction_item = AuctionItem()
-            auction_item['id'] = data['id']
+            auction_item['id'] = data['auctionId']
             auction_item['auction_title'] = data['title']
             auction_item['auction_house'] = "Sotheby's"
             auction_item['city'] = data['location']['name']
@@ -168,7 +152,71 @@ class SothebysSpider(scrapy.Spider):
             yield auction_item
         except json.JSONDecodeError:
             self.logger.error(f"Failed to parse JSON for UUIDs")
-    
+
+
+    def parse_lots_page(self, response):
+        viking_id = response.meta.get("viking_id")
+        html = response.meta.get("algolia_page_response")
+        data = response.json()['hits']
+
+        lots = []
+        soup = BeautifulSoup(html, "html.parser")
+        for item in data:
+            lot = LotItem()
+            try:
+                lot['id'] = item['objectID']
+                lot['auction_id'] = item['auctionId']
+                lot['lot_producer'] = item["Winery"] if "Winery" in item else item["Distillery"] if "Distillery" in item else None
+                lot['wine_name'] = item['title']
+                lot['vintage'] = item['Vintage'] if 'Vintage' in item else item['age'] if 'age' in item else None
+                lot['unit_format'] = item['Spirit Bottle Size'] if 'Spirit Bottle Size' in item else None
+                lot['original_currency'] = item['currency']
+                lot['low_estimate'] = item['lowEstimate']
+                lot['high_estimate'] = item['highEstimate']
+                lot['region'] = item['Region'][0] if 'Region' in item else None
+                lot['country'] = item['Country'][0] if 'Country' in item else None
+                lot['success'] = True
+                lot['url'] = f"{self.base_url}{item['slug']}"
+
+                try:
+                    price = soup.find("div", id="lot-list").find("div", attrs={"data-testid": item['objectID']}).find("p", attrs={"data-testid": "currentBid"}).text
+                    price = int(price.split(" ")[0].replace(",", ""))
+                    lot['end_price'] = price
+                    lot['sold'] = True
+                except Exception as e:
+                    lot['end_price'] = None
+                    lot['sold'] = False
+
+                if not lot['vintage']:
+                    lot['vintage'] = [str(parse_year_from_title(item['title']))] if parse_year_from_title(item['title']) else None
+
+                lot['volumn'], lot['unit'] = parse_volumn_and_unit_from_title(item['title'])
+                
+                if not lot['lot_producer'] or not lot['region'] or not lot['country']:
+                    lot_info = match_lot_info(lot['wine_name'], self.lwin_df)
+                    lot['lot_producer'] = [lot_info[0]] if not lot['lot_producer'] else lot['lot_producer']
+                    lot['region'] = lot_info[1] if not lot['region'] else lot['region']
+                    lot['country'] = lot_info[2] if not lot['country'] else lot['country']
+                
+            except Exception as e:
+                self.logger.error(f"Failed to parse lot {item['objectID']}: {e}")
+                lot['success'] = False
+
+            lots.append(lot)
+        
+        lot_ids = [lot['id'] for lot in lots]
+        payload = self.client.lot_card_query(viking_id, lot_ids)
+
+        yield scrapy.Request(
+            url=self.client.api_url,
+            method='POST',
+            body=json.dumps(payload),
+            callback=self.parse_lot_api_response,
+            meta={
+                "lots": lots
+            },
+        )   
+
     def parse_lot_api_response(self, response):
         data = json.loads(response.text)['data']['auction']['lot_ids']
         data_dict = {item['lotId']: item['bidState']['startingBid']['amount'] for item in data}
@@ -176,43 +224,5 @@ class SothebysSpider(scrapy.Spider):
         for lot in lots:
             lot['start_price'] = data_dict[lot['id']]
             yield lot
-
-def parse_lots_page(html, api_response):
-    lots = []
-    soup = BeautifulSoup(html, "html.parser")
-    data = api_response['hits']
-    for item in data:
-        lot = LotItem()
-        try:
-            lot['id'] = item['objectID']
-            lot['auction_id'] = item['auctionId']
-            lot['lot_producer'] = item["Winery"][0] if "Winery" in item else item["Distillery"][0] if "Distillery" in item else None
-            lot['wine_name'] = item['title']
-            lot['vintage'] = item['Vintage'][0] if 'Vintage' in item and item['Vintage'] else item['age'][0] if 'age' in item else None
-            lot['bottle_size'] = item['Spirit Bottle Size'][0] if 'Spirit Bottle Size' in item else None
-            lot['original_currency'] = item['currency']
-            lot['low_estimate'] = item['lowEstimate']
-            lot['high_estimate'] = item['highEstimate']
-            lot['region'] = item['Region'][0] if 'Region' in item else None
-            lot['country'] = item.get('Country', None)
-            lot['success'] = True
-
-            try:
-                price = soup.find("div", id="lot-list").find("div", attrs={"data-testid": item['objectID']}).find("p", attrs={"data-testid": "currentBid"}).text
-                price = int(price.split(" ")[0].replace(",", ""))
-                lot['end_price'] = price
-                lot['sold'] = True
-            except Exception as e:
-                lot['end_price'] = None
-                lot['sold'] = False
-
-            lot['unit'], lot['unit_format'] = parse_unit(item['title']) if 'Spirit Bottle Size' in item else (None, None)
-            
-        except Exception as e:
-            lot['unit'], lot['unit_format'] = None, None
-            lot['success'] = False
-
-        lots.append(lot)
-    return lots
 
 
