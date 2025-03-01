@@ -62,11 +62,11 @@ class DataStoragePipeline:
                     sold += 1 if lot['sold'] else 0
                     total_low_estimate += lot['low_estimate']
                     total_high_estimate += lot['high_estimate']
-                    total_sales += lot['end_price'] if lot['sold'] else 0
+                    total_sales += int(lot['end_price']) if lot['sold'] else 0
                     volumn_sold += lot['volumn'] if lot['sold'] and 'volumn' in lot else 0
-                    if lot['sold'] and (not top_lot or lot['end_price'] > top_lot_price):
+                    if lot['sold'] and (not top_lot or int(lot['end_price']) > top_lot_price):
                         top_lot = lot['id']
-                        top_lot_price = lot['end_price']
+                        top_lot_price = int(lot['end_price'])
                     if not current_cellar:
                         current_cellar = lot['lot_producer']
                     elif current_cellar != lot['lot_producer']:
@@ -89,7 +89,7 @@ class DataStoragePipeline:
                 item_data = ItemAdapter(auction_sales_item).asdict()
                 self.db_client.insert_item("auction_sales", item_data)
             except Exception as e:
-                self.logger.error(f"Failed to process auction {auction_id}: {e}")
+                print(f"Error processing auction {auction_id}: {e}")
                 continue
 
         self.db_client.close()

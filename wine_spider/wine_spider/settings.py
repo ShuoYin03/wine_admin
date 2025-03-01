@@ -12,16 +12,16 @@ ROBOTSTXT_OBEY = True
 SCHEDULER_DISK_QUEUE = 'scrapy.squeues.PickleFifoDiskQueue'
 SCHEDULER_MEMORY_QUEUE = 'scrapy.squeues.FifoMemoryQueue'
 
-DOWNLOAD_HANDLERS = {
-    "http": "scrapy_playwright.handler.ScrapyPlaywrightDownloadHandler",
-    "https": "scrapy_playwright.handler.ScrapyPlaywrightDownloadHandler",
-}
-
 # Configure maximum concurrent requests performed by Scrapy (default: 16)
 CONCURRENT_REQUESTS = 16
 
 FEED_EXPORT_ENCODING = "utf-8"
 LOG_FILE = "scrapy_log.txt"
+
+AUTOTHROTTLE_ENABLED = True
+AUTOTHROTTLE_START_DELAY = 1.0   # Initial download delay
+AUTOTHROTTLE_MAX_DELAY = 5.0    # Maximum download delay in high latencies
+AUTOTHROTTLE_TARGET_CONCURRENCY = 1.0
 
 # Configure a delay for requests for the same website (default: 0)
 # See https://docs.scrapy.org/en/latest/topics/settings.html#download-delay

@@ -5,7 +5,6 @@ import requests
 from bs4 import BeautifulSoup
 from dotenv import load_dotenv
 from playwright.sync_api import sync_playwright
-from playwright.async_api import async_playwright
 from wine_spider.helpers.sothebys.captcha_parser import CaptchaParser
 import scrapy
 
@@ -16,12 +15,12 @@ PASSWORD = os.getenv('PASSWORD')
 captchaParser = CaptchaParser()
 
 class SothebysClient:
-    def __init__(self):  
+    def __init__(self, headless):  
         self.api_url = "https://clientapi.prod.sothelabs.com/graphql"
 
         self.playwright = sync_playwright().start() 
         self.browser = self.playwright.chromium.launch(
-            headless=False,
+            headless=headless,
             args=[
                 "--disable-blink-features=AutomationControlled",
                 "--disable-web-security",
@@ -161,6 +160,16 @@ class SothebysClient:
                     startingBid: startingBidV2 {
                         ...AmountFragment
                     }
+                    sold {
+                        ... on ResultVisible {
+                            isSold
+                            premiums {
+                                finalPrice: finalPriceV2 {
+                                    ...AmountFragment
+                                }
+                            }
+                        }
+                        }
                 }
 
                 fragment AmountFragment on Amount {
