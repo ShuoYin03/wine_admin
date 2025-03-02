@@ -8,6 +8,6 @@ __pycache__/
 
 *.xls
 test.py
-useless_code.py
 login_state/
 scrapy_log.txt
+overall.py

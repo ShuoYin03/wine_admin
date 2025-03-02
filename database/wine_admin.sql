@@ -14,12 +14,12 @@ CREATE TABLE IF NOT EXISTS auctions (
 CREATE TABLE IF NOT EXISTS lots (
     id TEXT PRIMARY KEY,
     Auction_Id TEXT,
-    Lot_Producer VARCHAR(255),
-    Wine_Name VARCHAR(255),
-    Vintage INT,
-    Unit_Format VARCHAR(100),
-	Bottle_Size VARCHAR(100),
-    Unit INT,
+    Lot_Producer VARCHAR(50)[],
+    Wine_Name VARCHAR(150),
+    Vintage VARCHAR(20)[],
+    Unit_Format VARCHAR(20)[],
+	Unit INT,
+	Volumn REAL,
     Original_Currency VARCHAR(10),
     Start_Price INT,
     End_Price INT,
@@ -28,20 +28,19 @@ CREATE TABLE IF NOT EXISTS lots (
     Sold BOOLEAN,
     Region VARCHAR(50),
     Country VARCHAR(50),
-    Success BOOLEAN,
-    Url TEXT,
-	FOREIGN KEY (AuctionId) REFERENCES Auctions(id)
+	Success BOOLEAN,
+	Url TEXT
 );
 
 CREATE TABLE IF NOT EXISTS failed_lots (
     id TEXT PRIMARY KEY,
     Auction_Id TEXT,
-    Lot_Producer VARCHAR(255),
-    Wine_Name VARCHAR(255),
-    Vintage INT,
-    Unit_Format VARCHAR(100),
-	Bottle_Size VARCHAR(100),
-    Unit INT,
+    Lot_Producer VARCHAR(50)[],
+    Wine_Name VARCHAR(150),
+    Vintage VARCHAR(20)[],
+    Unit_Format VARCHAR(20)[],
+	Unit INT,
+	Volumn REAL,
     Original_Currency VARCHAR(10),
     Start_Price INT,
     End_Price INT,
@@ -50,9 +49,8 @@ CREATE TABLE IF NOT EXISTS failed_lots (
     Sold BOOLEAN,
     Region VARCHAR(50),
     Country VARCHAR(50),
-    Success BOOLEAN,
-    Url TEXT,
-	FOREIGN KEY (AuctionId) REFERENCES Auctions(id)
+	Success BOOLEAN,
+	Url TEXT
 );
 
 CREATE TABLE IF NOT EXISTS auction_sales (
@@ -68,8 +66,6 @@ CREATE TABLE IF NOT EXISTS auction_sales (
     Top_Lot TEXT,
     Sale_Type VARCHAR(50),
     Single_Cellar BOOLEAN,
-    Ex_Ch BOOLEAN,
-	FOREIGN KEY (Top_Lot) REFERENCES Lots(id),
-	FOREIGN KEY (id) REFERENCES Auctions(id)
+    Ex_Ch BOOLEAN
 );
 
