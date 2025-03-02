@@ -71,7 +71,7 @@ class SothebysSpider(scrapy.Spider):
         data = json.loads(response.text)
         data = [(asset_data.get("vikingId"), asset_data.get("url")) for _, asset_data in data.items()]
 
-        for viking_id, url in data:
+        for viking_id, url in data[1:4]:
             payload = self.client.auction_query(viking_id)
             
             yield scrapy.Request(
@@ -81,7 +81,7 @@ class SothebysSpider(scrapy.Spider):
                 callback=self.parse_auction_api_response,
             )
 
-            response = self.client.go_to(url)
+            response, token = self.client.get_authorisation_token_and_response(url)
             try:
                 soup = BeautifulSoup(response, "html.parser")
                 pagination = soup.select(".pagination-module_pagination__TRr2-")
@@ -103,6 +103,7 @@ class SothebysSpider(scrapy.Spider):
                     callback=self.parse_lots_page,
                     meta={
                         "viking_id": viking_id,
+                        "token": token
                     }
                 )
 
@@ -128,6 +129,8 @@ class SothebysSpider(scrapy.Spider):
 
     def parse_lots_page(self, response):
         viking_id = response.meta.get("viking_id")
+        token = response.meta.get("token")
+        self.logger.info(f"token: {token}")
         data = response.json()['hits']
 
         lots = []
@@ -168,10 +171,16 @@ class SothebysSpider(scrapy.Spider):
         lot_ids = [lot['id'] for lot in lots]
         payload = self.client.lot_card_query(viking_id, lot_ids)
 
+        hearders = {
+            "Authorization": f"Bearer {token}",
+            "Content-Type": "application/json"
+        }
+
         yield scrapy.Request(
             url=self.client.api_url,
             method='POST',
             cookies=self.cookies,
+            headers=hearders,
             body=json.dumps(payload),
             callback=self.parse_lot_api_response,
             meta={
@@ -202,6 +211,7 @@ class SothebysSpider(scrapy.Spider):
                 
         except Exception as e:
             self.logger.error(f"Failed to parse lot data: {e}")
+            self.logger.debug(f"Response: {response.text}")
             for lot in lots:
                 lot['success'] = False
                 yield lot

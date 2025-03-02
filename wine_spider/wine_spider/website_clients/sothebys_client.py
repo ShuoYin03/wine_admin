@@ -1,4 +1,5 @@
 import os
+import re
 import time
 import json
 import requests
@@ -6,7 +7,6 @@ from bs4 import BeautifulSoup
 from dotenv import load_dotenv
 from playwright.sync_api import sync_playwright
 from wine_spider.helpers.sothebys.captcha_parser import CaptchaParser
-import scrapy
 
 load_dotenv()
 
@@ -45,6 +45,8 @@ class SothebysClient:
             self.login()
             time.sleep(5)
             self.context.storage_state(path=self.cookies_path)
+
+        self.context.route("**/*", lambda route, request: route.abort() if request.resource_type in ["image", "stylesheet"] else route.continue_())
 
     def login(self):
         self.page.goto("https://www.sothebys.com/en", wait_until="networkidle", timeout=10000)
@@ -91,6 +93,22 @@ class SothebysClient:
         )
         return element.text_content()
 
+    def get_authorisation_token_and_response(self, url):
+        target_url_base = "https://accounts.sothebys.com/authorize"
+        target_text = None
+
+        def log_response(response):
+            nonlocal target_text
+            if response.url.startswith(target_url_base):
+                target_text = response.text()
+
+        self.page.on("response", log_response)
+        self.page.goto(url, wait_until="networkidle")
+
+        target_text = re.search(r'"access_token"\s*:\s*"([^"]+)"', target_text)
+        target_text = target_text.group(1)
+        return self.page.content(), target_text
+
     def auction_query(self, viking_id):
         payload = {
                 "operationName": "AuctionQuery",
@@ -125,9 +143,6 @@ class SothebysClient:
             }
         
         return payload
-
-    def lot_query(self, cookies):
-        pass
     
     def lot_card_query(self, viking_id, lot_ids):
         payload = {
