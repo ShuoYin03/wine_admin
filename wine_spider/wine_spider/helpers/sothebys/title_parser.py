@@ -246,12 +246,11 @@ def clean_title(title):
     return title.strip()
 
 def match_lot_info(title, df):
-    # df = pd.read_excel(r"../../spiders/LWIN wines.xls")
     cleaned_title = clean_title(title)
     producer_matches = set()
     for idx, producer in enumerate(df['Estate']):
         if producer.lower() in cleaned_title.lower():
-            producer_matches.add((df.loc[idx, 'Estate'],df.loc[idx, 'Region'], df.loc[idx, 'Country']))
+            producer_matches.add((df.loc[idx, 'Estate'], df.loc[idx, 'Region'], df.loc[idx, 'subRegion'], df.loc[idx, 'Country']))
 
     if len(producer_matches) == 1:
         return producer_matches.pop()
@@ -261,7 +260,7 @@ def match_lot_info(title, df):
     wine_matches = Counter()
     for idx, wine in enumerate(df["Wine"]):
         if cleaned_title.lower() in wine.lower():
-            pair = (df.loc[idx, "Estate"], df.loc[idx, "Region"], df.loc[idx, "Country"])
+            pair = (df.loc[idx, "Estate"], df.loc[idx, "Region"], df.loc[idx, 'subRegion'], df.loc[idx, "Country"])
             wine_matches[pair] += 1
 
     if not wine_matches:
@@ -270,7 +269,7 @@ def match_lot_info(title, df):
         for idx, wine in enumerate(df["Wine"]):
             match_count = sum(1 for cleaned_title_string in cleaned_title_strings if cleaned_title_string in wine.lower())
             if match_count / len(cleaned_title_strings) >= 0.5:
-                pair = (df.loc[idx, "Estate"], df.loc[idx, "Region"], df.loc[idx, "Country"])
+                pair = (df.loc[idx, "Estate"], df.loc[idx, "Region"], df.loc[idx, 'subRegion'], df.loc[idx, "Country"])
                 wine_matches[pair] += 1
 
     if not wine_matches:

@@ -4,11 +4,17 @@ import time
 import scrapy
 import pandas as pd
 from bs4 import BeautifulSoup
+from dotenv import load_dotenv
 from wine_spider.helpers import parse_quarter
-from wine_spider.helpers import find_continent
 from wine_spider.items import AuctionItem, LotItem
-from wine_spider.website_clients.sothebys_client import SothebysClient
+from wine_spider.helpers import find_continent
 from wine_spider.helpers import parse_volumn_and_unit_from_title, parse_year_from_title, match_lot_info
+from wine_spider.website_clients.sothebys_client import SothebysClient
+
+load_dotenv()
+
+ALGOLIA_API_KEY = os.getenv('ALGOLIA_API_KEY')
+ALGOLIA_APPLICATION_ID = os.getenv('ALGOLIA_APPLICATION_ID')
 
 class SothebysSpider(scrapy.Spider):
     name = "sothebys_spider"
@@ -25,25 +31,7 @@ class SothebysSpider(scrapy.Spider):
         base_dir = os.path.dirname(os.path.abspath(__file__))
         self.lwin_df = pd.read_excel(os.path.join(base_dir, "LWIN wines.xls"))
         self.base_url = "https://www.sothebys.com"
-        self.cookies_path = "wine_spider/login_state/sothebys_cookies.json"
-        
-        if not os.path.exists(self.cookies_path):
-            self.client = SothebysClient(False)
-        else:
-            self.client = SothebysClient(True)
-
-        with open(self.cookies_path, 'r', encoding='utf-8') as f:
-            cookie_data = json.load(f)
-        self.cookies = []
-        for cookie in cookie_data.get("cookies", []):
-            self.cookies.append({
-                "name": cookie["name"],
-                "value": cookie["value"],
-                "domain": cookie["domain"],
-                "path": cookie["path"],
-                "expires": cookie.get("expires"),
-                "secure": cookie.get("secure")
-            })
+        self.client = SothebysClient()
 
     def parse(self, response):
         total_pages = int(response.css('li.SearchModule-pageCounts span[data-page-count]::text').get())
@@ -70,8 +58,9 @@ class SothebysSpider(scrapy.Spider):
     def parse_viking_ids(self, response):
         data = json.loads(response.text)
         data = [(asset_data.get("vikingId"), asset_data.get("url")) for _, asset_data in data.items()]
+        first_open = True
 
-        for viking_id, url in data[1:4]:
+        for viking_id, url in data:
             payload = self.client.auction_query(viking_id)
             
             yield scrapy.Request(
@@ -81,20 +70,49 @@ class SothebysSpider(scrapy.Spider):
                 callback=self.parse_auction_api_response,
             )
 
-            response, token = self.client.get_authorisation_token_and_response(url)
+            response = self.client.go_to(url)
+
+            try:
+                if first_open:
+                    frame_locator = self.client.locate("iframe[title='Modal Message']")
+                    frame_locator = self.client.page.frame_locator("iframe[title='Modal Message']")
+                    close = frame_locator.locator("#io01")
+                    close.click()
+                    first_open = False
+            except Exception:
+                pass
+
+            algolia_api_key = self.client.extract_algolia_api_key(response)
+            algolia_url, algolia_headers, algolia_payload = self.client.algolia_api(viking_id, algolia_api_key, 0)
+
+            yield scrapy.Request(
+                url=algolia_url,
+                method='POST',
+                headers=algolia_headers,
+                body=json.dumps(algolia_payload),
+                callback=self.parse_lots_page,
+                meta={
+                    "viking_id": viking_id,
+                    "algolia_page_response": response,
+                }
+            )
+
             try:
                 soup = BeautifulSoup(response, "html.parser")
                 pagination = soup.select(".pagination-module_pagination__TRr2-")
                 page_count = int(pagination[0].find_all("li")[-2].text) + 1
             except Exception:
-                page_count = 1
                 print("Unable to find page number for the following url:", url)
             
-            algolia_api_key = self.client.extract_algolia_api_key(response)
+            for page in range(2, page_count):
+                pagination_button = self.client.locate(f'li >> button[aria-label="Go to page {page}."]')
+                pagination_button.scroll_into_view_if_needed()
+                pagination_button.click()
+                time.sleep(2.5)
+                response = self.client.page.content()
+                
+                algolia_url, algolia_headers, algolia_payload = self.client.algolia_api(viking_id, algolia_api_key, page - 1)
 
-            for page in range(0, page_count):
-                algolia_url, algolia_headers, algolia_payload = self.client.algolia_api(viking_id, algolia_api_key, page)
-            
                 yield scrapy.Request(
                     url=algolia_url,
                     method='POST',
@@ -103,7 +121,7 @@ class SothebysSpider(scrapy.Spider):
                     callback=self.parse_lots_page,
                     meta={
                         "viking_id": viking_id,
-                        "token": token
+                        "algolia_page_response": response,
                     }
                 )
 
@@ -129,11 +147,11 @@ class SothebysSpider(scrapy.Spider):
 
     def parse_lots_page(self, response):
         viking_id = response.meta.get("viking_id")
-        token = response.meta.get("token")
-        self.logger.info(f"token: {token}")
+        html = response.meta.get("algolia_page_response")
         data = response.json()['hits']
 
         lots = []
+        soup = BeautifulSoup(html, "html.parser")
         for item in data:
             lot = LotItem()
             try:
@@ -150,6 +168,15 @@ class SothebysSpider(scrapy.Spider):
                 lot['country'] = item['Country'][0] if 'Country' in item else None
                 lot['success'] = True
                 lot['url'] = f"{self.base_url}{item['slug']}"
+
+                try:
+                    price = soup.find("div", id="lot-list").find("div", attrs={"data-testid": item['objectID']}).find("p", attrs={"data-testid": "currentBid"}).text
+                    price = int(price.split(" ")[0].replace(",", ""))
+                    lot['end_price'] = price
+                    lot['sold'] = True
+                except Exception as e:
+                    lot['end_price'] = None
+                    lot['sold'] = False
 
                 if not lot['vintage']:
                     lot['vintage'] = [str(parse_year_from_title(item['title']))] if parse_year_from_title(item['title']) else None
@@ -171,16 +198,9 @@ class SothebysSpider(scrapy.Spider):
         lot_ids = [lot['id'] for lot in lots]
         payload = self.client.lot_card_query(viking_id, lot_ids)
 
-        hearders = {
-            "Authorization": f"Bearer {token}",
-            "Content-Type": "application/json"
-        }
-
         yield scrapy.Request(
             url=self.client.api_url,
             method='POST',
-            cookies=self.cookies,
-            headers=hearders,
             body=json.dumps(payload),
             callback=self.parse_lot_api_response,
             meta={
@@ -188,32 +208,12 @@ class SothebysSpider(scrapy.Spider):
             },
         )   
 
-
     def parse_lot_api_response(self, response):
-        lots = response.meta.get("lots")
         data = json.loads(response.text)['data']['auction']['lot_ids']
-        try:
-            data_dict = {
-                item['lotId']: (
-                    (item['bidState']['startingBid']['amount'], item['bidState']['sold']['premiums']['finalPrice']['amount'], item['bidState']['sold']['isSold'])
-                    if item['bidState']['sold']['isSold']
-                    else (item['bidState']['startingBid']['amount'], item['bidState']['sold']['isSold'])
-                )
-                for item in data
-            }
-
-            for lot in lots:
-                if len(data_dict.get(lot['id'])) == 3:
-                    lot['start_price'], lot['end_price'], lot['sold'] = data_dict[lot['id']]
-                else:
-                    lot['start_price'], lot['sold'] = data_dict[lot['id']]
-                yield lot
-                
-        except Exception as e:
-            self.logger.error(f"Failed to parse lot data: {e}")
-            self.logger.debug(f"Response: {response.text}")
-            for lot in lots:
-                lot['success'] = False
-                yield lot
+        data_dict = {item['lotId']: item['bidState']['startingBid']['amount'] for item in data}
+        lots = response.meta.get("lots")
+        for lot in lots:
+            lot['start_price'] = data_dict[lot['id']]
+            yield lot
 
 
