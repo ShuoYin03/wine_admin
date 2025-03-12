@@ -2,7 +2,6 @@ import os
 import re
 import time
 import json
-import requests
 from bs4 import BeautifulSoup
 from dotenv import load_dotenv
 from playwright.sync_api import sync_playwright
@@ -15,7 +14,7 @@ PASSWORD = os.getenv('PASSWORD')
 captchaParser = CaptchaParser()
 
 class SothebysClient:
-    def __init__(self, headless):  
+    def __init__(self, headless=True):  
         self.api_url = "https://clientapi.prod.sothelabs.com/graphql"
 
         self.playwright = sync_playwright().start() 

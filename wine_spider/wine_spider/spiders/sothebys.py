@@ -4,17 +4,12 @@ import time
 import scrapy
 import pandas as pd
 from bs4 import BeautifulSoup
-from dotenv import load_dotenv
 from wine_spider.helpers import parse_quarter
 from wine_spider.items import AuctionItem, LotItem
-from wine_spider.helpers import find_continent
-from wine_spider.helpers import parse_volumn_and_unit_from_title, parse_year_from_title, match_lot_info
+from wine_spider.helpers import find_continent, region_to_country
 from wine_spider.website_clients.sothebys_client import SothebysClient
-
-load_dotenv()
-
-ALGOLIA_API_KEY = os.getenv('ALGOLIA_API_KEY')
-ALGOLIA_APPLICATION_ID = os.getenv('ALGOLIA_APPLICATION_ID')
+from wine_spider.helpers import parse_volumn_and_unit_from_title, parse_year_from_title, match_lot_info
+from wine_spider.exceptions import NoPreDefinedVolumeIdentifierException, AmbiguousRegionAndCountryMatchException, NoMatchedRegionAndCountryException
 
 class SothebysSpider(scrapy.Spider):
     name = "sothebys_spider"
@@ -31,7 +26,7 @@ class SothebysSpider(scrapy.Spider):
         base_dir = os.path.dirname(os.path.abspath(__file__))
         self.lwin_df = pd.read_excel(os.path.join(base_dir, "LWIN wines.xls"))
         self.base_url = "https://www.sothebys.com"
-        self.client = SothebysClient()
+        self.client = SothebysClient(headless=True)
 
     def parse(self, response):
         total_pages = int(response.css('li.SearchModule-pageCounts span[data-page-count]::text').get())
@@ -74,7 +69,7 @@ class SothebysSpider(scrapy.Spider):
 
             try:
                 if first_open:
-                    frame_locator = self.client.locate("iframe[title='Modal Message']")
+                    frame_locator = self.client.page.locator("iframe[title='Modal Message']")
                     frame_locator = self.client.page.frame_locator("iframe[title='Modal Message']")
                     close = frame_locator.locator("#io01")
                     close.click()
@@ -105,7 +100,7 @@ class SothebysSpider(scrapy.Spider):
                 print("Unable to find page number for the following url:", url)
             
             for page in range(2, page_count):
-                pagination_button = self.client.locate(f'li >> button[aria-label="Go to page {page}."]')
+                pagination_button = self.client.page.locator(f'li >> button[aria-label="Go to page {page}."]')
                 pagination_button.scroll_into_view_if_needed()
                 pagination_button.click()
                 time.sleep(2.5)
@@ -190,8 +185,16 @@ class SothebysSpider(scrapy.Spider):
                     lot['country'] = lot_info[2] if not lot['country'] else lot['country']
                 
             except Exception as e:
+                if e.isinstance(NoPreDefinedVolumeIdentifierException):
+                    lot['success'] = False
+
+                elif e.isinstance(AmbiguousRegionAndCountryMatchException) or e.isinstance(NoMatchedRegionAndCountryException):
+                    if item["region"]:
+                        item["country"] = region_to_country(item["region"]) if not item["country"] else item["country"]
+                    else:
+                        lot['success'] = False
+
                 self.logger.error(f"Failed to parse lot {item['objectID']}: {e}")
-                lot['success'] = False
 
             lots.append(lot)
         
@@ -215,5 +218,4 @@ class SothebysSpider(scrapy.Spider):
         for lot in lots:
             lot['start_price'] = data_dict[lot['id']]
             yield lot
-
 

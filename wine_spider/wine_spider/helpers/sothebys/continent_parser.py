@@ -31,3 +31,22 @@ def find_continent(country):
         return continent
     else:
         raise CityNotFoundException(country)
+
+def region_to_country(region):
+    region_to_country = {
+        "Burgundy": "France",
+        "Champagne": "France",
+        "Rhone": "France",
+        "South Australia": "Australia",
+        "Loire": "France",
+        "Saint Pettersburg": "Spain",
+        "Other France": "France",
+        "California": "United States",
+    }
+
+    country = region_to_country.get(region)
+
+    if country:
+        return country
+    else:
+        raise CityNotFoundException(region)

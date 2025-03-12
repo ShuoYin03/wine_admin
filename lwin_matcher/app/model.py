@@ -14,7 +14,7 @@ class LwinMatchingParams:
         return f"<LwinMatchingParams {self.name} {self.producer} {self.vintage} {self.country} {self.region} {self.sub_region} {self.colour}>"
 
 class MatchResult(Enum):
-    MATCH = "match"
+    EXACT_MATCH = "exact_match"
     MULTI_MATCH = "multi_match"
     NOT_MATCH = "not_match"
 

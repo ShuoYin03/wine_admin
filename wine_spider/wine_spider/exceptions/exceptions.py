@@ -26,3 +26,9 @@ class NoMatchedRegionAndCountryException(Exception):
         self.title = title
         self.message = f"{message}: , {title}"
         super().__init__(self.message)
+
+class NoPreDefinedVolumeIdentifierException(Exception):
+    def __init__(self, title, message="No matched volume identifier"):
+        self.title = title
+        self.message = f"{message}: , {title}"
+        super().__init__(self.message)

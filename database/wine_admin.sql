@@ -105,5 +105,5 @@ CREATE TABLE IF NOT EXISTS lwin_database (
 CREATE TABLE IF NOT EXISTS lwin_matching (
     lot_id TEXT PRIMARY KEY,
     Matched TEXT,
-    Lwin INT,
+    Lwin INT[],
 );

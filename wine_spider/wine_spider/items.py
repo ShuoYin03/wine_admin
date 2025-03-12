@@ -50,3 +50,8 @@ class LotItem(scrapy.Item):
     country = scrapy.Field()
     success = scrapy.Field()
     url = scrapy.Field()
+
+class LwinMatchingItem(scrapy.Item):
+    lot_id = scrapy.Field()
+    matched = scrapy.Field()
+    lwin_code = scrapy.Field()

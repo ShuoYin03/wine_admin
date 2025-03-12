@@ -1,3 +1,5 @@
+import sys
+sys.path.append('../..')
 from database import DatabaseClient
 from app.model import LwinMatchingParams
 from .service import LwinMatchingService
@@ -31,10 +33,12 @@ def match():
     )
 
     try:
-        matched, lwin_code = lwin_matching_service.lwin_matching(lwin_matching_params)
+        matched, lwin_code, match_score, match_item = lwin_matching_service.lwin_matching(lwin_matching_params)
         result = {
             "matched": matched.value,
-            "lwin_code": lwin_code
+            "lwin_code": lwin_code,
+            "match_score": match_score,
+            "match_item": match_item
         }
         return jsonify(result)
     

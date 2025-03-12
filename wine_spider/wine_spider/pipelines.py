@@ -1,29 +1,39 @@
-# Define your item pipelines here
-#
-# Don't forget to add your pipeline to the ITEM_PIPELINES setting
-# See: https://docs.scrapy.org/en/latest/topics/item-pipeline.html
-
-
-# useful for handling different item types with a single interface
+import requests
+from .helpers import EnvironmentHelper
 from itemadapter import ItemAdapter
-from .database import DatabaseClient
-from .items import AuctionItem, AuctionSalesItem, LotItem
+from database import DatabaseClient
+from .items import AuctionItem, AuctionSalesItem, LotItem, LwinMatchingItem
 
-class WineSpiderPipeline:
+environmentHelper = EnvironmentHelper()
+
+class LwinMatchingPipeline:
+    def open_spider(self, spider):
+        self.base_url = environmentHelper.get_matching_url()
+
     def process_item(self, item, spider):
-        return item
+        params = {
+            "wine_name": item['wine_name'],
+            "lot_producer": item['lot_producer'],
+            "vintage": item['vintage'],
+            "region": item['region'],
+            "sub_region": item['sub_region'],
+            "country": item['country'],
+            "colour": item['wine_type']
+        }
 
+        response = requests.get(f"{self.base_url}", params=params)
+        results = response.json()
+
+        lwinMatchingItem = LwinMatchingItem()
+        lwinMatchingItem['lot_id'] = item['id']
+        lwinMatchingItem['matched'] = results['matched']
+        lwinMatchingItem['lwin_code'] = results['lwin_code']
+
+        return item
 
 class DataStoragePipeline:
     def open_spider(self, spider):
-        self.db_client = DatabaseClient(
-            dbname="wine_admin",
-            user="postgres",
-            password="341319",
-            host="localhost",
-            port="5432"
-        )
-
+        self.db_client = DatabaseClient()
         self.lot_items_by_auction = {}
 
     def process_item(self, item, spider):

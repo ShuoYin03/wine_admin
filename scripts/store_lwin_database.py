@@ -71,7 +71,3 @@ for index, row in df.iterrows():
     session.commit()
 
 session.close()
-
-
-
-    
