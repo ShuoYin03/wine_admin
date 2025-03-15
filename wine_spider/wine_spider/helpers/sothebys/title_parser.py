@@ -1,15 +1,20 @@
 import re
 import pandas as pd
-from collections import Counter
-from wine_spider.exceptions import AmbiguousRegionAndCountryMatchException, NoMatchedRegionAndCountryException
+from rapidfuzz import fuzz
+from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.metrics.pairwise import cosine_similarity
+from wine_spider.exceptions import AmbiguousRegionAndCountryMatchException, NoMatchedRegionAndCountryException, NoPreDefinedVolumeIdentifierException
+from logging import getLogger
+
+logger = getLogger(__name__)
 
 VOLUMN_IDENTIFIER = {
-    'bt': 75,
-    'bts': 75,
-    'hb': 75,
-    'hbs': 75,
-    'mag': 150,
-    'mags': 150,
+    'bt': 750,
+    'bts': 750,
+    'hb': 375,
+    'hbs': 375,
+    'mag': 1500,
+    'mags': 1500,
     'l': 1000,
     'cl': 10,
     'pint': 568.3,
@@ -20,8 +25,7 @@ VOLUMN_IDENTIFIER = {
     'ml': 1,
     'bottle': 750,
     'ounces': 28.4,
-    'mag': 1500,
-    'bt': 750,
+    'pce': 228000
 }
 
 def parse_volumn_and_unit_from_title(title):
@@ -177,8 +181,11 @@ def parse_volumn_and_unit_from_title(title):
             
             volumn += qty * vol
     
-
+    if volumn == 0.0:
+        raise NoPreDefinedVolumeIdentifierException(title)
+    
     return volumn, qty
+
 
 def parse_year_from_title(title):
     m = re.search(r'(\d{4})-(\d{4})', title)
@@ -189,113 +196,165 @@ def parse_year_from_title(title):
         return int(m.group(1))
     return None
 
-# def parse_possible_producer_from_title(title):
-#     m = re.search(r'(\d{4})', title)
-#     producers = re.sub(r'\s*\(.*?\)\s*$', '', title)
-#     backup_producers = producers.split(m.group(1))
-
-#     if m:
-#         producers = re.split(f"{m.group(1)}|,", producers)
-#         for i in range(len(producers)):
-#             producers[i] = producers[i].strip()
-#             if not producers[i]:
-#                 del producers[i]
-                
-#         for backup in backup_producers:
-#             if backup:
-#                 backup = backup.strip()
-#                 producers.append(backup)
-
-#         return producers
-#     return None
-    
-# def match_region_and_country(strings, df):
-#     # df = pd.read_excel(r"../../spiders/LWIN wines.xls")
-#     best_string = None
-#     best_indices = None
-#     best_count = 0
-
-#     for s in strings:
-#         mask = df['Wine'].str.contains(s, case=False, na=False) | df['Estate'].str.contains(s, case=False, na=False)
-#         matching_indices = df.index[mask]
-#         count = len(matching_indices)
-#         if count > best_count:
-#             best_count = count
-#             best_string = s
-#             best_indices = matching_indices
-
-#     if best_count == 0:
-#         raise NoMatchedRegionAndCountryException(f"No matched region or country for {strings}")
-
-#     counter = Counter()
-#     for i in best_indices:
-#         pair = (df.loc[i, 'Region'], df.loc[i, 'Country'])
-#         counter[pair] += 1
-
-#     most_common = counter.most_common()
-#     if len(most_common) > 1 and most_common[0][1] == most_common[1][1]:
-#         raise AmbiguousRegionAndCountryMatchException(
-#             f"Ambiguous region and country match for string '{best_string}': {most_common}"
-#         )
-
-#     return most_common[0][0]
-
 def clean_title(title):
     title = re.sub(r'\s*\(.*?\)\s*$', '', title)
-    title = re.sub(r'\b\d{4}\b', ',', title)
-    return title.strip()
+    title = re.sub(r'\b\d{4}\b', '', title)
+    title = re.sub(r'[^\w\s]', ' ', title)
+    title = re.sub(r'\s+', ' ', title)
+    title = title.lower().strip()
+    return title
+
+def standardize_title(title):
+    replace_dict = {
+        "Leoville": "Léoville",
+    }
+    
+    for key, value in replace_dict.items():
+        title = title.replace(key, value)
+    return title
 
 def match_lot_info(title, df):
-    # df = pd.read_excel(r"../../spiders/LWIN wines.xls")
+    wine_column = 'Wine'
+    producer_column = 'Estate'
+    region_column = 'Region'
+    sub_region_column = 'subRegion'
+    country_column = 'Country'
+    combined_score_column = 'combined_score'
+
     cleaned_title = clean_title(title)
-    producer_matches = set()
-    for idx, producer in enumerate(df['Estate']):
-        if producer.lower() in cleaned_title.lower():
-            producer_matches.add((df.loc[idx, 'Estate'],df.loc[idx, 'Region'], df.loc[idx, 'Country']))
-
-    if len(producer_matches) == 1:
-        return producer_matches.pop()
-    elif len(producer_matches) > 1:
-        raise AmbiguousRegionAndCountryMatchException(title)
     
-    wine_matches = Counter()
-    for idx, wine in enumerate(df["Wine"]):
-        if cleaned_title.lower() in wine.lower():
-            pair = (df.loc[idx, "Estate"], df.loc[idx, "Region"], df.loc[idx, "Country"])
-            wine_matches[pair] += 1
+    wine_sim_scores = calculate_tfidf_similarity(cleaned_title, df[wine_column])
+    fuzzy_scores = df[wine_column].apply(lambda x: fuzzy_score(cleaned_title, x))
+    producer_scores = df[producer_column].apply(lambda x: fuzzy_score(cleaned_title, x))
+    sub_region_scores = df[sub_region_column].apply(lambda x: fuzzy_score(cleaned_title, x))
+    
+    df['combined_score'] = (
+        wine_sim_scores * 0.4 +   # 40% weight for wine name similarity
+        fuzzy_scores * 0.2 +      # 20% weight for fuzzy match
+        producer_scores * 0.2 +     # 20% weight for producer name match
+        sub_region_scores * 0.2     # 20% weight for sub region match
+    )
 
-    if not wine_matches:
-        cleaned_title_strings = cleaned_title.lower().replace(',', '').strip().split(' ')
-        cleaned_title_strings.extend(cleaned_title.lower().replace(',', '').strip())
-        for idx, wine in enumerate(df["Wine"]):
-            match_count = sum(1 for cleaned_title_string in cleaned_title_strings if cleaned_title_string in wine.lower())
-            if match_count / len(cleaned_title_strings) >= 0.5:
-                pair = (df.loc[idx, "Estate"], df.loc[idx, "Region"], df.loc[idx, "Country"])
-                wine_matches[pair] += 1
+    max_score = df['combined_score'].max()
+    best_match = df[df['combined_score'] == max_score]
+    if len(best_match) > 1:
+        raise AmbiguousRegionAndCountryMatchException(title)
+    best_match = best_match.iloc[0]
 
-    if not wine_matches:
+    if best_match['combined_score'] > 40:
+        return (best_match[producer_column], 
+                best_match[region_column], 
+                best_match[sub_region_column], 
+                best_match[country_column])
+    else:
+        logger.debug(f"Best match: {best_match[wine_column]} {best_match[producer_column]} {best_match[region_column]} {best_match[sub_region_column]} {best_match[country_column]} {best_match[combined_score_column]}")
         raise NoMatchedRegionAndCountryException(title)
-    most_common = wine_matches.most_common()
-    if len(most_common) > 1 and most_common[0][1] == most_common[1][1]:
-        raise AmbiguousRegionAndCountryMatchException(title)
-    return most_common[0][0]
 
+def calculate_tfidf_similarity(title, df_column):
+    vectorizer = TfidfVectorizer()
+    df_column = df_column.fillna("").apply(clean_title)
+    tfidf_matrix = vectorizer.fit_transform([title] + df_column.fillna("").tolist())
+    cosine_similarities = cosine_similarity(tfidf_matrix[0:1], tfidf_matrix[1:]).flatten()
+    return cosine_similarities
 
-# titles = [
-#     "Château Lafite 1964  (12 BT)",
-#     "Beaune Premier Cru, Cuvée Guigone de Salins 2024  (1 PCE)",
-#     "Château Margaux 1982  (12 BT)",
-#     "Château Gazin 1990  (12 BT)",
-#     "Volnay Premier Cru Les Santenots, Cuvée Jéhan de Massol 2024  (1 PCE)",
-#     "Petrus 1982  (6 MAG)",
-#     "Château Pichon Longueville, Lalande 1988  (12 BT)",
-#     "Volnay Premier Cru, Cuvée Blondeau 2024  (1 PCE)",
-#     "Clos de la Roche, Cuvée William 1988 Domaine Ponsot (12 BT)",
-#     "Vosne Romanée, Les Chaumes 2015 Méo-Camuzet (8 BT)"
-# ]
+def fuzzy_score(title, target):
+    if isinstance(target, str):
+        return fuzz.token_set_ratio(clean_title(title), clean_title(target))
+    return 0
 
-# for t in titles:
-#     print("----------------------------------------------")
-#     print(t, "->", match_lot_info(t))
+# def match_lot_info(title, df):
+#     cleaned_title = clean_title(title)
+#     print("Cleaned title:", cleaned_title)
 
+#     # Special Case Exact match
+#     lot_producer, region, sub_region, country = special_case_exact_match(cleaned_title)
     
+#     if not lot_producer:
+#         # Producer Exact Match
+#         producer_exact_match_indices = producer_exact_match(cleaned_title, df['Estate'])
+#         filtered_df = filter_df_by_index(df, producer_exact_match_indices)
+#         # print("Filtered DF:", len(filtered_df))
+#         if len(filtered_df) == 1:
+#             return filtered_df.iloc[0]['Estate'], filtered_df.iloc[0]['Region'], filtered_df.iloc[0]['subRegion'], filtered_df.iloc[0]['Country']
+#         elif len(filtered_df) > 1:
+#             # Wine Name Exact Match
+#             idx = wine_exact_match(cleaned_title, filtered_df['Wine'])
+#             if idx:
+#                 return filtered_df.iloc[idx]['Estate'], filtered_df.iloc[idx]['Region'], filtered_df.iloc[idx]['subRegion'], filtered_df.iloc[idx]['Country']
+#             lot_producer, region, sub_region, country = wine_fuzzy_match(cleaned_title, filtered_df)
+#             return lot_producer, region, sub_region, country
+#         else:
+#             # Wine Name & Producer Fuzzy Match
+#             lot_producer, region, sub_region, country = wine_and_producer_fuzzy_match(cleaned_title, df)
+#             return lot_producer, region, sub_region, country
+            
+#     else:
+#         # Wine Name Exact Match
+#         idx = wine_exact_match(cleaned_title, filtered_df['Wine'])
+#         if idx:
+#             return filtered_df.iloc[idx]['Estate'], filtered_df.iloc[idx]['Region'], filtered_df.iloc[idx]['subRegion'], filtered_df.iloc[idx]['Country']
+#         lot_producer, region, sub_region, country = wine_fuzzy_match(cleaned_title, filtered_df)
+#         return lot_producer, region, sub_region, country
+
+# def filter_df_by_index(df, indices):
+#     return df.iloc[indices]
+
+# def special_case_exact_match(title):
+#     if 'drc' in title.lower() or 'domaine de la romanée conti' in title.lower():
+#         return "Domaine de la Romanée-Conti", "Burgundy", None, "France"
+#     return None, None, None, None
+
+# def producer_exact_match(title, producer_df_column):
+#     indices = []
+#     for idx, producer in enumerate(producer_df_column):
+#         if producer.lower() in title or title in producer.lower():
+#             indices.append(idx)
+    
+#     return indices
+
+# def wine_exact_match(title, wine_df_column):
+#     for idx, wine in enumerate(wine_df_column):
+#         if title in wine.lower() or wine.lower() in title:
+#             return idx
+    
+#     return None
+
+# def wine_fuzzy_match(title, df):
+#     matches = []
+
+#     for row in df.itertuples():
+#         idx = row.Index
+#         wine_score = fuzz.partial_token_sort_ratio(row.Wine.replace("-", " ").lower(), title)
+#         if wine_score > 80:
+#             matches.append((idx, wine_score))
+    
+#     matches.sort(key=lambda x: x[1], reverse=True)
+
+#     if not matches:
+#         return None, None, None, None
+#     else:
+#         idx = matches[0][0]
+#         return df.loc[idx, "Estate"], df.loc[idx, "Region"], df.loc[idx, 'subRegion'], df.loc[idx, "Country"]
+
+# def wine_and_producer_fuzzy_match(title, df):
+#     matches = []
+
+#     for row in df.itertuples():
+#         idx = row.Index
+#         producer_score = fuzz.token_ratio(row.Estate.lower(), title)
+#         wine_score = fuzz.partial_token_sort_ratio(title, row.Wine.replace("-", " ").lower())
+#         added_score = (producer_score * 0.3 + wine_score * 0.7) / 2
+#         if added_score > 30:
+#             matches.append((idx, added_score, producer_score, wine_score))
+    
+#     matches.sort(key=lambda x: x[1], reverse=True)
+
+#     if not matches:
+#         return None, None, None, None
+#     else:
+#         idx = matches[0][0]
+#         return df.loc[idx, "Estate"], df.loc[idx, "Region"], df.loc[idx, 'subRegion'], df.loc[idx, "Country"]
+
+if __name__ == "__main__":
+    df = pd.read_excel(r"LWIN wines.xls")
+    print(match_lot_info("Château Gazin 1989  (12 BT)", df))

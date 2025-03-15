@@ -11,6 +11,7 @@ class AuctionItem(scrapy.Item):
     year = scrapy.Field()
     quarter = scrapy.Field()
     auction_type = scrapy.Field()
+    url = scrapy.Field()
 
 class AuctionSalesItem(scrapy.Item):
     id = scrapy.Field() 
@@ -36,6 +37,8 @@ class LotItem(scrapy.Item):
     unit_format = scrapy.Field()
     unit = scrapy.Field()
     volumn = scrapy.Field()
+    lot_type = scrapy.Field()
+    wine_type = scrapy.Field()
     original_currency = scrapy.Field()
     start_price = scrapy.Field()
     end_price = scrapy.Field()
@@ -43,6 +46,12 @@ class LotItem(scrapy.Item):
     high_estimate = scrapy.Field()
     sold = scrapy.Field()
     region = scrapy.Field()
+    sub_region = scrapy.Field()
     country = scrapy.Field()
     success = scrapy.Field()
     url = scrapy.Field()
+
+class LwinMatchingItem(scrapy.Item):
+    lot_id = scrapy.Field()
+    matched = scrapy.Field()
+    lwin_code = scrapy.Field()

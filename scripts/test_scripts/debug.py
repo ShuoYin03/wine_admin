@@ -4,7 +4,7 @@ import json
 payload = {
     "operationName": "AuctionQuery",
     "variables": {
-        "id": "82bab296-9e0d-446b-9e70-dfc2606256c4",
+        "id": "3b8bf8c7-7a20-47df-b25e-d5f0efb29539",
         "language": "ENGLISH"
     },
     "query": """

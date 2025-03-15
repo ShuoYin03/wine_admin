@@ -1,0 +1,88 @@
+from sqlalchemy import Column, Integer, String, ForeignKey, Float, Boolean, DateTime, Text
+from sqlalchemy.orm import relationship
+from sqlalchemy.orm import declarative_base
+
+Base = declarative_base()
+
+class AuctionModel(Base):
+    __tablename__ = 'auctions'
+    id = Column(Integer, primary_key=True)
+    auction_title = Column(String)
+    auction_house = Column(String)
+    city = Column(String)
+    continent = Column(String)
+    start_date = Column(DateTime)
+    end_date = Column(DateTime)
+    year = Column(Integer)
+    quarter = Column(Integer)
+    auction_type = Column(String)
+    url = Column(String)
+    auction_sales = relationship("AuctionSalesModel", back_populates="auction")
+    # lots = relationship("LotModel", back_populates="auction")
+
+class AuctionSalesModel(Base):
+    __tablename__ = 'auction_sales'
+    id = Column(Integer, primary_key=True)
+    auction_id = Column(Integer, ForeignKey('auctions.id'))
+    auction = relationship("AuctionModel", back_populates="auction_sales")
+    total_lots = Column(Integer)
+    total_sales = Column(Float)
+    total_value = Column(Float)
+    total_volume = Column(Float)
+    total_low_estimate = Column(Float)
+    total_high_estimate = Column(Float)
+    total_sold = Column(Float)
+    top_lot = Column(String)
+    sale_type = Column(String)
+    single_cellar = Column(Boolean)
+    ex_ch = Column(Boolean)
+
+class LotModel(Base):
+    __tablename__ = 'lots'
+    id = Column(Integer, primary_key=True)
+    auction_id = Column(Integer, ForeignKey('auctions.id'))
+    lot_producer = Column(String)
+    wine_name = Column(String)
+    vintage = Column(Integer)
+    unit_format = Column(String)
+    unit = Column(Integer)
+    volumn = Column(Float)
+    lot_type = Column(String)
+    wine_type = Column(String)
+    original_currency = Column(String)
+    start_price = Column(Float)
+    end_price = Column(Float)
+    low_estimate = Column(Float)
+    high_estimate = Column(Float)
+    sold = Column(Boolean)
+    region = Column(String)
+    sub_region = Column(String)
+    country = Column(String)
+    success = Column(Boolean)
+    url = Column(String)
+
+class LwinDatabaseModel(Base):
+    __tablename__ = 'lwin_database'
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    lwin = Column(String)
+    status = Column(String)
+    display_name = Column(String)
+    producer_title = Column(String)
+    producer_name = Column(String)
+    wine = Column(String)
+    country = Column(String)
+    region = Column(String) 
+    sub_region = Column(String)
+    site = Column(String)
+    parcel = Column(String)
+    colour = Column(String)
+    type = Column(String)
+    sub_type = Column(String)
+    designation = Column(String)
+    classification = Column(String)
+    vintage_config = Column(String)
+    first_vintage = Column(Integer)
+    final_vintage = Column(Integer) 
+    date_added = Column(DateTime)
+    date_updated = Column(DateTime) 
+    reference = Column(String) 

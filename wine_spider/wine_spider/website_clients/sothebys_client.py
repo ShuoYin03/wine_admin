@@ -2,7 +2,6 @@ import os
 import re
 import time
 import json
-import requests
 from bs4 import BeautifulSoup
 from dotenv import load_dotenv
 from playwright.sync_api import sync_playwright
@@ -15,7 +14,7 @@ PASSWORD = os.getenv('PASSWORD')
 captchaParser = CaptchaParser()
 
 class SothebysClient:
-    def __init__(self, headless):  
+    def __init__(self, headless=True):  
         self.api_url = "https://clientapi.prod.sothelabs.com/graphql"
 
         self.playwright = sync_playwright().start() 
@@ -81,17 +80,6 @@ class SothebysClient:
     def go_to(self, url):
         self.page.goto(url, wait_until="networkidle", timeout=30000)
         return self.page.content()
-    
-    def locate(self, selector):
-        return self.page.wait_for_selector(selector)
-    
-    def wait_text(self, text):
-        element = self.page.wait_for_selector(
-            'p[data-testid="lotTitle"]:has-text("{}")'.format(text),
-            state="attached",
-            timeout=30000
-        )
-        return element.text_content()
 
     def get_authorisation_token_and_response(self, url):
         target_url_base = "https://accounts.sothebys.com/authorize"
@@ -111,36 +99,36 @@ class SothebysClient:
 
     def auction_query(self, viking_id):
         payload = {
-                "operationName": "AuctionQuery",
-                "variables": {
-                    "id": viking_id,
-                    "language": "ENGLISH"
-                },
-                "query": """
-                    query AuctionQuery($id: String!, $language: TranslationLanguage!) {
-                        auction(id: $id, language: $language) {
-                            id
-                            auctionId
-                            title
-                            currency
-                            location: locationV2 {
-                                name
-                            }
-                            dates {
-                                acceptsBids
-                                closed    
-                            }
-                            sessions {
-                                lotRange {
-                                    fromLotNr
-                                    toLotNr
-                                }
-                            }
-                            state
+            "operationName": "AuctionQuery",
+            "variables": {
+                "id": viking_id,
+                "language": "ENGLISH"
+            },
+            "query": """
+                query AuctionQuery($id: String!, $language: TranslationLanguage!) {
+                    auction(id: $id, language: $language) {
+                        id
+                        auctionId
+                        title
+                        currency
+                        location: locationV2 {
+                            name
                         }
+                        dates {
+                            acceptsBids
+                            closed    
+                        }
+                        sessions {
+                            lotRange {
+                                fromLotNr
+                                toLotNr
+                            }
+                        }
+                        state
                     }
-                """
-            }
+                }
+            """
+        }
         
         return payload
     
@@ -236,41 +224,6 @@ class SothebysClient:
         }
 
         return url, headers, payload
-    
-    def algolia_api_query(self, auction_id, api_key, page):
-        url = "https://kar1ueupjd-dsn.algolia.net/1/indexes/prod_lots/query?x-algolia-agent=Algolia%20for%20JavaScript%20(4.14.3)%3B%20Browser"
-
-        headers = {
-            "accept-encoding": "gzip, deflate",
-            "accept": "*/*",
-            "accept-language": "en,zh-CN;q=0.9,zh;q=0.8,it;q=0.7",
-            "connection": "keep-alive",
-            "content-type": "application/x-www-form-urlencoded",
-            "origin": "https://www.sothebys.com",
-            "referer": "https://www.sothebys.com/",
-            "sec-ch-ua": '"Not(A:Brand";v="99", "Google Chrome";v="133", "Chromium";v="133"',
-            "sec-ch-ua-mobile": "?0",
-            "sec-ch-ua-platform": '"Windows"',
-            "sec-fetch-dest": "empty",
-            "sec-fetch-mode": "cors",
-            "sec-fetch-site": "cross-site",
-            "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36",
-            "x-algolia-api-key": api_key,
-            "x-algolia-application-id": "KAR1UEUPJD",
-        }
-
-        payload = {
-            "query": "",
-            "filters": f"auctionId:'{auction_id}' AND objectTypes:'All' AND NOT isHidden:true AND NOT restrictedInCountries:'GB'",
-            "facetFilters": [["withdrawn:false"], []],
-            "hitsPerPage": 48,
-            "page": page,
-            "facets": ["*"],
-            "numericFilters": [],
-        }
-
-        response = requests.post(url, headers=headers, json=payload)
-        return response.json()
 
     def close(self):
         self.browser.close()
