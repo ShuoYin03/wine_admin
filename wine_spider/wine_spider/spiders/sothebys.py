@@ -156,6 +156,8 @@ class SothebysSpider(scrapy.Spider):
                 lot['wine_name'] = item['title']
                 lot['vintage'] = item['Vintage'] if 'Vintage' in item else item['age'] if 'age' in item else None
                 lot['unit_format'] = item['Spirit Bottle Size'] if 'Spirit Bottle Size' in item else None
+                lot['lot_type'] = item['departments']
+                lot['wine_type'] = item['Wine Type'] if 'Wine Type' in item else None
                 lot['original_currency'] = item['currency']
                 lot['low_estimate'] = item['lowEstimate']
                 lot['high_estimate'] = item['highEstimate']

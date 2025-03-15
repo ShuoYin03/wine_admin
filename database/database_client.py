@@ -2,7 +2,7 @@ import os
 from dotenv import load_dotenv
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
-from sqlalchemy import inspect, Table, MetaData
+from sqlalchemy import Table, MetaData, select, func
 from sqlalchemy.dialects.postgresql import insert
 
 load_dotenv()
@@ -15,6 +15,17 @@ class DatabaseClient:
 
     def get_table(self, table_name):
         return Table(table_name, self.metadata, autoload_with=self.engine)
+
+    def get_random_item(self, model_class):
+        session = self.Session()
+        try:
+            result = session.query(model_class).order_by(func.random()).limit(1).first()
+            return result
+        except Exception as e:
+            print(f"Error: {e}")
+            return None
+        finally:
+            session.close()
 
     def insert_item(self, table_name, item_data):
         table = self.get_table(table_name)

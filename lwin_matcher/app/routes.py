@@ -22,6 +22,8 @@ def match():
     country = request.args.get('country', '')
     colour = request.args.get('colour', '')
 
+    print(wine_name, lot_producer, vintage, region, sub_region, country, colour)
+
     lwin_matching_params = LwinMatchingParams(
         wine_name=wine_name,
         lot_producer=lot_producer,
@@ -41,7 +43,6 @@ def match():
             "match_item": match_item
         }
         return jsonify(result)
-    
     except Exception as e:
         return jsonify({"error": str(e)}), 500
     

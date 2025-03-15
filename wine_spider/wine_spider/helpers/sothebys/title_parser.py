@@ -208,7 +208,9 @@ def standardize_title(title):
     replace_dict = {
         "Leoville": "Léoville",
     }
-    title = title.replace(" ", "").lower()
+    
+    for key, value in replace_dict.items():
+        title = title.replace(key, value)
     return title
 
 def match_lot_info(title, df):

@@ -1,63 +1,75 @@
-from rapidfuzz import fuzz
+import numpy as np
+import pandas as pd
 from app.model import MatchResult
+from collections import OrderedDict
+from .utils import LwinMatchingUtils
 from database.database_client import DatabaseClient
+from database.model import LwinDatabaseModel
 
 class LwinMatchingService:
     def __init__(self):
         self.db = DatabaseClient()
-        
-    def lwin_matching(self, lwinMatchingParams):
-        table = self.db.get_table('lwin_database')
-        table_items = self.db.sess.query(table)
+        self.sess = self.db.Session()
+        self.table = self.db.get_table('lwin_database')
 
-        table_items = table_items.filter(
-            table.c.country == lwinMatchingParams.country,
-            table.c.region == lwinMatchingParams.region,
-            table.c.sub_region == lwinMatchingParams.sub_region,
-            table.c.colour == lwinMatchingParams.colour,
-        ).all()
+        table_items = pd.read_sql(self.sess.query(self.table).statement, self.sess.bind)
+        self.utils = LwinMatchingUtils(
+            table_items
+        )
+        self.table_items = table_items
+
+    def lwin_matching(self, lwinMatchingParams):
+        if lwinMatchingParams.colour:
+            table_items = self.table_items[self.table_items['colour'] == lwinMatchingParams.colour]
+        else:
+            table_items = self.table_items
 
         matches = self.calculate_multiple(lwinMatchingParams, table_items)
-
         if len(matches) == 0:
             match_result = MatchResult.NOT_MATCH
         elif len(matches) == 1:
             match_result = MatchResult.EXACT_MATCH
         else:
             match_result = MatchResult.MULTI_MATCH
-            
-        return match_result, [match[0].lwin for match in matches], [match[1] for match in matches], [list(match[0]) for match in matches]
-    
+        
+        columns = [column.name for column in LwinDatabaseModel.__table__.columns]
+        return match_result, [match[0]['lwin'] for match in matches], [match[1] for match in matches], [OrderedDict({columns[i]: match[0].iloc[i] for i in range(len(columns))}) for match in matches]
+     
+
     def calculate_multiple(self, lwinMatchingParams, table_items):
-        matches = []
-        max_score = (None, 0)
-        for table_item in table_items:
-            score = self.calculate_single(lwinMatchingParams, table_item)
-            if score[1] > max_score[1]:
-                matches = [score]
-            elif score[1] == max_score[1]:
-                matches.append(score)
-            max_score = max(max_score, score, key=lambda x: x[1])
-        
-        return matches
+        wine_name_similarities = self.utils.calculate_tfidf_similarity(lwinMatchingParams.wine_name)
+        producer_similarities = self.utils.calculate_tfidf_similarity(lwinMatchingParams.lot_producer) if lwinMatchingParams.lot_producer else wine_name_similarities
+        total_scores = (wine_name_similarities * 0.7 + producer_similarities * 0.3)
 
-    def calculate_single(self, lwinMatchingParams, table_item):
-        producer_title = table_item.producer_title.lower() if table_item.producer_title else ''
-        producer_name = table_item.producer_name.lower() if table_item.producer_name else ''
-        wine_name = table_item.display_name.lower() if table_item.display_name else ''
-        wine = table_item.wine.lower() if table_item.wine else ''
-        
-        producer = producer_title + producer_name if producer_title else producer_name
-        
-        score_producer = fuzz.partial_ratio(lwinMatchingParams.producer, producer)
-        score_wine_name = fuzz.partial_ratio(lwinMatchingParams.name, wine_name)
-        score_wine = fuzz.partial_ratio(lwinMatchingParams.name, wine)
+        # self.output_to_csv(table_items, wine_name_similarities, producer_similarities, total_scores, lwinMatchingParams)
 
-        # print all three scores
-        print(score_producer, score_wine_name, score_wine)
-        total_score = (score_producer + score_wine_name + score_wine) / 3
+        max_score = total_scores.max()
 
-        return (table_item, total_score)
-        
-        
-        
+        if max_score > 0.8:
+            top_matches = table_items.iloc[np.where(total_scores == max_score)[0]]
+            matches = [(row, max_score) for _, row in top_matches.iterrows()]
+            return matches
+        else:
+            return []
+    
+    def output_to_csv(self, table_items, wine_name_similarities, producer_similarities, total_scores, lwinMatchingParams):
+        debug_df = table_items.copy()
+        del debug_df['status']
+        del debug_df['country']
+        del debug_df['region']
+        del debug_df['sub_region']
+        del debug_df['site']
+        del debug_df['parcel']
+        del debug_df['colour']
+        del debug_df['type']
+        del debug_df['sub_type']
+
+        debug_df['wine_name_score'] = wine_name_similarities
+        debug_df['producer_score'] = producer_similarities
+        debug_df['total_score'] = total_scores
+
+        debug_df['query_wine_name'] = lwinMatchingParams.wine_name
+        debug_df['query_producer'] = lwinMatchingParams.lot_producer
+
+        debug_df.to_csv('debug_output.csv', index=False)
+        self.table_items.to_csv('lwin_database.csv', index=False)
