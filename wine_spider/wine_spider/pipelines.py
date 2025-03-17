@@ -29,7 +29,7 @@ class LwinMatchingPipeline:
         lwinMatchingItem['matched'] = results['matched']
         lwinMatchingItem['lwin_code'] = results['lwin_code']
 
-        return item
+        return lwinMatchingItem
 
 class DataStoragePipeline:
     def open_spider(self, spider):

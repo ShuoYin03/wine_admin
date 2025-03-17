@@ -45,6 +45,7 @@ class LotItem(scrapy.Item):
     low_estimate = scrapy.Field()
     high_estimate = scrapy.Field()
     sold = scrapy.Field()
+    sold_date = scrapy.Field()
     region = scrapy.Field()
     sub_region = scrapy.Field()
     country = scrapy.Field()

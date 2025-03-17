@@ -55,7 +55,7 @@ class SothebysSpider(scrapy.Spider):
         data = [(asset_data.get("vikingId"), asset_data.get("url")) for _, asset_data in data.items()]
         first_open = True
 
-        for viking_id, url in data:
+        for viking_id, url in data[:1]:
             payload = self.client.auction_query(viking_id)
             
             yield scrapy.Request(
@@ -184,15 +184,15 @@ class SothebysSpider(scrapy.Spider):
                     lot_info = match_lot_info(lot['wine_name'], self.lwin_df)
                     lot['lot_producer'] = [lot_info[0]] if not lot['lot_producer'] else lot['lot_producer']
                     lot['region'] = lot_info[1] if not lot['region'] else lot['region']
-                    lot['country'] = lot_info[2] if not lot['country'] else lot['country']
+                    lot['sub_region'] = lot_info[2]
+                    lot['country'] = lot_info[3] if not lot['country'] else lot['country']
                 
             except Exception as e:
-                if e.isinstance(NoPreDefinedVolumeIdentifierException):
+                if isinstance(e, NoPreDefinedVolumeIdentifierException):
                     lot['success'] = False
-
-                elif e.isinstance(AmbiguousRegionAndCountryMatchException) or e.isinstance(NoMatchedRegionAndCountryException):
-                    if item["region"]:
-                        item["country"] = region_to_country(item["region"]) if not item["country"] else item["country"]
+                elif isinstance(e, AmbiguousRegionAndCountryMatchException) or isinstance(e, NoMatchedRegionAndCountryException):
+                    if 'region' in item and item["region"]:
+                        item["country"] = region_to_country(item["region"]) if 'country' not in item and not item["country"] else item["country"]
                     else:
                         lot['success'] = False
 

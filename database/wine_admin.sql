@@ -29,8 +29,9 @@ CREATE TABLE IF NOT EXISTS lots (
 	Low_Estimate INT,
 	High_Estimate INT,
     Sold BOOLEAN,
+    Sold_Date DATE,
     Region VARCHAR(20),
-	Sub_Region VARCHAR(30),
+	Sub_Region VARCHAR(50),
     Country VARCHAR(20),
 	Success BOOLEAN,
 	Url TEXT
@@ -53,8 +54,9 @@ CREATE TABLE IF NOT EXISTS failed_lots (
 	Low_Estimate INT,
 	High_Estimate INT,
     Sold BOOLEAN,
+    Sold_Date DATE,
     Region VARCHAR(20),
-	Sub_Region VARCHAR(30),
+	Sub_Region VARCHAR(50),
     Country VARCHAR(20),
 	Success BOOLEAN,
 	Url TEXT

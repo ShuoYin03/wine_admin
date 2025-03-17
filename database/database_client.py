@@ -2,7 +2,7 @@ import os
 from dotenv import load_dotenv
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
-from sqlalchemy import Table, MetaData, select, func
+from sqlalchemy import Table, MetaData, func, and_
 from sqlalchemy.dialects.postgresql import insert
 
 load_dotenv()
@@ -44,6 +44,65 @@ class DatabaseClient:
         except Exception as e:
             session.rollback()
             print(f"Error: {e}")
+        finally:
+            session.close()
+    
+    def query_items(self, table_name, filters=None, order_by=None, limit=None, offset=None):
+        table = self.get_table(table_name)
+        session = self.Session()
+        
+        try:
+            query = session.query(table)
+
+            if filters:
+                conditions = []
+                for key, value in filters.items():
+
+                    if isinstance(value, tuple) and len(value) == 2:
+                        conditions.append(getattr(table.c, key).between(value[0], value[1]))
+
+                    elif key.endswith('__like'):
+                        key = key.replace('__like', '')
+                        conditions.append(getattr(table.c, key).ilike(f"%{value}%"))
+                    
+                    elif key.endswith('__gt'):
+                        key = key.replace('__gt', '')
+                        conditions.append(getattr(table.c, key) > value)
+                    
+                    elif key.endswith('__lt'):
+                        key = key.replace('__lt', '')
+                        conditions.append(getattr(table.c, key) < value)
+                    
+                    elif key.endswith('__gte'):
+                        key = key.replace('__gte', '')
+                        conditions.append(getattr(table.c, key) >= value)
+                    
+                    elif key.endswith('__lte'):
+                        key = key.replace('__lte', '')
+                        conditions.append(getattr(table.c, key) <= value)
+                    else:
+                        conditions.append(getattr(table.c, key) == value)
+
+                query = query.filter(and_(*conditions))
+            
+            if order_by:
+                if isinstance(order_by, str):
+                    query = query.order_by(getattr(table.c, order_by[1:]).desc()) if order_by.startswith('-') else query.order_by(getattr(table.c, order_by))
+                elif isinstance(order_by, list):
+                    order_clauses = [getattr(table.c, field[1:]).desc() if field.startswith('-') else getattr(table.c, field) for field in order_by]
+                    query = query.order_by(*order_clauses)
+            
+            if offset:
+                query = query.offset(offset)
+            if limit:
+                query = query.limit(limit)
+
+            results = query.all()
+            return [dict(row._mapping) for row in results]
+
+        except Exception as e:
+            print(f"Error: {e}")
+            return []
         finally:
             session.close()
 
