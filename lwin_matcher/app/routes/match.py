@@ -27,7 +27,7 @@ def match():
         country=country,
         colour=colour
     )
-    print(lwin_matching_params)
+
     try:
         matched, lwin_code, match_score, match_item = lwin_matching_service.lwin_matching(lwin_matching_params)
         print(matched.value, lwin_code, match_score, match_item)

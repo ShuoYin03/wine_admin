@@ -19,12 +19,7 @@ class LwinMatchingService:
         self.table_items = table_items
 
     def lwin_matching(self, lwinMatchingParams):
-        if lwinMatchingParams.colour:
-            table_items = self.table_items[self.table_items['colour'] == lwinMatchingParams.colour]
-        else:
-            table_items = self.table_items
-
-        matches = self.calculate_multiple(lwinMatchingParams, table_items)
+        matches = self.calculate_multiple(lwinMatchingParams)
         if len(matches) == 0:
             match_result = MatchResult.NOT_MATCH
         elif len(matches) == 1:
@@ -36,7 +31,7 @@ class LwinMatchingService:
         return match_result, [match[0]['lwin'] for match in matches], [match[1] for match in matches], [OrderedDict({columns[i]: match[0].iloc[i] for i in range(len(columns))}) for match in matches]
      
 
-    def calculate_multiple(self, lwinMatchingParams, table_items):
+    def calculate_multiple(self, lwinMatchingParams):
         wine_name_similarities = self.utils.calculate_tfidf_similarity(lwinMatchingParams.wine_name)
         producer_similarities = self.utils.calculate_tfidf_similarity(lwinMatchingParams.lot_producer) if lwinMatchingParams.lot_producer else wine_name_similarities
         total_scores = (wine_name_similarities * 0.7 + producer_similarities * 0.3)
@@ -46,7 +41,7 @@ class LwinMatchingService:
         max_score = total_scores.max()
 
         if max_score > 0.8:
-            top_matches = table_items.iloc[np.where(total_scores == max_score)[0]]
+            top_matches = self.table_items.iloc[np.where(total_scores == max_score)[0]]
             matches = [(row, max_score) for _, row in top_matches.iterrows()]
             return matches
         else:
