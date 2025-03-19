@@ -6,7 +6,7 @@ const Navbar = styled.div`
     display: flex;
     width: 100%;
     height: 70px;
-    background-color:rgb(124, 18, 18);
+    background-color:rgb(174, 24, 24);
     align-items: center;
     justify-content: center;
 `;
@@ -25,7 +25,7 @@ const LinkStyled = styled.div`
     }
 
     &:hover {
-        background-color:rgb(223, 34, 34);
+        background-color:rgba(255, 255, 255, 0.31);
         color: black;
     }
 `;

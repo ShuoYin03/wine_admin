@@ -1,5 +1,6 @@
 import numpy as np
 import pandas as pd
+from rapidfuzz import fuzz
 from app.model import MatchResult
 from collections import OrderedDict
 from .utils import LwinMatchingUtils
@@ -20,6 +21,8 @@ class LwinMatchingService:
 
     def lwin_matching(self, lwinMatchingParams):
         matches = self.calculate_multiple(lwinMatchingParams)
+        matches = self.filter_matches(matches, lwinMatchingParams)
+
         if len(matches) == 0:
             match_result = MatchResult.NOT_MATCH
         elif len(matches) == 1:
@@ -29,7 +32,6 @@ class LwinMatchingService:
         
         columns = [column.name for column in LwinDatabaseModel.__table__.columns]
         return match_result, [match[0]['lwin'] for match in matches], [match[1] for match in matches], [OrderedDict({columns[i]: match[0].iloc[i] for i in range(len(columns))}) for match in matches]
-     
 
     def calculate_multiple(self, lwinMatchingParams):
         wine_name_similarities = self.utils.calculate_tfidf_similarity(lwinMatchingParams.wine_name)
@@ -38,14 +40,29 @@ class LwinMatchingService:
 
         # self.output_to_csv(table_items, wine_name_similarities, producer_similarities, total_scores, lwinMatchingParams)
 
-        max_score = total_scores.max()
+        high_score_indices = np.where(total_scores > 0.8)[0]
+        top_matches = self.table_items.iloc[high_score_indices]
+        matches = [(row, total_scores[idx]) for idx, row in top_matches.iterrows()]
 
-        if max_score > 0.8:
-            top_matches = self.table_items.iloc[np.where(total_scores == max_score)[0]]
-            matches = [(row, max_score) for _, row in top_matches.iterrows()]
-            return matches
-        else:
-            return []
+        return matches
+    
+    def filter_matches(self, matches, lwinMatchingParams):
+        filtered_matches = []
+
+        for match in matches:
+
+            if lwinMatchingParams.country and match[0]['country'] and fuzz.partial_ratio(lwinMatchingParams.country.lower(), match[0]['country'].lower()) < 90:
+                continue
+            if lwinMatchingParams.region and match[0]['region'] and fuzz.partial_ratio(lwinMatchingParams.region.lower(), match[0]['region'].lower()) < 90:
+                continue
+            if lwinMatchingParams.sub_region and match[0]['sub_region'] and fuzz.partial_ratio(lwinMatchingParams.sub_region.lower(), match[0]['sub_region'].lower()) < 90:
+                continue
+            if lwinMatchingParams.colour and match[0]['colour'] and fuzz.partial_ratio(lwinMatchingParams.colour.lower(), match[0]['colour'].lower()) < 90:
+                continue
+
+            filtered_matches.append(match)
+        
+        return filtered_matches
     
     def output_to_csv(self, table_items, wine_name_similarities, producer_similarities, total_scores, lwinMatchingParams):
         debug_df = table_items.copy()

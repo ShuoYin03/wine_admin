@@ -26,7 +26,7 @@ const Table = styled.table`
 
 const TableHeader = styled.th`
     padding: 12px;
-    background-color: #007bff;
+    background-color:rgb(174, 24, 24);
     color: white;
     text-align: left;
     font-weight: bold;
@@ -48,7 +48,7 @@ const TableCell = styled.td`
 const LwinTable: React.FC<TableProps> = ({ columns, data }) => {
     return (
         <LwinTableContainer>
-            <h2>Lwin Table</h2>
+            <h2>Lots Table</h2>
             <Table>
                 <thead>
                     <tr>

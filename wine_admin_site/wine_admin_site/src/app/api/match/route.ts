@@ -1,5 +1,4 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { LotApiParams } from '@/types/lotApi';
 
 export async function POST(req: NextRequest) {
     const payload = await req.json();

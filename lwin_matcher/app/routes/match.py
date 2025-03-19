@@ -30,7 +30,6 @@ def match():
 
     try:
         matched, lwin_code, match_score, match_item = lwin_matching_service.lwin_matching(lwin_matching_params)
-        print(matched.value, lwin_code, match_score, match_item)
         result = {
             "matched": matched.value,
             "lwin_code": lwin_code,
