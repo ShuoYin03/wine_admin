@@ -239,7 +239,7 @@
                 0.8480414838639916,
                 0.9052551321108935,
                 1.0,
-                0.8785896570083298
+                0.8785896570083296
             ],
             "result": true
         },
@@ -371,7 +371,7 @@
                 0.8480414838639916,
                 0.9052551321108935,
                 1.0,
-                0.8785896570083298
+                0.8785896570083296
             ],
             "result": true
         },
@@ -651,7 +651,7 @@
             ],
             "expected_lwin_code": "10392561996",
             "match_score": [
-                0.9047396108217836,
+                0.9047396108217834,
                 0.8071828078615182
             ],
             "result": true
@@ -675,6 +675,7 @@
         {
             "wine_name": "Clos de Tart 1945 (2 bottles)",
             "matched_wine_name": [
+                "Clos de Tart, Marc",
                 "Clos de Tart, Clos de Tart Grand Cru",
                 "Clos de Tart, Morey-Saint-Denis Premier Cru, La Forge de Tart",
                 "Clos Tart, Morey-Saint-Denis Premier Cru, Forge Tart",
@@ -682,10 +683,10 @@
                 "Clos Tart, Clos de Tart Grand Cru, Monopole",
                 "Clos Tart, Morey-Saint-Denis Premier Cru, Forge Tart",
                 "Clos de Tart, Marc de Bourgogne",
-                "Clos de Tart, Morey-Saint-Denis",
-                "Clos de Tart, Marc"
+                "Clos de Tart, Morey-Saint-Denis"
             ],
             "matched_lwin_code": [
+                "2957999",
                 "1047648",
                 "1047680",
                 "1216639",
@@ -693,20 +694,19 @@
                 "1390454",
                 "1455957",
                 "1747434",
-                "1874718",
-                "2957999"
+                "1874718"
             ],
             "expected_lwin_code": "10476481945",
             "match_score": [
-                0.9883130184956248,
+                0.8733248664515362,
+                0.9883130184956246,
                 0.868282558976202,
                 0.8374834775194998,
                 0.9709873984243198,
                 0.865621631265276,
                 0.8374834775194998,
                 0.9398728564837702,
-                0.9200324196469489,
-                0.8733248664515362
+                0.9200324196469489
             ],
             "result": true
         },
@@ -783,26 +783,26 @@
         {
             "wine_name": "Egly-Ouriet Grand Cru Brut Millesime 2007 (6 magnums)",
             "matched_wine_name": [
+                "Egly-Ouriet, Brut Grand Cru, Champagne",
+                "Egly-Ouriet, Extra Brut Grand Cru, Champagne",
                 "Egly-Ouriet, Brut Tradition Grand Cru",
                 "Egly-Ouriet, Brut Rose Grand Cru",
-                "Egly-Ouriet, Brut Millesime Grand Cru",
-                "Egly-Ouriet, Brut Grand Cru, Champagne",
-                "Egly-Ouriet, Extra Brut Grand Cru, Champagne"
+                "Egly-Ouriet, Brut Millesime Grand Cru"
             ],
             "matched_lwin_code": [
+                "2429209",
+                "3038857",
                 "1138685",
                 "1179217",
-                "1179220",
-                "2429209",
-                "3038857"
+                "1179220"
             ],
             "expected_lwin_code": "11792202007",
             "match_score": [
+                0.879150854689417,
+                0.8190836983356727,
                 0.8138780648523671,
                 0.8588931978263994,
-                0.9878553407554177,
-                0.879150854689417,
-                0.8190836983356727
+                0.9878553407554178
             ],
             "result": true
         },
@@ -1193,7 +1193,7 @@
             ],
             "expected_lwin_code": "10392562001",
             "match_score": [
-                0.8333452390674507
+                0.8333452390674504
             ],
             "result": true
         },
@@ -1329,60 +1329,60 @@
         {
             "wine_name": "Domaine Leroy Musigny 2011 (3 bottles)",
             "matched_wine_name": [
+                "Domaine Leroy, Chambolle-Musigny",
                 "Domaine Leroy, Chambolle-Musigny Premier Cru, Les Charmes",
-                "Domaine Leroy, Musigny Grand Cru",
-                "Domaine Leroy, Chambolle-Musigny"
+                "Domaine Leroy, Musigny Grand Cru"
             ],
             "matched_lwin_code": [
+                "2952633",
                 "1043842",
-                "1044197",
-                "2952633"
+                "1044197"
             ],
             "expected_lwin_code": "1044676|1044689|1044197|1044562|1036633",
             "match_score": [
+                0.8991193188008131,
                 0.8009925858193012,
-                0.9135080025365734,
-                0.8991193188008131
+                0.9135080025365734
             ],
             "result": true
         },
         {
             "wine_name": "Domaine Leroy Musigny 2011 (3 bottles)",
             "matched_wine_name": [
+                "Domaine Leroy, Chambolle-Musigny",
                 "Domaine Leroy, Chambolle-Musigny Premier Cru, Les Charmes",
-                "Domaine Leroy, Musigny Grand Cru",
-                "Domaine Leroy, Chambolle-Musigny"
+                "Domaine Leroy, Musigny Grand Cru"
             ],
             "matched_lwin_code": [
+                "2952633",
                 "1043842",
-                "1044197",
-                "2952633"
+                "1044197"
             ],
             "expected_lwin_code": "1044676|1044689|1044197|1044562|1036633",
             "match_score": [
+                0.8991193188008131,
                 0.8009925858193012,
-                0.9135080025365734,
-                0.8991193188008131
+                0.9135080025365734
             ],
             "result": true
         },
         {
             "wine_name": "Domaine Leroy Musigny 2002 (2 bottles)",
             "matched_wine_name": [
+                "Domaine Leroy, Chambolle-Musigny",
                 "Domaine Leroy, Chambolle-Musigny Premier Cru, Les Charmes",
-                "Domaine Leroy, Musigny Grand Cru",
-                "Domaine Leroy, Chambolle-Musigny"
+                "Domaine Leroy, Musigny Grand Cru"
             ],
             "matched_lwin_code": [
+                "2952633",
                 "1043842",
-                "1044197",
-                "2952633"
+                "1044197"
             ],
             "expected_lwin_code": "1044197|2853956|1043927",
             "match_score": [
+                0.8991193188008131,
                 0.8009925858193012,
-                0.9135080025365734,
-                0.8991193188008131
+                0.9135080025365734
             ],
             "result": true
         },
@@ -1397,40 +1397,40 @@
         {
             "wine_name": "Domaine Leroy Musigny 1993 (2 bottles)",
             "matched_wine_name": [
+                "Domaine Leroy, Chambolle-Musigny",
                 "Domaine Leroy, Chambolle-Musigny Premier Cru, Les Charmes",
-                "Domaine Leroy, Musigny Grand Cru",
-                "Domaine Leroy, Chambolle-Musigny"
+                "Domaine Leroy, Musigny Grand Cru"
             ],
             "matched_lwin_code": [
+                "2952633",
                 "1043842",
-                "1044197",
-                "2952633"
+                "1044197"
             ],
             "expected_lwin_code": "1044197|2853956|1043927",
             "match_score": [
+                0.8991193188008131,
                 0.8009925858193012,
-                0.9135080025365734,
-                0.8991193188008131
+                0.9135080025365734
             ],
             "result": true
         },
         {
             "wine_name": "Domaine Leroy Musigny 1992 (4 bottles)",
             "matched_wine_name": [
+                "Domaine Leroy, Chambolle-Musigny",
                 "Domaine Leroy, Chambolle-Musigny Premier Cru, Les Charmes",
-                "Domaine Leroy, Musigny Grand Cru",
-                "Domaine Leroy, Chambolle-Musigny"
+                "Domaine Leroy, Musigny Grand Cru"
             ],
             "matched_lwin_code": [
+                "2952633",
                 "1043842",
-                "1044197",
-                "2952633"
+                "1044197"
             ],
             "expected_lwin_code": "1044197|1043826",
             "match_score": [
+                0.8991193188008131,
                 0.8009925858193012,
-                0.9135080025365734,
-                0.8991193188008131
+                0.9135080025365734
             ],
             "result": true
         },
@@ -1470,7 +1470,7 @@
             ],
             "expected_lwin_code": "1030484",
             "match_score": [
-                0.917888614107276
+                0.9178886141072758
             ],
             "result": true
         },
@@ -1522,6 +1522,7 @@
         {
             "wine_name": "Domaine du Comte Liger-Belair La Roman\u00e9e 2006 (10 bottles)",
             "matched_wine_name": [
+                "Domaine du Comte Liger Belair, Nuits-Saint-Georges",
                 "Domaine du Comte Liger Belair, Echezeaux Grand Cru",
                 "Domaine du Comte Liger Belair, La Romanee Grand Cru",
                 "Domaine du Comte Liger Belair, Vosne-Romanee",
@@ -1537,10 +1538,10 @@
                 "Domaine du Comte Liger Belair, Assortment Case",
                 "Domaine du Comte Liger Belair, Nuits-Saint-Georges Premier Cru, Clos des Grandes Vignes Rouge",
                 "Domaine du Comte Liger Belair, Nuits-Saint-Georges Premier Cru, Clos des Grandes Vignes Blanc",
-                "Domaine du Comte Liger Belair, Clos de Vougeot Grand Cru",
-                "Domaine du Comte Liger Belair, Nuits-Saint-Georges"
+                "Domaine du Comte Liger Belair, Clos de Vougeot Grand Cru"
             ],
             "matched_lwin_code": [
+                "2981497",
                 "1026566",
                 "1026579",
                 "1026582",
@@ -1556,18 +1557,18 @@
                 "1279063",
                 "1329670",
                 "1331682",
-                "1549852",
-                "2981497"
+                "1549852"
             ],
             "expected_lwin_code": "1026579|1026582",
             "match_score": [
+                0.9241743929805115,
                 0.9252170770183867,
                 0.9571994030229423,
                 0.9265230026420674,
                 0.8602332302053899,
                 0.8756773257633225,
                 0.8514289294834716,
-                0.9053385943972274,
+                0.9053385943972273,
                 0.8555729570750448,
                 0.8539278320479136,
                 0.8778209910346433,
@@ -1575,29 +1576,28 @@
                 0.8121272142370386,
                 0.8201778406650917,
                 0.8244643961020507,
-                0.8350296540658693,
-                0.910123437323167,
-                0.9241743929805115
+                0.835029654065869,
+                0.910123437323167
             ],
             "result": true
         },
         {
             "wine_name": "Domaine Leroy Musigny 1996 (3 bottles)",
             "matched_wine_name": [
+                "Domaine Leroy, Chambolle-Musigny",
                 "Domaine Leroy, Chambolle-Musigny Premier Cru, Les Charmes",
-                "Domaine Leroy, Musigny Grand Cru",
-                "Domaine Leroy, Chambolle-Musigny"
+                "Domaine Leroy, Musigny Grand Cru"
             ],
             "matched_lwin_code": [
+                "2952633",
                 "1043842",
-                "1044197",
-                "2952633"
+                "1044197"
             ],
             "expected_lwin_code": "1044676|1044689|1044197|1044562|1036633",
             "match_score": [
+                0.8991193188008131,
                 0.8009925858193012,
-                0.9135080025365734,
-                0.8991193188008131
+                0.9135080025365734
             ],
             "result": true
         },
@@ -1737,7 +1737,7 @@
                 0.8050836992370303,
                 0.9432364493304612,
                 0.8134414537242592,
-                0.821281475987172,
+                0.8212814759871723,
                 0.8262750063014217,
                 0.8165973874634588,
                 0.8066849140794474
@@ -1901,7 +1901,7 @@
             "expected_lwin_code": "1185793|1773688",
             "match_score": [
                 0.8295981279148804,
-                0.812539645183988,
+                0.8125396451839879,
                 0.8023713190769935
             ],
             "result": true
@@ -1916,7 +1916,7 @@
             ],
             "expected_lwin_code": "1216798",
             "match_score": [
-                0.9451607370748341
+                0.9451607370748343
             ],
             "result": true
         },
@@ -2050,7 +2050,7 @@
             "expected_lwin_code": "1110012",
             "match_score": [
                 0.8781766374564163,
-                0.8969904444803176,
+                0.8969904444803175,
                 0.8000953173817544
             ],
             "result": true

@@ -105,7 +105,9 @@ CREATE TABLE IF NOT EXISTS lwin_database (
 );
 
 CREATE TABLE IF NOT EXISTS lwin_matching (
-    lot_id TEXT PRIMARY KEY,
+    id TEXT PRIMARY KEY,
     Matched TEXT,
     Lwin INT[],
+    Match_Item JSONB,
+    Match_Score DOUBLE PRECISION[]
 );

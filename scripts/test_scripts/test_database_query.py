@@ -1,4 +1,5 @@
 import json
+import asyncio
 import requests
 from database.database_client import DatabaseClient
 
@@ -18,15 +19,15 @@ class DatabaseQueryTest:
         }
         return json.dumps(params)
     
-    def test_query_items(self):
-        results = self.client.query_items(
+    async def test_query_items(self):
+        results = await self.client.query_items(
             table_name='lots',
             filters={
                 'id': "0017d92c-01ba-4111-b22f-b22e216bcc60",
             }
         )
     
-    def test_query_items_through_api(self):
+    async def test_query_items_through_api(self):
         payload = {
             'table': 'lots',
             'filters': {
@@ -34,9 +35,10 @@ class DatabaseQueryTest:
             }
         }
         response = requests.get(f'{self.base_url}/query', json=payload)
+        print(response)
         results = response.json()
         print(results)
 
 if __name__ == '__main__':
     test = DatabaseQueryTest()
-    test.test_query_items_through_api()
+    asyncio.run(test.test_query_items_through_api())

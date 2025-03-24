@@ -1,8 +1,10 @@
-from sqlalchemy import Column, Integer, String, ForeignKey, Float, Boolean, DateTime, Text
+from sqlalchemy.ext.asyncio import AsyncAttrs
 from sqlalchemy.orm import relationship
-from sqlalchemy.orm import declarative_base
+from sqlalchemy.orm import DeclarativeBase
+from sqlalchemy import Column, Integer, String, ForeignKey, Float, Boolean, DateTime, Text
 
-Base = declarative_base()
+class Base(AsyncAttrs, DeclarativeBase):
+    pass
 
 class AuctionModel(Base):
     __tablename__ = 'auctions'

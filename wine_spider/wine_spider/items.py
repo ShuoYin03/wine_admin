@@ -53,6 +53,8 @@ class LotItem(scrapy.Item):
     url = scrapy.Field()
 
 class LwinMatchingItem(scrapy.Item):
-    lot_id = scrapy.Field()
+    id = scrapy.Field()
     matched = scrapy.Field()
-    lwin_code = scrapy.Field()
+    lwin = scrapy.Field()
+    match_item = scrapy.Field()
+    match_score = scrapy.Field()

@@ -64,6 +64,7 @@ AUTOTHROTTLE_TARGET_CONCURRENCY = 1.0
 # See https://docs.scrapy.org/en/latest/topics/item-pipeline.html
 ITEM_PIPELINES = {
    "wine_spider.pipelines.DataStoragePipeline": 300,
+   "wine_spider.pipelines.LwinMatchingPipeline": 400,
 }
 
 # Enable and configure the AutoThrottle extension (disabled by default)

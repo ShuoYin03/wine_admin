@@ -1,6 +1,5 @@
 import os
 import json
-import time
 import scrapy
 import pandas as pd
 from bs4 import BeautifulSoup
@@ -99,26 +98,26 @@ class SothebysSpider(scrapy.Spider):
             except Exception:
                 print("Unable to find page number for the following url:", url)
             
-            for page in range(2, page_count):
-                pagination_button = self.client.page.locator(f'li >> button[aria-label="Go to page {page}."]')
-                pagination_button.scroll_into_view_if_needed()
-                pagination_button.click()
-                time.sleep(2.5)
-                response = self.client.page.content()
+            # for page in range(2, page_count):
+            #     pagination_button = self.client.page.locator(f'li >> button[aria-label="Go to page {page}."]')
+            #     pagination_button.scroll_into_view_if_needed()
+            #     pagination_button.click()
+            #     time.sleep(2.5)
+            #     response = self.client.page.content()
                 
-                algolia_url, algolia_headers, algolia_payload = self.client.algolia_api(viking_id, algolia_api_key, page - 1)
+            #     algolia_url, algolia_headers, algolia_payload = self.client.algolia_api(viking_id, algolia_api_key, page - 1)
 
-                yield scrapy.Request(
-                    url=algolia_url,
-                    method='POST',
-                    headers=algolia_headers,
-                    body=json.dumps(algolia_payload),
-                    callback=self.parse_lots_page,
-                    meta={
-                        "viking_id": viking_id,
-                        "algolia_page_response": response,
-                    }
-                )
+            #     yield scrapy.Request(
+            #         url=algolia_url,
+            #         method='POST',
+            #         headers=algolia_headers,
+            #         body=json.dumps(algolia_payload),
+            #         callback=self.parse_lots_page,
+            #         meta={
+            #             "viking_id": viking_id,
+            #             "algolia_page_response": response,
+            #         }
+            #     )
 
     def parse_auction_api_response(self, response):
         try:

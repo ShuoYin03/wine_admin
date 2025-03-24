@@ -1,24 +1,25 @@
 import sys
+import json
 sys.path.append('../..')
-from flask import Blueprint, jsonify, request
+from flask import Blueprint, request, Response
 from database.database_client import DatabaseClient
 
 lwin_query_blueprint = Blueprint('lwin_query', __name__)
 db = DatabaseClient()
 
 @lwin_query_blueprint.route('/lwin_query_all', methods=['GET'])
-def query_all():
+async def query_all():
     page = int(request.args.get('page', 1))
     page_size = int(request.args.get('page_size', 30))
     
     try:
         results = db.query_items(table_name='lwin_matching', offset=page*page_size, limit=page_size)
-        return jsonify(results)
+        return Response(json.dumps(results), mimetype='application/json')
     except Exception as e:
-        return jsonify({"error": str(e)}), 500
+        return Response(json.dumps({"error": str(e)}), mimetype='application/json', status=500)
     
 @lwin_query_blueprint.route('/lwin_query', methods=['POST'])
-def query():
+async def query():
     payload = request.get_json()
     filters = payload.get('filters')
     order_by = payload.get('order_by')
@@ -27,6 +28,6 @@ def query():
     
     try:
         results = db.query_items(table_name='lwin_matching', filters=filters, order_by=order_by, limit=page_size, offset=page*page_size)
-        return jsonify(results)
+        return Response(json.dumps(results), mimetype='application/json')
     except Exception as e:
-        return jsonify({"error": str(e)}), 500
+        return Response(json.dumps({"error": str(e)}), mimetype='application/json', status=500)

@@ -107,4 +107,4 @@ class DatabaseClient:
             session.close()
 
     def close(self):
-        self.sess.close()
+        self.engine.dispose()

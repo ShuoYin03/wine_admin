@@ -1,5 +1,4 @@
 import re
-import pandas as pd
 from rapidfuzz import fuzz
 from sklearn.metrics.pairwise import cosine_similarity
 from sklearn.feature_extraction.text import TfidfVectorizer

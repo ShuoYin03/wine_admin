@@ -1,10 +1,10 @@
 import re
 import pandas as pd
 from rapidfuzz import fuzz
+from logging import getLogger
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
 from wine_spider.exceptions import AmbiguousRegionAndCountryMatchException, NoMatchedRegionAndCountryException, NoPreDefinedVolumeIdentifierException
-from logging import getLogger
 
 logger = getLogger(__name__)
 
@@ -25,7 +25,7 @@ VOLUMN_IDENTIFIER = {
     'ml': 1,
     'bottle': 750,
     'ounces': 28.4,
-    'pce': 228000
+    'pce': 228000,
 }
 
 def parse_volumn_and_unit_from_title(title):
