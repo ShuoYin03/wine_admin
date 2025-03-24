@@ -38,8 +38,6 @@ class LwinMatchingService:
         producer_similarities = self.utils.calculate_tfidf_similarity(lwinMatchingParams.lot_producer) if lwinMatchingParams.lot_producer else wine_name_similarities
         total_scores = (wine_name_similarities * 0.7 + producer_similarities * 0.3)
 
-        # self.output_to_csv(table_items, wine_name_similarities, producer_similarities, total_scores, lwinMatchingParams)
-
         high_score_indices = np.where(total_scores > 0.8)[0]
         top_matches = self.table_items.iloc[high_score_indices]
         matches = [(row, total_scores[idx]) for idx, row in top_matches.iterrows()]
@@ -64,24 +62,9 @@ class LwinMatchingService:
         
         return filtered_matches
     
-    def output_to_csv(self, table_items, wine_name_similarities, producer_similarities, total_scores, lwinMatchingParams):
-        debug_df = table_items.copy()
-        del debug_df['status']
-        del debug_df['country']
-        del debug_df['region']
-        del debug_df['sub_region']
-        del debug_df['site']
-        del debug_df['parcel']
-        del debug_df['colour']
-        del debug_df['type']
-        del debug_df['sub_type']
+    def use_reference_for_combined_matches(self, matches):
+        for i in range(len(matches)):
+            if matches[i][2] == 'Combined':
+                reference = matches[i][-1]
 
-        debug_df['wine_name_score'] = wine_name_similarities
-        debug_df['producer_score'] = producer_similarities
-        debug_df['total_score'] = total_scores
-
-        debug_df['query_wine_name'] = lwinMatchingParams.wine_name
-        debug_df['query_producer'] = lwinMatchingParams.lot_producer
-
-        debug_df.to_csv('debug_output.csv', index=False)
-        self.table_items.to_csv('lwin_database.csv', index=False)
+        return matches

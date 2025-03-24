@@ -57,7 +57,6 @@ class DatabaseClient:
             if filters:
                 conditions = []
                 for key, value in filters.items():
-
                     if isinstance(value, tuple) and len(value) == 2:
                         conditions.append(getattr(table.c, key).between(value[0], value[1]))
 
@@ -91,13 +90,15 @@ class DatabaseClient:
                 elif isinstance(order_by, list):
                     order_clauses = [getattr(table.c, field[1:]).desc() if field.startswith('-') else getattr(table.c, field) for field in order_by]
                     query = query.order_by(*order_clauses)
-            
+
             if offset:
                 query = query.offset(offset)
+
             if limit:
                 query = query.limit(limit)
 
             results = query.all()
+
             return [dict(row._mapping) for row in results]
 
         except Exception as e:

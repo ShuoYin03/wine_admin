@@ -1,14 +1,20 @@
 import os
+import time
 import json
 import scrapy
+import dotenv
 import pandas as pd
 from bs4 import BeautifulSoup
+from database import DatabaseClient
 from wine_spider.helpers import parse_quarter
 from wine_spider.items import AuctionItem, LotItem
 from wine_spider.helpers import find_continent, region_to_country
 from wine_spider.website_clients.sothebys_client import SothebysClient
 from wine_spider.helpers import parse_volumn_and_unit_from_title, parse_year_from_title, match_lot_info
 from wine_spider.exceptions import NoPreDefinedVolumeIdentifierException, AmbiguousRegionAndCountryMatchException, NoMatchedRegionAndCountryException
+
+dotenv.load_dotenv()
+FULL_FETCH = os.getenv("FULL_FETCH")
 
 class SothebysSpider(scrapy.Spider):
     name = "sothebys_spider"
@@ -26,6 +32,7 @@ class SothebysSpider(scrapy.Spider):
         self.lwin_df = pd.read_excel(os.path.join(base_dir, "LWIN wines.xls"))
         self.base_url = "https://www.sothebys.com"
         self.client = SothebysClient(headless=True)
+        self.db_client = DatabaseClient()
 
     def parse(self, response):
         total_pages = int(response.css('li.SearchModule-pageCounts span[data-page-count]::text').get())
@@ -54,7 +61,12 @@ class SothebysSpider(scrapy.Spider):
         data = [(asset_data.get("vikingId"), asset_data.get("url")) for _, asset_data in data.items()]
         first_open = True
 
-        for viking_id, url in data[:1]:
+        for viking_id, url in data[:2]:
+            
+            if not FULL_FETCH and self.check_exists(viking_id, "auction"):
+                self.logger.info(f"Auction {viking_id} exists, Skipping...")
+                continue
+
             payload = self.client.auction_query(viking_id)
             
             yield scrapy.Request(
@@ -98,26 +110,26 @@ class SothebysSpider(scrapy.Spider):
             except Exception:
                 print("Unable to find page number for the following url:", url)
             
-            # for page in range(2, page_count):
-            #     pagination_button = self.client.page.locator(f'li >> button[aria-label="Go to page {page}."]')
-            #     pagination_button.scroll_into_view_if_needed()
-            #     pagination_button.click()
-            #     time.sleep(2.5)
-            #     response = self.client.page.content()
+            for page in range(2, page_count):
+                pagination_button = self.client.page.locator(f'li >> button[aria-label="Go to page {page}."]')
+                pagination_button.scroll_into_view_if_needed()
+                pagination_button.click()
+                time.sleep(2.5)
+                response = self.client.page.content()
                 
-            #     algolia_url, algolia_headers, algolia_payload = self.client.algolia_api(viking_id, algolia_api_key, page - 1)
+                algolia_url, algolia_headers, algolia_payload = self.client.algolia_api(viking_id, algolia_api_key, page - 1)
 
-            #     yield scrapy.Request(
-            #         url=algolia_url,
-            #         method='POST',
-            #         headers=algolia_headers,
-            #         body=json.dumps(algolia_payload),
-            #         callback=self.parse_lots_page,
-            #         meta={
-            #             "viking_id": viking_id,
-            #             "algolia_page_response": response,
-            #         }
-            #     )
+                yield scrapy.Request(
+                    url=algolia_url,
+                    method='POST',
+                    headers=algolia_headers,
+                    body=json.dumps(algolia_payload),
+                    callback=self.parse_lots_page,
+                    meta={
+                        "viking_id": viking_id,
+                        "algolia_page_response": response,
+                    }
+                )
 
     def parse_auction_api_response(self, response):
         try:
@@ -219,4 +231,19 @@ class SothebysSpider(scrapy.Spider):
         for lot in lots:
             lot['start_price'] = data_dict[lot['id']]
             yield lot
+    
+    def check_exists(self, id, type):
+        if type == "auction":
+            table_name = "auctions"
+            filters = {
+                "id": id
+            }
+        elif type == "lot":
+            table_name = "lots"
+            filters = {
+                "id": id
+            }
+        
+        result = self.db_client.query_items(table_name, filters=filters)
+        return result is not None
 

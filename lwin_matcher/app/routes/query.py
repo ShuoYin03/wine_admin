@@ -25,9 +25,10 @@ async def query():
     order_by = payload.get('order_by')
     page = int(payload.get('page', 1))
     page_size = int(payload.get('page_size', 30))
+    offset = page * page_size if payload.get('page') and payload.get('payload') else None
     
     try:
-        results = db.query_items(table_name='lots', filters=filters, order_by=order_by, limit=page_size, offset=page*page_size)
+        results = db.query_items(table_name='lots', filters=filters, order_by=order_by, limit=page_size, offset=offset)
         return Response(json.dumps(results), mimetype='application/json')
     except Exception as e:
         return Response(json.dumps({"error": str(e)}), mimetype='application/json', status=500)
