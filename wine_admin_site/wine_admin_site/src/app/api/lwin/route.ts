@@ -13,7 +13,7 @@ export async function GET(req: NextRequest) {
     };
 
     const paramString = createParamString(lotApiParams);
-    const response = await fetch(`http://localhost:5000/query_all?${paramString}`);
+    const response = await fetch(`http://localhost:5000/lwin_query_all?${paramString}`);
     const data = await response.json();
 
     return NextResponse.json({ result: data });
@@ -22,7 +22,7 @@ export async function GET(req: NextRequest) {
 export async function POST(req: NextRequest) {
     const payload = await req.json();
 
-    const response = await fetch(`http://localhost:5000/query`, {
+    const response = await fetch(`http://localhost:5000/lwin_query`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
