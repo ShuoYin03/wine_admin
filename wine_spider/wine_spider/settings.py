@@ -3,8 +3,6 @@ BOT_NAME = "wine_spider"
 SPIDER_MODULES = ["wine_spider.spiders"]
 NEWSPIDER_MODULE = "wine_spider.spiders"
 
-
-# Crawl responsibly by identifying yourself (and your website) on the user-agent
 USER_AGENT = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/132.0.0.0 Safari/537.36"
 
 ROBOTSTXT_OBEY = True
@@ -12,16 +10,33 @@ ROBOTSTXT_OBEY = True
 # SCHEDULER_DISK_QUEUE = 'scrapy.squeues.PickleFifoDiskQueue'
 # SCHEDULER_MEMORY_QUEUE = 'scrapy.squeues.FifoMemoryQueue'
 
-# Configure maximum concurrent requests performed by Scrapy (default: 16)
 CONCURRENT_REQUESTS = 16
 
 FEED_EXPORT_ENCODING = "utf-8"
-LOG_FILE = "scrapy_log.txt"
+# LOG_FILE = "scrapy_log.txt"
 
 AUTOTHROTTLE_ENABLED = True
 AUTOTHROTTLE_START_DELAY = 1.0   # Initial download delay
 AUTOTHROTTLE_MAX_DELAY = 5.0    # Maximum download delay in high latencies
 AUTOTHROTTLE_TARGET_CONCURRENCY = 1.0
+
+
+DOWNLOAD_HANDLERS = {
+    "http": "scrapy_playwright.handler.ScrapyPlaywrightDownloadHandler",
+    "https": "scrapy_playwright.handler.ScrapyPlaywrightDownloadHandler",
+}
+
+TWISTED_REACTOR = "twisted.internet.asyncioreactor.AsyncioSelectorReactor"
+
+PLAYWRIGHT_BROWSER_TYPE = "chromium"
+
+PLAYWRIGHT_DEFAULT_NAVIGATION_TIMEOUT = 30000  
+PLAYWRIGHT_LAUNCH_OPTIONS = {
+    "headless": False,
+    "args": [
+        "--disable-blink-features=AutomationControlled"
+    ],
+}
 
 # Configure a delay for requests for the same website (default: 0)
 # See https://docs.scrapy.org/en/latest/topics/settings.html#download-delay
@@ -65,6 +80,7 @@ AUTOTHROTTLE_TARGET_CONCURRENCY = 1.0
 # See https://docs.scrapy.org/en/latest/topics/item-pipeline.html
 ITEM_PIPELINES = {
    "wine_spider.pipelines.DataStoragePipeline": 300,
+   "wine_spider.pipelines.LwinMatchingPipeline": 400,
 }
 
 # Enable and configure the AutoThrottle extension (disabled by default)

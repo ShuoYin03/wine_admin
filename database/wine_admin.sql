@@ -29,8 +29,9 @@ CREATE TABLE IF NOT EXISTS lots (
 	Low_Estimate INT,
 	High_Estimate INT,
     Sold BOOLEAN,
+    Sold_Date DATE,
     Region VARCHAR(20),
-	Sub_Region VARCHAR(30),
+	Sub_Region VARCHAR(50),
     Country VARCHAR(20),
 	Success BOOLEAN,
 	Url TEXT
@@ -53,8 +54,9 @@ CREATE TABLE IF NOT EXISTS failed_lots (
 	Low_Estimate INT,
 	High_Estimate INT,
     Sold BOOLEAN,
+    Sold_Date DATE,
     Region VARCHAR(20),
-	Sub_Region VARCHAR(30),
+	Sub_Region VARCHAR(50),
     Country VARCHAR(20),
 	Success BOOLEAN,
 	Url TEXT
@@ -103,7 +105,16 @@ CREATE TABLE IF NOT EXISTS lwin_database (
 );
 
 CREATE TABLE IF NOT EXISTS lwin_matching (
-    lot_id TEXT PRIMARY KEY,
+    id TEXT PRIMARY KEY,
     Matched TEXT,
     Lwin INT[],
+    Match_Item JSONB,
+    Match_Score DOUBLE PRECISION[]
+);
+
+CREATE TABLE IF NOT EXISTS fx_rates_cache (
+    id SERIAL PRIMARY KEY,
+    Rates_From VARCHAR(10),
+    Rates_To VARCHAR(10),
+    Rates DOUBLE PRECISION,
 );

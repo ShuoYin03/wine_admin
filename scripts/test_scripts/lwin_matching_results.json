@@ -1,0 +1,2134 @@
+{
+    "total": 146,
+    "true_count": 93,
+    "matching_results": [
+        {
+            "wine_name": "Wine and Dine Experience featuring Le Pin",
+            "matched_wine_name": [],
+            "matched_lwin_code": [],
+            "expected_lwin_code": "1011827|1007130|1007013|1006146|1006289|1007840|1008010|1016617|1559378",
+            "match_score": [],
+            "result": true
+        },
+        {
+            "wine_name": "DRC Assortment Case 1985",
+            "matched_wine_name": [
+                "DRC, La Tache, Assortment"
+            ],
+            "matched_lwin_code": [
+                "1548129"
+            ],
+            "expected_lwin_code": "10286451985",
+            "match_score": [
+                0.8183539159708327
+            ],
+            "result": false
+        },
+        {
+            "wine_name": "DRC La Roman\u00e9e-Conti 1971",
+            "matched_wine_name": [],
+            "matched_lwin_code": [],
+            "expected_lwin_code": "10286871971",
+            "match_score": [],
+            "result": false
+        },
+        {
+            "wine_name": "Tenuta Dell'Ornellaia Masseto 2020 (6 bottles)",
+            "matched_wine_name": [],
+            "matched_lwin_code": [],
+            "expected_lwin_code": "11607432020",
+            "match_score": [],
+            "result": false
+        },
+        {
+            "wine_name": "Soldera Brunello di Montalcino Riserva Case Basse 1999 (6 bottles)",
+            "matched_wine_name": [
+                "Soldera, Rosso di Montalcino, Case Basse",
+                "Soldera Case Basse, Brunello di Montalcino, Riserva",
+                "Soldera Case Basse, Brunello di Montalcino",
+                "Soldera (Case Basse), Rosso di Montalcino",
+                "Soldera (Case Basse), Rosso di Montalcino, Riserva",
+                "Soldera Case Basse, Rosso di Montalcino",
+                "Gianfranco Soldera, Brunello di Montalcino, Riserva"
+            ],
+            "matched_lwin_code": [
+                "1105386",
+                "1133882",
+                "1193853",
+                "1311419",
+                "1311435",
+                "1641165",
+                "1791727"
+            ],
+            "expected_lwin_code": "11338821999",
+            "match_score": [
+                0.8371521745018088,
+                0.967254880872737,
+                0.9231310993909417,
+                0.8583704071168459,
+                0.906040571083025,
+                0.8583704071168459,
+                0.894315026776781
+            ],
+            "result": true
+        },
+        {
+            "wine_name": "Screaming Eagle Cabernet Sauvignon 2007",
+            "matched_wine_name": [
+                "Screaming Eagle, Screaming Eagle, Napa Valley",
+                "Screaming Eagle, Sauvignon Blanc, Oakville",
+                "Screaming Eagle, Cabernet Sauvignon, Oakville"
+            ],
+            "matched_lwin_code": [
+                "1122792",
+                "1339431",
+                "1696211"
+            ],
+            "expected_lwin_code": "16962112007",
+            "match_score": [
+                0.9213029725568458,
+                0.9000362339066115,
+                0.9695201483973162
+            ],
+            "result": true
+        },
+        {
+            "wine_name": "Salon Le Mesnil Assortment Case (5 bottles)",
+            "matched_wine_name": [
+                "Salon, Le Mesnil Grand Cru, NV Assortment Case"
+            ],
+            "matched_lwin_code": [
+                "1526848"
+            ],
+            "expected_lwin_code": "1856347|1807626",
+            "match_score": [
+                0.8408624900206793
+            ],
+            "result": false
+        },
+        {
+            "wine_name": "Rousseau Chambertin 1990",
+            "matched_wine_name": [
+                "Rousseau, Gevrey-Chambertin Premier Cru"
+            ],
+            "matched_lwin_code": [
+                "1057122"
+            ],
+            "expected_lwin_code": "10570051990",
+            "match_score": [
+                0.8788178468964977
+            ],
+            "result": false
+        },
+        {
+            "wine_name": "DRC Assortment 1996 (11 bottles)",
+            "matched_wine_name": [
+                "DRC, La Tache, Assortment"
+            ],
+            "matched_lwin_code": [
+                "1548129"
+            ],
+            "expected_lwin_code": "1028645",
+            "match_score": [
+                0.9164590639068348
+            ],
+            "result": false
+        },
+        {
+            "wine_name": "Quixote Winery Dragon's Tale Cabernet Sauvignon (60 bottles)",
+            "matched_wine_name": [],
+            "matched_lwin_code": [],
+            "expected_lwin_code": "2573003|1815500|1564860",
+            "match_score": [],
+            "result": true
+        },
+        {
+            "wine_name": "Petrus 2015 (3 bottles)",
+            "matched_wine_name": [
+                "Petrus, Pomerol"
+            ],
+            "matched_lwin_code": [
+                "1014033"
+            ],
+            "expected_lwin_code": "10140332015",
+            "match_score": [
+                0.9550853266975009
+            ],
+            "result": true
+        },
+        {
+            "wine_name": "Petrus 2010 (1 imperial)",
+            "matched_wine_name": [
+                "Petrus, Pomerol"
+            ],
+            "matched_lwin_code": [
+                "1014033"
+            ],
+            "expected_lwin_code": "10140332010",
+            "match_score": [
+                0.9550853266975009
+            ],
+            "result": true
+        },
+        {
+            "wine_name": "Petrus 2005 (2 bottles)",
+            "matched_wine_name": [
+                "Petrus, Pomerol"
+            ],
+            "matched_lwin_code": [
+                "1014033"
+            ],
+            "expected_lwin_code": "10140332005",
+            "match_score": [
+                0.9550853266975009
+            ],
+            "result": true
+        },
+        {
+            "wine_name": "Petrus 2003 (6 bottles)",
+            "matched_wine_name": [
+                "Petrus, Pomerol"
+            ],
+            "matched_lwin_code": [
+                "1014033"
+            ],
+            "expected_lwin_code": "10140332003",
+            "match_score": [
+                0.9550853266975009
+            ],
+            "result": true
+        },
+        {
+            "wine_name": "DRC La Roman\u00e9e-Conti 1990 (1 magnum)",
+            "matched_wine_name": [],
+            "matched_lwin_code": [],
+            "expected_lwin_code": "10286871990",
+            "match_score": [],
+            "result": false
+        },
+        {
+            "wine_name": "Petrus 1990",
+            "matched_wine_name": [
+                "Petrus, Pomerol"
+            ],
+            "matched_lwin_code": [
+                "1014033"
+            ],
+            "expected_lwin_code": "10140331990",
+            "match_score": [
+                0.9550853266975009
+            ],
+            "result": true
+        },
+        {
+            "wine_name": "Mouton Rothschild 1982",
+            "matched_wine_name": [
+                "Chateau Mouton Rothschild Premier Cru Classe, Pauillac",
+                "Le Petit Mouton de Mouton Rothschild, Pauillac",
+                "Mouton Rothschild (Luze), Pauillac",
+                "Mouton Rothschild, Fine & Mouton Brandy"
+            ],
+            "matched_lwin_code": [
+                "1013544",
+                "1014004",
+                "1328051",
+                "2073138"
+            ],
+            "expected_lwin_code": "10135441982",
+            "match_score": [
+                0.8480414838639916,
+                0.9052551321108935,
+                1.0,
+                0.8785896570083296
+            ],
+            "result": true
+        },
+        {
+            "wine_name": "DRC Assortment Case 1998",
+            "matched_wine_name": [
+                "DRC, La Tache, Assortment"
+            ],
+            "matched_lwin_code": [
+                "1548129"
+            ],
+            "expected_lwin_code": "10286451998",
+            "match_score": [
+                0.8183539159708327
+            ],
+            "result": false
+        },
+        {
+            "wine_name": "Henri Jayer Vosne Roman\u00e9e Cros Parantoux 1999",
+            "matched_wine_name": [
+                "Henri Jayer, Vosne-Romanee Premier Cru, Cros Parantoux"
+            ],
+            "matched_lwin_code": [
+                "1039256"
+            ],
+            "expected_lwin_code": "10392561999",
+            "match_score": [
+                0.9033765300738394
+            ],
+            "result": true
+        },
+        {
+            "wine_name": "Petrus 1987",
+            "matched_wine_name": [
+                "Petrus, Pomerol"
+            ],
+            "matched_lwin_code": [
+                "1014033"
+            ],
+            "expected_lwin_code": "10140331987",
+            "match_score": [
+                0.9550853266975009
+            ],
+            "result": true
+        },
+        {
+            "wine_name": "Petrus 1982 (3 magnums)",
+            "matched_wine_name": [
+                "Petrus, Pomerol"
+            ],
+            "matched_lwin_code": [
+                "1014033"
+            ],
+            "expected_lwin_code": "10140331982",
+            "match_score": [
+                0.9550853266975009
+            ],
+            "result": true
+        },
+        {
+            "wine_name": "DRC La Tache 1993",
+            "matched_wine_name": [
+                "DRC, La Tache, Assortment"
+            ],
+            "matched_lwin_code": [
+                "1548129"
+            ],
+            "expected_lwin_code": "10287041993",
+            "match_score": [
+                0.8380157435460691
+            ],
+            "result": false
+        },
+        {
+            "wine_name": "Petrus 1979 (1 imperial)",
+            "matched_wine_name": [
+                "Petrus, Pomerol"
+            ],
+            "matched_lwin_code": [
+                "1014033"
+            ],
+            "expected_lwin_code": "10140331979",
+            "match_score": [
+                0.9550853266975009
+            ],
+            "result": true
+        },
+        {
+            "wine_name": "Mouton Rothschild Collection 1945-2019",
+            "matched_wine_name": [
+                "Le Petit Mouton de Mouton Rothschild, Pauillac",
+                "Mouton Rothschild (Luze), Pauillac"
+            ],
+            "matched_lwin_code": [
+                "1014004",
+                "1328051"
+            ],
+            "expected_lwin_code": "10135441945",
+            "match_score": [
+                0.8057940871185509,
+                0.8901292669168115
+            ],
+            "result": false
+        },
+        {
+            "wine_name": "Chateau Petrus 1961, 3 bottles",
+            "matched_wine_name": [],
+            "matched_lwin_code": [],
+            "expected_lwin_code": "10140331961",
+            "match_score": [],
+            "result": false
+        },
+        {
+            "wine_name": "Mouton Rothschild 1945",
+            "matched_wine_name": [
+                "Chateau Mouton Rothschild Premier Cru Classe, Pauillac",
+                "Le Petit Mouton de Mouton Rothschild, Pauillac",
+                "Mouton Rothschild (Luze), Pauillac",
+                "Mouton Rothschild, Fine & Mouton Brandy"
+            ],
+            "matched_lwin_code": [
+                "1013544",
+                "1014004",
+                "1328051",
+                "2073138"
+            ],
+            "expected_lwin_code": "10135441945",
+            "match_score": [
+                0.8480414838639916,
+                0.9052551321108935,
+                1.0,
+                0.8785896570083296
+            ],
+            "result": true
+        },
+        {
+            "wine_name": "Montrose 1989 (4 bottles)",
+            "matched_wine_name": [
+                "La Dame de Montrose, Saint-Estephe",
+                "Montrose Grand Cru, Saint-Estephe"
+            ],
+            "matched_lwin_code": [
+                "1009235",
+                "1719286"
+            ],
+            "expected_lwin_code": "10132961989",
+            "match_score": [
+                0.8069799150612614,
+                0.8863114748999575
+            ],
+            "result": false
+        },
+        {
+            "wine_name": "Mixed Bordeaux 1ers Crus Case",
+            "matched_wine_name": [],
+            "matched_lwin_code": [],
+            "expected_lwin_code": "1811427|1485499|1009479|1426294|1978269|1009466",
+            "match_score": [],
+            "result": true
+        },
+        {
+            "wine_name": "12x Scarecrow Cabernet Sauvignon 2012 (750ML)",
+            "matched_wine_name": [
+                "Scarecrow, Cabernet Sauvignon, Rutherford"
+            ],
+            "matched_lwin_code": [
+                "1141346"
+            ],
+            "expected_lwin_code": "11413462012",
+            "match_score": [
+                0.9576186969380116
+            ],
+            "result": true
+        },
+        {
+            "wine_name": "12x Petrus 2000 (750ML)",
+            "matched_wine_name": [
+                "Petrus, Pomerol"
+            ],
+            "matched_lwin_code": [
+                "1014033"
+            ],
+            "expected_lwin_code": "10140332000",
+            "match_score": [
+                0.9550853266975009
+            ],
+            "result": true
+        },
+        {
+            "wine_name": "Domaine Henri Jayer, Richebourg - 1987",
+            "matched_wine_name": [
+                "Henri Jayer, Richebourg Grand Cru"
+            ],
+            "matched_lwin_code": [
+                "1039201"
+            ],
+            "expected_lwin_code": "10392011987",
+            "match_score": [
+                0.9052888565364603
+            ],
+            "result": true
+        },
+        {
+            "wine_name": "Maison Louis Jadot Batard Montrachet 2002",
+            "matched_wine_name": [
+                "Maison Louis Jadot, Batard-Montrachet Grand Cru",
+                "Maison Louis Jadot, Bienvenues-Batard-Montrachet Grand Cru",
+                "Maison Louis Jadot, Criots-Batard-Montrachet Grand Cru",
+                "Maison Louis Jadot, Montrachet Grand Cru"
+            ],
+            "matched_lwin_code": [
+                "1070354",
+                "1070396",
+                "1070686",
+                "1070820"
+            ],
+            "expected_lwin_code": "10703542002",
+            "match_score": [
+                0.9304753013224953,
+                0.8687443986028511,
+                0.8726410001145586,
+                0.8046794295404074
+            ],
+            "result": true
+        },
+        {
+            "wine_name": "Louis XIII Remy Martin Time Collection 'The City of Light - 1900 (1 bottle)",
+            "matched_wine_name": [],
+            "matched_lwin_code": [],
+            "expected_lwin_code": "2028008",
+            "match_score": [],
+            "result": true
+        },
+        {
+            "wine_name": "Louis Roederer Cristal 2008",
+            "matched_wine_name": [
+                "Louis Roederer, Cristal",
+                "Louis Roederer, Cristal Rose",
+                "Louis Roederer, Cristal Gold Edition Grand Cru",
+                "Louis Roederer, Cristal Late Release",
+                "Louis Roederer, Cristal Millenium"
+            ],
+            "matched_lwin_code": [
+                "1082542",
+                "1082555",
+                "1610121",
+                "1815757",
+                "2092724"
+            ],
+            "expected_lwin_code": "10825422008",
+            "match_score": [
+                1.0,
+                0.9608051663605695,
+                0.832887857100401,
+                0.8452860366080701,
+                0.8325558110965081
+            ],
+            "result": true
+        },
+        {
+            "wine_name": "Leroy Vosne Roman\u00e9e Les Genevri\u00e8res 2015",
+            "matched_wine_name": [],
+            "matched_lwin_code": [],
+            "expected_lwin_code": "13896672015",
+            "match_score": [],
+            "result": false
+        },
+        {
+            "wine_name": "Mixed 2012-2014 Kweichow Moutai HK Friends of Mountain",
+            "matched_wine_name": [],
+            "matched_lwin_code": [],
+            "expected_lwin_code": "3041068|1547353|2147583|1863383",
+            "match_score": [],
+            "result": true
+        },
+        {
+            "wine_name": "Le Pin 1996 (6 bottles)",
+            "matched_wine_name": [
+                "Le Pin, Pomerol"
+            ],
+            "matched_lwin_code": [
+                "1014192"
+            ],
+            "expected_lwin_code": "10141921996",
+            "match_score": [
+                0.9492072857539897
+            ],
+            "result": true
+        },
+        {
+            "wine_name": "Latour 2005 (6 magnums)",
+            "matched_wine_name": [
+                "Latour - (Lafitte)"
+            ],
+            "matched_lwin_code": [
+                "1328035"
+            ],
+            "expected_lwin_code": "10123162005",
+            "match_score": [
+                1.0
+            ],
+            "result": false
+        },
+        {
+            "wine_name": "Latour 1982 (6 magnums)",
+            "matched_wine_name": [
+                "Latour - (Lafitte)"
+            ],
+            "matched_lwin_code": [
+                "1328035"
+            ],
+            "expected_lwin_code": "10123161982",
+            "match_score": [
+                1.0
+            ],
+            "result": false
+        },
+        {
+            "wine_name": "Ch\u00e2teau Latour Vertical  (10 bottles)",
+            "matched_wine_name": [],
+            "matched_lwin_code": [],
+            "expected_lwin_code": "1017757|1012374|1012316|1888476|2966405",
+            "match_score": [],
+            "result": true
+        },
+        {
+            "wine_name": "Domaine Rousseau Chambertin 2015",
+            "matched_wine_name": [
+                "Rousseau, Gevrey-Chambertin Premier Cru"
+            ],
+            "matched_lwin_code": [
+                "1057122"
+            ],
+            "expected_lwin_code": "10570052015",
+            "match_score": [
+                0.8257478053921689
+            ],
+            "result": false
+        },
+        {
+            "wine_name": "Latour 1959",
+            "matched_wine_name": [
+                "Latour - (Lafitte)"
+            ],
+            "matched_lwin_code": [
+                "1328035"
+            ],
+            "expected_lwin_code": "10123161959",
+            "match_score": [
+                1.0
+            ],
+            "result": false
+        },
+        {
+            "wine_name": "DRC La Roman\u00e9e-Conti 1990 (3 bottles)",
+            "matched_wine_name": [],
+            "matched_lwin_code": [],
+            "expected_lwin_code": "10670001990",
+            "match_score": [],
+            "result": false
+        },
+        {
+            "wine_name": "DRC La Roman\u00e9e-Conti 2015 (2 bottles)",
+            "matched_wine_name": [],
+            "matched_lwin_code": [],
+            "expected_lwin_code": "1028645|1028687|1028674",
+            "match_score": [],
+            "result": true
+        },
+        {
+            "wine_name": "JF Mugnier Musigny 2002 (1 bottle)",
+            "matched_wine_name": [],
+            "matched_lwin_code": [],
+            "expected_lwin_code": "10496682002",
+            "match_score": [],
+            "result": false
+        },
+        {
+            "wine_name": "Henri Jayer Vosne-Roman\u00e9e Cros Parantoux 2000 (1 magnum)",
+            "matched_wine_name": [
+                "Henri Jayer, Vosne-Romanee Premier Cru, Cros Parantoux"
+            ],
+            "matched_lwin_code": [
+                "1039256"
+            ],
+            "expected_lwin_code": "10392562000",
+            "match_score": [
+                0.9033765300738394
+            ],
+            "result": true
+        },
+        {
+            "wine_name": "D.R.C Assortment 9 bottles",
+            "matched_wine_name": [],
+            "matched_lwin_code": [],
+            "expected_lwin_code": "1028645|1009466|1028661|1028687|1170706",
+            "match_score": [],
+            "result": true
+        },
+        {
+            "wine_name": "Henri Jayer Vosne Romanee Cros Parantoux Reserve 1996",
+            "matched_wine_name": [
+                "Henri Jayer, Vosne-Romanee Premier Cru, Cros Parantoux",
+                "Henri Jayer, Vosne-Romanee Premier Cru, Cros Parantoux The Heritage Reserve"
+            ],
+            "matched_lwin_code": [
+                "1039256",
+                "2264080"
+            ],
+            "expected_lwin_code": "10392561996",
+            "match_score": [
+                0.9047396108217834,
+                0.8071828078615182
+            ],
+            "result": true
+        },
+        {
+            "wine_name": "Egon Muller Shcarzhofberger Riesling Trockenbeerenauslese 1975 (1 bottle)",
+            "matched_wine_name": [],
+            "matched_lwin_code": [],
+            "expected_lwin_code": "10899451975",
+            "match_score": [],
+            "result": false
+        },
+        {
+            "wine_name": "DRC La Roman\u00e9e-Conti (1 methuselah)",
+            "matched_wine_name": [],
+            "matched_lwin_code": [],
+            "expected_lwin_code": "1028687",
+            "match_score": [],
+            "result": true
+        },
+        {
+            "wine_name": "Clos de Tart 1945 (2 bottles)",
+            "matched_wine_name": [
+                "Clos de Tart, Marc",
+                "Clos de Tart, Clos de Tart Grand Cru",
+                "Clos de Tart, Morey-Saint-Denis Premier Cru, La Forge de Tart",
+                "Clos Tart, Morey-Saint-Denis Premier Cru, Forge Tart",
+                "Clos Tart, Clos de Tart Grand Cru",
+                "Clos Tart, Clos de Tart Grand Cru, Monopole",
+                "Clos Tart, Morey-Saint-Denis Premier Cru, Forge Tart",
+                "Clos de Tart, Marc de Bourgogne",
+                "Clos de Tart, Morey-Saint-Denis"
+            ],
+            "matched_lwin_code": [
+                "2957999",
+                "1047648",
+                "1047680",
+                "1216639",
+                "1277593",
+                "1390454",
+                "1455957",
+                "1747434",
+                "1874718"
+            ],
+            "expected_lwin_code": "10476481945",
+            "match_score": [
+                0.8733248664515362,
+                0.9883130184956246,
+                0.868282558976202,
+                0.8374834775194998,
+                0.9709873984243198,
+                0.865621631265276,
+                0.8374834775194998,
+                0.9398728564837702,
+                0.9200324196469489
+            ],
+            "result": true
+        },
+        {
+            "wine_name": "Henri Jayer Echezeaux 1985 (11 bottles)",
+            "matched_wine_name": [
+                "Georges & Henri Jayer, Echezeaux Grand Cru",
+                "Henri Jayer, Echezeaux Grand Cru"
+            ],
+            "matched_lwin_code": [
+                "1039012",
+                "1039168"
+            ],
+            "expected_lwin_code": "10391681985",
+            "match_score": [
+                0.8497302907215021,
+                0.9410830567806148
+            ],
+            "result": true
+        },
+        {
+            "wine_name": "Haut Brion 1989 (6 magnums)",
+            "matched_wine_name": [
+                "Chateau Haut-Brion Premier Cru Classe, Pessac-Leognan",
+                "Chateau Haut-Brion, Blanc, Pessac-Leognan"
+            ],
+            "matched_lwin_code": [
+                "1011247",
+                "1017092"
+            ],
+            "expected_lwin_code": "10112471989",
+            "match_score": [
+                0.8125693102210526,
+                0.8281507200429228
+            ],
+            "result": true
+        },
+        {
+            "wine_name": "Georges Mugnert-Gibourg Echezeaux 2009 (2 bottles)",
+            "matched_wine_name": [],
+            "matched_lwin_code": [],
+            "expected_lwin_code": "10494402009",
+            "match_score": [],
+            "result": false
+        },
+        {
+            "wine_name": "Gaia & Rey Gaja Chardonnay 2010",
+            "matched_wine_name": [
+                "Gaja, Langhe, Gaia & Rey",
+                "Gaja, Grappa Gaia & Rey",
+                "Gaja, Gaia & Rey, Langhe DOC"
+            ],
+            "matched_lwin_code": [
+                "1099692",
+                "1247426",
+                "1316182"
+            ],
+            "expected_lwin_code": "10996922010",
+            "match_score": [
+                0.9472137026676852,
+                0.8746918362954007,
+                0.9194736529745371
+            ],
+            "result": true
+        },
+        {
+            "wine_name": "1x Willett Family Estate Bourbon 20 Year Old Barrel #4129 117.0 Proof (750ML)",
+            "matched_wine_name": [],
+            "matched_lwin_code": [],
+            "expected_lwin_code": "2303073|2303220|2165752|2164885|2303002|2305950|2303217|2305947",
+            "match_score": [],
+            "result": true
+        },
+        {
+            "wine_name": "Egly-Ouriet Grand Cru Brut Millesime 2007 (6 magnums)",
+            "matched_wine_name": [
+                "Egly-Ouriet, Brut Grand Cru, Champagne",
+                "Egly-Ouriet, Extra Brut Grand Cru, Champagne",
+                "Egly-Ouriet, Brut Tradition Grand Cru",
+                "Egly-Ouriet, Brut Rose Grand Cru",
+                "Egly-Ouriet, Brut Millesime Grand Cru"
+            ],
+            "matched_lwin_code": [
+                "2429209",
+                "3038857",
+                "1138685",
+                "1179217",
+                "1179220"
+            ],
+            "expected_lwin_code": "11792202007",
+            "match_score": [
+                0.879150854689417,
+                0.8190836983356727,
+                0.8138780648523671,
+                0.8588931978263994,
+                0.9878553407554178
+            ],
+            "result": true
+        },
+        {
+            "wine_name": "DRC Roman\u00e9e-Conti 2012 (1 bottle) ",
+            "matched_wine_name": [],
+            "matched_lwin_code": [],
+            "expected_lwin_code": "10286872012",
+            "match_score": [],
+            "result": false
+        },
+        {
+            "wine_name": "DRC Roman\u00e9e-Conti 2009 (1 bottle)",
+            "matched_wine_name": [],
+            "matched_lwin_code": [],
+            "expected_lwin_code": "10286872009",
+            "match_score": [],
+            "result": false
+        },
+        {
+            "wine_name": "DRC Roman\u00e9e-Conti 2002 (1 Jeroboam)",
+            "matched_wine_name": [],
+            "matched_lwin_code": [],
+            "expected_lwin_code": "10286872002",
+            "match_score": [],
+            "result": false
+        },
+        {
+            "wine_name": "DRC La Roman\u00e9e-Conti 2016 (2 bottles)",
+            "matched_wine_name": [],
+            "matched_lwin_code": [],
+            "expected_lwin_code": "1028645|1028687|1028674",
+            "match_score": [],
+            "result": true
+        },
+        {
+            "wine_name": "DRC Montrachet 2017 (1 bottle)",
+            "matched_wine_name": [
+                "DRC, Vosne-Romanee",
+                "DRC, Corton, Rouge"
+            ],
+            "matched_lwin_code": [
+                "1028717",
+                "1177301"
+            ],
+            "expected_lwin_code": "10670002017",
+            "match_score": [
+                0.8426460234499138,
+                0.8124814739612813
+            ],
+            "result": false
+        },
+        {
+            "wine_name": "DRC La T\u00e2che 2013 (6 bottles)",
+            "matched_wine_name": [
+                "DRC, Vosne-Romanee",
+                "DRC, Corton, Rouge"
+            ],
+            "matched_lwin_code": [
+                "1028717",
+                "1177301"
+            ],
+            "expected_lwin_code": "10287042013",
+            "match_score": [
+                0.8750519796504783,
+                0.8437273806958359
+            ],
+            "result": false
+        },
+        {
+            "wine_name": "DRC La T\u00e2che 2010 (1 bottle)",
+            "matched_wine_name": [
+                "DRC, Vosne-Romanee",
+                "DRC, Corton, Rouge"
+            ],
+            "matched_lwin_code": [
+                "1028717",
+                "1177301"
+            ],
+            "expected_lwin_code": "10287042010",
+            "match_score": [
+                0.8750519796504783,
+                0.8437273806958359
+            ],
+            "result": false
+        },
+        {
+            "wine_name": "Domaine Leroy Vosne-Roman\u00e9e 2004",
+            "matched_wine_name": [
+                "Domaine Leroy, Vosne-Romanee"
+            ],
+            "matched_lwin_code": [
+                "1277333"
+            ],
+            "expected_lwin_code": "12773332004",
+            "match_score": [
+                0.9005066130283779
+            ],
+            "result": true
+        },
+        {
+            "wine_name": "DRC La Tache 1992",
+            "matched_wine_name": [
+                "DRC, La Tache, Assortment"
+            ],
+            "matched_lwin_code": [
+                "1548129"
+            ],
+            "expected_lwin_code": "10287041992",
+            "match_score": [
+                0.8380157435460691
+            ],
+            "result": false
+        },
+        {
+            "wine_name": "DRC Richebourg 1993 (7 bottles)",
+            "matched_wine_name": [],
+            "matched_lwin_code": [],
+            "expected_lwin_code": "10286741993",
+            "match_score": [],
+            "result": false
+        },
+        {
+            "wine_name": "DRC La T\u00e2che 1971 (3 magnums)",
+            "matched_wine_name": [
+                "DRC, Vosne-Romanee",
+                "DRC, Corton, Rouge"
+            ],
+            "matched_lwin_code": [
+                "1028717",
+                "1177301"
+            ],
+            "expected_lwin_code": "10287041971",
+            "match_score": [
+                0.8750519796504783,
+                0.8437273806958359
+            ],
+            "result": false
+        },
+        {
+            "wine_name": "Petrus 1982",
+            "matched_wine_name": [
+                "Petrus, Pomerol"
+            ],
+            "matched_lwin_code": [
+                "1014033"
+            ],
+            "expected_lwin_code": "10140331982",
+            "match_score": [
+                0.9550853266975009
+            ],
+            "result": true
+        },
+        {
+            "wine_name": "DRC La Roman\u00e9e-Conti 2000 (2 bottles)",
+            "matched_wine_name": [],
+            "matched_lwin_code": [],
+            "expected_lwin_code": "1028645|1028687|1028674",
+            "match_score": [],
+            "result": true
+        },
+        {
+            "wine_name": "Henri Jayer Echezeaux 1990 (8 bottles)",
+            "matched_wine_name": [
+                "Georges & Henri Jayer, Echezeaux Grand Cru",
+                "Henri Jayer, Echezeaux Grand Cru"
+            ],
+            "matched_lwin_code": [
+                "1039012",
+                "1039168"
+            ],
+            "expected_lwin_code": "10391681990",
+            "match_score": [
+                0.8497302907215021,
+                0.9410830567806148
+            ],
+            "result": true
+        },
+        {
+            "wine_name": "DRC La Roman\u00e9e-Conti 1992 (1 bottle)",
+            "matched_wine_name": [],
+            "matched_lwin_code": [],
+            "expected_lwin_code": "10286871992",
+            "match_score": [],
+            "result": false
+        },
+        {
+            "wine_name": "12x Latour 1959 (750ML)",
+            "matched_wine_name": [
+                "Latour - (Lafitte)"
+            ],
+            "matched_lwin_code": [
+                "1328035"
+            ],
+            "expected_lwin_code": "10140331959",
+            "match_score": [
+                1.0
+            ],
+            "result": false
+        },
+        {
+            "wine_name": "DRC La Roman\u00e9e-Conti 1990 (8 bottles)",
+            "matched_wine_name": [],
+            "matched_lwin_code": [],
+            "expected_lwin_code": "10286451990",
+            "match_score": [],
+            "result": false
+        },
+        {
+            "wine_name": "Latour 1961 (1 jeroboam 5L)",
+            "matched_wine_name": [
+                "Latour - (Lafitte)"
+            ],
+            "matched_lwin_code": [
+                "1328035"
+            ],
+            "expected_lwin_code": "10123161961",
+            "match_score": [
+                1.0
+            ],
+            "result": false
+        },
+        {
+            "wine_name": "Petrus 1987 (1 jeroboam)",
+            "matched_wine_name": [
+                "Petrus, Pomerol"
+            ],
+            "matched_lwin_code": [
+                "1014033"
+            ],
+            "expected_lwin_code": "10140331987",
+            "match_score": [
+                0.9550853266975009
+            ],
+            "result": true
+        },
+        {
+            "wine_name": "DRC La Roman\u00e9e-Conti 1990 (1 bottle)",
+            "matched_wine_name": [],
+            "matched_lwin_code": [],
+            "expected_lwin_code": "10286871990",
+            "match_score": [],
+            "result": false
+        },
+        {
+            "wine_name": "DRC La Roman\u00e9e-Conti 1983 (1 Methuselah)",
+            "matched_wine_name": [],
+            "matched_lwin_code": [],
+            "expected_lwin_code": "10286871983",
+            "match_score": [],
+            "result": false
+        },
+        {
+            "wine_name": "DRC La Roman\u00e9e-Conti 1978 (6 bottles)",
+            "matched_wine_name": [],
+            "matched_lwin_code": [],
+            "expected_lwin_code": "10286741978",
+            "match_score": [],
+            "result": false
+        },
+        {
+            "wine_name": "La Mission Haut-Brion 1989 (1 JM50)",
+            "matched_wine_name": [
+                "La Chapelle de la Mission Haut-Brion, Pessac-Leognan",
+                "Chateau La Mission Haut-Brion Cru Classe, Pessac-Leognan",
+                "Chateau La Mission Haut-Brion, Blanc, Pessac-Leognan",
+                "Chateau La Mission Haut Brion, Blanc, Pessac-Leognan"
+            ],
+            "matched_lwin_code": [
+                "1008007",
+                "1013179",
+                "1017223",
+                "1017311"
+            ],
+            "expected_lwin_code": "10131791989",
+            "match_score": [
+                0.909032443066903,
+                0.8826647060996029,
+                0.8876925625512708,
+                0.8876925625512708
+            ],
+            "result": true
+        },
+        {
+            "wine_name": "Latour 1982",
+            "matched_wine_name": [
+                "Latour - (Lafitte)"
+            ],
+            "matched_lwin_code": [
+                "1328035"
+            ],
+            "expected_lwin_code": "10123161982",
+            "match_score": [
+                1.0
+            ],
+            "result": false
+        },
+        {
+            "wine_name": "Domaine Hudelot-No\u00ebllat, Richebourg - 2016",
+            "matched_wine_name": [],
+            "matched_lwin_code": [],
+            "expected_lwin_code": "10373822016",
+            "match_score": [],
+            "result": false
+        },
+        {
+            "wine_name": "DRC La Romanee Conti 2017 (3 bottles)",
+            "matched_wine_name": [],
+            "matched_lwin_code": [],
+            "expected_lwin_code": "10670002017",
+            "match_score": [],
+            "result": false
+        },
+        {
+            "wine_name": "DRC Domaine de la Romanee-Conti 2010 (3 bottles)",
+            "matched_wine_name": [],
+            "matched_lwin_code": [],
+            "expected_lwin_code": "10286872010",
+            "match_score": [],
+            "result": false
+        },
+        {
+            "wine_name": "DRC Assortment Case 2017 (18 bottles)",
+            "matched_wine_name": [
+                "DRC, La Tache, Assortment"
+            ],
+            "matched_lwin_code": [
+                "1548129"
+            ],
+            "expected_lwin_code": "10286452017",
+            "match_score": [
+                0.8183539159708327
+            ],
+            "result": false
+        },
+        {
+            "wine_name": "Henri Jayer Echezeaux 1999 (12 bottles)",
+            "matched_wine_name": [
+                "Georges & Henri Jayer, Echezeaux Grand Cru",
+                "Henri Jayer, Echezeaux Grand Cru"
+            ],
+            "matched_lwin_code": [
+                "1039012",
+                "1039168"
+            ],
+            "expected_lwin_code": "10391681999",
+            "match_score": [
+                0.8497302907215021,
+                0.9410830567806148
+            ],
+            "result": true
+        },
+        {
+            "wine_name": "DRC Assortment Case 1996",
+            "matched_wine_name": [
+                "DRC, La Tache, Assortment"
+            ],
+            "matched_lwin_code": [
+                "1548129"
+            ],
+            "expected_lwin_code": "10286451996",
+            "match_score": [
+                0.8183539159708327
+            ],
+            "result": false
+        },
+        {
+            "wine_name": "DRC Assortment Case 1995 ",
+            "matched_wine_name": [
+                "DRC, La Tache, Assortment"
+            ],
+            "matched_lwin_code": [
+                "1548129"
+            ],
+            "expected_lwin_code": "10286451995",
+            "match_score": [
+                0.8183539159708327
+            ],
+            "result": false
+        },
+        {
+            "wine_name": "Vosne-Roman\u00e9e 1er Cru, Cros Parantoux 2001, Henri Jayer",
+            "matched_wine_name": [
+                "Henri Jayer, Vosne-Romanee Premier Cru, Cros Parantoux"
+            ],
+            "matched_lwin_code": [
+                "1039256"
+            ],
+            "expected_lwin_code": "10392562001",
+            "match_score": [
+                0.8333452390674504
+            ],
+            "result": true
+        },
+        {
+            "wine_name": "DRC Assortment 2019 (8 bottles)",
+            "matched_wine_name": [
+                "DRC, La Tache, Assortment"
+            ],
+            "matched_lwin_code": [
+                "1548129"
+            ],
+            "expected_lwin_code": "10286452019",
+            "match_score": [
+                0.9164590639068348
+            ],
+            "result": false
+        },
+        {
+            "wine_name": "DRC Assortment 2005 (14 bottles)",
+            "matched_wine_name": [
+                "DRC, La Tache, Assortment"
+            ],
+            "matched_lwin_code": [
+                "1548129"
+            ],
+            "expected_lwin_code": "10286452005",
+            "match_score": [
+                0.9164590639068348
+            ],
+            "result": false
+        },
+        {
+            "wine_name": "DRC Assortment 1999 (12 bottles)",
+            "matched_wine_name": [
+                "DRC, La Tache, Assortment"
+            ],
+            "matched_lwin_code": [
+                "1548129"
+            ],
+            "expected_lwin_code": "10286451999",
+            "match_score": [
+                0.9164590639068348
+            ],
+            "result": false
+        },
+        {
+            "wine_name": "DRC Assortment 1999 ",
+            "matched_wine_name": [
+                "DRC, La Tache, Assortment"
+            ],
+            "matched_lwin_code": [
+                "1548129"
+            ],
+            "expected_lwin_code": "10286451999",
+            "match_score": [
+                0.9164590639068348
+            ],
+            "result": false
+        },
+        {
+            "wine_name": "DRC Assortment 1999",
+            "matched_wine_name": [
+                "DRC, La Tache, Assortment"
+            ],
+            "matched_lwin_code": [
+                "1548129"
+            ],
+            "expected_lwin_code": "10286451999",
+            "match_score": [
+                0.9164590639068348
+            ],
+            "result": false
+        },
+        {
+            "wine_name": "3x Chevalier Montrachet Domaine d'Auvenay 2007 (750ML)",
+            "matched_wine_name": [
+                "Domaine d'Auvenay, Chevalier-Montrachet Grand Cru",
+                "Domaine d'Auvenay, Chevalier-Montrachet Grand Cru"
+            ],
+            "matched_lwin_code": [
+                "1060030",
+                "1595426"
+            ],
+            "expected_lwin_code": "10600302007",
+            "match_score": [
+                0.9222160279909994,
+                0.9222160279909994
+            ],
+            "result": true
+        },
+        {
+            "wine_name": "DRC Assortment 1992",
+            "matched_wine_name": [
+                "DRC, La Tache, Assortment"
+            ],
+            "matched_lwin_code": [
+                "1548129"
+            ],
+            "expected_lwin_code": "10286451992",
+            "match_score": [
+                0.9164590639068348
+            ],
+            "result": false
+        },
+        {
+            "wine_name": "Petrus 1990",
+            "matched_wine_name": [
+                "Petrus, Pomerol"
+            ],
+            "matched_lwin_code": [
+                "1014033"
+            ],
+            "expected_lwin_code": "10140331990",
+            "match_score": [
+                0.9550853266975009
+            ],
+            "result": true
+        },
+        {
+            "wine_name": "Domaine Roumier Bonnes Mares 1990 (6 magnums)",
+            "matched_wine_name": [
+                "Domaine Georges Roumier, Bonnes Mares Grand Cru"
+            ],
+            "matched_lwin_code": [
+                "1056789"
+            ],
+            "expected_lwin_code": "10567891990",
+            "match_score": [
+                0.8224775791290928
+            ],
+            "result": true
+        },
+        {
+            "wine_name": "Domaine Leroy Musigny 2011 (3 bottles)",
+            "matched_wine_name": [
+                "Domaine Leroy, Chambolle-Musigny",
+                "Domaine Leroy, Chambolle-Musigny Premier Cru, Les Charmes",
+                "Domaine Leroy, Musigny Grand Cru"
+            ],
+            "matched_lwin_code": [
+                "2952633",
+                "1043842",
+                "1044197"
+            ],
+            "expected_lwin_code": "1044676|1044689|1044197|1044562|1036633",
+            "match_score": [
+                0.8991193188008131,
+                0.8009925858193012,
+                0.9135080025365734
+            ],
+            "result": true
+        },
+        {
+            "wine_name": "Domaine Leroy Musigny 2011 (3 bottles)",
+            "matched_wine_name": [
+                "Domaine Leroy, Chambolle-Musigny",
+                "Domaine Leroy, Chambolle-Musigny Premier Cru, Les Charmes",
+                "Domaine Leroy, Musigny Grand Cru"
+            ],
+            "matched_lwin_code": [
+                "2952633",
+                "1043842",
+                "1044197"
+            ],
+            "expected_lwin_code": "1044676|1044689|1044197|1044562|1036633",
+            "match_score": [
+                0.8991193188008131,
+                0.8009925858193012,
+                0.9135080025365734
+            ],
+            "result": true
+        },
+        {
+            "wine_name": "Domaine Leroy Musigny 2002 (2 bottles)",
+            "matched_wine_name": [
+                "Domaine Leroy, Chambolle-Musigny",
+                "Domaine Leroy, Chambolle-Musigny Premier Cru, Les Charmes",
+                "Domaine Leroy, Musigny Grand Cru"
+            ],
+            "matched_lwin_code": [
+                "2952633",
+                "1043842",
+                "1044197"
+            ],
+            "expected_lwin_code": "1044197|2853956|1043927",
+            "match_score": [
+                0.8991193188008131,
+                0.8009925858193012,
+                0.9135080025365734
+            ],
+            "result": true
+        },
+        {
+            "wine_name": "Martell 72 Year-Old Grande Champagne Cognac & Exceptional Experience",
+            "matched_wine_name": [],
+            "matched_lwin_code": [],
+            "expected_lwin_code": "2976989|1489905|2957960|1968280|2976992|3016286|2989073|1350962",
+            "match_score": [],
+            "result": true
+        },
+        {
+            "wine_name": "Domaine Leroy Musigny 1993 (2 bottles)",
+            "matched_wine_name": [
+                "Domaine Leroy, Chambolle-Musigny",
+                "Domaine Leroy, Chambolle-Musigny Premier Cru, Les Charmes",
+                "Domaine Leroy, Musigny Grand Cru"
+            ],
+            "matched_lwin_code": [
+                "2952633",
+                "1043842",
+                "1044197"
+            ],
+            "expected_lwin_code": "1044197|2853956|1043927",
+            "match_score": [
+                0.8991193188008131,
+                0.8009925858193012,
+                0.9135080025365734
+            ],
+            "result": true
+        },
+        {
+            "wine_name": "Domaine Leroy Musigny 1992 (4 bottles)",
+            "matched_wine_name": [
+                "Domaine Leroy, Chambolle-Musigny",
+                "Domaine Leroy, Chambolle-Musigny Premier Cru, Les Charmes",
+                "Domaine Leroy, Musigny Grand Cru"
+            ],
+            "matched_lwin_code": [
+                "2952633",
+                "1043842",
+                "1044197"
+            ],
+            "expected_lwin_code": "1044197|1043826",
+            "match_score": [
+                0.8991193188008131,
+                0.8009925858193012,
+                0.9135080025365734
+            ],
+            "result": true
+        },
+        {
+            "wine_name": "Domaine Leflaive Montrachet 1999 (1 bottle)",
+            "matched_wine_name": [
+                "Domaine Leflaive, Batard-Montrachet Grand Cru",
+                "Domaine Leflaive, Chassagne-Montrachet Premier Cru, Morgeot",
+                "Domaine Leflaive, Chevalier-Montrachet Grand Cru",
+                "Domaine Leflaive, Montrachet Grand Cru",
+                "Domaine Leflaive, Puligny-Montrachet"
+            ],
+            "matched_lwin_code": [
+                "1073368",
+                "1073397",
+                "1073401",
+                "1073456",
+                "1073469"
+            ],
+            "expected_lwin_code": "1073456|1073368|1073485|1073498|1073515|1073401|1068616",
+            "match_score": [
+                0.8529874966731963,
+                0.8155199280160186,
+                0.847433397340547,
+                0.923461353862306,
+                0.9116971685381159
+            ],
+            "result": true
+        },
+        {
+            "wine_name": "Domaine Dujac Bonnes Mares 1985 (4 bottles)",
+            "matched_wine_name": [
+                "Domaine Dujac, Bonnes Mares Grand Cru"
+            ],
+            "matched_lwin_code": [
+                "1030484"
+            ],
+            "expected_lwin_code": "1030484",
+            "match_score": [
+                0.9178886141072758
+            ],
+            "result": true
+        },
+        {
+            "wine_name": "Vega Sicilia Unico 1962",
+            "matched_wine_name": [
+                "Vega Sicilia, Unico, Ribera del Duero",
+                "Vega Sicilia, Unico Gran Reserva, Ribera del Duero DO"
+            ],
+            "matched_lwin_code": [
+                "1121359",
+                "1541537"
+            ],
+            "expected_lwin_code": "11213591962",
+            "match_score": [
+                0.9380133189815668,
+                0.8176379288394082
+            ],
+            "result": true
+        },
+        {
+            "wine_name": "12x Vosne Romanee Domaine Leroy 2004 (750ML)",
+            "matched_wine_name": [
+                "Domaine Leroy, Vosne-Romanee"
+            ],
+            "matched_lwin_code": [
+                "1277333"
+            ],
+            "expected_lwin_code": "1389667|1044676|1044432|1247354|1277333",
+            "match_score": [
+                0.9457763532980081
+            ],
+            "result": true
+        },
+        {
+            "wine_name": "Roman\u00e9e-Conti 1990, Domaine de la Roman\u00e9e-Conti",
+            "matched_wine_name": [
+                "Domaine de la Romanee-Conti, Romanee-Conti Grand Cru"
+            ],
+            "matched_lwin_code": [
+                "1028687"
+            ],
+            "expected_lwin_code": "10286871990",
+            "match_score": [
+                0.8189694270794542
+            ],
+            "result": true
+        },
+        {
+            "wine_name": "Domaine du Comte Liger-Belair La Roman\u00e9e 2006 (10 bottles)",
+            "matched_wine_name": [
+                "Domaine du Comte Liger Belair, Nuits-Saint-Georges",
+                "Domaine du Comte Liger Belair, Echezeaux Grand Cru",
+                "Domaine du Comte Liger Belair, La Romanee Grand Cru",
+                "Domaine du Comte Liger Belair, Vosne-Romanee",
+                "Domaine du Comte Liger Belair, Vosne-Romanee Premier Cru, Aux Brulees",
+                "Domaine du Comte Liger Belair, Vosne-Romanee Premier Cru, Les Chaumes",
+                "Domaine du Comte Liger Belair, Vosne-Romanee, Clos du Chateau",
+                "Domaine du Comte Liger Belair, Vosne-Romanee, La Colombiere",
+                "Domaine du Comte Liger Belair, Vosne-Romanee Premier Cru, Les Petits Monts",
+                "Domaine du Comte Liger Belair, Vosne-Romanee Premier Cru, Aux Reignots",
+                "Domaine du Comte Liger Belair, Vosne-Romanee Premier Cru, Les Suchots",
+                "Domaine du Comte Liger Belair, Nuits-Saint-Georges, Aux Lavieres",
+                "Domaine du Comte Liger Belair, Nuits-Saint-Georges Premier Cru, Cras",
+                "Domaine du Comte Liger Belair, Assortment Case",
+                "Domaine du Comte Liger Belair, Nuits-Saint-Georges Premier Cru, Clos des Grandes Vignes Rouge",
+                "Domaine du Comte Liger Belair, Nuits-Saint-Georges Premier Cru, Clos des Grandes Vignes Blanc",
+                "Domaine du Comte Liger Belair, Clos de Vougeot Grand Cru"
+            ],
+            "matched_lwin_code": [
+                "2981497",
+                "1026566",
+                "1026579",
+                "1026582",
+                "1026595",
+                "1026609",
+                "1026612",
+                "1026625",
+                "1026638",
+                "1026641",
+                "1026654",
+                "1125461",
+                "1125474",
+                "1279063",
+                "1329670",
+                "1331682",
+                "1549852"
+            ],
+            "expected_lwin_code": "1026579|1026582",
+            "match_score": [
+                0.9241743929805115,
+                0.9252170770183867,
+                0.9571994030229423,
+                0.9265230026420674,
+                0.8602332302053899,
+                0.8756773257633225,
+                0.8514289294834716,
+                0.9053385943972273,
+                0.8555729570750448,
+                0.8539278320479136,
+                0.8778209910346433,
+                0.8716508979450401,
+                0.8121272142370386,
+                0.8201778406650917,
+                0.8244643961020507,
+                0.835029654065869,
+                0.910123437323167
+            ],
+            "result": true
+        },
+        {
+            "wine_name": "Domaine Leroy Musigny 1996 (3 bottles)",
+            "matched_wine_name": [
+                "Domaine Leroy, Chambolle-Musigny",
+                "Domaine Leroy, Chambolle-Musigny Premier Cru, Les Charmes",
+                "Domaine Leroy, Musigny Grand Cru"
+            ],
+            "matched_lwin_code": [
+                "2952633",
+                "1043842",
+                "1044197"
+            ],
+            "expected_lwin_code": "1044676|1044689|1044197|1044562|1036633",
+            "match_score": [
+                0.8991193188008131,
+                0.8009925858193012,
+                0.9135080025365734
+            ],
+            "result": true
+        },
+        {
+            "wine_name": "Lafleur 1982",
+            "matched_wine_name": [
+                "Chateau Lafleur, Pomerol",
+                "Chateau Lafleur (Vandermeulen), Pomerol",
+                "Les Perrieres de Lafleur",
+                "Domaine Lafleur, Pomerol",
+                "N\u00b02, Domaine Lafleur, Pomerol"
+            ],
+            "matched_lwin_code": [
+                "1011902",
+                "1328022",
+                "1821770",
+                "1892958",
+                "2207687"
+            ],
+            "expected_lwin_code": "10119021982",
+            "match_score": [
+                0.8801547489834786,
+                0.925441567342278,
+                0.8393813727197474,
+                0.8896610883707228,
+                0.8896610883707228
+            ],
+            "result": true
+        },
+        {
+            "wine_name": "Dom P\u00e9rignon P3 1982 (6 bottles)",
+            "matched_wine_name": [
+                "Dom Perignon, P3",
+                "Dom Perignon, P3 Rose"
+            ],
+            "matched_lwin_code": [
+                "1319125",
+                "1403134"
+            ],
+            "expected_lwin_code": "1082656|1319125|1082672",
+            "match_score": [
+                0.8476118213058681,
+                0.8209508232811098
+            ],
+            "result": true
+        },
+        {
+            "wine_name": "Dom Perignon P2 2002",
+            "matched_wine_name": [
+                "Dom Perignon, P2",
+                "Dom Perignon, P2 Rose"
+            ],
+            "matched_lwin_code": [
+                "1277359",
+                "1378115"
+            ],
+            "expected_lwin_code": "12773592002",
+            "match_score": [
+                1.0,
+                0.9681057874636164
+            ],
+            "result": true
+        },
+        {
+            "wine_name": "D'Auvenay Chevalier Montrachet 2009 (6 bottles)",
+            "matched_wine_name": [
+                "Domaine d'Auvenay, Chevalier-Montrachet Grand Cru",
+                "Domaine d'Auvenay, Chevalier-Montrachet Grand Cru"
+            ],
+            "matched_lwin_code": [
+                "1060030",
+                "1595426"
+            ],
+            "expected_lwin_code": "1060030",
+            "match_score": [
+                0.8687152268898544,
+                0.8687152268898544
+            ],
+            "result": true
+        },
+        {
+            "wine_name": "Chateau Mouton Rothschild 2022 Artist Reveal: Unique Lot and Experience",
+            "matched_wine_name": [],
+            "matched_lwin_code": [],
+            "expected_lwin_code": "1014004|1013544",
+            "match_score": [],
+            "result": true
+        },
+        {
+            "wine_name": "Colgin IX Estate Napa Valley Red 2008 (3 bottles)",
+            "matched_wine_name": [
+                "Colgin, IX Estate, Napa Valley",
+                "Colgin, IX Estate Syrah, Napa Valley",
+                "Colgin, IX Estate Assortment Case, Napa Valley"
+            ],
+            "matched_lwin_code": [
+                "1141160",
+                "1505199",
+                "1865912"
+            ],
+            "expected_lwin_code": "1141160",
+            "match_score": [
+                0.9403541562614679,
+                0.8987589336749893,
+                0.804798516070286
+            ],
+            "result": true
+        },
+        {
+            "wine_name": "Coche-Dury Meursault Charmes 1983 (3 bottles)",
+            "matched_wine_name": [
+                "Coche-Dury, Meursault, Rouge",
+                "Coche-Dury, Meursault",
+                "Coche-Dury, Meursault Premier Cru, Les Caillerets",
+                "Coche-Dury, Meursault Premier Cru, Charmes",
+                "Coche-Dury, Meursault, Les Chevalieres",
+                "Coche-Dury, Meursault Premier Cru, Genevrieres",
+                "Coche-Dury, Meursault Premier Cru, Perrieres",
+                "Coche-Dury, Meursault, Les Vireuils",
+                "Coche-Dury, Meursault Premier Cru, Les Narvaux"
+            ],
+            "matched_lwin_code": [
+                "1026247",
+                "1064719",
+                "1064722",
+                "1064748",
+                "1064751",
+                "1064777",
+                "1064780",
+                "1064807",
+                "1260137"
+            ],
+            "expected_lwin_code": "1064748",
+            "match_score": [
+                0.8253836612452096,
+                0.8796135860735352,
+                0.8050836992370303,
+                0.9432364493304612,
+                0.8134414537242592,
+                0.8212814759871723,
+                0.8262750063014217,
+                0.8165973874634588,
+                0.8066849140794474
+            ],
+            "result": true
+        },
+        {
+            "wine_name": "Clos Rougeard Saumur-Champigny Le Bourg 2015 (8 bottles)",
+            "matched_wine_name": [
+                "Clos Rougeard, Saumur-Champigny, Bourg",
+                "Clos Rougeard, Saumur-Champigny",
+                "Clos Rougeard, Saumur-Champigny, Saumur Champigny Clos"
+            ],
+            "matched_lwin_code": [
+                "1148778",
+                "1315619",
+                "1539134"
+            ],
+            "expected_lwin_code": "1148778",
+            "match_score": [
+                0.9234255554084434,
+                0.8297522738967182,
+                0.8479419299844688
+            ],
+            "result": true
+        },
+        {
+            "wine_name": "DRC La Tache 1990",
+            "matched_wine_name": [
+                "DRC, La Tache, Assortment"
+            ],
+            "matched_lwin_code": [
+                "1548129"
+            ],
+            "expected_lwin_code": "10287041990",
+            "match_score": [
+                0.8380157435460691
+            ],
+            "result": false
+        },
+        {
+            "wine_name": "Clif Family Winery | Channel Your Inner Chocolatier & Uncork Napa Valley (for 8 people)",
+            "matched_wine_name": [],
+            "matched_lwin_code": [],
+            "expected_lwin_code": "1567281|2003641|2003612|1980473|1579668|1012316",
+            "match_score": [],
+            "result": true
+        },
+        {
+            "wine_name": "Ch\u00e2teau Rayas 1990 (6 bottles)",
+            "matched_wine_name": [],
+            "matched_lwin_code": [],
+            "expected_lwin_code": "1011902|1014033|1460654|1007521|1014495|1107654|1107713",
+            "match_score": [],
+            "result": true
+        },
+        {
+            "wine_name": "Ch\u00e2teau Petrus 1982",
+            "matched_wine_name": [
+                "Petrus, Pomerol"
+            ],
+            "matched_lwin_code": [
+                "1014033"
+            ],
+            "expected_lwin_code": "10140331982",
+            "match_score": [
+                0.9550853266975009
+            ],
+            "result": true
+        },
+        {
+            "wine_name": "Petrus 1990",
+            "matched_wine_name": [
+                "Petrus, Pomerol"
+            ],
+            "matched_lwin_code": [
+                "1014033"
+            ],
+            "expected_lwin_code": "10140331990",
+            "match_score": [
+                0.9550853266975009
+            ],
+            "result": true
+        },
+        {
+            "wine_name": "DRC La Roman\u00e9e-Conti 1994 (6 magnums)",
+            "matched_wine_name": [],
+            "matched_lwin_code": [],
+            "expected_lwin_code": "1028645|1028687",
+            "match_score": [],
+            "result": true
+        },
+        {
+            "wine_name": "6 bouteilles CHAMBERTIN, Grand Cru Armand Rousseau P & F 2005",
+            "matched_wine_name": [],
+            "matched_lwin_code": [],
+            "expected_lwin_code": "1057005|1057018|1057034",
+            "match_score": [],
+            "result": true
+        },
+        {
+            "wine_name": "Ch\u00e2teau Latour 1988 (10 bottles)",
+            "matched_wine_name": [
+                "Latour - (Lafitte)"
+            ],
+            "matched_lwin_code": [
+                "1328035"
+            ],
+            "expected_lwin_code": "1012316",
+            "match_score": [
+                1.0
+            ],
+            "result": false
+        },
+        {
+            "wine_name": "Chateau Latour 1982",
+            "matched_wine_name": [
+                "Chateau Latour Premier Cru Classe, Pauillac",
+                "Latour - (Lafitte)"
+            ],
+            "matched_lwin_code": [
+                "1012316",
+                "1328035"
+            ],
+            "expected_lwin_code": "10123161982",
+            "match_score": [
+                0.8125650539475171,
+                0.8812290264622513
+            ],
+            "result": true
+        },
+        {
+            "wine_name": "Ch\u00e2teau Haut-Brion 1989 (4 bottles)",
+            "matched_wine_name": [
+                "Chateau Haut-Brion Premier Cru Classe, Pessac-Leognan",
+                "Chateau Haut-Brion, Blanc, Pessac-Leognan"
+            ],
+            "matched_lwin_code": [
+                "1011247",
+                "1017092"
+            ],
+            "expected_lwin_code": "1269358|1011247|1013179",
+            "match_score": [
+                0.8125693102210526,
+                0.8281507200429228
+            ],
+            "result": true
+        },
+        {
+            "wine_name": "Chappellet Cabernet Sauvignon 1969 (5L)",
+            "matched_wine_name": [
+                "Chappellet, Napa Cabernet Sauvignon, Napa Valley",
+                "Chappellet, Signature Cabernet Sauvignon, Napa Valley",
+                "Chappellet, Cabernet Franc, Napa Valley"
+            ],
+            "matched_lwin_code": [
+                "1236352",
+                "1773688",
+                "1781113"
+            ],
+            "expected_lwin_code": "1185793|1773688",
+            "match_score": [
+                0.8295981279148804,
+                0.8125396451839879,
+                0.8023713190769935
+            ],
+            "result": true
+        },
+        {
+            "wine_name": "Cecile Tremblay Vosne Romanee Vieilles Vignes 2015 (6 bottles)",
+            "matched_wine_name": [
+                "Domaine Cecile Tremblay, Vosne-Romanee, Vieilles Vignes"
+            ],
+            "matched_lwin_code": [
+                "1216798"
+            ],
+            "expected_lwin_code": "1216798",
+            "match_score": [
+                0.9451607370748343
+            ],
+            "result": true
+        },
+        {
+            "wine_name": "Bonneau du Martray Corton Charlemagne 2011 (6 bottles)",
+            "matched_wine_name": [
+                "Domaine Bonneau du Martray, Corton Grand Cru",
+                "Domaine Bonneau du Martray, Charlemagne Grand Cru"
+            ],
+            "matched_lwin_code": [
+                "1021460",
+                "1061776"
+            ],
+            "expected_lwin_code": "1061776",
+            "match_score": [
+                0.8599657408750778,
+                0.8829621777921517
+            ],
+            "result": true
+        },
+        {
+            "wine_name": "Biondi Santi Brunello di Montalcino Riserva 1945 (3 bottles)",
+            "matched_wine_name": [
+                "Biondi-Santi, Rosso di Montalcino",
+                "Biondi-Santi, Brunello di Montalcino",
+                "Biondi-Santi, Brunello di Montalcino, Riserva",
+                "Biondi-Santi, Brunello di Montalcino, 2007-2010 Assortment",
+                "Biondi Santi, Brunello di Montalcino, 2005-2007 Assortment",
+                "Biondi Santi, Brunello di Montalcino, 2006-2008 Assortment"
+            ],
+            "matched_lwin_code": [
+                "1139099",
+                "1157327",
+                "1174687",
+                "1722761",
+                "1728200",
+                "1812408"
+            ],
+            "expected_lwin_code": "1174687|1157327",
+            "match_score": [
+                0.8263946024394845,
+                0.9080379042185049,
+                0.9614883451260736,
+                0.8192035187060565,
+                0.8192035187060565,
+                0.8192035187060565
+            ],
+            "result": true
+        },
+        {
+            "wine_name": "DRC La Roman\u00e9e-Conti 1978 (4 bottles)",
+            "matched_wine_name": [],
+            "matched_lwin_code": [],
+            "expected_lwin_code": "1028645|1028661|1028687|1028674|1028690",
+            "match_score": [],
+            "result": true
+        },
+        {
+            "wine_name": "Masseto Vertical (60 bottles)",
+            "matched_wine_name": [],
+            "matched_lwin_code": [],
+            "expected_lwin_code": "1017757|1160743|1770010|2920940|1013544",
+            "match_score": [],
+            "result": true
+        },
+        {
+            "wine_name": "Henri Jayer Vosne Roman\u00e9e Cros Parantoux 1993 (10 bottles)",
+            "matched_wine_name": [
+                "Henri Jayer, Vosne-Romanee Premier Cru, Cros Parantoux"
+            ],
+            "matched_lwin_code": [
+                "1039256"
+            ],
+            "expected_lwin_code": "1039256",
+            "match_score": [
+                0.9033765300738394
+            ],
+            "result": true
+        },
+        {
+            "wine_name": "DRC Montrachet 2020 (3 bottles)",
+            "matched_wine_name": [
+                "DRC, Vosne-Romanee",
+                "DRC, Corton, Rouge"
+            ],
+            "matched_lwin_code": [
+                "1028717",
+                "1177301"
+            ],
+            "expected_lwin_code": "1067000|1028645|1028687",
+            "match_score": [
+                0.8426460234499138,
+                0.8124814739612813
+            ],
+            "result": false
+        },
+        {
+            "wine_name": "DRC La Roman\u00e9e-Conti 1991 (2 bottles)",
+            "matched_wine_name": [],
+            "matched_lwin_code": [],
+            "expected_lwin_code": "1028645|1028687|1028674",
+            "match_score": [],
+            "result": true
+        },
+        {
+            "wine_name": "Le Pin 2009",
+            "matched_wine_name": [
+                "Le Pin, Pomerol"
+            ],
+            "matched_lwin_code": [
+                "1014192"
+            ],
+            "expected_lwin_code": "10141922009",
+            "match_score": [
+                0.9492072857539897
+            ],
+            "result": true
+        },
+        {
+            "wine_name": "1978 Hermitage Jean-Louis Chave (12bs)",
+            "matched_wine_name": [
+                "Domaine Jean Louis Chave, Hermitage, Rouge",
+                "Domaine Jean Louis Chave, Hermitage, Blanc",
+                "Domaine Jean Louis Chave, Saint-Joseph"
+            ],
+            "matched_lwin_code": [
+                "1110012",
+                "1134603",
+                "1312650"
+            ],
+            "expected_lwin_code": "1110012",
+            "match_score": [
+                0.8781766374564163,
+                0.8969904444803175,
+                0.8000953173817544
+            ],
+            "result": true
+        },
+        {
+            "wine_name": "Domaine de la Roman\u00e9ee-Conti, La T\u00e2che - 2009",
+            "matched_wine_name": [],
+            "matched_lwin_code": [],
+            "expected_lwin_code": "1028704",
+            "match_score": [],
+            "result": true
+        },
+        {
+            "wine_name": "Domaine Thibault Liger-Belair, Richebourg - 2020",
+            "matched_wine_name": [
+                "Thibault Liger-Belair, Richebourg Grand Cru",
+                "Thibault Liger-Belair, Bourgogne, Blanc"
+            ],
+            "matched_lwin_code": [
+                "1045006",
+                "1253016"
+            ],
+            "expected_lwin_code": "10450062020",
+            "match_score": [
+                0.9338881011469611,
+                0.8040861774345687
+            ],
+            "result": true
+        },
+        {
+            "wine_name": "Domaine de la Roman\u00e9e-Conti, Roman\u00e9e-Conti - 1989",
+            "matched_wine_name": [
+                "Domaine de la Romanee-Conti, Romanee-Conti Grand Cru"
+            ],
+            "matched_lwin_code": [
+                "1028687"
+            ],
+            "expected_lwin_code": "10286871989",
+            "match_score": [
+                0.8189694270794542
+            ],
+            "result": true
+        },
+        {
+            "wine_name": "2x Richebourg Domaine de la Romanee Conti 1995 (750ML)",
+            "matched_wine_name": [],
+            "matched_lwin_code": [],
+            "expected_lwin_code": "1028687|1028674",
+            "match_score": [],
+            "result": true
+        },
+        {
+            "wine_name": "Domaine Henri Jayer, Richebourg - 1978",
+            "matched_wine_name": [
+                "Henri Jayer, Richebourg Grand Cru"
+            ],
+            "matched_lwin_code": [
+                "1039201"
+            ],
+            "expected_lwin_code": "10392011978",
+            "match_score": [
+                0.9052888565364603
+            ],
+            "result": true
+        },
+        {
+            "wine_name": "Petrus 1993 (6 bottles - Original Wooden Case)",
+            "matched_wine_name": [
+                "Petrus, Pomerol"
+            ],
+            "matched_lwin_code": [
+                "1014033"
+            ],
+            "expected_lwin_code": "1017483|1017047|1017656|1017122|1016792|1044852|1014033|1012316",
+            "match_score": [
+                0.9550853266975009
+            ],
+            "result": true
+        }
+    ]
+}

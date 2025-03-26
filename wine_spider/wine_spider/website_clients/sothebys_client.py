@@ -225,10 +225,10 @@ class SothebysClient:
 
         return url, headers, payload
 
-    def close(self):
-        self.browser.close()
-        self.playwright.stop()
-
     def __del__(self):
-        self.close()
+        try:
+            print("Closing browser")
+            self.browser.close()
+        except:
+            print("Browser already closed")
     

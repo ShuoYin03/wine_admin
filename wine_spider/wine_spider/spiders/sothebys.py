@@ -1,15 +1,20 @@
 import os
-import json
 import time
+import json
 import scrapy
+import dotenv
 import pandas as pd
 from bs4 import BeautifulSoup
+from database import DatabaseClient
 from wine_spider.helpers import parse_quarter
 from wine_spider.items import AuctionItem, LotItem
 from wine_spider.helpers import find_continent, region_to_country
 from wine_spider.website_clients.sothebys_client import SothebysClient
 from wine_spider.helpers import parse_volumn_and_unit_from_title, parse_year_from_title, match_lot_info
 from wine_spider.exceptions import NoPreDefinedVolumeIdentifierException, AmbiguousRegionAndCountryMatchException, NoMatchedRegionAndCountryException
+
+dotenv.load_dotenv()
+FULL_FETCH = os.getenv("FULL_FETCH")
 
 class SothebysSpider(scrapy.Spider):
     name = "sothebys_spider"
@@ -27,6 +32,7 @@ class SothebysSpider(scrapy.Spider):
         self.lwin_df = pd.read_excel(os.path.join(base_dir, "LWIN wines.xls"))
         self.base_url = "https://www.sothebys.com"
         self.client = SothebysClient(headless=True)
+        self.db_client = DatabaseClient()
 
     def parse(self, response):
         total_pages = int(response.css('li.SearchModule-pageCounts span[data-page-count]::text').get())
@@ -55,7 +61,12 @@ class SothebysSpider(scrapy.Spider):
         data = [(asset_data.get("vikingId"), asset_data.get("url")) for _, asset_data in data.items()]
         first_open = True
 
-        for viking_id, url in data:
+        for viking_id, url in data[:2]:
+            
+            if not FULL_FETCH and self.check_exists(viking_id, "auction"):
+                self.logger.info(f"Auction {viking_id} exists, Skipping...")
+                continue
+
             payload = self.client.auction_query(viking_id)
             
             yield scrapy.Request(
@@ -184,15 +195,15 @@ class SothebysSpider(scrapy.Spider):
                     lot_info = match_lot_info(lot['wine_name'], self.lwin_df)
                     lot['lot_producer'] = [lot_info[0]] if not lot['lot_producer'] else lot['lot_producer']
                     lot['region'] = lot_info[1] if not lot['region'] else lot['region']
-                    lot['country'] = lot_info[2] if not lot['country'] else lot['country']
+                    lot['sub_region'] = lot_info[2]
+                    lot['country'] = lot_info[3] if not lot['country'] else lot['country']
                 
             except Exception as e:
-                if e.isinstance(NoPreDefinedVolumeIdentifierException):
+                if isinstance(e, NoPreDefinedVolumeIdentifierException):
                     lot['success'] = False
-
-                elif e.isinstance(AmbiguousRegionAndCountryMatchException) or e.isinstance(NoMatchedRegionAndCountryException):
-                    if item["region"]:
-                        item["country"] = region_to_country(item["region"]) if not item["country"] else item["country"]
+                elif isinstance(e, AmbiguousRegionAndCountryMatchException) or isinstance(e, NoMatchedRegionAndCountryException):
+                    if 'region' in item and item["region"]:
+                        item["country"] = region_to_country(item["region"]) if 'country' not in item and not item["country"] else item["country"]
                     else:
                         lot['success'] = False
 
@@ -220,4 +231,19 @@ class SothebysSpider(scrapy.Spider):
         for lot in lots:
             lot['start_price'] = data_dict[lot['id']]
             yield lot
+    
+    def check_exists(self, id, type):
+        if type == "auction":
+            table_name = "auctions"
+            filters = {
+                "id": id
+            }
+        elif type == "lot":
+            table_name = "lots"
+            filters = {
+                "id": id
+            }
+        
+        result = self.db_client.query_items(table_name, filters=filters)
+        return result is not None
 

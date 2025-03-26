@@ -1,8 +1,10 @@
-from sqlalchemy import Column, Integer, String, ForeignKey, Float, Boolean, DateTime, Text
+from sqlalchemy.ext.asyncio import AsyncAttrs
 from sqlalchemy.orm import relationship
-from sqlalchemy.orm import declarative_base
+from sqlalchemy.orm import DeclarativeBase
+from sqlalchemy import Column, Integer, String, ForeignKey, Float, Boolean, DateTime, Text
 
-Base = declarative_base()
+class Base(AsyncAttrs, DeclarativeBase):
+    pass
 
 class AuctionModel(Base):
     __tablename__ = 'auctions'
@@ -55,6 +57,32 @@ class LotModel(Base):
     low_estimate = Column(Float)
     high_estimate = Column(Float)
     sold = Column(Boolean)
+    sold_date = Column(DateTime)
+    region = Column(String)
+    sub_region = Column(String)
+    country = Column(String)
+    success = Column(Boolean)
+    url = Column(String)
+
+class FailedLotModel(Base):
+    __tablename__ = 'failed_lots'
+    id = Column(Integer, primary_key=True)
+    auction_id = Column(Integer, ForeignKey('auctions.id'))
+    lot_producer = Column(String)
+    wine_name = Column(String)
+    vintage = Column(Integer)
+    unit_format = Column(String)
+    unit = Column(Integer)
+    volumn = Column(Float)
+    lot_type = Column(String)
+    wine_type = Column(String)
+    original_currency = Column(String)
+    start_price = Column(Float)
+    end_price = Column(Float)
+    low_estimate = Column(Float)
+    high_estimate = Column(Float)
+    sold = Column(Boolean)
+    sold_date = Column(DateTime)
     region = Column(String)
     sub_region = Column(String)
     country = Column(String)
@@ -86,3 +114,10 @@ class LwinDatabaseModel(Base):
     date_added = Column(DateTime)
     date_updated = Column(DateTime) 
     reference = Column(String) 
+
+class FxRatesModel(Base):
+    __tablename__ = 'fx_rates'
+    id = Column(Integer, primary_key=True)
+    rates_from = Column(String)
+    rates_to = Column(String)
+    rate = Column(Float)

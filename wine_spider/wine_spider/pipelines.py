@@ -1,3 +1,5 @@
+import json
+import scrapy
 import requests
 from .helpers import EnvironmentHelper
 from itemadapter import ItemAdapter
@@ -8,28 +10,52 @@ environmentHelper = EnvironmentHelper()
 
 class LwinMatchingPipeline:
     def open_spider(self, spider):
+        self.db_client = DatabaseClient()
         self.base_url = environmentHelper.get_matching_url()
 
     def process_item(self, item, spider):
-        params = {
+        if type(item) != LotItem:
+            return item
+        payload = {
             "wine_name": item['wine_name'],
-            "lot_producer": item['lot_producer'],
-            "vintage": item['vintage'],
-            "region": item['region'],
-            "sub_region": item['sub_region'],
-            "country": item['country'],
-            "colour": item['wine_type']
+            "lot_producer": item['lot_producer'] if 'lot_producer' in item else None,
+            # "vintage": item['vintage'] if 'vintage' in item else None,
+            # "region": item['region'] if 'region' in item else None,
+            # "sub_region": item['sub_region'] if 'sub_region' in item else None,
+            # "country": item['country'] if 'country' in item else None,
+            # "colour": item['wine_type'] if 'wine_type' in item else None
         }
 
-        response = requests.get(f"{self.base_url}", params=params)
-        results = response.json()
+        request = scrapy.Request(
+            url=self.base_url,
+            method='POST',
+            body=json.dumps(payload),
+            headers={'Content-Type': 'application/json'},
+            callback=self.handle_lwin_response,
+            meta={'item': item},
+            dont_filter=True
+        )
 
-        lwinMatchingItem = LwinMatchingItem()
-        lwinMatchingItem['lot_id'] = item['id']
-        lwinMatchingItem['matched'] = results['matched']
-        lwinMatchingItem['lwin_code'] = results['lwin_code']
+        spider.crawler.engine.crawl(request)
 
         return item
+    
+    def handle_lwin_response(self, response):
+        item = response.meta['item']
+        data = json.loads(response.text)
+
+        lwinMatchingItem = LwinMatchingItem()
+        lwinMatchingItem['id'] = item['id']
+        lwinMatchingItem['matched'] = data['matched']
+        lwinMatchingItem['lwin'] = data['lwin_code']
+        lwinMatchingItem['match_item'] = json.dumps(data['match_item'])
+        lwinMatchingItem['match_score'] = data['match_score']
+
+        item_data = ItemAdapter(lwinMatchingItem).asdict()
+        self.db_client.insert_item("lwin_matching", item_data)
+
+    def close_spider(self, spider):
+        self.db_client.close()
 
 class DataStoragePipeline:
     def open_spider(self, spider):
