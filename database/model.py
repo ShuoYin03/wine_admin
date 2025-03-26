@@ -114,3 +114,10 @@ class LwinDatabaseModel(Base):
     date_added = Column(DateTime)
     date_updated = Column(DateTime) 
     reference = Column(String) 
+
+class FxRatesModel(Base):
+    __tablename__ = 'fx_rates'
+    id = Column(Integer, primary_key=True)
+    rates_from = Column(String)
+    rates_to = Column(String)
+    rate = Column(Float)

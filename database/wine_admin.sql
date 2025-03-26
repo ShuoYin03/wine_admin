@@ -111,3 +111,10 @@ CREATE TABLE IF NOT EXISTS lwin_matching (
     Match_Item JSONB,
     Match_Score DOUBLE PRECISION[]
 );
+
+CREATE TABLE IF NOT EXISTS fx_rates_cache (
+    id SERIAL PRIMARY KEY,
+    Rates_From VARCHAR(10),
+    Rates_To VARCHAR(10),
+    Rates DOUBLE PRECISION,
+);
