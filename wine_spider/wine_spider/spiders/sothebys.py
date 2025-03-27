@@ -59,7 +59,6 @@ class SothebysSpider(scrapy.Spider):
     def parse_viking_ids(self, response):
         data = json.loads(response.text)
         data = [(asset_data.get("vikingId"), asset_data.get("url")) for _, asset_data in data.items()]
-        first_open = True
 
         for viking_id, url in data[1:2]:
             
@@ -79,46 +78,17 @@ class SothebysSpider(scrapy.Spider):
             response, token = self.client.get_authorisation_token_and_response(url)
 
             try:
-                if first_open:
-                    frame_locator = self.client.page.locator("iframe[title='Modal Message']")
-                    frame_locator = self.client.page.frame_locator("iframe[title='Modal Message']")
-                    close = frame_locator.locator("#io01")
-                    close.click()
-                    first_open = False
-            except Exception:
-                pass
-
-            algolia_api_key = self.client.extract_algolia_api_key(response)
-            algolia_url, algolia_headers, algolia_payload = self.client.algolia_api(viking_id, algolia_api_key, 0)
-
-            yield scrapy.Request(
-                url=algolia_url,
-                method='POST',
-                headers=algolia_headers,
-                body=json.dumps(algolia_payload),
-                callback=self.parse_lots_page,
-                meta={
-                    "viking_id": viking_id,
-                    "algolia_page_response": response,
-                    "token": token,
-                }
-            )
-
-            try:
                 soup = BeautifulSoup(response, "html.parser")
                 pagination = soup.select(".pagination-module_pagination__TRr2-")
                 page_count = int(pagination[0].find_all("li")[-2].text) + 1
             except Exception:
+                page_count = 1
                 print("Unable to find page number for the following url:", url)
-            
-            for page in range(2, page_count):
-                pagination_button = self.client.page.locator(f'li >> button[aria-label="Go to page {page}."]')
-                pagination_button.scroll_into_view_if_needed()
-                pagination_button.click()
-                time.sleep(2.5)
-                response = self.client.page.content()
-                
-                algolia_url, algolia_headers, algolia_payload = self.client.algolia_api(viking_id, algolia_api_key, page - 1)
+
+            algolia_api_key = self.client.extract_algolia_api_key(response)
+
+            for page in range(0, page_count):
+                algolia_url, algolia_headers, algolia_payload = self.client.algolia_api(viking_id, algolia_api_key, page)
 
                 yield scrapy.Request(
                     url=algolia_url,
@@ -128,7 +98,7 @@ class SothebysSpider(scrapy.Spider):
                     callback=self.parse_lots_page,
                     meta={
                         "viking_id": viking_id,
-                        "algolia_page_response": response,
+                        "token": token
                     }
                 )
 
@@ -154,12 +124,10 @@ class SothebysSpider(scrapy.Spider):
 
     def parse_lots_page(self, response):
         viking_id = response.meta.get("viking_id")
-        html = response.meta.get("algolia_page_response")
-        data = response.json()['hits']
         token = response.meta.get("token")
+        data = response.json()['hits']
 
         lots = []
-        soup = BeautifulSoup(html, "html.parser")
         for item in data:
             lot = LotItem()
             try:
@@ -178,15 +146,6 @@ class SothebysSpider(scrapy.Spider):
                 lot['country'] = item['Country'][0] if 'Country' in item else None
                 lot['success'] = True
                 lot['url'] = f"{self.base_url}{item['slug']}"
-
-                try:
-                    price = soup.find("div", id="lot-list").find("div", attrs={"data-testid": item['objectID']}).find("p", attrs={"data-testid": "currentBid"}).text
-                    price = int(price.split(" ")[0].replace(",", ""))
-                    lot['end_price'] = price
-                    lot['sold'] = True
-                except Exception as e:
-                    lot['end_price'] = None
-                    lot['sold'] = False
 
                 if not lot['vintage']:
                     lot['vintage'] = [str(parse_year_from_title(item['title']))] if parse_year_from_title(item['title']) else None
@@ -233,12 +192,22 @@ class SothebysSpider(scrapy.Spider):
         )   
 
     def parse_lot_api_response(self, response):
-        data = json.loads(response.text)['data']['auction']['lot_ids']
-        data_dict = {item['lotId']: (item['bidState']['startingBid']['amount'], item['bidState']['closingTime']) for item in data}
         lots = response.meta.get("lots")
+        data = json.loads(response.text)['data']['auction']['lot_ids']
+        data_dict = {
+            item['lotId']: (
+                (item['bidState']['startingBid']['amount'], item['bidState']['sold']['premiums']['finalPrice']['amount'], item['bidState']['sold']['isSold'], item['bidState']['closingTime'])
+                if item['bidState']['sold']['isSold']
+                else (item['bidState']['startingBid']['amount'], item['bidState']['sold']['isSold'], item['bidState']['closingTime'])
+            )
+            for item in data
+        }
+        
         for lot in lots:
-            lot['start_price'] = data_dict[lot['id']][0]
-            lot['sold_date'] = extract_date(data_dict[lot['id']][1])
+            if len(data_dict.get(lot['id'])) == 4:
+                lot['start_price'], lot['end_price'], lot['sold'], lot['sold_date'] = data_dict[lot['id']]
+            else:
+                lot['start_price'], lot['sold'], lot['sold_date'] = data_dict[lot['id']]
             yield lot
     
     def check_exists(self, id, type):
