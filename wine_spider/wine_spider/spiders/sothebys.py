@@ -15,6 +15,7 @@ from wine_spider.exceptions import NoPreDefinedVolumeIdentifierException, Ambigu
 
 dotenv.load_dotenv()
 FULL_FETCH = os.getenv("FULL_FETCH")
+BASE_URL = os.getenv("BASE_URL")
 
 class SothebysSpider(scrapy.Spider):
     name = "sothebys_spider"
@@ -73,6 +74,9 @@ class SothebysSpider(scrapy.Spider):
                 method='POST',
                 body=json.dumps(payload),
                 callback=self.parse_auction_api_response,
+                meta={
+                    "url": url
+                },
             )
 
             response, token = self.client.get_authorisation_token_and_response(url)
@@ -103,6 +107,8 @@ class SothebysSpider(scrapy.Spider):
                 )
 
     def parse_auction_api_response(self, response):
+        url = response.meta.get("url")
+
         try:
             data = json.loads(response.text)['data']['auction']
             auction_item = AuctionItem()
@@ -116,6 +122,7 @@ class SothebysSpider(scrapy.Spider):
             auction_item['year'] = int(data['dates']['closed'].split("-")[0])
             auction_item['quarter'] = parse_quarter(int(data['dates']['closed'].split("-")[1]))
             auction_item['auction_type'] = "PAST"
+            auction_item['url'] = url
             
             yield auction_item
         except json.JSONDecodeError:
@@ -208,6 +215,7 @@ class SothebysSpider(scrapy.Spider):
                 lot['start_price'], lot['end_price'], lot['sold'], lot['sold_date'] = data_dict[lot['id']]
             else:
                 lot['start_price'], lot['sold'], lot['sold_date'] = data_dict[lot['id']]
+
             yield lot
     
     def check_exists(self, id, type):
