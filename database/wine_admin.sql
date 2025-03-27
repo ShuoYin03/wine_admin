@@ -116,5 +116,5 @@ CREATE TABLE IF NOT EXISTS fx_rates_cache (
     id SERIAL PRIMARY KEY,
     Rates_From VARCHAR(10),
     Rates_To VARCHAR(10),
-    Rates DOUBLE PRECISION,
+    Rates DOUBLE PRECISION
 );

@@ -58,3 +58,9 @@ class LwinMatchingItem(scrapy.Item):
     lwin = scrapy.Field()
     match_item = scrapy.Field()
     match_score = scrapy.Field()
+
+class FxRateItem(scrapy.Item):
+    id = scrapy.Field()
+    rates_from = scrapy.Field()
+    rates_to = scrapy.Field()
+    rates = scrapy.Field()

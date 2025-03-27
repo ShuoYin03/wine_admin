@@ -13,7 +13,7 @@ ROBOTSTXT_OBEY = True
 CONCURRENT_REQUESTS = 16
 
 FEED_EXPORT_ENCODING = "utf-8"
-# LOG_FILE = "scrapy_log.txt"
+LOG_FILE = "scrapy_log.txt"
 
 AUTOTHROTTLE_ENABLED = True
 AUTOTHROTTLE_START_DELAY = 1.0   # Initial download delay
@@ -21,22 +21,22 @@ AUTOTHROTTLE_MAX_DELAY = 5.0    # Maximum download delay in high latencies
 AUTOTHROTTLE_TARGET_CONCURRENCY = 1.0
 
 
-DOWNLOAD_HANDLERS = {
-    "http": "scrapy_playwright.handler.ScrapyPlaywrightDownloadHandler",
-    "https": "scrapy_playwright.handler.ScrapyPlaywrightDownloadHandler",
-}
+# DOWNLOAD_HANDLERS = {
+#     "http": "scrapy_playwright.handler.ScrapyPlaywrightDownloadHandler",
+#     "https": "scrapy_playwright.handler.ScrapyPlaywrightDownloadHandler",
+# }
 
-TWISTED_REACTOR = "twisted.internet.asyncioreactor.AsyncioSelectorReactor"
+# TWISTED_REACTOR = "twisted.internet.asyncioreactor.AsyncioSelectorReactor"
 
-PLAYWRIGHT_BROWSER_TYPE = "chromium"
+# PLAYWRIGHT_BROWSER_TYPE = "chromium"
 
-PLAYWRIGHT_DEFAULT_NAVIGATION_TIMEOUT = 30000  
-PLAYWRIGHT_LAUNCH_OPTIONS = {
-    "headless": False,
-    "args": [
-        "--disable-blink-features=AutomationControlled"
-    ],
-}
+# PLAYWRIGHT_DEFAULT_NAVIGATION_TIMEOUT = 30000  
+# PLAYWRIGHT_LAUNCH_OPTIONS = {
+#     "headless": False,
+#     "args": [
+#         "--disable-blink-features=AutomationControlled"
+#     ],
+# }
 
 # Configure a delay for requests for the same website (default: 0)
 # See https://docs.scrapy.org/en/latest/topics/settings.html#download-delay
@@ -81,6 +81,7 @@ PLAYWRIGHT_LAUNCH_OPTIONS = {
 ITEM_PIPELINES = {
    "wine_spider.pipelines.DataStoragePipeline": 300,
    "wine_spider.pipelines.LwinMatchingPipeline": 400,
+   "wine_spider.pipelines.FxRatesStoragePipeline": 500,
 }
 
 # Enable and configure the AutoThrottle extension (disabled by default)

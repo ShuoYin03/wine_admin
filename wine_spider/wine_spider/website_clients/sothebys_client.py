@@ -153,6 +153,7 @@ class SothebysClient:
                     lotId
                     bidState {
                         ...BidStateFragment
+                        ...TimedLotCountdownBidStateFragment
                     }
                 }
 
@@ -172,7 +173,11 @@ class SothebysClient:
                                 }
                             }
                         }
-                        }
+                    }  
+                }
+
+                fragment TimedLotCountdownBidStateFragment on BidState {
+                    closingTime
                 }
 
                 fragment AmountFragment on Amount {
