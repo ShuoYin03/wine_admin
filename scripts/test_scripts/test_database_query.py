@@ -26,15 +26,19 @@ class DatabaseQueryTest:
                 'id': "0017d92c-01ba-4111-b22f-b22e216bcc60",
             }
         )
+
+    async def test_query_items_distinct(self):
+        results = self.client.query_items(
+            table_name='lots',
+            distinct_fields='original_currency'
+        )
+        print(results)
     
     async def test_query_items_through_api(self):
         payload = {
-            'table': 'lots',
-            'filters': {
-                'id': "0017d92c-01ba-4111-b22f-b22e216bcc60",
-            }
+            "distinct_fields": "original_currency"
         }
-        response = requests.get(f'{self.base_url}/query', json=payload)
+        response = requests.post(f'{self.base_url}/query', json=payload)
         print(response)
         results = response.json()
         print(results)

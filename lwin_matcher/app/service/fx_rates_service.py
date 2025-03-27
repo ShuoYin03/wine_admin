@@ -22,6 +22,3 @@ class FxRatesService:
         
         rates = response.json()['widget'][0]['data'][0][1]
         return rates
-
-fx_rates_service = FxRatesService()
-print(fx_rates_service.get_rates('GBP', 'USD'))

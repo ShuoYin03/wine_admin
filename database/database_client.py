@@ -47,65 +47,133 @@ class DatabaseClient:
         finally:
             session.close()
     
-    def query_items(self, table_name, filters=None, order_by=None, limit=None, offset=None):
+    def build_query(self, table, session, select_fields=None):
+        if select_fields:
+            columns = [getattr(table.c, field) for field in select_fields]
+            return session.query(*columns)
+        return session.query(table)
+
+    def query_items(self, table_name, filters=None, order_by=None, limit=None, offset=None, select_fields=None, distinct_fields=None):
         table = self.get_table(table_name)
         session = self.Session()
+
+        # try:
+        if distinct_fields:
+            column = getattr(table.c, distinct_fields)
+            query = session.query(column.distinct())
+        else:
+            query = self.build_query(table, session, select_fields)
+
+        if filters:
+            conditions = []
+            for key, value in filters.items():
+                if isinstance(value, tuple) and len(value) == 2:
+                    conditions.append(getattr(table.c, key).between(value[0], value[1]))
+                elif key.endswith('__like'):
+                    key = key.replace('__like', '')
+                    conditions.append(getattr(table.c, key).ilike(f"%{value}%"))
+                elif key.endswith('__gt'):
+                    key = key.replace('__gt', '')
+                    conditions.append(getattr(table.c, key) > value)
+                elif key.endswith('__lt'):
+                    key = key.replace('__lt', '')
+                    conditions.append(getattr(table.c, key) < value)
+                elif key.endswith('__gte'):
+                    key = key.replace('__gte', '')
+                    conditions.append(getattr(table.c, key) >= value)
+                elif key.endswith('__lte'):
+                    key = key.replace('__lte', '')
+                    conditions.append(getattr(table.c, key) <= value)
+                else:
+                    conditions.append(getattr(table.c, key) == value)
+
+            query = query.filter(and_(*conditions))
+
+        if order_by:
+            if isinstance(order_by, str):
+                query = query.order_by(getattr(table.c, order_by[1:]).desc()) if order_by.startswith('-') else query.order_by(getattr(table.c, order_by))
+            elif isinstance(order_by, list):
+                order_clauses = [getattr(table.c, field[1:]).desc() if field.startswith('-') else getattr(table.c, field) for field in order_by]
+                query = query.order_by(*order_clauses)
+
+        if offset:
+            query = query.offset(offset)
+
+        if limit:
+            query = query.limit(limit)
+
+        results = query.all()
+
+        if distinct_fields:
+            return [row[0] for row in results]
+
+        return [dict(row._mapping) for row in results]
+
+        # except Exception as e:
+        #     print(f"Error: {e}")
+        #     return []
+        # finally:
+        #     session.close()
+
+    # def query_items(self, table_name, filters=None, order_by=None, limit=None, offset=None, select_fields=None):
+    #     table = self.get_table(table_name)
+    #     session = self.Session()
         
-        try:
-            query = session.query(table)
+    #     try:
+    #         query = self.build_query(table, session, select_fields)
 
-            if filters:
-                conditions = []
-                for key, value in filters.items():
-                    if isinstance(value, tuple) and len(value) == 2:
-                        conditions.append(getattr(table.c, key).between(value[0], value[1]))
+    #         if filters:
+    #             conditions = []
+    #             for key, value in filters.items():
+    #                 if isinstance(value, tuple) and len(value) == 2:
+    #                     conditions.append(getattr(table.c, key).between(value[0], value[1]))
 
-                    elif key.endswith('__like'):
-                        key = key.replace('__like', '')
-                        conditions.append(getattr(table.c, key).ilike(f"%{value}%"))
+    #                 elif key.endswith('__like'):
+    #                     key = key.replace('__like', '')
+    #                     conditions.append(getattr(table.c, key).ilike(f"%{value}%"))
                     
-                    elif key.endswith('__gt'):
-                        key = key.replace('__gt', '')
-                        conditions.append(getattr(table.c, key) > value)
+    #                 elif key.endswith('__gt'):
+    #                     key = key.replace('__gt', '')
+    #                     conditions.append(getattr(table.c, key) > value)
                     
-                    elif key.endswith('__lt'):
-                        key = key.replace('__lt', '')
-                        conditions.append(getattr(table.c, key) < value)
+    #                 elif key.endswith('__lt'):
+    #                     key = key.replace('__lt', '')
+    #                     conditions.append(getattr(table.c, key) < value)
                     
-                    elif key.endswith('__gte'):
-                        key = key.replace('__gte', '')
-                        conditions.append(getattr(table.c, key) >= value)
+    #                 elif key.endswith('__gte'):
+    #                     key = key.replace('__gte', '')
+    #                     conditions.append(getattr(table.c, key) >= value)
                     
-                    elif key.endswith('__lte'):
-                        key = key.replace('__lte', '')
-                        conditions.append(getattr(table.c, key) <= value)
-                    else:
-                        conditions.append(getattr(table.c, key) == value)
+    #                 elif key.endswith('__lte'):
+    #                     key = key.replace('__lte', '')
+    #                     conditions.append(getattr(table.c, key) <= value)
+    #                 else:
+    #                     conditions.append(getattr(table.c, key) == value)
 
-                query = query.filter(and_(*conditions))
+    #             query = query.filter(and_(*conditions))
             
-            if order_by:
-                if isinstance(order_by, str):
-                    query = query.order_by(getattr(table.c, order_by[1:]).desc()) if order_by.startswith('-') else query.order_by(getattr(table.c, order_by))
-                elif isinstance(order_by, list):
-                    order_clauses = [getattr(table.c, field[1:]).desc() if field.startswith('-') else getattr(table.c, field) for field in order_by]
-                    query = query.order_by(*order_clauses)
+    #         if order_by:
+    #             if isinstance(order_by, str):
+    #                 query = query.order_by(getattr(table.c, order_by[1:]).desc()) if order_by.startswith('-') else query.order_by(getattr(table.c, order_by))
+    #             elif isinstance(order_by, list):
+    #                 order_clauses = [getattr(table.c, field[1:]).desc() if field.startswith('-') else getattr(table.c, field) for field in order_by]
+    #                 query = query.order_by(*order_clauses)
 
-            if offset:
-                query = query.offset(offset)
+    #         if offset:
+    #             query = query.offset(offset)
 
-            if limit:
-                query = query.limit(limit)
+    #         if limit:
+    #             query = query.limit(limit)
 
-            results = query.all()
+    #         results = query.all()
 
-            return [dict(row._mapping) for row in results]
+    #         return [dict(row._mapping) for row in results]
 
-        except Exception as e:
-            print(f"Error: {e}")
-            return []
-        finally:
-            session.close()
+    #     except Exception as e:
+    #         print(f"Error: {e}")
+    #         return []
+    #     finally:
+    #         session.close()
 
     def close(self):
         self.engine.dispose()

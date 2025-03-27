@@ -6,8 +6,8 @@ import dotenv
 import pandas as pd
 from bs4 import BeautifulSoup
 from database import DatabaseClient
-from wine_spider.helpers import parse_quarter
 from wine_spider.items import AuctionItem, LotItem
+from wine_spider.helpers import parse_quarter, extract_date
 from wine_spider.helpers import find_continent, region_to_country
 from wine_spider.website_clients.sothebys_client import SothebysClient
 from wine_spider.helpers import parse_volumn_and_unit_from_title, parse_year_from_title, match_lot_info
@@ -31,7 +31,7 @@ class SothebysSpider(scrapy.Spider):
         base_dir = os.path.dirname(os.path.abspath(__file__))
         self.lwin_df = pd.read_excel(os.path.join(base_dir, "LWIN wines.xls"))
         self.base_url = "https://www.sothebys.com"
-        self.client = SothebysClient(headless=True)
+        self.client = SothebysClient(headless=False)
         self.db_client = DatabaseClient()
 
     def parse(self, response):
@@ -61,7 +61,7 @@ class SothebysSpider(scrapy.Spider):
         data = [(asset_data.get("vikingId"), asset_data.get("url")) for _, asset_data in data.items()]
         first_open = True
 
-        for viking_id, url in data[:2]:
+        for viking_id, url in data[1:2]:
             
             if not FULL_FETCH and self.check_exists(viking_id, "auction"):
                 self.logger.info(f"Auction {viking_id} exists, Skipping...")
@@ -76,7 +76,8 @@ class SothebysSpider(scrapy.Spider):
                 callback=self.parse_auction_api_response,
             )
 
-            response = self.client.go_to(url)
+            # response = self.client.go_to(url)
+            response, token = self.client.get_authorisation_token_and_response(url)
 
             try:
                 if first_open:
@@ -100,6 +101,7 @@ class SothebysSpider(scrapy.Spider):
                 meta={
                     "viking_id": viking_id,
                     "algolia_page_response": response,
+                    "token": token,
                 }
             )
 
@@ -155,6 +157,7 @@ class SothebysSpider(scrapy.Spider):
         viking_id = response.meta.get("viking_id")
         html = response.meta.get("algolia_page_response")
         data = response.json()['hits']
+        token = response.meta.get("token")
 
         lots = []
         soup = BeautifulSoup(html, "html.parser")
@@ -214,9 +217,15 @@ class SothebysSpider(scrapy.Spider):
         lot_ids = [lot['id'] for lot in lots]
         payload = self.client.lot_card_query(viking_id, lot_ids)
 
+        hearders = {
+             "Authorization": f"Bearer {token}",
+             "Content-Type": "application/json"
+         }
+        
         yield scrapy.Request(
             url=self.client.api_url,
             method='POST',
+            headers=hearders,
             body=json.dumps(payload),
             callback=self.parse_lot_api_response,
             meta={
@@ -226,10 +235,11 @@ class SothebysSpider(scrapy.Spider):
 
     def parse_lot_api_response(self, response):
         data = json.loads(response.text)['data']['auction']['lot_ids']
-        data_dict = {item['lotId']: item['bidState']['startingBid']['amount'] for item in data}
+        data_dict = {item['lotId']: (item['bidState']['startingBid']['amount'], item['bidState']['closingTime']) for item in data}
         lots = response.meta.get("lots")
         for lot in lots:
-            lot['start_price'] = data_dict[lot['id']]
+            lot['start_price'] = data_dict[lot['id']][0]
+            lot['sold_date'] = extract_date(data_dict[lot['id']][1])
             yield lot
     
     def check_exists(self, id, type):

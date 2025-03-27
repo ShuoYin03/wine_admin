@@ -18,4 +18,16 @@ async def lwin_query_all():
         results = fx_rates_service.get_rates(rates_from, rates_to)
         return Response(results, status=200)
     except Exception as e:
-        return Response(json.dumps({"error": str(e)}), mimetype='application/json', status=500)
+        try:
+            result = db.query_items(
+                table_name='fx_rates_cache',
+                filters={
+                    'rates_from': rates_from, 
+                    'rates_to': rates_to
+                }
+            )
+
+            result = str(result[0]['rates'])
+            return Response(result, status=200)
+        except Exception as e:
+            return Response(json.dumps({"error": str(e)}), mimetype='application/json', status=500)

@@ -1,10 +1,9 @@
 import json
 import scrapy
-import requests
 from .helpers import EnvironmentHelper
 from itemadapter import ItemAdapter
 from database import DatabaseClient
-from .items import AuctionItem, AuctionSalesItem, LotItem, LwinMatchingItem
+from .items import AuctionItem, AuctionSalesItem, LotItem, LwinMatchingItem, FxRateItem
 
 environmentHelper = EnvironmentHelper()
 
@@ -74,8 +73,6 @@ class DataStoragePipeline:
             else:
                 self.db_client.insert_item("failed_lots", item_data)
             self.lot_items_by_auction.setdefault(auction_id, []).append(item_data)
-        else:
-            raise ValueError(f"Unknown item type: {item.get('item_type')}")
         
         return item
     
@@ -128,4 +125,21 @@ class DataStoragePipeline:
                 print(f"Error processing auction {auction_id}: {e}")
                 continue
 
+        self.db_client.close()
+
+
+class FxRatesStoragePipeline:
+    def open_spider(self, spider):
+        self.db_client = DatabaseClient()
+
+    def process_item(self, item, spider):
+        if type(item) != FxRateItem:
+            return item
+        
+        item_data = ItemAdapter(item).asdict()
+        self.db_client.insert_item("fx_rates_cache", item_data)
+
+        return item
+
+    def close_spider(self, spider):
         self.db_client.close()

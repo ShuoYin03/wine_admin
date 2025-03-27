@@ -1,24 +1,45 @@
 import os
 import scrapy
+import dotenv
+from database import DatabaseClient
+from wine_spider.items import FxRateItem
 
-class ZachysSpider(scrapy.Spider):
-    name = "zachys_spider"
+dotenv.load_dotenv()
+
+class FxRatesSpider(scrapy.Spider):
+    name = "fx_rates_spider"
     allowed_domains = [
-        "bid.zachys.com"
+        os.getenv('BASE_URL')
     ]
     
-
     def __init__(self, *args, **kwargs):
-        super(ZachysSpider, self).__init__(*args, **kwargs)
+        super(FxRatesSpider, self).__init__(*args, **kwargs)
+        self.db = DatabaseClient()
+        self.rates_list = [i for i in self.db.query_items(table_name="lots", distinct_fields="original_currency") if i != 'USD']
+        self.base_url = f"{os.getenv('BASE_URL')}/rates"
+
+    def start_requests(self):
+        for rate in self.rates_list:
+            params = f"rates_from={rate}&rates_to=USD"
+            yield scrapy.Request(
+                url=f"{self.base_url}?{params}", 
+                callback=self.parse,
+                meta={
+                    'rates_from': rate,
+                    'rates_to': 'USD'
+                },
+                dont_filter=True
+            )
 
     def parse(self, response):
-        with open("zachys.html", "wb") as f:
-            f.write(response.body)
+        rates_from = response.meta['rates_from']
+        rates_to = response.meta['rates_to']
+        rates = float(response.text)
 
-        auctions = response.css("div.auction-item")
-        for auction in auctions:
-            yield {
-                "title": auction.css("h2::text").get(),
-                "date": auction.css("span.date::text").get(),
-                "status": auction.css("span.status::text").get(),
-            }
+        fx_rate_item = FxRateItem()
+        fx_rate_item['rates_from'] = rates_from
+        fx_rate_item['rates_to'] = rates_to
+        fx_rate_item['rates'] = rates
+
+        yield fx_rate_item
+
