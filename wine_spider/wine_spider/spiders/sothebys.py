@@ -76,7 +76,6 @@ class SothebysSpider(scrapy.Spider):
                 callback=self.parse_auction_api_response,
             )
 
-            # response = self.client.go_to(url)
             response, token = self.client.get_authorisation_token_and_response(url)
 
             try:
