@@ -53,15 +53,6 @@ const SelectFilter = styled.select`
     background-size: 14px;
 `;
 
-const SlideFilterContainer = styled.div`
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-    padding: 20px;
-    margin-top: 20px;
-    border-top: 1px solid #705C61;
-`;
-
 const ButtonContainer = styled.div`
     display: flex;
     align-items: center;
@@ -123,16 +114,12 @@ const FilterWindow = () => {
         "Vintage",
         "Auction Before",
         "Auction After",
-    ]
-
-    const slideFilters = [
-        "Price Range",
     ];
 
     return (
         <FilterWindowContainer>
             {selectFilters.map((filter, index) => (
-                <SelectFilter>
+                <SelectFilter key={index}>
                     <option value="">{`Select ${filter}`}</option>
                     <option value="option1">Option 1</option>
                     <option value="option2">Option 2</option>

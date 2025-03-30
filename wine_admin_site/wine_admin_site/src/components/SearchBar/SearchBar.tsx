@@ -7,6 +7,11 @@ import SquareButton from "../SquareButton/SquareButton";
 import ArrowUpShort from "@/assets/arrow-up-short.svg";
 import ArrowDownShort from "@/assets/arrow-down-short.svg";
 
+type SearchBarProps = {
+    callbackFilter: (filters: object) => void;
+    callbackOrderBy: (orderBy: object) => void;
+};
+
 const SearchBarMainContainer = styled.div`
     display: flex;
     flex-direction: column;
@@ -191,7 +196,7 @@ const ExportButton = styled.button`
     }
 `;
 
-const SearchBar = () => {
+const SearchBar = ({ callbackFilter, callbackOrderBy }: SearchBarProps) => {
     const [showFilterWindow, setShowFilterWindow] = useState(false);
     const [sortDirection, setSortDirection] = useState("asc");
 
@@ -222,14 +227,14 @@ const SearchBar = () => {
                         <FilterIconWrapper>
                             <FunnelIcon />
                         </FilterIconWrapper>
-                        <FilterText>Filters</FilterText>
+                        <FilterText onChange={callbackFilter}>Filters</FilterText>
                     </FilterButton>
                     <SortWrapper>
                         <SortText>Sort by :</SortText>
-                        <SortSelect>Price</SortSelect>
+                        <SortSelect onChange={callbackOrderBy}>Price</SortSelect>
                         <SquareButton onClick={handleSortDirectionChange}>
                             {sortDirection === "asc" ? (
-                                <ArrowUpShort style={{"height": "16px", "width": "16px"}}/>
+                                <ArrowUpShort />
                             ) : (
                                 <ArrowDownShort />
                             )}

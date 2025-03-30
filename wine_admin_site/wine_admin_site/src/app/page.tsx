@@ -162,7 +162,7 @@ const fakeData: LotDisplayType[] = [
 
 const Home = () => {
     const [filters, setFilters] = useState<object>({});
-    const [order_by, setOrderBy] = useState<string[]>([]);
+    const [order_by, setOrderBy] = useState<object>({});
     const [page, setPage] = useState<number>(1);
     const [page_size, setPageSize] = useState<number>(30);
     const [data, setData] = useState<LotDisplayType[]>(fakeData);
@@ -188,7 +188,7 @@ const Home = () => {
             setData(result);
         };
         fetchData();
-    }, []);
+    }, [filters, order_by, page, page_size]);
 
     const handlePageChange = (direction: boolean) => {
         if (direction && page < Math.ceil(data.length / page_size)) {
@@ -198,11 +198,19 @@ const Home = () => {
         }
     }
 
+    const handleFilterChange = (filters: object) => {
+        setFilters(filters);
+    }
+    const handleOrderByChange = (orderBy: object) => {
+        setOrderBy(orderBy);
+    }
+
+
     return (
       <HomeContainer>
         <HomeTitle>Wine Admin Site</HomeTitle>
         <HomeSubtitle>Browse, Search, and Manage Wine Lots</HomeSubtitle>
-        <SearchBar />
+        <SearchBar callbackFilter={handleFilterChange} callbackOrderBy={handleOrderByChange}/>
         <LotsTable columns={fakeColumns} data={data} />
         <TableBottomContainer>
           <DisplayPageSize>
