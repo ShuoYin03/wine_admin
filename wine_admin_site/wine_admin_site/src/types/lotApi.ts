@@ -35,10 +35,11 @@ export type LotType = {
 };
 
 export type LotDisplayType = {
-    wine_name: string;
-    vintage?: string;
+    id?: number;
+    wine_name?: string;
+    vintage?: number;
     unit?: number;
     end_price?: number;
-    sold: boolean;
+    sold?: boolean;
 };
     
