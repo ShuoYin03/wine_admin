@@ -291,7 +291,7 @@ const Home = () => {
         <HomeTitle>Wine Admin Site</HomeTitle>
         <HomeSubtitle>Browse, Search, and Manage Wine Lots</HomeSubtitle>
         <SearchBar callbackFilter={handleFilterChange} callbackOrderBy={handleOrderByChange}/>
-        <LotsTable columns={fakeColumns} data={data} />
+        <LotsTable columns={fakeColumns} data={fakeData} />
         <TableBottomContainer>
           <DisplayPageSize>
               Displaying {page * page_size - page_size + 1} - {Math.min(page * page_size, data.length)} of {data.length} results
