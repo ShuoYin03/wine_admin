@@ -53,7 +53,17 @@ class DatabaseClient:
             return session.query(*columns)
         return session.query(table)
 
-    def query_items(self, table_name, filters=None, order_by=None, limit=None, offset=None, select_fields=None, distinct_fields=None):
+    def query_items(
+        self,
+        table_name, 
+        filters=None, 
+        order_by=None, 
+        limit=None, 
+        offset=None, 
+        select_fields=None, 
+        distinct_fields=None, 
+        return_count=False
+    ):
         table = self.get_table(table_name)
         session = self.Session()
 
@@ -63,8 +73,8 @@ class DatabaseClient:
         else:
             query = self.build_query(table, session, select_fields)
 
+        conditions = []
         if filters:
-            conditions = []
             for key, value in filters.items():
                 if isinstance(value, tuple) and len(value) == 2:
                     conditions.append(getattr(table.c, key).between(value[0], value[1]))
@@ -88,6 +98,13 @@ class DatabaseClient:
 
             query = query.filter(and_(*conditions))
 
+        if return_count:
+            if conditions:
+                count_query = session.query(func.count()).select_from(table).filter(and_(*conditions))
+            else:
+                count_query = session.query(func.count()).select_from(table)
+            count = count_query.scalar()
+
         if order_by:
             if isinstance(order_by, str):
                 query = query.order_by(getattr(table.c, order_by[1:]).desc()) if order_by.startswith('-') else query.order_by(getattr(table.c, order_by))
@@ -105,8 +122,99 @@ class DatabaseClient:
 
         if distinct_fields:
             return [row[0] for row in results]
+        
+        session.close()
 
+        if return_count:
+            return [dict(row._mapping) for row in results], count
+        
         return [dict(row._mapping) for row in results]
+    
+    def query_lots_with_auction(
+        self,
+        filters: dict = None,
+        order_by: str = None,
+        limit: int = 50,
+        offset: int = 0,
+        return_count: bool = False,
+    ):
+        session = self.Session()
+        lots = self.get_table("lots")
+        auctions = self.get_table("auctions")
+
+        query = session.query(lots, auctions).join(
+            auctions, lots.c.auction_id == auctions.c.id
+        )
+
+        lots_fields = set(lots.c.keys())
+        auction_fields = set(auctions.c.keys())
+
+        conditions = []
+
+        if filters:
+            for key, value in filters.items():
+                op = "eq"
+                if '__' in key:
+                    key, op = key.split('__')
+
+                if key in lots_fields:
+                    col = lots.c[key]
+                elif key in auction_fields:
+                    col = auctions.c[key]
+                else:
+                    continue
+
+                if op == "eq":
+                    conditions.append(col == value)
+                elif op == "like":
+                    conditions.append(col.ilike(f"%{value}%"))
+                elif op == "gt":
+                    conditions.append(col > value)
+                elif op == "lt":
+                    conditions.append(col < value)
+                elif op == "gte":
+                    conditions.append(col >= value)
+                elif op == "lte":
+                    conditions.append(col <= value)
+                elif op == "between" and isinstance(value, (list, tuple)) and len(value) == 2:
+                    conditions.append(col.between(value[0], value[1]))
+
+        if conditions:
+            query = query.filter(and_(*conditions))
+
+        if order_by:
+            field = order_by.lstrip("-")
+            desc = order_by.startswith("-")
+            if field in lots_fields:
+                col = lots.c[field]
+            elif field in auction_fields:
+                col = auctions.c[field]
+            else:
+                col = None
+
+            if col is not None:
+                query = query.order_by(col.desc() if desc else col)
+
+        if offset:
+            query = query.offset(offset)
+        if limit:
+            query = query.limit(limit)
+
+        if return_count:
+            count_query = session.query(func.count()).select_from(
+                lots.join(auctions, lots.c.auction_id == auctions.c.id)
+            ).filter(and_(*conditions)) if conditions else session.query(func.count()).select_from(
+                lots.join(auctions, lots.c.auction_id == auctions.c.id)
+            )
+            count = count_query.scalar()
+
+        results = query.all()
+        session.close()
+
+        if return_count:
+            return [dict(row._mapping) for row in results], count
+
+        return  [dict(row._mapping) for row in results]
 
     def close(self):
         self.engine.dispose()

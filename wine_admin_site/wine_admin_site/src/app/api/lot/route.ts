@@ -32,9 +32,11 @@ export async function POST(req: NextRequest) {
         body: JSON.stringify(payload)
     });
 
-    const data = await response.json();
+    const data = await response.json(); 
+    const lots = data.lots;
+    const count = data.count;
 
-    const filtered_data = filterData(data);
+    const filtered_data = filterData(lots);
 
-    return NextResponse.json({ result: filtered_data });
+    return NextResponse.json({ result: filtered_data, count: count });
 }

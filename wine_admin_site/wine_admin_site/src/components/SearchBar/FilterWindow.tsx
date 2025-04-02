@@ -1,5 +1,19 @@
-import React from "react";
+import React, { useState, useEffect, useRef } from "react";
 import styled from "styled-components";
+import FilterOptions from "./FilterOptions";
+import Count from "../Count/Count";
+
+type FilterWindowProps = {
+    callback: (
+        filters: Record<string, string[]>,
+        count: Record<string, number>
+      ) => void;
+    onClose: () => void;
+    filters: Record<string, string[]>;
+    setFilters: React.Dispatch<React.SetStateAction<Record<string, string[]>>>;
+    filterCount: Record<string, number>;
+    setFilterCount: React.Dispatch<React.SetStateAction<Record<string, number>>>;
+};
 
 const FilterWindowContainer = styled.div`
     display: flex;
@@ -7,7 +21,7 @@ const FilterWindowContainer = styled.div`
     align-items: center;
     justify-content: flex-start;
     width: 230px;
-    height: 380px;
+    height: 420px;
     padding: 0px 5px;
     margin-top: 50px;
     margin-left: 687px;
@@ -25,7 +39,11 @@ const FilterWindowContainer = styled.div`
     }
 `;
 
-const SelectFilter = styled.select`
+const SelectFilter = styled.button`
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
     width: 230px;
     height: 35px;
     border-radius: 4px;
@@ -104,7 +122,7 @@ const ClearFilterButton = styled.button`
     }
 `;
 
-const FilterWindow = () => {
+const FilterWindow = ({ callback, onClose, filters, setFilters, filterCount, setFilterCount }: FilterWindowProps) => {
     const selectFilters = [
         "Auction House",
         "Lot Producer",
@@ -114,28 +132,134 @@ const FilterWindow = () => {
         "Vintage",
         "Auction Before",
         "Auction After",
+        "Price Range",
     ];
 
+    const [activeFilter, setActiveFilter] = useState<string | null>(null);
+    const [filterPosition, setFilterPosition] = useState<{ top: number, left: number }>({ top: 0, left: 0 });
+    const containerRef = useRef<HTMLDivElement>(null);
+    const optionsRef = useRef<HTMLDivElement>(null);
+
+    useEffect(() => {
+        const handleClickOutside = (event: MouseEvent) => {
+            const target = event.target as Node;
+
+            if (containerRef.current &&
+                !containerRef.current.contains(target) &&
+                (!optionsRef.current || !optionsRef.current.contains(target))
+            ) {
+                onClose();
+            }
+        };
+        
+        document.addEventListener("mousedown", handleClickOutside);
+        return () => {
+            document.removeEventListener("mousedown", handleClickOutside);
+        };
+    }, [onClose]);
+
+    const filterMap: Record<string, string> = {
+        "Auction House": "auction_house",
+        "Lot Producer": "lot_producer",
+        "Region": "region",
+        "Colour": "color",
+        "Format": "format",
+        "Vintage": "vintage",
+        "Auction Before": "start_date",
+        "Auction After": "end_date",
+        "Price Range": "end_price",
+    }
+
+    const handleAddFilter = (filter: string, value: string) => {
+        const filterKey = filterMap[filter];
+      
+        const current = filters[filterKey] || [];
+      
+        const alreadyExists = current.includes(value);
+      
+        if (!alreadyExists) {
+            setFilters((prevFilters) => ({
+                ...prevFilters,
+                [filterKey]: [...(prevFilters[filterKey] || []), value],
+            }));
+            setFilterCount((prevCount) => ({
+                ...prevCount,
+                [filter]: prevCount[filter] + 1,
+            }));
+
+        } else {
+            setFilters((prevFilters) => {
+                const updated = prevFilters[filterKey].filter((item) => item !== value);
+                return {
+                ...prevFilters,
+                [filterKey]: updated,
+                };
+            });
+            setFilterCount((prevCount) => ({
+                ...prevCount,
+                [filter]: prevCount[filter] - 1,
+            }));
+        }
+    };
+    
+    const handleClearFilters = () => {
+        const clearedFilters = {};
+        const clearedCount = selectFilters.reduce((acc, f) => ({ ...acc, [f]: 0 }), {});
+        setFilters(clearedFilters);
+        setFilterCount(clearedCount);
+        callback(filters, filterCount);
+    };
+
+    const handleApplyFilters = () => {
+        console.log("Filters applied");
+        console.log(filters);
+        onClose();
+        callback(filters, filterCount);
+    };
+
+    const handleFilterClick = (filter: string, e: React.MouseEvent<HTMLButtonElement>) => {
+        const rect = e.currentTarget.getBoundingClientRect();
+        const containerRect = containerRef.current?.getBoundingClientRect();
+
+        if (activeFilter === filter) {
+            setActiveFilter(null);
+            return;
+        } else {
+            setActiveFilter(filter);
+        }
+        setFilterPosition({
+            top: rect.top,
+            left: rect.right + 10,
+        });
+    };
+
     return (
-        <FilterWindowContainer>
-            {selectFilters.map((filter, index) => (
-                <SelectFilter key={index}>
-                    <option value="">{`Select ${filter}`}</option>
-                    <option value="option1">Option 1</option>
-                    <option value="option2">Option 2</option>
-                </SelectFilter>
-            ))}
-            {/* {slideFilters.map((filter, index) => (
-                <SlideFilterContainer key={index}>
-                    <label>{filter}</label>
-                    <input type="range" min="0" max="100" />
-                </SlideFilterContainer>
-            ))} */}
-            <ButtonContainer>
-                <ApplyFilterButton>Apply Filter</ApplyFilterButton>
-                <ClearFilterButton>Clear Filter</ClearFilterButton>
-            </ButtonContainer>
-        </FilterWindowContainer>
+        <>
+            <FilterWindowContainer ref={containerRef}>
+                {selectFilters.map((filter, index) => (
+                    <SelectFilter key={index} onClick={(e) => handleFilterClick(filter, e)}>
+                        {`Select ${filter}`}
+                        {filterCount[filter] > 0 && <Count count={filterCount[filter]} />}
+                    </SelectFilter>
+                ))}
+
+                <ButtonContainer>
+                    <ApplyFilterButton onClick={handleApplyFilters}>Apply Filter</ApplyFilterButton>
+                    <ClearFilterButton onClick={handleClearFilters}>Clear Filter</ClearFilterButton>
+                </ButtonContainer>
+            </FilterWindowContainer>
+
+            {activeFilter && (
+                <div ref={optionsRef}>
+                <FilterOptions 
+                    filterType={activeFilter}
+                    position={filterPosition}
+                    onClick={(value) => handleAddFilter(activeFilter, value)}
+                    onClose={() => setActiveFilter(null)}
+                    />
+                </div>
+            )}
+        </>
     );
 }
 

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import styled from "styled-components";
 import SearchIcon from "@/assets/search.svg";
 import FunnelIcon from "@/assets/funnel.svg";
@@ -9,7 +9,7 @@ import ArrowDownShort from "@/assets/arrow-down-short.svg";
 
 type SearchBarProps = {
     callbackFilter: (filters: object) => void;
-    callbackOrderBy: (orderBy: object) => void;
+    callbackOrderBy: (orderBy: string) => void;
 };
 
 const SearchBarMainContainer = styled.div`
@@ -151,6 +151,7 @@ const SortSelect = styled.select`
     cursor: pointer;
     margin-right: 10px;
     outline: none;
+    padding: 10px;
 
     appearance: none;
     -webkit-appearance: none;
@@ -197,8 +198,25 @@ const ExportButton = styled.button`
 `;
 
 const SearchBar = ({ callbackFilter, callbackOrderBy }: SearchBarProps) => {
+    const selectFilters = [
+        "Auction House",
+        "Lot Producer",
+        "Region",
+        "Colour",
+        "Format",
+        "Vintage",
+        "Auction Before",
+        "Auction After",
+        "Price Range",
+    ];
+
     const [showFilterWindow, setShowFilterWindow] = useState(false);
+    const [sortField, setSortField] = useState("");
     const [sortDirection, setSortDirection] = useState("asc");
+    const [filters, setFilters] = useState<Record<string, string[]>>({});
+    const [filterCount, setFilterCount] = useState<Record<string, number>>(
+        selectFilters.map((filter) => [filter, 0]).reduce((acc, [key, value]) => ({ ...acc, [key]: value }), {})
+    );
 
     const toggleFilterWindow = () => {
         setShowFilterWindow(!showFilterWindow);
@@ -212,6 +230,17 @@ const SearchBar = ({ callbackFilter, callbackOrderBy }: SearchBarProps) => {
         setSortDirection((prevDirection) => (prevDirection === "asc" ? "desc" : "asc"));
     }
 
+    const handleFilterChange = (filters: Record<string, string[]>, count: Record<string, number>) => {
+        setFilters(filters);
+        setFilterCount(count);
+        callbackFilter(filters);
+    };
+
+    useEffect(() => {
+        const sortDirectionSymbol = sortDirection === "asc" ? "" : "-";
+        callbackOrderBy(`${sortDirectionSymbol}${sortField}`);
+    }, [sortField, sortDirection]);
+
     return (
         <SearchBarMainContainer>
             <SearchBarContainer>
@@ -223,15 +252,21 @@ const SearchBar = ({ callbackFilter, callbackOrderBy }: SearchBarProps) => {
                 </SearchWrapper>
                 <SubmitButton onClick={handleSubmit}>Search</SubmitButton>
                 <RightSideContainer>
-                    <FilterButton onClick={toggleFilterWindow}>
+                    <FilterButton onMouseDown={(e) => {e.stopPropagation(); toggleFilterWindow();}}>
                         <FilterIconWrapper>
                             <FunnelIcon />
                         </FilterIconWrapper>
-                        <FilterText onChange={callbackFilter}>Filters</FilterText>
+                        <FilterText>Filters</FilterText>
                     </FilterButton>
                     <SortWrapper>
                         <SortText>Sort by :</SortText>
-                        <SortSelect onChange={callbackOrderBy}>Price</SortSelect>
+                        <SortSelect onChange={(e) => setSortField(e.target.value)}>
+                            <option value=""></option>
+                            <option value="wine_name">Name</option>
+                            <option value="vintage">Vintage</option>
+                            <option value="region">Region</option>
+                            <option value="end_price">Price</option>
+                        </SortSelect>
                         <SquareButton onClick={handleSortDirectionChange}>
                             {sortDirection === "asc" ? (
                                 <ArrowUpShort />
@@ -244,7 +279,15 @@ const SearchBar = ({ callbackFilter, callbackOrderBy }: SearchBarProps) => {
                     <ExportButton>Export</ExportButton>
                 </RightSideContainer>
             </SearchBarContainer>
-            {showFilterWindow && <FilterWindow />}
+            {showFilterWindow && 
+                <FilterWindow 
+                    callback={handleFilterChange}
+                    onClose={() => toggleFilterWindow()}
+                    filters={filters}
+                    setFilters={setFilters}
+                    filterCount={filterCount}
+                    setFilterCount={setFilterCount}
+                />}
         </SearchBarMainContainer>
   );
 };
