@@ -1,9 +1,10 @@
 import os
 from dotenv import load_dotenv
-from sqlalchemy import create_engine
+from sqlalchemy import Table, MetaData
 from sqlalchemy.orm import sessionmaker
-from sqlalchemy import Table, MetaData, func, and_
+from sqlalchemy import create_engine, func, and_, or_
 from sqlalchemy.dialects.postgresql import insert
+from sqlalchemy.sql.elements import BooleanClauseList
 
 load_dotenv()
 
@@ -13,20 +14,9 @@ class DatabaseClient:
         self.Session = sessionmaker(bind=self.engine)
         self.metadata = MetaData()
 
-    def get_table(self, table_name):
-        return Table(table_name, self.metadata, autoload_with=self.engine)
-
-    def get_random_item(self, model_class):
-        session = self.Session()
-        try:
-            result = session.query(model_class).order_by(func.random()).limit(1).first()
-            return result
-        except Exception as e:
-            print(f"Error: {e}")
-            return None
-        finally:
-            session.close()
-
+    def get_table(self, name):
+        return Table(name, self.metadata, autoload_with=self.engine)
+    
     def insert_item(self, table_name, item_data):
         table = self.get_table(table_name)
         
@@ -46,175 +36,140 @@ class DatabaseClient:
             print(f"Error: {e}")
         finally:
             session.close()
-    
-    def build_query(self, table, session, select_fields=None):
-        if select_fields:
-            columns = [getattr(table.c, field) for field in select_fields]
-            return session.query(*columns)
-        return session.query(table)
 
-    def query_items(
-        self,
-        table_name, 
-        filters=None, 
-        order_by=None, 
-        limit=None, 
-        offset=None, 
-        select_fields=None, 
-        distinct_fields=None, 
-        return_count=False
-    ):
-        table = self.get_table(table_name)
+    def parse_filters(self, filters: list[list], table_map: dict):
+        """
+        filters: List of (column, operator, value)
+        operator: 'eq', 'like', 'gt', 'lt', 'gte', 'lte', 'between'
+        """
+        and_conditions = []
+        or_conditions = []
+
+        for column, op, value in filters or []:
+            col = None
+            for table in table_map.values():
+                if column in table.c:
+                    col = table.c[column]
+                    break
+            if col is None:
+                continue
+
+            condition = None
+            if op == "eq":
+                condition = col == value
+            elif op == "like":
+                condition = col.ilike(f"%{value}%")
+            elif op == "gt":
+                condition = col > value
+            elif op == "lt":
+                condition = col < value
+            elif op == "gte":
+                condition = col >= value
+            elif op == "lte":
+                condition = col <= value
+            elif op == "between" and isinstance(value, (tuple, list)) and len(value) == 2:
+                condition = col.between(value[0], value[1])
+            elif op == "contains":
+                condition = col.any(value)
+
+            if condition is not None:
+                if op == "contains":
+                    or_conditions.append(condition)
+                else:
+                    and_conditions.append(condition)
+
+        if or_conditions and and_conditions:
+            return and_(or_(*or_conditions), *and_conditions)
+        elif or_conditions:
+            return or_(*or_conditions)
+        elif and_conditions:
+            return and_(*and_conditions)
+        else:
+            return None
+
+    def apply_order(self, query, order_by, table_map):
+        if not order_by:
+            return query
+        fields = [order_by] if isinstance(order_by, str) else order_by
+        for field in fields:
+            desc = field.startswith("-")
+            field_name = field.lstrip("-")
+            for table in table_map.values():
+                if field_name in table.c:
+                    col = table.c[field_name]
+                    query = query.order_by(col.desc() if desc else col)
+                    break
+        return query
+
+    def query_items(self, table_name, filters=None, order_by=None, limit=None, offset=None, select_fields=None, distinct_fields=None, return_count=False):
         session = self.Session()
+        table = self.get_table(table_name)
+
+        table_map = {"main": table}
+        columns = [getattr(table.c, f) for f in select_fields] if select_fields else [table]
+
+        query = session.query(*columns)
 
         if distinct_fields:
-            column = getattr(table.c, distinct_fields)
-            query = session.query(column.distinct())
-        else:
-            query = self.build_query(table, session, select_fields)
+            query = session.query(getattr(table.c, distinct_fields).distinct())
 
-        conditions = []
-        if filters:
-            for key, value in filters.items():
-                if isinstance(value, tuple) and len(value) == 2:
-                    conditions.append(getattr(table.c, key).between(value[0], value[1]))
-                elif key.endswith('__like'):
-                    key = key.replace('__like', '')
-                    conditions.append(getattr(table.c, key).ilike(f"%{value}%"))
-                elif key.endswith('__gt'):
-                    key = key.replace('__gt', '')
-                    conditions.append(getattr(table.c, key) > value)
-                elif key.endswith('__lt'):
-                    key = key.replace('__lt', '')
-                    conditions.append(getattr(table.c, key) < value)
-                elif key.endswith('__gte'):
-                    key = key.replace('__gte', '')
-                    conditions.append(getattr(table.c, key) >= value)
-                elif key.endswith('__lte'):
-                    key = key.replace('__lte', '')
-                    conditions.append(getattr(table.c, key) <= value)
-                else:
-                    conditions.append(getattr(table.c, key) == value)
+        conditions = self.parse_filters(filters, table_map)
+        if isinstance(conditions, BooleanClauseList):
+            query = query.filter(conditions)
 
-            query = query.filter(and_(*conditions))
-
-        if return_count:
-            if conditions:
-                count_query = session.query(func.count()).select_from(table).filter(and_(*conditions))
-            else:
-                count_query = session.query(func.count()).select_from(table)
-            count = count_query.scalar()
-
-        if order_by:
-            if isinstance(order_by, str):
-                query = query.order_by(getattr(table.c, order_by[1:]).desc()) if order_by.startswith('-') else query.order_by(getattr(table.c, order_by))
-            elif isinstance(order_by, list):
-                order_clauses = [getattr(table.c, field[1:]).desc() if field.startswith('-') else getattr(table.c, field) for field in order_by]
-                query = query.order_by(*order_clauses)
-
+        query = self.apply_order(query, order_by, table_map)
         if offset:
             query = query.offset(offset)
-
         if limit:
             query = query.limit(limit)
 
-        results = query.all()
+        count = None
+        if return_count:
+            count_query = session.query(func.count()).select_from(table)
+            if conditions is not None:
+                count_query = count_query.filter(conditions)
+            count = count_query.scalar()
 
-        if distinct_fields:
-            return [row[0] for row in results]
-        
+        results = query.all()
         session.close()
 
-        if return_count:
-            return [dict(row._mapping) for row in results], count
-        
-        return [dict(row._mapping) for row in results]
-    
+        data = [dict(row._mapping) for row in results]
+        return (data, count) if return_count else data
+
     def query_lots_with_auction(
-        self,
-        filters: dict = None,
-        order_by: str = None,
-        limit: int = 50,
-        offset: int = 0,
-        return_count: bool = False,
+        self, 
+        filters=None, 
+        order_by=None, 
+        limit=50, 
+        offset=0, 
+        return_count=False
     ):
         session = self.Session()
         lots = self.get_table("lots")
         auctions = self.get_table("auctions")
 
-        query = session.query(lots, auctions).join(
-            auctions, lots.c.auction_id == auctions.c.id
-        )
+        table_map = {"lots": lots, "auctions": auctions}
 
-        lots_fields = set(lots.c.keys())
-        auction_fields = set(auctions.c.keys())
+        query = session.query(lots, auctions).join(auctions, lots.c.auction_id == auctions.c.id)
+        conditions = self.parse_filters(filters, table_map)
+        if conditions is not None:
+            query = query.filter(conditions)
 
-        conditions = []
-
-        if filters:
-            for key, value in filters.items():
-                op = "eq"
-                if '__' in key:
-                    key, op = key.split('__')
-
-                if key in lots_fields:
-                    col = lots.c[key]
-                elif key in auction_fields:
-                    col = auctions.c[key]
-                else:
-                    continue
-
-                if op == "eq":
-                    conditions.append(col == value)
-                elif op == "like":
-                    conditions.append(col.ilike(f"%{value}%"))
-                elif op == "gt":
-                    conditions.append(col > value)
-                elif op == "lt":
-                    conditions.append(col < value)
-                elif op == "gte":
-                    conditions.append(col >= value)
-                elif op == "lte":
-                    conditions.append(col <= value)
-                elif op == "between" and isinstance(value, (list, tuple)) and len(value) == 2:
-                    conditions.append(col.between(value[0], value[1]))
-
-        if conditions:
-            query = query.filter(and_(*conditions))
-
-        if order_by:
-            field = order_by.lstrip("-")
-            desc = order_by.startswith("-")
-            if field in lots_fields:
-                col = lots.c[field]
-            elif field in auction_fields:
-                col = auctions.c[field]
-            else:
-                col = None
-
-            if col is not None:
-                query = query.order_by(col.desc() if desc else col)
-
+        query = self.apply_order(query, order_by, table_map)
         if offset:
             query = query.offset(offset)
         if limit:
             query = query.limit(limit)
 
+        count = None
         if return_count:
-            count_query = session.query(func.count()).select_from(
-                lots.join(auctions, lots.c.auction_id == auctions.c.id)
-            ).filter(and_(*conditions)) if conditions else session.query(func.count()).select_from(
-                lots.join(auctions, lots.c.auction_id == auctions.c.id)
-            )
+            count_query = session.query(func.count()).select_from(lots.join(auctions, lots.c.auction_id == auctions.c.id))
+            if conditions is not None:
+                count_query = count_query.filter(conditions)
             count = count_query.scalar()
 
         results = query.all()
         session.close()
 
-        if return_count:
-            return [dict(row._mapping) for row in results], count
-
-        return  [dict(row._mapping) for row in results]
-
-    def close(self):
-        self.engine.dispose()
+        data = [dict(row._mapping) for row in results]
+        return (data, count) if return_count else data

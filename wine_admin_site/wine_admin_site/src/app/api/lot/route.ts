@@ -24,7 +24,7 @@ export async function GET(req: NextRequest) {
 export async function POST(req: NextRequest) {
     const payload = await req.json();
 
-    const response = await fetch(`http://localhost:5000/query`, {
+    const response = await fetch(`http://localhost:5000/lot_query`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'

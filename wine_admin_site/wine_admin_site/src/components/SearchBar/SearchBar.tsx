@@ -213,7 +213,7 @@ const SearchBar = ({ callbackFilter, callbackOrderBy }: SearchBarProps) => {
     const [showFilterWindow, setShowFilterWindow] = useState(false);
     const [sortField, setSortField] = useState("");
     const [sortDirection, setSortDirection] = useState("asc");
-    const [filters, setFilters] = useState<Record<string, string[]>>({});
+    const [filters, setFilters] = useState<Array<[string, string, string]>>([]);
     const [filterCount, setFilterCount] = useState<Record<string, number>>(
         selectFilters.map((filter) => [filter, 0]).reduce((acc, [key, value]) => ({ ...acc, [key]: value }), {})
     );
@@ -230,7 +230,10 @@ const SearchBar = ({ callbackFilter, callbackOrderBy }: SearchBarProps) => {
         setSortDirection((prevDirection) => (prevDirection === "asc" ? "desc" : "asc"));
     }
 
-    const handleFilterChange = (filters: Record<string, string[]>, count: Record<string, number>) => {
+    const handleFilterChange = (
+        filters: Array<[string, string, string]>, 
+        count: Record<string, number>
+    ) => {
         setFilters(filters);
         setFilterCount(count);
         callbackFilter(filters);

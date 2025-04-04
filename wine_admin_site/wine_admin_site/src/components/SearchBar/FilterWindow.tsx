@@ -2,18 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import styled from "styled-components";
 import FilterOptions from "./FilterOptions";
 import Count from "../Count/Count";
-
-type FilterWindowProps = {
-    callback: (
-        filters: Record<string, string[]>,
-        count: Record<string, number>
-      ) => void;
-    onClose: () => void;
-    filters: Record<string, string[]>;
-    setFilters: React.Dispatch<React.SetStateAction<Record<string, string[]>>>;
-    filterCount: Record<string, number>;
-    setFilterCount: React.Dispatch<React.SetStateAction<Record<string, number>>>;
-};
+import { toggleFilter } from "@/utils/toggleFilter";
 
 const FilterWindowContainer = styled.div`
     display: flex;
@@ -122,6 +111,18 @@ const ClearFilterButton = styled.button`
     }
 `;
 
+type FilterWindowProps = {
+    callback: (
+        filters: Array<[string, string, string]>,
+        count: Record<string, number>
+      ) => void;
+    onClose: () => void;
+    filters: Array<[string, string, string]>;
+    setFilters: React.Dispatch<React.SetStateAction<Array<[string, string, string]>>>;
+    filterCount: Record<string, number>;
+    setFilterCount: React.Dispatch<React.SetStateAction<Record<string, number>>>;
+};
+
 const FilterWindow = ({ callback, onClose, filters, setFilters, filterCount, setFilterCount }: FilterWindowProps) => {
     const selectFilters = [
         "Auction House",
@@ -171,48 +172,56 @@ const FilterWindow = ({ callback, onClose, filters, setFilters, filterCount, set
     }
 
     const handleAddFilter = (filter: string, value: string) => {
-        const filterKey = filterMap[filter];
+        // const filterKey = filterMap[filter];
       
-        const current = filters[filterKey] || [];
+        // const current = filters[filterKey] || [];
       
-        const alreadyExists = current.includes(value);
+        // const alreadyExists = current.includes(value);
       
-        if (!alreadyExists) {
-            setFilters((prevFilters) => ({
-                ...prevFilters,
-                [filterKey]: [...(prevFilters[filterKey] || []), value],
-            }));
-            setFilterCount((prevCount) => ({
-                ...prevCount,
-                [filter]: prevCount[filter] + 1,
-            }));
+        // if (!alreadyExists) {
+        //     setFilters((prevFilters) => ({
+        //         ...prevFilters,
+        //         [filterKey]: [...(prevFilters[filterKey] || []), value],
+        //     }));
+        //     setFilterCount((prevCount) => ({
+        //         ...prevCount,
+        //         [filter]: prevCount[filter] + 1,
+        //     }));
 
-        } else {
-            setFilters((prevFilters) => {
-                const updated = prevFilters[filterKey].filter((item) => item !== value);
-                return {
-                ...prevFilters,
-                [filterKey]: updated,
-                };
-            });
-            setFilterCount((prevCount) => ({
-                ...prevCount,
-                [filter]: prevCount[filter] - 1,
-            }));
-        }
+        // } else {
+        //     setFilters((prevFilters) => {
+        //         const updated = prevFilters[filterKey].filter((item) => item !== value);
+        //         return {
+        //         ...prevFilters,
+        //         [filterKey]: updated,
+        //         };
+        //     });
+        //     setFilterCount((prevCount) => ({
+        //         ...prevCount,
+        //         [filter]: prevCount[filter] - 1,
+        //     }));
+        // }
+        const filterKey = filterMap[filter];
+        const newFilters = toggleFilter(filters, filterKey, "eq", value);
+
+        const existed = filters.length > newFilters.length;
+
+        setFilters(newFilters);
+        setFilterCount((prevCount) => ({
+            ...prevCount,
+            [filter]: prevCount[filter] + (existed ? -1 : 1),
+        }));
     };
     
     const handleClearFilters = () => {
-        const clearedFilters = {};
+        const clearedFilters = [] as [string, string, string][];
         const clearedCount = selectFilters.reduce((acc, f) => ({ ...acc, [f]: 0 }), {});
         setFilters(clearedFilters);
         setFilterCount(clearedCount);
-        callback(filters, filterCount);
+        callback(clearedFilters, clearedCount);
     };
 
     const handleApplyFilters = () => {
-        console.log("Filters applied");
-        console.log(filters);
         onClose();
         callback(filters, filterCount);
     };
