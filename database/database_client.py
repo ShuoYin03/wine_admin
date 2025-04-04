@@ -1,5 +1,6 @@
 import os
 from dotenv import load_dotenv
+from contextlib import contextmanager
 from sqlalchemy import Table, MetaData
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy import create_engine, func, and_, or_
@@ -13,6 +14,14 @@ class DatabaseClient:
         self.engine = create_engine(os.getenv('DB_URL'))
         self.Session = sessionmaker(bind=self.engine)
         self.metadata = MetaData()
+
+    @contextmanager
+    def session_scope(self):
+        session = self.Session()
+        try:
+            yield session
+        finally:
+            session.close()
 
     def get_table(self, name):
         return Table(name, self.metadata, autoload_with=self.engine)
@@ -38,10 +47,6 @@ class DatabaseClient:
             session.close()
 
     def parse_filters(self, filters: list[list], table_map: dict):
-        """
-        filters: List of (column, operator, value)
-        operator: 'eq', 'like', 'gt', 'lt', 'gte', 'lte', 'between'
-        """
         and_conditions = []
         or_conditions = []
 
@@ -101,40 +106,50 @@ class DatabaseClient:
                     break
         return query
 
-    def query_items(self, table_name, filters=None, order_by=None, limit=None, offset=None, select_fields=None, distinct_fields=None, return_count=False):
-        session = self.Session()
-        table = self.get_table(table_name)
+    def query_items(
+        self, 
+        table_name, 
+        filters=None, 
+        order_by=None, 
+        limit=None, 
+        offset=None, 
+        select_fields=None, 
+        distinct_fields=None, 
+        return_count=False
+    ):
+        with self.session_scope() as session:
+            table = self.get_table(table_name)
 
-        table_map = {"main": table}
-        columns = [getattr(table.c, f) for f in select_fields] if select_fields else [table]
+            table_map = {"main": table}
+            columns = [getattr(table.c, f) for f in select_fields] if select_fields else [table]
 
-        query = session.query(*columns)
+            query = session.query(*columns)
 
-        if distinct_fields:
-            query = session.query(getattr(table.c, distinct_fields).distinct())
+            if distinct_fields:
+                query = session.query(getattr(table.c, distinct_fields).distinct())
 
-        conditions = self.parse_filters(filters, table_map)
-        if isinstance(conditions, BooleanClauseList):
-            query = query.filter(conditions)
+            conditions = self.parse_filters(filters, table_map)
+            if isinstance(conditions, BooleanClauseList):
+                query = query.filter(conditions)
 
-        query = self.apply_order(query, order_by, table_map)
-        if offset:
-            query = query.offset(offset)
-        if limit:
-            query = query.limit(limit)
+            query = self.apply_order(query, order_by, table_map)
+            if offset:
+                query = query.offset(offset)
+            if limit:
+                query = query.limit(limit)
 
-        count = None
-        if return_count:
-            count_query = session.query(func.count()).select_from(table)
-            if conditions is not None:
-                count_query = count_query.filter(conditions)
-            count = count_query.scalar()
+            count = None
+            if return_count:
+                count_query = session.query(func.count()).select_from(table)
+                if conditions is not None:
+                    count_query = count_query.filter(conditions)
+                count = count_query.scalar()
 
-        results = query.all()
-        session.close()
+            results = query.all()
+            session.close()
 
-        data = [dict(row._mapping) for row in results]
-        return (data, count) if return_count else data
+            data = [dict(row._mapping) for row in results]
+            return (data, count) if return_count else data
 
     def query_lots_with_auction(
         self, 
@@ -144,32 +159,32 @@ class DatabaseClient:
         offset=0, 
         return_count=False
     ):
-        session = self.Session()
-        lots = self.get_table("lots")
-        auctions = self.get_table("auctions")
+        with self.session_scope() as session:
+            lots = self.get_table("lots")
+            auctions = self.get_table("auctions")
 
-        table_map = {"lots": lots, "auctions": auctions}
+            table_map = {"lots": lots, "auctions": auctions}
 
-        query = session.query(lots, auctions).join(auctions, lots.c.auction_id == auctions.c.id)
-        conditions = self.parse_filters(filters, table_map)
-        if conditions is not None:
-            query = query.filter(conditions)
-
-        query = self.apply_order(query, order_by, table_map)
-        if offset:
-            query = query.offset(offset)
-        if limit:
-            query = query.limit(limit)
-
-        count = None
-        if return_count:
-            count_query = session.query(func.count()).select_from(lots.join(auctions, lots.c.auction_id == auctions.c.id))
+            query = session.query(lots, auctions).join(auctions, lots.c.auction_id == auctions.c.id)
+            conditions = self.parse_filters(filters, table_map)
             if conditions is not None:
-                count_query = count_query.filter(conditions)
-            count = count_query.scalar()
+                query = query.filter(conditions)
 
-        results = query.all()
-        session.close()
+            query = self.apply_order(query, order_by, table_map)
+            if offset:
+                query = query.offset(offset)
+            if limit:
+                query = query.limit(limit)
 
-        data = [dict(row._mapping) for row in results]
-        return (data, count) if return_count else data
+            count = None
+            if return_count:
+                count_query = session.query(func.count()).select_from(lots.join(auctions, lots.c.auction_id == auctions.c.id))
+                if conditions is not None:
+                    count_query = count_query.filter(conditions)
+                count = count_query.scalar()
+
+            results = query.all()
+            session.close()
+
+            data = [dict(row._mapping) for row in results]
+            return (data, count) if return_count else data

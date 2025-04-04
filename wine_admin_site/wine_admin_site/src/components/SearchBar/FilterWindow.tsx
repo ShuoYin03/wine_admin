@@ -172,35 +172,6 @@ const FilterWindow = ({ callback, onClose, filters, setFilters, filterCount, set
     }
 
     const handleAddFilter = (filter: string, value: string) => {
-        // const filterKey = filterMap[filter];
-      
-        // const current = filters[filterKey] || [];
-      
-        // const alreadyExists = current.includes(value);
-      
-        // if (!alreadyExists) {
-        //     setFilters((prevFilters) => ({
-        //         ...prevFilters,
-        //         [filterKey]: [...(prevFilters[filterKey] || []), value],
-        //     }));
-        //     setFilterCount((prevCount) => ({
-        //         ...prevCount,
-        //         [filter]: prevCount[filter] + 1,
-        //     }));
-
-        // } else {
-        //     setFilters((prevFilters) => {
-        //         const updated = prevFilters[filterKey].filter((item) => item !== value);
-        //         return {
-        //         ...prevFilters,
-        //         [filterKey]: updated,
-        //         };
-        //     });
-        //     setFilterCount((prevCount) => ({
-        //         ...prevCount,
-        //         [filter]: prevCount[filter] - 1,
-        //     }));
-        // }
         const filterKey = filterMap[filter];
         const newFilters = toggleFilter(filters, filterKey, "eq", value);
 
