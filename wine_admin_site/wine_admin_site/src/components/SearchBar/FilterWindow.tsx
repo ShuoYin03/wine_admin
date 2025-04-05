@@ -3,8 +3,10 @@ import styled from "styled-components";
 import FilterOptions from "./FilterOptions";
 import Count from "../Count/Count";
 import { toggleFilter } from "@/utils/toggleFilter";
+import { keyMap } from "@/utils/data";
 
 const FilterWindowContainer = styled.div`
+    position: relative;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -13,7 +15,7 @@ const FilterWindowContainer = styled.div`
     height: 420px;
     padding: 0px 5px;
     margin-top: 50px;
-    margin-left: 687px;
+    margin-left: 675px;
     background-color: #FDFCFB;
     border-radius: 8px;
     border: 1px solid rgb(204, 199, 195);
@@ -138,6 +140,7 @@ const FilterWindow = ({ callback, onClose, filters, setFilters, filterCount, set
 
     const [activeFilter, setActiveFilter] = useState<string | null>(null);
     const [filterPosition, setFilterPosition] = useState<{ top: number, left: number }>({ top: 0, left: 0 });
+    const [selectedOptions, setSelectedOptions] = useState<Record<string, Set<string>>>({});
     const containerRef = useRef<HTMLDivElement>(null);
     const optionsRef = useRef<HTMLDivElement>(null);
 
@@ -159,20 +162,8 @@ const FilterWindow = ({ callback, onClose, filters, setFilters, filterCount, set
         };
     }, [onClose]);
 
-    const filterMap: Record<string, string> = {
-        "Auction House": "auction_house",
-        "Lot Producer": "lot_producer",
-        "Region": "region",
-        "Colour": "color",
-        "Format": "format",
-        "Vintage": "vintage",
-        "Auction Before": "start_date",
-        "Auction After": "end_date",
-        "Price Range": "end_price",
-    }
-
     const handleAddFilter = (filter: string, value: string) => {
-        const filterKey = filterMap[filter];
+        const filterKey = keyMap[filter];
         const newFilters = toggleFilter(filters, filterKey, "eq", value);
 
         const existed = filters.length > newFilters.length;
@@ -182,6 +173,19 @@ const FilterWindow = ({ callback, onClose, filters, setFilters, filterCount, set
             ...prevCount,
             [filter]: prevCount[filter] + (existed ? -1 : 1),
         }));
+
+        setSelectedOptions((prevSelected) => {
+            const currentSet = new Set(prevSelected[filter] || []);
+            if (currentSet.has(value)) {
+                currentSet.delete(value);
+            } else {
+                currentSet.add(value);
+            }
+            return {
+                ...prevSelected,
+                [filter]: currentSet,
+            };
+        });
     };
     
     const handleClearFilters = () => {
@@ -234,6 +238,7 @@ const FilterWindow = ({ callback, onClose, filters, setFilters, filterCount, set
                 <FilterOptions 
                     filterType={activeFilter}
                     position={filterPosition}
+                    selected={selectedOptions[activeFilter] || new Set()}
                     onClick={(value) => handleAddFilter(activeFilter, value)}
                     onClose={() => setActiveFilter(null)}
                     />

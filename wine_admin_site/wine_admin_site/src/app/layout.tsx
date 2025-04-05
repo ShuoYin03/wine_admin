@@ -2,6 +2,7 @@
 import Header from "@/components/Header/Header";
 import "./globals.css";
 import { ThemeProvider } from "styled-components";
+import StyledComponentsRegistry from "./lib/registry";
 
 export default function RootLayout({
   children,
@@ -11,8 +12,10 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-        <Header/>
-        {children}
+        <StyledComponentsRegistry>
+          <Header/>
+          {children}
+        </StyledComponentsRegistry>
       </body>
     </html>
   );

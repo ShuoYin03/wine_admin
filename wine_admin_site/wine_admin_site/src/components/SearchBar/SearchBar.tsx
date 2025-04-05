@@ -132,11 +132,13 @@ const FilterText = styled.span`
 const SortWrapper = styled.div`
     display: flex;
     align-items: center;
-    margin-left: 10px;
+    margin-left: 20px;
+    margin-right: 10px;
 `;
 
 const SortText = styled.span`
-    font-size: 15px;
+    font-size: 13px;
+    font-weight: 600;
     color: #705C61;
     margin-right: 5px;
 `;
@@ -163,24 +165,7 @@ const SortSelect = styled.select`
     background-size: 14px;
 `;
 
-const ImportButton = styled.button`
-    width: 100px;
-    height: 46px;
-    border: 1px solid rgb(204, 199, 195);
-    border-radius: 8px;
-    font-weight: 600;
-    color: #705C61;
-    background-color: #FDFCFB;
-    cursor: pointer;
-    margin-left: 10px;
-    &:hover {
-        color: #ffffff;
-        background-color: #996932;
-        transition: background-color 0.2s, color 0.2s;
-    }
-`;
-
-const ExportButton = styled.button`
+const Button = styled.button`
     width: 100px;
     height: 46px;
     border: 1px solid rgb(204, 199, 195);
@@ -217,18 +202,17 @@ const SearchBar = ({ callbackFilter, callbackOrderBy }: SearchBarProps) => {
     const [filterCount, setFilterCount] = useState<Record<string, number>>(
         selectFilters.map((filter) => [filter, 0]).reduce((acc, [key, value]) => ({ ...acc, [key]: value }), {})
     );
+    const [searchText, setSearchText] = useState("");
 
     const toggleFilterWindow = () => {
         setShowFilterWindow(!showFilterWindow);
     };
 
     const handleSubmit = () => {
-        console.log("Search submitted");
+        const newFilters = [...filters, ["wine_name", "like", searchText]];
+        setFilters(filters);
+        callbackFilter(newFilters);
     };
-
-    const handleSortDirectionChange = () => {
-        setSortDirection((prevDirection) => (prevDirection === "asc" ? "desc" : "asc"));
-    }
 
     const handleFilterChange = (
         filters: Array<[string, string, string]>, 
@@ -238,6 +222,10 @@ const SearchBar = ({ callbackFilter, callbackOrderBy }: SearchBarProps) => {
         setFilterCount(count);
         callbackFilter(filters);
     };
+
+    const handleSortDirectionChange = () => {
+        setSortDirection((prevDirection) => (prevDirection === "asc" ? "desc" : "asc"));
+    }
 
     useEffect(() => {
         const sortDirectionSymbol = sortDirection === "asc" ? "" : "-";
@@ -251,7 +239,15 @@ const SearchBar = ({ callbackFilter, callbackOrderBy }: SearchBarProps) => {
                     <SearchIconWrapper>
                     <SearchIcon />
                     </SearchIconWrapper>
-                    <SearchInput placeholder="Search lots by name, vintage, region..." />
+                    <SearchInput 
+                        placeholder="Search lots by name, vintage, region..." 
+                        onChange={(e) => setSearchText(e.target.value)} 
+                        onKeyDown={(e) => {
+                            if (e.key === 'Enter') {
+                              handleSubmit();
+                            }
+                        }}
+                    />
                 </SearchWrapper>
                 <SubmitButton onClick={handleSubmit}>Search</SubmitButton>
                 <RightSideContainer>
@@ -278,8 +274,8 @@ const SearchBar = ({ callbackFilter, callbackOrderBy }: SearchBarProps) => {
                             )}
                         </SquareButton>
                     </SortWrapper>
-                    <ImportButton>Import</ImportButton>
-                    <ExportButton>Export</ExportButton>
+                    <Button>Import</Button>
+                    <Button>Export</Button>
                 </RightSideContainer>
             </SearchBarContainer>
             {showFilterWindow && 

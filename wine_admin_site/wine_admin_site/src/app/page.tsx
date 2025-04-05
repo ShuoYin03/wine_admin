@@ -2,10 +2,10 @@
 import React, { useState, useEffect} from 'react';
 import styled from 'styled-components';
 import SearchBar from '@/components/SearchBar/SearchBar';
-import LotsTable from '@/components/LotsTable/LotsTable';
+import DataTable from '@/components/LotsTable/DataTable';
 import SquareButton from '@/components/SquareButton/SquareButton';
 import { LotDisplayType } from '@/types/lotApi';
-import { Column } from '@/components/LotsTable/LotsTable.type';
+import { Column } from '@/components/LotsTable/DataTable.type';
 import ChevronLeft from '@/assets/chevron-left.svg';
 import ChevronRight from '@/assets/chevron-right.svg';
 import ChevronDoubleLeft from '@/assets/chevron-double-left.svg';
@@ -185,7 +185,7 @@ const Home = () => {
         <HomeTitle>Wine Admin Site</HomeTitle>
         <HomeSubtitle>Browse, Search, and Manage Wine Lots</HomeSubtitle>
         <SearchBar callbackFilter={handleFilterChange} callbackOrderBy={handleOrderByChange}/>
-        <LotsTable columns={fakeColumns} data={data} />
+        <DataTable columns={fakeColumns} data={data} />
         <TableBottomContainer>
           <DisplayPageSize>
               Displaying {page * page_size - page_size + 1} - {Math.min(page * page_size, count)} of {count} results

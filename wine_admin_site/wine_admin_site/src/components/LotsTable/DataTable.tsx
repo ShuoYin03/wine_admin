@@ -2,7 +2,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { LotDisplayType } from '@/types/lotApi';
-import { TableProps } from './LotsTable.type';
+import { TableProps } from './DataTable.type';
 
 const TableComponentComtainer = styled.div`
     display: flex;
@@ -57,7 +57,7 @@ const TableCell = styled.td`
     text-align: left;
 `;
 
-const LotsTable: React.FC<TableProps> = ({ columns, data }: TableProps) => {
+const DataTable: React.FC<TableProps> = ({ columns, data }: TableProps) => {
     return (
         <TableComponentComtainer>
             <TableContainer>
@@ -88,4 +88,4 @@ const LotsTable: React.FC<TableProps> = ({ columns, data }: TableProps) => {
     );
 };
 
-export default LotsTable;
+export default DataTable;

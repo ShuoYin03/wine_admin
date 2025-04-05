@@ -157,6 +157,8 @@ class DatabaseClient:
         order_by=None, 
         limit=50, 
         offset=0, 
+        select_fields=None, 
+        distinct_fields=None, 
         return_count=False
     ):
         with self.session_scope() as session:
@@ -165,7 +167,26 @@ class DatabaseClient:
 
             table_map = {"lots": lots, "auctions": auctions}
 
-            query = session.query(lots, auctions).join(auctions, lots.c.auction_id == auctions.c.id)
+            selected_columns = []
+            if select_fields:
+                for field in select_fields:
+                    for table in table_map.values():
+                        if field in table.c:
+                            selected_columns.append(table.c[field])
+                            break
+            else:
+                selected_columns = [lots, auctions]
+
+            if distinct_fields:
+                for idx, col in enumerate(selected_columns):
+                    if col.name == distinct_fields:
+                        selected_columns[idx] = col.distinct()
+                        break
+            
+            query = session.query(*selected_columns)
+
+            query = query.join(auctions, lots.c.auction_id == auctions.c.id)
+
             conditions = self.parse_filters(filters, table_map)
             if conditions is not None:
                 query = query.filter(conditions)
@@ -187,4 +208,7 @@ class DatabaseClient:
             session.close()
 
             data = [dict(row._mapping) for row in results]
+            if distinct_fields:
+                data = [row[0] for row in results]
+
             return (data, count) if return_count else data
