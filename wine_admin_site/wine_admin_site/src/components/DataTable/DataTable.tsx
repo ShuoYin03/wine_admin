@@ -55,9 +55,10 @@ const TableRow = styled.tr`
 const TableCell = styled.td`
     padding: 12px;
     text-align: left;
+    max-width: 200px;
 `;
 
-const DataTable: React.FC<TableProps> = ({ columns, data }: TableProps) => {
+const DataTable = <T extends Record<string, any>>({ columns, data }: TableProps<T>) => {
     return (
         <TableComponentComtainer>
             <TableContainer>
@@ -76,7 +77,7 @@ const DataTable: React.FC<TableProps> = ({ columns, data }: TableProps) => {
                             <TableRow key={rowIndex}>
                                 {columns.map((col, idx) => (
                                     <TableCell key={idx}>
-                                        {row[col.accessor as keyof LotDisplayType]?.toString() ?? '-'}
+                                        {row[col.accessor as keyof T]?.toString() ?? '-'}
                                     </TableCell>
                                 ))}
                             </TableRow>

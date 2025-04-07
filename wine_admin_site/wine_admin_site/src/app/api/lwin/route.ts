@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { createParamString } from './lwin.utils';
+import { createParamString, filterData } from './lwin.utils';
 import { LwinApiParams } from '@/types/lwinApi';
 
 export async function GET(req: NextRequest) {
@@ -22,7 +22,7 @@ export async function GET(req: NextRequest) {
 export async function POST(req: NextRequest) {
     const payload = await req.json();
 
-    const response = await fetch(`http://localhost:5000/lwin_query`, {
+    const response = await fetch(`http://localhost:5000/lwin_and_lots_query`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -31,6 +31,10 @@ export async function POST(req: NextRequest) {
     });
 
     const data = await response.json();
+    const lwins = data.data;
+    const count = data.count;
 
-    return NextResponse.json({ result: data });
+    const filtered_data = filterData(lwins);
+
+    return NextResponse.json({ result: filtered_data, count: count });
 }

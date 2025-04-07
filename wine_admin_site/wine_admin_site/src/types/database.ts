@@ -12,11 +12,4 @@ type AuctionType = {
     url: string;
 };
 
-type LwinMatchingType = {
-    id: string;
-    lot_id: string;
-    matched: string;
-    lwin: Array<number>;
-}
-
-export type { AuctionType, LwinMatchingType };
+export type { AuctionType };

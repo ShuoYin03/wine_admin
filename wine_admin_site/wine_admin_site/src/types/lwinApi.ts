@@ -1,3 +1,5 @@
+import { Column } from '@/components/DataTable/DataTable.type';
+
 export interface LwinApiParams {
     page?: number;
     page_size?: number;
@@ -9,10 +11,41 @@ export enum MatchStatusType {
     NOT_MATCH = 'not_match',
 };
 
-export type LwinDisplayType = {
-    lwin: string;
+export type LwinMatchingType = {
+    id: string;
     wine_name: string;
-    vintage?: string;
-    unit?: number;
+    matched: string;
+    lwin?: number[];
+    match_score?: number[];
+    match_item?: Record<string, string>[];
+}
+
+export type LwinDisplayType = {
+    wine_name: string;
+    lwin: string[];
+    match_score: number[];
     match_status: MatchStatusType;
 };
+
+export const LwinMatchingColumns: Column[] = [
+    {
+        header: "ID",
+        accessor: "id",
+    },
+    {
+        header: "Wine Name",
+        accessor: "wine_name",
+    },
+    {
+        header: "Lwin",
+        accessor: "lwin",
+    },
+    {
+        header: "Maching Score",
+        accessor: "match_score",
+    },
+    {
+        header: "Matching Status",
+        accessor: "match_status",
+    },
+]

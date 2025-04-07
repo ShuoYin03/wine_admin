@@ -2,14 +2,11 @@
 import React, { useState, useEffect} from 'react';
 import styled from 'styled-components';
 import SearchBar from '@/components/SearchBar/SearchBar';
-import DataTable from '@/components/LotsTable/DataTable';
-import SquareButton from '@/components/SquareButton/SquareButton';
+import DataTable from '@/components/DataTable/DataTable';
 import { LotDisplayType } from '@/types/lotApi';
-import { Column } from '@/components/LotsTable/DataTable.type';
-import ChevronLeft from '@/assets/chevron-left.svg';
-import ChevronRight from '@/assets/chevron-right.svg';
-import ChevronDoubleLeft from '@/assets/chevron-double-left.svg';
-import ChevronDoubleRight from '@/assets/chevron-double-right.svg';
+import MainTitle from '@/components/MainTitle/MainTitle';
+import { LotColumns } from '@/types/lotApi';
+import DataTableBottom from '@/components/DataTable/DataTableBottom';
 
 const HomeContainer = styled.div`
     display: flex;
@@ -33,93 +30,6 @@ const HomeSubtitle = styled.p`
     margin-bottom: 40px;
 `;
 
-const TableBottomContainer = styled.div`
-    display: flex;
-    width: 100%;
-    height: 50px;
-    margin-top: 15px;
-    align-items: center;
-    justify-content: flex-start;
-    font-size: 15px;
-`;
-
-const DisplayPageSize = styled.div`
-    display: flex;
-    color: #705C61;
-`;
-
-const PageSizeSwitchContainer = styled.div`
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-left: 20px;
-`;
-
-const PageSizeText = styled.span`
-    display: flex;
-    color:rgb(90, 74, 78);
-    font-weight: 600;
-`;
-
-const PageSizeSwitcher = styled.select`
-    display: flex;
-    margin-left: 20px;
-    padding: 10px;
-    width: 80px;
-    height: 35px;
-    color: #705C61;
-    border-radius: 8px;
-    background-color: ##FEFAF9;
-    outline: none;
-
-    appearance: none;
-    -webkit-appearance: none;
-    -moz-appearance: none;
-
-    background-image: url("data:image/svg+xml;utf8,<svg fill='%23705C61' height='14' viewBox='0 0 24 24' width='14' xmlns='http://www.w3.org/2000/svg'><path d='M7 10l5 5 5-5z'/></svg>");
-    background-repeat: no-repeat;
-    background-position: right 6px center;
-    background-size: 14px;
-`;
-
-const PageSwitchContainer = styled.div`
-    display: flex;
-    flex: 1;
-    align-items: center;
-    justify-content: flex-end;
-    gap: 10px;
-`;
-
-const DisplayPage = styled.div`
-    color: #705C61;
-`;
-
-const fakeColumns: Column[] = [
-    {
-        header: "ID",
-        accessor: "id",
-    },
-    {
-        header: "Wine Name",
-        accessor: "wine_name",
-    },
-    {
-        header: "Vintage",
-        accessor: "vintage",
-    },
-    {
-        header: "Units",
-        accessor: "unit",
-    },
-    {
-        header: "End Price",
-        accessor: "end_price",
-    },
-    {
-        header: "Sold",
-        accessor: "sold",
-    },
-]
 const fakeData: LotDisplayType[] = [
     {
         id: 3,
@@ -129,7 +39,7 @@ const fakeData: LotDisplayType[] = [
         end_price: 75,
         sold: true,
     }
-  ]
+]
 
 const Home = () => {
     const [filters, setFilters] = useState<object>({});
@@ -175,48 +85,19 @@ const Home = () => {
 
     const handleFilterChange = (filters: object) => {
         setFilters(filters);
+        setPage(1);
     }
     const handleOrderByChange = (orderBy: string) => {
         setOrderBy(orderBy);
+        setPage(1);
     }
 
     return (
       <HomeContainer>
-        <HomeTitle>Wine Admin Site</HomeTitle>
-        <HomeSubtitle>Browse, Search, and Manage Wine Lots</HomeSubtitle>
+        <MainTitle title={"Wine Admin Site"} subtitle={"Browse, Search, and Manage Wine Lots"}></MainTitle>
         <SearchBar callbackFilter={handleFilterChange} callbackOrderBy={handleOrderByChange}/>
-        <DataTable columns={fakeColumns} data={data} />
-        <TableBottomContainer>
-          <DisplayPageSize>
-              Displaying {page * page_size - page_size + 1} - {Math.min(page * page_size, count)} of {count} results
-          </DisplayPageSize>
-          <PageSizeSwitchContainer>
-            <PageSizeText>
-                Lots per page:
-            </PageSizeText>
-            <PageSizeSwitcher
-                value={page_size}
-                onChange={(e) => {
-                  setPageSize(Number(e.target.value));
-                }}
-                >
-                {[10, 20, 50, 100].map((size) => (
-                  <option key={size} value={size}>
-                        {size}
-                    </option>
-                ))}
-            </PageSizeSwitcher>
-          </PageSizeSwitchContainer>
-          <PageSwitchContainer>
-            <SquareButton onClick={() => setPage(1)}><ChevronDoubleLeft /></SquareButton>
-            <SquareButton onClick={() => handlePageChange(false)}><ChevronLeft /></SquareButton>
-            <DisplayPage>
-                Page {page} of {Math.ceil(count / page_size)}
-            </DisplayPage>
-            <SquareButton onClick={() => handlePageChange(true)}><ChevronRight /></SquareButton>
-            <SquareButton onClick={() => setPage(Math.ceil(count / page_size))}><ChevronDoubleRight /></SquareButton>
-          </PageSwitchContainer>
-        </TableBottomContainer>
+        <DataTable<LotDisplayType> columns={LotColumns} data={data} />
+        <DataTableBottom page={page} setPage={setPage} pageSize={page_size} setPageSize={setPageSize} handlePageChange={handlePageChange} count={count}/>
       </HomeContainer>
     );
 }

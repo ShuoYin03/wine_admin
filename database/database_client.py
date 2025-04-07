@@ -5,7 +5,6 @@ from sqlalchemy import Table, MetaData
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy import create_engine, func, and_, or_
 from sqlalchemy.dialects.postgresql import insert
-from sqlalchemy.sql.elements import BooleanClauseList
 
 load_dotenv()
 
@@ -129,7 +128,7 @@ class DatabaseClient:
                 query = session.query(getattr(table.c, distinct_fields).distinct())
 
             conditions = self.parse_filters(filters, table_map)
-            if isinstance(conditions, BooleanClauseList):
+            if conditions is not None:
                 query = query.filter(conditions)
 
             query = self.apply_order(query, order_by, table_map)
@@ -200,6 +199,68 @@ class DatabaseClient:
             count = None
             if return_count:
                 count_query = session.query(func.count()).select_from(lots.join(auctions, lots.c.auction_id == auctions.c.id))
+                if conditions is not None:
+                    count_query = count_query.filter(conditions)
+                count = count_query.scalar()
+
+            results = query.all()
+            session.close()
+
+            data = [dict(row._mapping) for row in results]
+            if distinct_fields:
+                data = [row[0] for row in results]
+
+            return (data, count) if return_count else data
+        
+    def query_lwin_with_lots(
+        self, 
+        filters=None, 
+        order_by=None, 
+        limit=50, 
+        offset=0, 
+        select_fields=None, 
+        distinct_fields=None, 
+        return_count=False
+    ):
+        with self.session_scope() as session:
+            lwin_matching = self.get_table("lwin_matching")
+            lots = self.get_table("lots")
+
+            table_map = {"lwin_matching": lwin_matching, "lots": lots}
+
+            selected_columns = []
+            if select_fields:
+                for field in select_fields:
+                    for table in table_map.values():
+                        if field in table.c:
+                            selected_columns.append(table.c[field])
+                            break
+            else:
+                selected_columns = [lwin_matching, lots]
+
+            if distinct_fields:
+                for idx, col in enumerate(selected_columns):
+                    if col.name == distinct_fields:
+                        selected_columns[idx] = col.distinct()
+                        break
+            
+            query = session.query(*selected_columns)
+
+            query = query.join(lots, lwin_matching.c.id == lots.c.id)
+
+            conditions = self.parse_filters(filters, table_map)
+            if conditions is not None:
+                query = query.filter(conditions)
+
+            query = self.apply_order(query, order_by, table_map)
+            if offset:
+                query = query.offset(offset)
+            if limit:
+                query = query.limit(limit)
+
+            count = None
+            if return_count:
+                count_query = session.query(func.count()).select_from(lwin_matching.join(lots, lwin_matching.c.id == lots.c.id))
                 if conditions is not None:
                     count_query = count_query.filter(conditions)
                 count = count_query.scalar()

@@ -42,6 +42,7 @@ const LinkStyled = styled.div`
         text-decoration: none;
         color: #722F37;
         font-size: 14px;
+        font-weight: 600;
         height: 40px;
     }
 
@@ -61,7 +62,7 @@ const Header: React.FC = () => {
                 <Link href="/" passHref>Wine Admin</Link>
             </MainTitle>
             <LinkStyled><Link href="/" passHref>Lots</Link></LinkStyled>
-            <LinkStyled><Link href="lwin-matching" passHref>Lwin Matching</Link></LinkStyled>
+            <LinkStyled><Link href="lwinMatching" passHref>Lwin Matching</Link></LinkStyled>
             <LinkStyled><Link href="fx-rates" passHref>FX Rates</Link></LinkStyled>
         </Navbar>
     );

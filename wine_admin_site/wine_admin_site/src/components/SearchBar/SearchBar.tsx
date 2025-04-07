@@ -7,11 +7,6 @@ import SquareButton from "../SquareButton/SquareButton";
 import ArrowUpShort from "@/assets/arrow-up-short.svg";
 import ArrowDownShort from "@/assets/arrow-down-short.svg";
 
-type SearchBarProps = {
-    callbackFilter: (filters: object) => void;
-    callbackOrderBy: (orderBy: string) => void;
-};
-
 const SearchBarMainContainer = styled.div`
     display: flex;
     flex-direction: column;
@@ -182,7 +177,12 @@ const Button = styled.button`
     }
 `;
 
-const SearchBar = ({ callbackFilter, callbackOrderBy }: SearchBarProps) => {
+interface SearchBarProps {
+    callbackFilter: (filters: [string, string, string][]) => void;
+    callbackOrderBy: (orderBy: string) => void;
+};
+
+const SearchBar: React.FC<SearchBarProps> = ({ callbackFilter, callbackOrderBy }) => {
     const selectFilters = [
         "Auction House",
         "Lot Producer",
@@ -209,7 +209,7 @@ const SearchBar = ({ callbackFilter, callbackOrderBy }: SearchBarProps) => {
     };
 
     const handleSubmit = () => {
-        const newFilters = [...filters, ["wine_name", "like", searchText]];
+        const newFilters = [...filters, ["wine_name", "like", searchText]] as [string, string, string][];
         setFilters(filters);
         callbackFilter(newFilters);
     };

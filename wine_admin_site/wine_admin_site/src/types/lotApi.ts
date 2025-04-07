@@ -1,3 +1,5 @@
+import { Column } from '@/components/DataTable/DataTable.type';
+
 export interface LotApiParams {
     page?: number;
     page_size?: number;
@@ -42,4 +44,31 @@ export type LotDisplayType = {
     end_price?: number;
     sold?: boolean;
 };
+
+export const LotColumns: Column[] = [
+    {
+        header: "ID",
+        accessor: "id",
+    },
+    {
+        header: "Wine Name",
+        accessor: "wine_name",
+    },
+    {
+        header: "Vintage",
+        accessor: "vintage",
+    },
+    {
+        header: "Units",
+        accessor: "unit",
+    },
+    {
+        header: "End Price",
+        accessor: "end_price",
+    },
+    {
+        header: "Sold",
+        accessor: "sold",
+    },
+]
     
