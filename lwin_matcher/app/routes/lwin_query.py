@@ -101,3 +101,34 @@ async def lwin_query_all():
 
     except Exception as e:
         return Response(json.dumps({"error": str(e)}), mimetype='application/json', status=500)
+    
+@lwin_query_blueprint.route('/lwin_query_count', methods=['GET'])
+async def lwin_query_count():
+    try:
+        _, exact_match_count = db.query_items(
+            table_name='lwin_matching',
+            filters=[["matched", "eq", "exact_match"]],
+            return_count=True
+        )
+
+        _, multi_match_count = db.query_items(
+            table_name='lwin_matching',
+            filters=[["matched", "eq", "multi_match"]],
+            return_count=True
+        )
+
+        _, not_match_count = db.query_items(
+            table_name='lwin_matching',
+            filters=[["matched", "eq", "not_match"]],
+            return_count=True
+        )
+
+        payload = {
+            "exact_match_count": exact_match_count,
+            "multi_match_count": multi_match_count,
+            "not_match_count": not_match_count
+        }
+
+        return Response(json.dumps({"data": payload}), mimetype='application/json')
+    except Exception as e:
+        return Response(json.dumps({"error": str(e)}), mimetype='application/json', status=500)

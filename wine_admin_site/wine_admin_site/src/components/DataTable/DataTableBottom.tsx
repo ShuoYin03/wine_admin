@@ -89,7 +89,7 @@ const DataTableBottom: React.FC<DataTableBottomProps> = ({ page, setPage, pageSi
                 <PageSizeSwitcher
                     value={pageSize}
                     onChange={(e) => {
-                    setPageSize(Number(e.target.value));
+                        setPageSize(Number(e.target.value));
                     }}
                     >
                     {[10, 20, 50, 100].map((size) => (

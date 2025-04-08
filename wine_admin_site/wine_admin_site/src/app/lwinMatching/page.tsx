@@ -26,6 +26,9 @@ const LwinMatching = () => {
     const [page_size, setPageSize] = useState<number>(10);
     const [data, setData] = useState<LwinDisplayType[]>([]);
     const [count, setCount] = useState<number>(0);
+    const [exactCount, setExactCount] = useState<number>(10);
+    const [multiCount, setMultiCount] = useState<number>(10);
+    const [NotCount, setNotCount] = useState<number>(10);
     const [selectedOption, setSelectedOption] = useState<string>("All Results");
 
     useEffect(() => {
@@ -51,7 +54,23 @@ const LwinMatching = () => {
             setData(result);
             setCount(count);
         };
+
+        const fetchCount = async () => {
+            const response = await fetch('/api/lwin/count', {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            });
+            
+            const data = await response.json();
+            const { result } = data;
+            setExactCount(result.data.exact_match_count);
+            setMultiCount(result.data.multi_match_count);
+            setNotCount(result.data.not_match_count);
+        }
         fetchData();
+        fetchCount();
     }, [filters, order_by, page, page_size]);
 
     const handlePageChange = (direction: boolean) => {
@@ -96,7 +115,7 @@ const LwinMatching = () => {
     return (
         <LwinMatchingContainer>
             <MainTitle title={"Lwin Matching"} subtitle={"Browse, Search, and Manage Lwin Matching Results"}></MainTitle>
-            <LwinInfo totalLwinCount={count} exactMatchCount={0} multiMatchCount={0} noMatchCount={0}/>
+            <LwinInfo totalLwinCount={exactCount + multiCount + NotCount} exactMatchCount={exactCount} multiMatchCount={multiCount} notMatchCount={NotCount}/>
             <SwitchFilter options={["All Results", "Exact Match", "Multi Match", "Not Match"]} selectedOption={selectedOption} onSelect={handleSelectChange}></SwitchFilter>
             <SearchBar callbackFilter={handleFilterChange} callbackOrderBy={handleOrderByChange}/>
             <DataTable<LwinDisplayType> columns={LwinMatchingColumns} data={data} />

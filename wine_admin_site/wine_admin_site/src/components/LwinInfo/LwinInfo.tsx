@@ -64,10 +64,10 @@ interface LwinInfoProps {
     totalLwinCount: number;
     exactMatchCount: number;
     multiMatchCount: number;
-    noMatchCount: number;
+    notMatchCount: number;
 }
 
-const LwinInfo: React.FC<LwinInfoProps> = ({ totalLwinCount, exactMatchCount, multiMatchCount, noMatchCount }) => {
+const LwinInfo: React.FC<LwinInfoProps> = ({ totalLwinCount, exactMatchCount, multiMatchCount, notMatchCount }) => {
     return (
         <LwinInfoContainer>
             <LeftContainer>
@@ -85,7 +85,7 @@ const LwinInfo: React.FC<LwinInfoProps> = ({ totalLwinCount, exactMatchCount, mu
                 </StausInfoContainer>
                 <StausInfoContainer>
                     <StatusInfoTitle>No Match Count: </StatusInfoTitle>
-                    <StatusCount>{noMatchCount}</StatusCount>
+                    <StatusCount>{notMatchCount}</StatusCount>
                 </StausInfoContainer>
             </RightContainer>
         </LwinInfoContainer>
