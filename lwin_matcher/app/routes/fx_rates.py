@@ -10,7 +10,7 @@ fx_rates_service = FxRatesService()
 db = DatabaseClient()
 
 @fx_rates_blueprint.route('/rates', methods=['GET'])
-async def lwin_query_all():
+async def rates():
     rates_from = request.args.get('rates_from')
     rates_to = request.args.get('rates_to')
     
@@ -31,3 +31,11 @@ async def lwin_query_all():
             return Response(result, status=200)
         except Exception as e:
             return Response(json.dumps({"error": str(e)}), mimetype='application/json', status=500)
+        
+@fx_rates_blueprint.route('/rates_query', methods=['GET'])
+async def rates_query():
+    try:
+        results = db.query_items(table_name='fx_rates_cache')
+        return Response(json.dumps({"data": results}), status=200)
+    except Exception as e:
+        return Response(json.dumps({"error": str(e)}), mimetype='application/json', status=500)

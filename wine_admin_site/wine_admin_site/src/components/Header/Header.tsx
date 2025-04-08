@@ -63,7 +63,7 @@ const Header: React.FC = () => {
             </MainTitle>
             <LinkStyled><Link href="/" passHref>Lots</Link></LinkStyled>
             <LinkStyled><Link href="lwinMatching" passHref>Lwin Matching</Link></LinkStyled>
-            <LinkStyled><Link href="fx-rates" passHref>FX Rates</Link></LinkStyled>
+            <LinkStyled><Link href="fxRates" passHref>FX Rates</Link></LinkStyled>
         </Navbar>
     );
 };

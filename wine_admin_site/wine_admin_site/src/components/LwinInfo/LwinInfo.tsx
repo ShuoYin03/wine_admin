@@ -61,10 +61,10 @@ const StatusCount = styled.span`
 `;
 
 interface LwinInfoProps {
-    totalLwinCount: number;
-    exactMatchCount: number;
-    multiMatchCount: number;
-    notMatchCount: number;
+    totalLwinCount?: number;
+    exactMatchCount?: number;
+    multiMatchCount?: number;
+    notMatchCount?: number;
 }
 
 const LwinInfo: React.FC<LwinInfoProps> = ({ totalLwinCount, exactMatchCount, multiMatchCount, notMatchCount }) => {

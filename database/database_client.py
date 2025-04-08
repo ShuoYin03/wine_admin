@@ -273,3 +273,6 @@ class DatabaseClient:
                 data = [row[0] for row in results]
 
             return (data, count) if return_count else data
+        
+    def close(self):
+        self.engine.dispose()

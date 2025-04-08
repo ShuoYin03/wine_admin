@@ -26,9 +26,9 @@ const LwinMatching = () => {
     const [page_size, setPageSize] = useState<number>(10);
     const [data, setData] = useState<LwinDisplayType[]>([]);
     const [count, setCount] = useState<number>(0);
-    const [exactCount, setExactCount] = useState<number>(10);
-    const [multiCount, setMultiCount] = useState<number>(10);
-    const [NotCount, setNotCount] = useState<number>(10);
+    const [exactCount, setExactCount] = useState<number>(0);
+    const [multiCount, setMultiCount] = useState<number>(0);
+    const [NotCount, setNotCount] = useState<number>(0);
     const [selectedOption, setSelectedOption] = useState<string>("All Results");
 
     useEffect(() => {

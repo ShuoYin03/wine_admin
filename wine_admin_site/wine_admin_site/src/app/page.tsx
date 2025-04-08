@@ -17,19 +17,6 @@ const HomeContainer = styled.div`
     min-height: 82vh;
 `;
 
-const HomeTitle = styled.h1`
-    font-size: 2rem;
-    color: #722F37;
-    height: 10px;
-    padding-top: 20px;
-`;
-
-const HomeSubtitle = styled.p`
-    font-size: 15px;
-    color: #705C61;
-    margin-bottom: 40px;
-`;
-
 const fakeData: LotDisplayType[] = [
     {
         id: 3,

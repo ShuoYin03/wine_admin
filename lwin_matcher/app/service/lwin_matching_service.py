@@ -38,7 +38,11 @@ class LwinMatchingService:
         producer_similarities = self.utils.calculate_tfidf_similarity(lwinMatchingParams.lot_producer) if lwinMatchingParams.lot_producer else wine_name_similarities
         total_scores = (wine_name_similarities * 0.7 + producer_similarities * 0.3)
 
-        high_score_indices = np.where(total_scores > 0.8)[0]
+        if total_scores.max() > 0.9:
+            total_scores = np.where(total_scores == total_scores.max(), total_scores, 0)
+            high_score_indices = np.where(total_scores > 0.9)[0]
+        else:
+            high_score_indices = np.where(total_scores > 0.8)[0]
         top_matches = self.table_items.iloc[high_score_indices]
         matches = [(row, total_scores[idx]) for idx, row in top_matches.iterrows()]
 
@@ -61,10 +65,3 @@ class LwinMatchingService:
             filtered_matches.append(match)
         
         return filtered_matches
-    
-    def use_reference_for_combined_matches(self, matches):
-        for i in range(len(matches)):
-            if matches[i][2] == 'Combined':
-                reference = matches[i][-1]
-
-        return matches
