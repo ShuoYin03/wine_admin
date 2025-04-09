@@ -13,7 +13,7 @@ ROBOTSTXT_OBEY = True
 CONCURRENT_REQUESTS = 16
 
 FEED_EXPORT_ENCODING = "utf-8"
-LOG_FILE = "scrapy_log.txt"
+# LOG_FILE = "scrapy_log.txt"
 
 AUTOTHROTTLE_ENABLED = True
 AUTOTHROTTLE_START_DELAY = 1.0   # Initial download delay

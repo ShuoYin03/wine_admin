@@ -32,7 +32,7 @@ class SothebysSpider(scrapy.Spider):
         base_dir = os.path.dirname(os.path.abspath(__file__))
         self.lwin_df = pd.read_excel(os.path.join(base_dir, "LWIN wines.xls"))
         self.base_url = "https://www.sothebys.com"
-        self.client = SothebysClient(headless=True)
+        self.client = SothebysClient(headless=False)
         self.db_client = DatabaseClient()
 
     def parse(self, response):

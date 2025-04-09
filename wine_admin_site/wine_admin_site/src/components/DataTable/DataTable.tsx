@@ -56,6 +56,8 @@ const TableCell = styled.td`
     padding: 12px;
     text-align: left;
     max-width: 200px;
+    word-break: break-word;
+    white-space: normal;
 `;
 
 const DataTable = <T extends Record<string, any>>({ columns, data }: TableProps<T>) => {
