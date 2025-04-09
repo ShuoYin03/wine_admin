@@ -41,6 +41,9 @@ class LwinMatchingService:
         if total_scores.max() > 0.9:
             total_scores = np.where(total_scores == total_scores.max(), total_scores, 0)
             high_score_indices = np.where(total_scores > 0.9)[0]
+        elif total_scores.max() < 0.8:
+            total_scores = np.where(total_scores == total_scores.max(), total_scores, 0)
+            high_score_indices = np.where(total_scores < 0.8)[0]
         else:
             high_score_indices = np.where(total_scores > 0.8)[0]
         top_matches = self.table_items.iloc[high_score_indices]
