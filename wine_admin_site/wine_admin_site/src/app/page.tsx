@@ -70,10 +70,16 @@ const Home = () => {
         }
     }
 
+    const handlePageSizeChange = (size: number) => {
+        setPageSize(size);
+        setPage(1);
+    }
+
     const handleFilterChange = (filters: object) => {
         setFilters(filters);
         setPage(1);
     }
+    
     const handleOrderByChange = (orderBy: string) => {
         setOrderBy(orderBy);
         setPage(1);
@@ -84,7 +90,7 @@ const Home = () => {
         <MainTitle title={"Wine Admin Site"} subtitle={"Browse, Search, and Manage Wine Lots"}></MainTitle>
         <SearchBar callbackFilter={handleFilterChange} callbackOrderBy={handleOrderByChange}/>
         <DataTable<LotDisplayType> columns={LotColumns} data={data} />
-        <DataTableBottom page={page} setPage={setPage} pageSize={page_size} setPageSize={setPageSize} handlePageChange={handlePageChange} count={count}/>
+        <DataTableBottom page={page} setPage={setPage} pageSize={page_size} setPageSize={setPageSize} handlePageChange={handlePageChange} handlePageSizeChange={handlePageSizeChange} count={count}/>
       </HomeContainer>
     );
 }

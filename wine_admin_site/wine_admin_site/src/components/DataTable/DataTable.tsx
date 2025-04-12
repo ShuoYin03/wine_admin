@@ -1,7 +1,6 @@
 'use client';
 import React from 'react';
 import styled from 'styled-components';
-import { LotDisplayType } from '@/types/lotApi';
 import { TableProps } from './DataTable.type';
 
 const TableComponentComtainer = styled.div`
