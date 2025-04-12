@@ -2,10 +2,11 @@ import sys
 import json
 import asyncio
 import pandas as pd
+import numpy as np
 sys.path.append('../..')
 from app.model import LwinMatchingParams
 from ..service import LwinMatchingService
-from flask import Blueprint, jsonify, request, Response
+from flask import Blueprint, request, Response
 
 match_blueprint = Blueprint('match', __name__)
 lwin_matching_service = LwinMatchingService()
@@ -37,6 +38,7 @@ async def match():
         )
 
         for item in match_item:
+            item['id'] = int(item['id']) if isinstance(item['id'], np.int64) else item['id']
             item['date_added'] = item['date_added'].isoformat() if isinstance(item['date_added'], pd.Timestamp) else item['date_added']
             item['date_updated'] = item['date_updated'].isoformat() if isinstance(item['date_updated'], pd.Timestamp) else item['date_updated']
 
@@ -46,6 +48,7 @@ async def match():
             "match_score": match_score,
             "match_item": match_item
         }
+        print(result)
 
         return Response(json.dumps(result), mimetype='application/json')
     except Exception as e:

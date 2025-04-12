@@ -4,7 +4,6 @@ import {
   keyMap,
   keyMapOptions
  } from "@/utils/data"
-import { handleResponse } from "@/utils/responseHandler";
 
 const OptionsContainer = styled.div<{ top: number; left: number }>`
   position: absolute;

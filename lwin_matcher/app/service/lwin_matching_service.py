@@ -31,31 +31,36 @@ class LwinMatchingService:
             match_result = MatchResult.MULTI_MATCH
         
         columns = [column.name for column in LwinDatabaseModel.__table__.columns]
-        return match_result, [match[0]['lwin'] for match in matches], [match[1] for match in matches], [OrderedDict({columns[i]: match[0].iloc[i] for i in range(len(columns))}) for match in matches]
+        return match_result, [match[0]['lwin'] for match in matches], self.utils.convert_to_serializable([match[1] for match in matches]), [OrderedDict({columns[i]: match[0].iloc[i] for i in range(len(columns))}) for match in matches]
 
     def calculate_multiple(self, lwinMatchingParams):
-        wine_name_similarities = self.utils.calculate_tfidf_similarity(lwinMatchingParams.wine_name)
-        producer_similarities = self.utils.calculate_tfidf_similarity(lwinMatchingParams.lot_producer) if lwinMatchingParams.lot_producer else wine_name_similarities
-        total_scores = (wine_name_similarities * 0.7 + producer_similarities * 0.3)
+        matches = self.utils.search_by_bm25(lwinMatchingParams.wine_name, limit=20)
 
-        if total_scores.max() > 0.9:
-            total_scores = np.where(total_scores == total_scores.max(), total_scores, 0)
-            high_score_indices = np.where(total_scores > 0.9)[0]
-        elif total_scores.max() < 0.8:
-            total_scores = np.where(total_scores == total_scores.max(), total_scores, 0)
-            high_score_indices = np.where(total_scores < 0.8)[0]
-        else:
-            high_score_indices = np.where(total_scores > 0.8)[0]
-        top_matches = self.table_items.iloc[high_score_indices]
-        matches = [(row, total_scores[idx]) for idx, row in top_matches.iterrows()]
+        improved_matches = []
+        query_cleaned = self.utils.clean_title(lwinMatchingParams.wine_name)
 
-        return matches
+        for row, bm25_score in matches:
+            wine_name = row['display_name']
+            wine_name_cleaned = self.utils.clean_title(wine_name)
+
+            fuzz_score = fuzz.token_set_ratio(query_cleaned, wine_name_cleaned)
+
+            final_score = 0.7 * (bm25_score / (bm25_score + 1e-5)) + 0.3 * (fuzz_score / 100)
+
+            improved_matches.append((row, final_score))
+
+        improved_matches.sort(key=lambda x: x[1], reverse=True)
+
+        improved_matches = improved_matches[:1]
+
+        return [(row, score) for row, score in improved_matches]
     
     def filter_matches(self, matches, lwinMatchingParams):
         filtered_matches = []
 
         for match in matches:
-
+            if lwinMatchingParams.lot_producer and match[0]['producer_name'] and fuzz.partial_ratio(lwinMatchingParams.lot_producer.lower(), match[0]['producer_name'].lower()) < 90:
+                continue
             if lwinMatchingParams.country and match[0]['country'] and fuzz.partial_ratio(lwinMatchingParams.country.lower(), match[0]['country'].lower()) < 90:
                 continue
             if lwinMatchingParams.region and match[0]['region'] and fuzz.partial_ratio(lwinMatchingParams.region.lower(), match[0]['region'].lower()) < 90:

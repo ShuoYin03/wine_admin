@@ -1,7 +1,7 @@
 import os
 from dotenv import load_dotenv
 from contextlib import contextmanager
-from sqlalchemy import Table, MetaData
+from sqlalchemy import Table, MetaData, text
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy import create_engine, func, and_, or_
 from sqlalchemy.dialects.postgresql import insert
@@ -273,6 +273,23 @@ class DatabaseClient:
                 data = [row[0] for row in results]
 
             return (data, count) if return_count else data
+    
+    def bm25_search(self, table_name, search_text, limit=50):
+        with self.session_scope() as session:
+            query = text(f"""
+                SELECT *, 
+                    ts_rank_cd(
+                        to_tsvector('simple', display_name), 
+                        websearch_to_tsquery('simple', :search_text)
+                    ) AS rank
+                FROM {table_name}
+                WHERE to_tsvector('simple', display_name)
+                    @@ websearch_to_tsquery('simple', :search_text)
+                ORDER BY rank DESC
+                LIMIT :limit
+            """)
+            results = session.execute(query, {'search_text': search_text, 'limit': limit}).fetchall()
+            return [dict(row._mapping) for row in results]
         
     def close(self):
         self.engine.dispose()

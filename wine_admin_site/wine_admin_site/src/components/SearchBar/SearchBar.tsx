@@ -202,6 +202,7 @@ const SearchBar: React.FC<SearchBarProps> = ({ callbackFilter, callbackOrderBy }
     const [filterCount, setFilterCount] = useState<Record<string, number>>(
         selectFilters.map((filter) => [filter, 0]).reduce((acc, [key, value]) => ({ ...acc, [key]: value }), {})
     );
+    const [selectedOptions, setSelectedOptions] = useState<Record<string, Set<any>>>({});
     const [searchText, setSearchText] = useState("");
 
     const toggleFilterWindow = () => {
@@ -286,6 +287,8 @@ const SearchBar: React.FC<SearchBarProps> = ({ callbackFilter, callbackOrderBy }
                     setFilters={setFilters}
                     filterCount={filterCount}
                     setFilterCount={setFilterCount}
+                    selectedOptions={selectedOptions}
+                    setSelectedOptions={setSelectedOptions}
                 />}
         </SearchBarMainContainer>
   );

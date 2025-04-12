@@ -2,8 +2,12 @@ import React, { useState, useEffect, useRef } from "react";
 import styled from "styled-components";
 import FilterOptions from "./FilterOptions";
 import Count from "../Count/Count";
-import { toggleFilter } from "@/utils/toggleFilter";
+import dayjs, { Dayjs } from "dayjs";
+import { toggleFilter, toggleDateFilter } from "@/utils/toggleFilter";
 import { keyMap } from "@/utils/data";
+import FullCalendar from "../Calendar/FullCalendar";
+import CustomYearCalendar from "../Calendar/CustomYearCalendar";
+import PriceRange from "../PriceRange/PriceRange";
 
 const FilterWindowContainer = styled.div`
     position: relative;
@@ -123,9 +127,11 @@ type FilterWindowProps = {
     setFilters: React.Dispatch<React.SetStateAction<Array<[string, string, string]>>>;
     filterCount: Record<string, number>;
     setFilterCount: React.Dispatch<React.SetStateAction<Record<string, number>>>;
+    selectedOptions: Record<string, Set<any>>;
+    setSelectedOptions: React.Dispatch<React.SetStateAction<Record<string, Set<any>>>>;
 };
 
-const FilterWindow = ({ callback, onClose, filters, setFilters, filterCount, setFilterCount }: FilterWindowProps) => {
+const FilterWindow = ({ callback, onClose, filters, setFilters, filterCount, setFilterCount, selectedOptions, setSelectedOptions }: FilterWindowProps) => {
     const selectFilters = [
         "Auction House",
         "Lot Producer",
@@ -140,7 +146,8 @@ const FilterWindow = ({ callback, onClose, filters, setFilters, filterCount, set
 
     const [activeFilter, setActiveFilter] = useState<string | null>(null);
     const [filterPosition, setFilterPosition] = useState<{ top: number, left: number }>({ top: 0, left: 0 });
-    const [selectedOptions, setSelectedOptions] = useState<Record<string, Set<string>>>({});
+    const [auctionBeforeDate, setauctionBeforeDate] = useState<Dayjs | null>(dayjs());
+    const [auctionAfterDate, setauctionAfterDate] = useState<Dayjs | null>(dayjs());
     const containerRef = useRef<HTMLDivElement>(null);
     const optionsRef = useRef<HTMLDivElement>(null);
 
@@ -187,12 +194,56 @@ const FilterWindow = ({ callback, onClose, filters, setFilters, filterCount, set
             };
         });
     };
+
+    const handleAddDateFilter = (filter: string, operator: string, value: Dayjs) => {
+        const dateValue = value.format("YYYY-MM-DD");
+        const filterKey = keyMap[filter];
+        const newFilters = toggleDateFilter(filters, filterKey, operator, dateValue);
+
+        const existed = filters.length > newFilters.length;
+
+        setFilters(newFilters);
+        setFilterCount((prevCount) => ({
+            ...prevCount,
+            [filter]: existed ? 0 : 1,
+        }));
+    }
+
+    const handleAddYearFilter = (filter: string, operator: string, value: Dayjs) => {
+        const yearValue = value.format("YYYY")
+        const filterKey = keyMap[filter];
+        const newFilters = toggleFilter(filters, filterKey, operator, yearValue);
+
+        const existed = filters.length > newFilters.length;
+
+        setFilters(newFilters);
+        setFilterCount((prevCount) => ({
+            ...prevCount,
+            [filter]: prevCount[filter] + (existed ? -1 : 1),
+        }));
+
+        setSelectedOptions((prevSelected) => {
+            const currentSet = new Set(prevSelected[filter] || []);
+            if (currentSet.has(yearValue)) {
+                currentSet.delete(yearValue);
+            } else {
+                currentSet.add(yearValue);
+            }
+            return {
+                ...prevSelected,
+                [filter]: currentSet,
+            };
+        });
+        console.log("selectedOptions", selectedOptions)
+    }
+
     
     const handleClearFilters = () => {
         const clearedFilters = [] as [string, string, string][];
         const clearedCount = selectFilters.reduce((acc, f) => ({ ...acc, [f]: 0 }), {});
         setFilters(clearedFilters);
         setFilterCount(clearedCount);
+        setSelectedOptions({});
         callback(clearedFilters, clearedCount);
     };
 
@@ -203,7 +254,6 @@ const FilterWindow = ({ callback, onClose, filters, setFilters, filterCount, set
 
     const handleFilterClick = (filter: string, e: React.MouseEvent<HTMLButtonElement>) => {
         const rect = e.currentTarget.getBoundingClientRect();
-        const containerRect = containerRef.current?.getBoundingClientRect();
 
         if (activeFilter === filter) {
             setActiveFilter(null);
@@ -212,8 +262,8 @@ const FilterWindow = ({ callback, onClose, filters, setFilters, filterCount, set
             setActiveFilter(filter);
         }
         setFilterPosition({
-            top: rect.top,
-            left: rect.right + 10,
+            top: rect.bottom + window.scrollY - 35,
+            left: rect.right + 10, 
         });
     };
 
@@ -235,13 +285,50 @@ const FilterWindow = ({ callback, onClose, filters, setFilters, filterCount, set
 
             {activeFilter && (
                 <div ref={optionsRef}>
-                <FilterOptions 
-                    filterType={activeFilter}
-                    position={filterPosition}
-                    selected={selectedOptions[activeFilter] || new Set()}
-                    onClick={(value) => handleAddFilter(activeFilter, value)}
-                    onClose={() => setActiveFilter(null)}
+                {(activeFilter === "Auction House" ||
+                  activeFilter === "Lot Producer" ||
+                  activeFilter === "Region" || 
+                  activeFilter === "Colour" || 
+                  activeFilter === "Format"
+                ) && 
+                    <FilterOptions 
+                        filterType={activeFilter}
+                        position={filterPosition}
+                        selected={selectedOptions[activeFilter] || new Set()}
+                        onClick={(value) => handleAddFilter(activeFilter, value)}
+                        onClose={() => setActiveFilter(null)}
                     />
+                }
+                {activeFilter === "Vintage" && (
+                    <CustomYearCalendar 
+                        position={filterPosition}
+                        selected={selectedOptions[activeFilter] || new Set()}
+                        callback={(value) => handleAddYearFilter(activeFilter, "eq", value)}
+                    />
+                )}
+                {(activeFilter === "Auction Before" ) && (
+                    <FullCalendar 
+                        position={filterPosition} 
+                        initialDate={auctionBeforeDate} 
+                        callback={(value) => handleAddDateFilter(activeFilter, "lte", value)}
+                        onClose={() => setActiveFilter(null)}
+                        setDate={(value) => setauctionBeforeDate(value)}
+                    />
+                )}
+                {(activeFilter === "Auction After" ) && (
+                    <FullCalendar 
+                        position={filterPosition} 
+                        initialDate={auctionAfterDate} 
+                        callback={(value) => handleAddDateFilter(activeFilter, "gte", value)}
+                        onClose={() => setActiveFilter(null)}
+                        setDate={(value) => setauctionAfterDate(value)}
+                    />
+                )}
+                {activeFilter === "Price Range" && (
+                    <PriceRange 
+                        position={filterPosition}  
+                    />
+                )}
                 </div>
             )}
         </>

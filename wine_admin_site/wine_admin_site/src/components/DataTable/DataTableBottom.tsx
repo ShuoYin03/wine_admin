@@ -73,10 +73,11 @@ interface DataTableBottomProps {
     pageSize: number;
     setPageSize: React.Dispatch<React.SetStateAction<number>>;
     handlePageChange: (isNext: boolean) => void;
+    handlePageSizeChange: (size: number) => void;
     count: number;
 }
 
-const DataTableBottom: React.FC<DataTableBottomProps> = ({ page, setPage, pageSize, setPageSize, handlePageChange, count }) => {
+const DataTableBottom: React.FC<DataTableBottomProps> = ({ page, setPage, pageSize, setPageSize, handlePageChange, handlePageSizeChange, count }) => {
     return (
         <TableBottomContainer>
             <DisplayPageSize>
@@ -90,6 +91,7 @@ const DataTableBottom: React.FC<DataTableBottomProps> = ({ page, setPage, pageSi
                     value={pageSize}
                     onChange={(e) => {
                         setPageSize(Number(e.target.value));
+                        handlePageSizeChange(Number(e.target.value));
                     }}
                     >
                     {[10, 20, 50, 100].map((size) => (
