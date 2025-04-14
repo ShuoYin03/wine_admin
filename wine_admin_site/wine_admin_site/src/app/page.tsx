@@ -35,6 +35,8 @@ const Home = () => {
     const [page_size, setPageSize] = useState<number>(10);
     const [data, setData] = useState<LotDisplayType[]>([]);
     const [count, setCount] = useState<number>(0);
+    const [minPrice, setMinPrice] = useState<number>(0);
+    const [maxPrice, setMaxPrice] = useState<number>(10000);
 
     useEffect(() => {
         const fetchData = async () => {
@@ -58,6 +60,8 @@ const Home = () => {
             const { result, count } = data;
             setData(result);
             setCount(count);
+            setMinPrice(Math.min(...result.map((lot: LotDisplayType) => lot.end_price)));
+            setMaxPrice(Math.max(...result.map((lot: LotDisplayType) => lot.end_price)));
         };
         fetchData();
     }, [filters, order_by, page, page_size]);
@@ -88,7 +92,7 @@ const Home = () => {
     return (
       <HomeContainer>
         <MainTitle title={"Wine Admin Site"} subtitle={"Browse, Search, and Manage Wine Lots"}></MainTitle>
-        <SearchBar callbackFilter={handleFilterChange} callbackOrderBy={handleOrderByChange}/>
+        <SearchBar callbackFilter={handleFilterChange} callbackOrderBy={handleOrderByChange} minPrice={minPrice} maxPrice={maxPrice}/>
         <DataTable<LotDisplayType> columns={LotColumns} data={data} />
         <DataTableBottom page={page} setPage={setPage} pageSize={page_size} setPageSize={setPageSize} handlePageChange={handlePageChange} handlePageSizeChange={handlePageSizeChange} count={count}/>
       </HomeContainer>

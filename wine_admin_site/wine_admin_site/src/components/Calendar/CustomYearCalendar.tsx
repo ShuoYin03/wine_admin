@@ -51,6 +51,7 @@ const CustomYearSelector: React.FC<CustomYearSelectorProps> = ({
   callback,
 }) => {
   const [selectedYears, setSelectedYears] = useState<Set<string>>(new Set(selected));
+  const [years, setYears] = useState<string[]>([]);
 
   const toggleYear = (year: string) => {
     const newSelected = new Set(selectedYears);
@@ -63,11 +64,14 @@ const CustomYearSelector: React.FC<CustomYearSelectorProps> = ({
     callback(dayjs(year, 'YYYY'));
   };
 
-  const currentYear = dayjs().year();
-  const years = [];
-  for (let y = 1900; y <= currentYear; y++) {
-    years.push(y.toString());
-  }
+  useEffect(() => {
+    const currentYear = dayjs().year();
+    const generatedYears = [];
+    for (let y = 1900; y <= currentYear; y++) {
+      generatedYears.push(y.toString());
+    }
+    setYears(generatedYears);
+  }, []);
 
   return (
     <Container top={position.top} left={position.left}>

@@ -1,7 +1,6 @@
 'use client';
 import Header from "@/components/Header/Header";
 import "./globals.css";
-import { ThemeProvider } from "styled-components";
 import StyledComponentsRegistry from "./lib/registry";
 
 export default function RootLayout({

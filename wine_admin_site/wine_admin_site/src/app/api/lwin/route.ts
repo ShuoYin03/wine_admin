@@ -1,23 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { createParamString, filterData } from './lwin.utils';
-import { LwinApiParams } from '@/types/lwinApi';
-
-export async function GET(req: NextRequest) {
-    const params = Object.fromEntries(req.nextUrl.searchParams.entries());
-    const page = Number(params.page) || undefined;
-    const page_size = Number(params.page_size) || undefined;
-
-    const lotApiParams: LwinApiParams = {
-        page,
-        page_size
-    };
-
-    const paramString = createParamString(lotApiParams);
-    const response = await fetch(`http://localhost:5000/lwin_query_all?${paramString}`);
-    const data = await response.json();
-
-    return NextResponse.json({ result: data });
-}
+import { filterData } from './lwin.utils';
 
 export async function POST(req: NextRequest) {
     const payload = await req.json();

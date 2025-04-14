@@ -65,6 +65,7 @@ const LwinMatching = () => {
             
             const data = await response.json();
             const { result } = data;
+            
             setExactCount(result.data.exact_match_count);
             setMultiCount(result.data.multi_match_count);
             setNotCount(result.data.not_match_count);
@@ -80,6 +81,11 @@ const LwinMatching = () => {
             setPage(page - 1);
         }
     }
+
+    const handlePageSizeChange = (size: number) => {
+        setPageSize(size);
+        setPage(1);
+    };
 
     const handleFilterChange = (newFilters: [string, string, string][]) => {
         setFilters(newFilters);
@@ -119,7 +125,7 @@ const LwinMatching = () => {
             <SwitchFilter options={["All Results", "Exact Match", "Multi Match", "Not Match"]} selectedOption={selectedOption} onSelect={handleSelectChange}></SwitchFilter>
             <SearchBar callbackFilter={handleFilterChange} callbackOrderBy={handleOrderByChange}/>
             <DataTable<LwinDisplayType> columns={LwinMatchingColumns} data={data} />
-            <DataTableBottom page={page} setPage={setPage} pageSize={page_size} setPageSize={setPageSize} handlePageChange={handlePageChange} count={count}/>
+            <DataTableBottom page={page} setPage={setPage} pageSize={page_size} setPageSize={setPageSize} handlePageChange={handlePageChange} handlePageSizeChange={handlePageSizeChange} count={count}/>
         </LwinMatchingContainer>
     );
 }

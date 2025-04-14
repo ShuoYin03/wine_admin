@@ -40,7 +40,12 @@ export type LotDisplayType = {
     id?: number;
     wine_name?: string;
     vintage?: number;
+    region?: string;
+    country?: string;
     unit?: number;
+    colour?: string;
+    currency?: string;
+    start_price?: number;
     end_price?: number;
     sold?: boolean;
 };
@@ -59,8 +64,28 @@ export const LotColumns: Column[] = [
         accessor: "vintage",
     },
     {
+        header: "Region",
+        accessor: "region",
+    },
+    {
+        header: "Country",
+        accessor: "country",
+    },
+    {
         header: "Units",
         accessor: "unit",
+    },
+    {
+        header: "Colour",
+        accessor: "colour",
+    },
+    {
+        header: "Currency",
+        accessor: "currency",
+    },
+    {
+        header: "Start Price",
+        accessor: "start_price",
     },
     {
         header: "End Price",

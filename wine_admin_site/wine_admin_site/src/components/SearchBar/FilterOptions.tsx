@@ -4,28 +4,81 @@ import {
   keyMap,
   keyMapOptions
  } from "@/utils/data"
+ import SearchIcon from "@/assets/search.svg";
 
-const OptionsContainer = styled.div<{ top: number; left: number }>`
+const FilterOptionsContainer = styled.div<{ top: number; left: number }>`
   position: absolute;
   top: ${({ top }) => top}px;
   left: ${({ left }) => left}px;
   background-color: #ffffff;
   border: 1px solid #ccc;
   border-radius: 6px;
-  padding: 10px;
   z-index: 1100;
-  width: 180px;
+  width: 220px;
+  max-height: 300px;
+  overflow-y: overlay;
+  overflow-x: hidden;
+
+  &::-webkit-scrollbar {
+    width: 3px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: rgba(0, 0, 0, 0.3);
+    border-radius: 6px;
+  }
 `;
 
-const OptionItem = styled.div<{ $isSelected?: boolean }>`
+const SearchWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 14px 8px;
+  border-bottom: 1px solid #ccc;
+  border-radius: 6px 6px 0px 0px;
+`;
+
+const SearchIconWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 8px;
+  padding-left: 10px;
+
+  svg {
+      width: 15px;
+      height: 15px;
+      fill: #705C61;
+  }
+`;
+
+const OptionSearchBar = styled.input`
+  outline: none;
+  border: none;
+`;
+
+const OptionsContainer = styled.div`
+  padding: 10px;
+`;
+
+const OptionContainer = styled.div`
+  display: flex;
   padding: 5px 10px;
+  align-items: center;
+  justify-content: space-between;
+`;
+
+const OptionItem = styled.div`
   color: #705c61;
   cursor: pointer;
-  background-color: ${({ $isSelected }) => ($isSelected ? "#f0eae6" : "ffffff")};
+`;
 
-  &:hover {
-    background-color: #f0eae6;
-  }
+const OptionTickBox = styled.input`
+  display: block;
+  height: 16px;
+  width: 16px;
+  accent-color: #996932;
+  cursor: pointer;
 `;
 
 type FilterOptionsProps = {
@@ -38,49 +91,47 @@ type FilterOptionsProps = {
 
 const FilterOptions: React.FC<FilterOptionsProps> = ({ filterType, position, selected, onClick, onClose }: FilterOptionsProps) => {
   const [options, setOptions] = useState<string[]>([]);
+  const [displayOptions, setDisplayOptions] = useState<string[]>([]);
   
   useEffect(() => {
-    // const fetchOptions = async () => {
-    //   const mappedFilter = keyMap[filterType] || filterType;
-    //   const payload = {
-    //     select_fields: [mappedFilter],
-    //     distinct_fields: mappedFilter,
-    //   };
-
-    //   const response = await fetch(`http://localhost:5000/lot_query`, {
-    //     method: "POST",
-    //     headers: {
-    //       "Content-Type": "application/json",
-    //     },
-    //     body: JSON.stringify(payload),
-    //   });
-      
-    //   const result = await response.json();
-    //   const data = await handleResponse(result['lots']);
-    //   console.log(data);
-    //   setOptions(data);
-    // };
-
-    // fetchOptions();
     const keyMapFilter = keyMap[filterType] || filterType;
     const keyMapOptionsList = keyMapOptions[keyMapFilter] || [];
     setOptions(keyMapOptionsList);
+    setDisplayOptions(keyMapOptionsList);
   }, [filterType]);
 
   return (
-    <OptionsContainer top={position.top} left={position.left}>
-      {options.map((opt, i) => (
-        <OptionItem 
-          key={i} 
-          $isSelected={selected.has(opt)}
-          onClick={() => {
-            onClick(opt);
-            onClose();
-        }}>
-          {opt}
-        </OptionItem>
-      ))}
-    </OptionsContainer>
+    <FilterOptionsContainer top={position.top} left={position.left}>
+      <SearchWrapper>
+        <SearchIconWrapper>
+          <SearchIcon />
+        </SearchIconWrapper>
+        <OptionSearchBar 
+            type="text" 
+            placeholder="Search..." 
+            onChange={(e) => {
+              const searchTerm = e.target.value.toLowerCase();
+              const filteredOptions = options.filter(option => option.toLowerCase().includes(searchTerm));
+              setDisplayOptions(filteredOptions);
+            }}
+          />
+      </SearchWrapper>
+      <OptionsContainer>
+        {displayOptions.map((opt, i) => (
+          <OptionContainer key={i}>
+            <OptionItem >
+              {opt}
+            </OptionItem>
+            <OptionTickBox 
+              type="checkbox"
+              checked={selected.has(opt)}
+              onChange={() => {
+                onClick(opt);
+            }}/>
+          </OptionContainer>
+        ))}
+      </OptionsContainer>
+    </FilterOptionsContainer>
   );
 };
 

@@ -11,4 +11,10 @@ body {
   flex-direction: column;
   font-family: 'Inter', sans-serif;
   min-height: 100vh;
+
+  
+  &::-webkit-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
 }
