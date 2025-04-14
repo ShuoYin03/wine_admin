@@ -1,10 +1,5 @@
 import { Column } from '@/components/DataTable/DataTable.type';
 
-export interface LwinApiParams {
-    page?: number;
-    page_size?: number;
-};
-
 export enum MatchStatusType {
     EXACT_MATCH = 'exact_match',
     MULTI_MATCH = 'multi_match',

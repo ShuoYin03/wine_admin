@@ -180,9 +180,11 @@ const Button = styled.button`
 interface SearchBarProps {
     callbackFilter: (filters: [string, string, string][]) => void;
     callbackOrderBy: (orderBy: string) => void;
+    maxPrice: number;
+    minPrice: number;
 };
 
-const SearchBar: React.FC<SearchBarProps> = ({ callbackFilter, callbackOrderBy }) => {
+const SearchBar: React.FC<SearchBarProps> = ({ callbackFilter, callbackOrderBy, maxPrice, minPrice }) => {
     const selectFilters = [
         "Auction House",
         "Lot Producer",
@@ -289,6 +291,8 @@ const SearchBar: React.FC<SearchBarProps> = ({ callbackFilter, callbackOrderBy }
                     setFilterCount={setFilterCount}
                     selectedOptions={selectedOptions}
                     setSelectedOptions={setSelectedOptions}
+                    maxPrice={maxPrice}
+                    minPrice={minPrice}
                 />}
         </SearchBarMainContainer>
   );

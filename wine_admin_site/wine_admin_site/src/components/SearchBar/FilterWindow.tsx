@@ -3,7 +3,11 @@ import styled from "styled-components";
 import FilterOptions from "./FilterOptions";
 import Count from "../Count/Count";
 import dayjs, { Dayjs } from "dayjs";
-import { toggleFilter, toggleDateFilter } from "@/utils/toggleFilter";
+import { 
+    toggleFilter, 
+    toggleDateFilter,
+    togglePriceRangeFilter
+} from "@/utils/toggleFilter";
 import { keyMap } from "@/utils/data";
 import FullCalendar from "../Calendar/FullCalendar";
 import CustomYearCalendar from "../Calendar/CustomYearCalendar";
@@ -129,9 +133,11 @@ type FilterWindowProps = {
     setFilterCount: React.Dispatch<React.SetStateAction<Record<string, number>>>;
     selectedOptions: Record<string, Set<any>>;
     setSelectedOptions: React.Dispatch<React.SetStateAction<Record<string, Set<any>>>>;
+    maxPrice: number;
+    minPrice: number;
 };
 
-const FilterWindow = ({ callback, onClose, filters, setFilters, filterCount, setFilterCount, selectedOptions, setSelectedOptions }: FilterWindowProps) => {
+const FilterWindow = ({ callback, onClose, filters, setFilters, filterCount, setFilterCount, selectedOptions, setSelectedOptions, maxPrice, minPrice }: FilterWindowProps) => {
     const selectFilters = [
         "Auction House",
         "Lot Producer",
@@ -146,8 +152,8 @@ const FilterWindow = ({ callback, onClose, filters, setFilters, filterCount, set
 
     const [activeFilter, setActiveFilter] = useState<string | null>(null);
     const [filterPosition, setFilterPosition] = useState<{ top: number, left: number }>({ top: 0, left: 0 });
-    const [auctionBeforeDate, setauctionBeforeDate] = useState<Dayjs | null>(dayjs());
-    const [auctionAfterDate, setauctionAfterDate] = useState<Dayjs | null>(dayjs());
+    const [auctionBeforeDate, setAuctionBeforeDate] = useState<Dayjs | null>(null);
+    const [auctionAfterDate, setAuctionAfterDate] = useState<Dayjs | null>(null);
     const containerRef = useRef<HTMLDivElement>(null);
     const optionsRef = useRef<HTMLDivElement>(null);
 
@@ -168,6 +174,11 @@ const FilterWindow = ({ callback, onClose, filters, setFilters, filterCount, set
             document.removeEventListener("mousedown", handleClickOutside);
         };
     }, [onClose]);
+
+    useEffect(() => {
+        setAuctionBeforeDate(dayjs());
+        setAuctionAfterDate(dayjs());
+      }, []);
 
     const handleAddFilter = (filter: string, value: string) => {
         const filterKey = keyMap[filter];
@@ -235,6 +246,19 @@ const FilterWindow = ({ callback, onClose, filters, setFilters, filterCount, set
             };
         });
         console.log("selectedOptions", selectedOptions)
+    }
+
+    const handleAddPriceRangeFilter = (filter: string, operator: string, minPrice: number, maxPrice: number) => {
+        const filterKey = keyMap[filter];
+        const newFilters = togglePriceRangeFilter(filters, filterKey, operator, [minPrice, maxPrice]);
+
+        const existed = filters.length > newFilters.length;
+
+        setFilters(newFilters);
+        setFilterCount((prevCount) => ({
+            ...prevCount,
+            [filter]: prevCount[filter] + (existed ? -1 : 1),
+        }));
     }
 
     
@@ -312,7 +336,7 @@ const FilterWindow = ({ callback, onClose, filters, setFilters, filterCount, set
                         initialDate={auctionBeforeDate} 
                         callback={(value) => handleAddDateFilter(activeFilter, "lte", value)}
                         onClose={() => setActiveFilter(null)}
-                        setDate={(value) => setauctionBeforeDate(value)}
+                        setDate={(value) => setAuctionBeforeDate(value)}
                     />
                 )}
                 {(activeFilter === "Auction After" ) && (
@@ -321,12 +345,15 @@ const FilterWindow = ({ callback, onClose, filters, setFilters, filterCount, set
                         initialDate={auctionAfterDate} 
                         callback={(value) => handleAddDateFilter(activeFilter, "gte", value)}
                         onClose={() => setActiveFilter(null)}
-                        setDate={(value) => setauctionAfterDate(value)}
+                        setDate={(value) => setAuctionAfterDate(value)}
                     />
                 )}
                 {activeFilter === "Price Range" && (
                     <PriceRange 
-                        position={filterPosition}  
+                        position={filterPosition} 
+                        minPrice={minPrice} 
+                        maxPrice={maxPrice}
+                        onPriceChange={(minPrice, maxPrice) => handleAddPriceRangeFilter(activeFilter, "between", minPrice, maxPrice)}
                     />
                 )}
                 </div>

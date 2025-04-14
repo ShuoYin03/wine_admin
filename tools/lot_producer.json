@@ -1,20 +1,4 @@
-export const keyMap: Record<string, string> = {
-    "Auction House": "auction_house",
-    "Lot Producer": "lot_producer",
-    "Region": "region",
-    "Colour": "color",
-    "Format": "format",
-    "Vintage": "vintage",
-    "Auction Before": "start_date",
-    "Auction After": "end_date",
-    "Price Range": "end_price",
-};
-
-export const AuctionHouseOptions = [
-    "Sotheby's",
-]
-
-export const LotProducerOptions = [
+[
     "3/Thirds",
     "Alain Hudelot-Noellat",
     "Albert Bichot",
@@ -416,52 +400,3 @@ export const LotProducerOptions = [
     "di Biserno",
     "du Tertre"
 ]
-
-export const RegionOptions = [
-    "Bordeaux",
-    "Burgundy",
-    "California",
-    "Castilla y Leon",
-    "Champagne",
-    "Loire",
-    "Other France",
-    "Piedmont",
-    "Porto",
-    "Rhone",
-    "Ribera del Duero",
-    "Rioja",
-    "Saint Pettersburg",
-    "South Australia",
-    "Southwest France",
-    "Tuscany",
-    "Veneto"
-]
-
-export const ColourOptions = [
-    "Red",
-    "White",
-]
-
-export const FormatOptions = [
-    "0.37cl",
-    "1.5L",
-    "1/5 gallon",
-    "375ml",
-    "3L",
-    "500ml",
-    "6L",
-    "70cl",
-    "750ml",
-    "75cl",
-    "MAG"
-]
-
-export const keyMapOptions: Record<string, Array<string>> = {
-    "auction_house": AuctionHouseOptions,
-    "lot_producer": LotProducerOptions,
-    "region": RegionOptions,
-    "color": ColourOptions,
-    "format": FormatOptions,
-    "vintage": ["vintage", "vintage"],
-    "country": ["country", "country"],
-  };
