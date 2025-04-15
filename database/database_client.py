@@ -154,8 +154,8 @@ class DatabaseClient:
         self, 
         filters=None, 
         order_by=None, 
-        limit=50, 
-        offset=0, 
+        limit=None, 
+        offset=None, 
         select_fields=None, 
         distinct_fields=None, 
         return_count=False

@@ -17,17 +17,6 @@ const HomeContainer = styled.div`
     min-height: 82vh;
 `;
 
-const fakeData: LotDisplayType[] = [
-    {
-        id: 3,
-        wine_name: "Wine C",
-        vintage: 2020,
-        unit: 3,
-        end_price: 75,
-        sold: true,
-    }
-]
-
 const Home = () => {
     const [filters, setFilters] = useState<object>({});
     const [order_by, setOrderBy] = useState<string>("");
@@ -66,6 +55,32 @@ const Home = () => {
         fetchData();
     }, [filters, order_by, page, page_size]);
 
+    const handleExport = async () => {
+        const payload = {
+            filters: filters,
+            order_by: "id"
+          };
+        
+          const response = await fetch('http://localhost:5000/lot_export_csv', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(payload)
+          });
+        
+          const blob = await response.blob();
+          const url = window.URL.createObjectURL(blob);
+        
+          const link = document.createElement('a');
+          link.href = url;
+          link.download = 'lots_export.csv';
+          document.body.appendChild(link);
+          link.click();
+          link.remove();
+          window.URL.revokeObjectURL(url);
+    };
+
     const handlePageChange = (direction: boolean) => {
         if (direction && page < Math.ceil(count / page_size)) {
             setPage(page + 1);
@@ -92,7 +107,7 @@ const Home = () => {
     return (
       <HomeContainer>
         <MainTitle title={"Wine Admin Site"} subtitle={"Browse, Search, and Manage Wine Lots"}></MainTitle>
-        <SearchBar callbackFilter={handleFilterChange} callbackOrderBy={handleOrderByChange} minPrice={minPrice} maxPrice={maxPrice}/>
+        <SearchBar callbackFilter={handleFilterChange} callbackOrderBy={handleOrderByChange} minPrice={minPrice} maxPrice={maxPrice} exportCallback={handleExport}/>
         <DataTable<LotDisplayType> columns={LotColumns} data={data} />
         <DataTableBottom page={page} setPage={setPage} pageSize={page_size} setPageSize={setPageSize} handlePageChange={handlePageChange} handlePageSizeChange={handlePageSizeChange} count={count}/>
       </HomeContainer>

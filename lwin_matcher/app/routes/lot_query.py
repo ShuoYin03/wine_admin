@@ -1,7 +1,8 @@
+import io
+import csv
 import sys
 import json
 sys.path.append('../..')
-
 from flask import Blueprint, request, Response
 from database.database_client import DatabaseClient
 from app.utils import serialize_for_json, justify_ops
@@ -51,5 +52,39 @@ async def query():
         results = serialize_for_json(results)
         return Response(json.dumps({"lots": results}), mimetype='application/json')
 
+    except Exception as e:
+        return Response(json.dumps({"error": str(e)}), mimetype='application/json', status=500)
+    
+
+@lot_query_blueprint.route('/lot_export_csv', methods=['POST'])
+async def lot_export_csv():
+    try:
+        payload = request.get_json() or {}
+        filters = payload.get('filters', [])
+        filters = justify_ops(filters)
+        order_by = payload.get('order_by')
+
+        results = db.query_lots_with_auction(
+            filters=filters,
+            order_by=order_by
+        )
+        results = serialize_for_json(results)
+
+        output = io.StringIO()
+        writer = csv.writer(output)
+
+        if results:
+            writer.writerow(results[0].keys())
+            for lot in results:
+                writer.writerow(lot.values())
+        else:
+            writer.writerow(["No Data"])
+
+        output.seek(0)
+        response = Response(output.getvalue(), mimetype='text/csv')
+        response.headers['Content-Disposition'] = 'attachment; filename=lots.csv'
+
+        return response
+        
     except Exception as e:
         return Response(json.dumps({"error": str(e)}), mimetype='application/json', status=500)

@@ -182,9 +182,16 @@ interface SearchBarProps {
     callbackOrderBy: (orderBy: string) => void;
     maxPrice: number;
     minPrice: number;
+    exportCallback: () => void;
 };
 
-const SearchBar: React.FC<SearchBarProps> = ({ callbackFilter, callbackOrderBy, maxPrice, minPrice }) => {
+const SearchBar: React.FC<SearchBarProps> = ({ 
+    callbackFilter, 
+    callbackOrderBy, 
+    maxPrice, 
+    minPrice, 
+    exportCallback 
+}) => {
     const selectFilters = [
         "Auction House",
         "Lot Producer",
@@ -278,7 +285,7 @@ const SearchBar: React.FC<SearchBarProps> = ({ callbackFilter, callbackOrderBy, 
                         </SquareButton>
                     </SortWrapper>
                     <Button>Import</Button>
-                    <Button>Export</Button>
+                    <Button onClick={exportCallback}>Export</Button>
                 </RightSideContainer>
             </SearchBarContainer>
             {showFilterWindow && 
