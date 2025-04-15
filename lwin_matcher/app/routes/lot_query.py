@@ -80,8 +80,10 @@ async def lot_export_csv():
         else:
             writer.writerow(["No Data"])
 
-        output.seek(0)
-        response = Response(output.getvalue(), mimetype='text/csv')
+        csv_bytes = output.getvalue().encode("utf-8-sig")
+        output.close()
+
+        response = Response(csv_bytes, mimetype='text/csv')
         response.headers['Content-Disposition'] = 'attachment; filename=lots.csv'
 
         return response

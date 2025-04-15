@@ -174,7 +174,41 @@ class DatabaseClient:
                             selected_columns.append(table.c[field])
                             break
             else:
-                selected_columns = [lots, auctions]
+                selected_columns = [
+                    lots.c.id.label("lot_id"),
+                    lots.c.auction_id,
+                    lots.c.lot_producer,
+                    lots.c.wine_name,
+                    lots.c.vintage,
+                    lots.c.unit_format,
+                    lots.c.unit,
+                    lots.c.volumn,
+                    lots.c.lot_type,
+                    lots.c.wine_type,
+                    lots.c.original_currency,
+                    lots.c.start_price,
+                    lots.c.end_price,
+                    lots.c.low_estimate,
+                    lots.c.high_estimate,
+                    lots.c.sold,
+                    lots.c.sold_date,
+                    lots.c.region,
+                    lots.c.sub_region,
+                    lots.c.country,
+                    lots.c.success,
+                    lots.c.url.label("lot_url"),
+
+                    auctions.c.auction_title,
+                    auctions.c.auction_house,
+                    auctions.c.city,
+                    auctions.c.continent,
+                    auctions.c.start_date,
+                    auctions.c.end_date,
+                    auctions.c.year,
+                    auctions.c.quarter,
+                    auctions.c.auction_type,
+                    auctions.c.url.label("auction_url"),
+                ]
 
             if distinct_fields:
                 for idx, col in enumerate(selected_columns):
@@ -183,8 +217,7 @@ class DatabaseClient:
                         break
             
             query = session.query(*selected_columns)
-
-            query = query.join(auctions, lots.c.auction_id == auctions.c.id)
+            query = query.select_from(lots).join(auctions, lots.c.auction_id == auctions.c.id)
 
             conditions = self.parse_filters(filters, table_map)
             if conditions is not None:
