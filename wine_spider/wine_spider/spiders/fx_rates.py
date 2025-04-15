@@ -15,7 +15,7 @@ class FxRatesSpider(scrapy.Spider):
     def __init__(self, *args, **kwargs):
         super(FxRatesSpider, self).__init__(*args, **kwargs)
         self.db = DatabaseClient()
-        self.rates_list = [i for i in self.db.query_items(table_name="lots", distinct_fields="original_currency") if i != 'USD']
+        self.rates_list = set(i for i in self.db.query_items(table_name="lots", distinct_fields="original_currency") if i != 'USD')
         self.base_url = f"{os.getenv('BASE_URL')}/rates"
 
     def start_requests(self):
@@ -34,6 +34,21 @@ class FxRatesSpider(scrapy.Spider):
     def parse(self, response):
         rates_from = response.meta['rates_from']
         rates_to = response.meta['rates_to']
+
+        exist_rate = self.db.query_items(
+            table_name="fx_rates_cache",
+            filters=[
+                ["rates_from", "eq", rates_from],
+                ["rates_to", "eq", rates_to]
+            ]
+        )
+        
+        if exist_rate:
+            self.db.delete_item(
+                table_name="fx_rates_cache",
+                item_id=exist_rate[0]['id']
+            )
+
         rates = float(response.text)
 
         fx_rate_item = FxRateItem()
@@ -42,4 +57,3 @@ class FxRatesSpider(scrapy.Spider):
         fx_rate_item['rates'] = rates
 
         yield fx_rate_item
-

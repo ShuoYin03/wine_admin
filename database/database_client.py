@@ -146,9 +146,38 @@ class DatabaseClient:
 
             results = query.all()
             session.close()
-
+        
             data = [dict(row._mapping) for row in results]
+            if distinct_fields:
+                data = [row[0] for row in results]
+
             return (data, count) if return_count else data
+        
+    def update_item(self, table_name, item_id, update_data):
+        table = self.get_table(table_name)
+        session = self.Session()
+        try:
+            with session.begin():
+                stmt = table.update().where(table.c.id == item_id).values(**update_data)
+                session.execute(stmt)
+        except Exception as e:
+            session.rollback()
+            print(f"[UPDATE ERROR] {e}")
+        finally:
+            session.close()
+
+    def delete_item(self, table_name, item_id):
+        table = self.get_table(table_name)
+        session = self.Session()
+        try:
+            with session.begin():
+                stmt = table.delete().where(table.c.id == item_id)
+                session.execute(stmt)
+        except Exception as e:
+            session.rollback()
+            print(f"[DELETE ERROR] {e}")
+        finally:
+            session.close()
 
     def query_lots_with_auction(
         self, 
