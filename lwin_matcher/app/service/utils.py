@@ -39,6 +39,23 @@ class LwinMatchingUtils:
             matches.append((row, score))
         
         return matches
+    
+    def search_by_bm25_on_target(self, title, target):
+        if not title:
+            return []
+        title = self.clean_title(title)
+        tokenized_query = self.generate_mixed_ngrams(title.split())
+
+        scores = self.bm25.get_scores(tokenized_query)
+
+        matches = []
+        for idx in scores:
+            row = self.table_items.iloc[idx]
+            score = scores[idx]
+            if target in row['display_name']:
+                matches.append((row, score))
+        
+        return matches
 
     def clean_title(self, title):
         if not title:

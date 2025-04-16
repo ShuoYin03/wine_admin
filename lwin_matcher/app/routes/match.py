@@ -59,7 +59,7 @@ async def match():
 
         return Response(json.dumps(result), mimetype='application/json')
     except Exception as e:
-        return Response(json.dumps({"error": str(e)}), mimetype='application/json', status=500)
+        return Response(json.dumps({"error": str(e)}), mimetype='application/json', status=400)
     
 @match_blueprint.route('/test_match', methods=['POST'])
 async def test_match():
@@ -72,6 +72,11 @@ async def test_match():
     country = payload.get('country', '')
     colour = payload.get('colour', '')
 
+    target_record = payload.get('target_record', {})
+    if not target_record:
+        return Response(json.dumps({"error": "A target record is required"}), mimetype='application/json', status=400)
+
+    
     lwin_matching_params = LwinMatchingParams(
         wine_name=wine_name,
         lot_producer=lot_producer[0] if type(lot_producer) == list else lot_producer,
@@ -109,4 +114,4 @@ async def test_match():
 
         return Response(json.dumps(result), mimetype='application/json')
     except Exception as e:
-        return Response(json.dumps({"error": str(e)}), mimetype='application/json', status=500)
+        return Response(json.dumps({"error": str(e)}), mimetype='application/json', status=400)
