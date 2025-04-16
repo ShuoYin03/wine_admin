@@ -1,9 +1,6 @@
 import re
 import numpy as np
-from rapidfuzz import fuzz
 from rank_bm25 import BM25Okapi
-from sklearn.metrics.pairwise import cosine_similarity
-from sklearn.feature_extraction.text import TfidfVectorizer
 
 class LwinMatchingUtils:
     def __init__(self, table_items):

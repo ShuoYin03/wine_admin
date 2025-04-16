@@ -31,7 +31,10 @@ class LwinMatchingService:
             match_result = MatchResult.MULTI_MATCH
         
         columns = [column.name for column in LwinDatabaseModel.__table__.columns]
-        return match_result, [match[0]['lwin'] for match in matches], self.utils.convert_to_serializable([match[1] for match in matches]), [OrderedDict({columns[i]: match[0].iloc[i] for i in range(len(columns))}) for match in matches]
+        return match_result, \
+            [match[0]['lwin'] for match in matches], \
+            self.utils.convert_to_serializable([match[1] for match in matches]), \
+            [OrderedDict({columns[i]: match[0].iloc[i] for i in range(len(columns))}) for match in matches]
 
     def calculate_multiple(self, lwinMatchingParams):
         matches = self.utils.search_by_bm25(lwinMatchingParams.wine_name, limit=20)

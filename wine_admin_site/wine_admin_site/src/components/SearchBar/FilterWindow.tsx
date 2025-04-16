@@ -1,3 +1,4 @@
+'use client';
 import React, { useState, useEffect, useRef } from "react";
 import styled from "styled-components";
 import FilterOptions from "./FilterOptions";
@@ -176,8 +177,11 @@ const FilterWindow = ({ callback, onClose, filters, setFilters, filterCount, set
     }, [onClose]);
 
     useEffect(() => {
-        setAuctionBeforeDate(dayjs());
-        setAuctionAfterDate(dayjs());
+        if (typeof window !== "undefined") {
+            const now = dayjs();
+            setAuctionBeforeDate(now);
+            setAuctionAfterDate(now);
+        }
       }, []);
 
     const handleAddFilter = (filter: string, value: string) => {
@@ -277,6 +281,7 @@ const FilterWindow = ({ callback, onClose, filters, setFilters, filterCount, set
     };
 
     const handleFilterClick = (filter: string, e: React.MouseEvent<HTMLButtonElement>) => {
+        if (typeof window === 'undefined') return;
         const rect = e.currentTarget.getBoundingClientRect();
 
         if (activeFilter === filter) {

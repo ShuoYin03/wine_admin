@@ -2,7 +2,7 @@ import os
 from dotenv import load_dotenv
 from sqlalchemy.ext.asyncio import create_async_engine, AsyncSession
 from sqlalchemy.orm import sessionmaker
-from sqlalchemy import Table, MetaData, func, and_
+from sqlalchemy import MetaData, func, and_
 from sqlalchemy.dialects.postgresql import insert
 
 load_dotenv()
