@@ -15,14 +15,15 @@ class LwinMatchingPipeline:
     def process_item(self, item, spider):
         if type(item) != LotItem:
             return item
+        
         payload = {
             "wine_name": item['wine_name'],
             "lot_producer": item['lot_producer'] if 'lot_producer' in item else None,
-            # "vintage": item['vintage'] if 'vintage' in item else None,
-            # "region": item['region'] if 'region' in item else None,
-            # "sub_region": item['sub_region'] if 'sub_region' in item else None,
-            # "country": item['country'] if 'country' in item else None,
-            # "colour": item['wine_type'] if 'wine_type' in item else None
+            "vintage": item['vintage'] if 'vintage' in item else None,
+            "region": item['region'] if 'region' in item else None,
+            "sub_region": item['sub_region'] if 'sub_region' in item else None,
+            "country": item['country'] if 'country' in item else None,
+            "colour": item['wine_type'][0] if 'wine_type' in item else None
         }
 
         request = scrapy.Request(
@@ -47,6 +48,7 @@ class LwinMatchingPipeline:
         lwinMatchingItem['id'] = item['id']
         lwinMatchingItem['matched'] = data['matched']
         lwinMatchingItem['lwin'] = data['lwin_code']
+        lwinMatchingItem['lwin_11'] = data['lwin_11_code'] if data['lwin_11_code'] else None
         lwinMatchingItem['match_item'] = json.dumps(data['match_item'])
         lwinMatchingItem['match_score'] = data['match_score']
 

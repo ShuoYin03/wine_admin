@@ -1,5 +1,6 @@
 import sys
 import json
+import logging
 import asyncio
 import pandas as pd
 import numpy as np
@@ -7,6 +8,9 @@ sys.path.append('../..')
 from app.model import LwinMatchingParams
 from ..service import LwinMatchingService
 from flask import Blueprint, request, Response
+
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
 
 match_blueprint = Blueprint('match', __name__)
 lwin_matching_service = LwinMatchingService()
@@ -59,6 +63,7 @@ async def match():
 
         return Response(json.dumps(result), mimetype='application/json')
     except Exception as e:
+        print(f"[ERROR] /match encountered an exception: {e}")
         return Response(json.dumps({"error": str(e)}), mimetype='application/json', status=400)
     
 @match_blueprint.route('/test_match', methods=['POST'])

@@ -108,6 +108,7 @@ CREATE TABLE IF NOT EXISTS lwin_matching (
     id TEXT PRIMARY KEY,
     Matched TEXT,
     Lwin INT[],
+    Lwin_11 INT[],
     Match_Item JSONB,
     Match_Score DOUBLE PRECISION[]
 );

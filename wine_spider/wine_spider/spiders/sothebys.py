@@ -6,8 +6,8 @@ import dotenv
 import pandas as pd
 from bs4 import BeautifulSoup
 from database import DatabaseClient
+from wine_spider.helpers import parse_quarter
 from wine_spider.items import AuctionItem, LotItem
-from wine_spider.helpers import parse_quarter, extract_date
 from wine_spider.helpers import find_continent, region_to_country
 from wine_spider.website_clients.sothebys_client import SothebysClient
 from wine_spider.helpers import parse_volumn_and_unit_from_title, parse_year_from_title, match_lot_info

@@ -77,6 +77,7 @@ class LwinMatchingService:
         
         return filtered_matches
 
+
     def match_target(self, lwinMatchingParams, target_record):
         matches = self.utils.search_by_bm25_on_target(lwinMatchingParams.wine_name)
 

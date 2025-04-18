@@ -56,6 +56,7 @@ class LwinMatchingItem(scrapy.Item):
     id = scrapy.Field()
     matched = scrapy.Field()
     lwin = scrapy.Field()
+    lwin_11 = scrapy.Field()
     match_item = scrapy.Field()
     match_score = scrapy.Field()
 
