@@ -1,14 +1,17 @@
 import re
+import bm25s
+import Stemmer
 import numpy as np
-from rank_bm25 import BM25Okapi
 
 class LwinMatchingUtils:
     def __init__(self, table_items):
         self.table_items = table_items
-        cleaned_titles = table_items.apply(self.merge_text_fields, axis=1).apply(self.clean_title).tolist()
-        self.tokenized_corpus = [self.generate_mixed_ngrams(doc.split()) for doc in cleaned_titles]
+        self.corpus = table_items.apply(self.merge_text_fields, axis=1).apply(self.clean_title).tolist()
+        self.stemmer = Stemmer.Stemmer("english")
+        self.tokenized_corpus = bm25s.tokenize(self.corpus, stopwords="en", stemmer=self.stemmer)
 
-        self.bm25 = BM25Okapi(self.tokenized_corpus)
+        self.retriever = bm25s.BM25()
+        self.retriever.index(self.tokenized_corpus)
 
     def generate_ngrams(self, tokens, n=3):
         return [" ".join(tokens[i:i+n]) for i in range(len(tokens)-n+1)]
@@ -25,36 +28,16 @@ class LwinMatchingUtils:
     def search_by_bm25(self, title, limit=20):
         if not title:
             return []
-        title = self.clean_title(title)
-        tokenized_query = self.generate_mixed_ngrams(title.split())
 
-        scores = self.bm25.get_scores(tokenized_query)
-        
-        top_indices = np.argsort(scores)[::-1][:limit]
+        query_tokens = bm25s.tokenize([title], stopwords="en", stemmer=self.stemmer)
+
+        results, scores = self.retriever.retrieve(query_tokens, k=limit)
 
         matches = []
-        for idx in top_indices:
+        for idx, score in zip(results[0], scores[0]):
             row = self.table_items.iloc[idx]
-            score = scores[idx]
             matches.append((row, score))
-        
-        return matches
-    
-    def search_by_bm25_on_target(self, title, target):
-        if not title:
-            return []
-        title = self.clean_title(title)
-        tokenized_query = self.generate_mixed_ngrams(title.split())
 
-        scores = self.bm25.get_scores(tokenized_query)
-
-        matches = []
-        for idx in scores:
-            row = self.table_items.iloc[idx]
-            score = scores[idx]
-            if target in row['display_name']:
-                matches.append((row, score))
-        
         return matches
 
     def clean_title(self, title):
@@ -80,5 +63,10 @@ class LwinMatchingUtils:
         for i in range(len(obj)):
             if isinstance(obj[i], np.float64):
                 obj[i] = float(obj[i])
-
+            elif isinstance(obj[i], np.float32):
+                obj[i] = float(obj[i])
+            elif isinstance(obj[i], np.int64):
+                obj[i] = int(obj[i])
+            elif isinstance(obj[i], np.int32):
+                obj[i] = int(obj[i])
         return obj
