@@ -1,6 +1,6 @@
 {
     "total": 146,
-    "true_count": 87,
+    "true_count": 70,
     "matching_results": [
         {
             "wine_name": "Wine and Dine Experience featuring Le Pin",
@@ -12,22 +12,16 @@
             ],
             "expected_lwin_code": "1011827|1007130|1007013|1006146|1006289|1007840|1008010|1016617|1559378",
             "match_score": [
-                0.8799998179069137
+                0.8799991607666016
             ],
             "result": false
         },
         {
             "wine_name": "DRC Assortment Case 1985",
-            "matched_wine_name": [
-                "Wayfarer, Assortment Case"
-            ],
-            "matched_lwin_code": [
-                "2546546"
-            ],
+            "matched_wine_name": [],
+            "matched_lwin_code": [],
             "expected_lwin_code": "10286451985",
-            "match_score": [
-                0.9647056501768632
-            ],
+            "match_score": [],
             "result": false
         },
         {
@@ -40,7 +34,7 @@
             ],
             "expected_lwin_code": "10286871971",
             "match_score": [
-                0.889473248826949
+                0.8894726037979126
             ],
             "result": true
         },
@@ -54,7 +48,7 @@
             ],
             "expected_lwin_code": "11607432020",
             "match_score": [
-                0.9275860757280939
+                0.9275857210159302
             ],
             "result": false
         },
@@ -68,7 +62,7 @@
             ],
             "expected_lwin_code": "11338821999",
             "match_score": [
-                0.9999999307433305
+                0.9999997019767761
             ],
             "result": true
         },
@@ -82,7 +76,7 @@
             ],
             "expected_lwin_code": "16962112007",
             "match_score": [
-                0.9999999342546175
+                0.9999995231628418
             ],
             "result": true
         },
@@ -96,23 +90,23 @@
             ],
             "expected_lwin_code": "1856347|1807626",
             "match_score": [
-                0.9999999029692554
+                0.9999995231628418
             ],
             "result": true
         },
         {
             "wine_name": "Rousseau Chambertin 1990",
             "matched_wine_name": [
-                "Domaine Armand Rousseau, Chambertin Grand Cru"
+                "Armand Rousseau, Gevrey-Chambertin"
             ],
             "matched_lwin_code": [
-                "1057005"
+                "1057135"
             ],
             "expected_lwin_code": "10570051990",
             "match_score": [
-                0.9999997602917021
+                0.9999990463256836
             ],
-            "result": true
+            "result": false
         },
         {
             "wine_name": "DRC Assortment 1996 (11 bottles)",
@@ -124,23 +118,23 @@
             ],
             "expected_lwin_code": "1028645",
             "match_score": [
-                0.9999998397812084
+                0.9999994039535522
             ],
             "result": false
         },
         {
             "wine_name": "Quixote Winery Dragon's Tale Cabernet Sauvignon (60 bottles)",
             "matched_wine_name": [
-                "Threaded Tale, Cabernet Sauvignon, Paso Robles"
+                "Pott, Actaeon Quixote Vineyard Cabernet Sauvignon, Napa Valley"
             ],
             "matched_lwin_code": [
-                "2030788"
+                "1564860"
             ],
             "expected_lwin_code": "2573003|1815500|1564860",
             "match_score": [
-                0.9109888951216785
+                0.9299057126045227
             ],
-            "result": false
+            "result": true
         },
         {
             "wine_name": "Petrus 2015 (3 bottles)",
@@ -152,7 +146,7 @@
             ],
             "expected_lwin_code": "10140332015",
             "match_score": [
-                0.9999996491586429
+                0.9999991059303284
             ],
             "result": true
         },
@@ -166,7 +160,7 @@
             ],
             "expected_lwin_code": "10140332010",
             "match_score": [
-                0.9999996491586429
+                0.9999991059303284
             ],
             "result": true
         },
@@ -180,7 +174,7 @@
             ],
             "expected_lwin_code": "10140332005",
             "match_score": [
-                0.9999996491586429
+                0.9999991059303284
             ],
             "result": true
         },
@@ -194,7 +188,7 @@
             ],
             "expected_lwin_code": "10140332003",
             "match_score": [
-                0.9999996491586429
+                0.9999991059303284
             ],
             "result": true
         },
@@ -208,7 +202,7 @@
             ],
             "expected_lwin_code": "10286871990",
             "match_score": [
-                0.889473248826949
+                0.8894726037979126
             ],
             "result": true
         },
@@ -222,36 +216,30 @@
             ],
             "expected_lwin_code": "10140331990",
             "match_score": [
-                0.9999996491586429
+                0.9999991059303284
             ],
             "result": true
         },
         {
             "wine_name": "Mouton Rothschild 1982",
             "matched_wine_name": [
-                "Mouton Rothschild (Luze), Pauillac"
+                "Mouton Rothschild, Fine & Mouton Brandy"
             ],
             "matched_lwin_code": [
-                "1328051"
+                "2073138"
             ],
             "expected_lwin_code": "10135441982",
             "match_score": [
-                0.9999998266450718
+                0.9999993443489075
             ],
             "result": false
         },
         {
             "wine_name": "DRC Assortment Case 1998",
-            "matched_wine_name": [
-                "Wayfarer, Assortment Case"
-            ],
-            "matched_lwin_code": [
-                "2546546"
-            ],
+            "matched_wine_name": [],
+            "matched_lwin_code": [],
             "expected_lwin_code": "10286451998",
-            "match_score": [
-                0.9647056501768632
-            ],
+            "match_score": [],
             "result": false
         },
         {
@@ -264,7 +252,7 @@
             ],
             "expected_lwin_code": "10392561999",
             "match_score": [
-                0.9666665907971694
+                0.9666663408279419
             ],
             "result": true
         },
@@ -278,7 +266,7 @@
             ],
             "expected_lwin_code": "10140331987",
             "match_score": [
-                0.9999996491586429
+                0.9999991059303284
             ],
             "result": true
         },
@@ -292,7 +280,7 @@
             ],
             "expected_lwin_code": "10140331982",
             "match_score": [
-                0.9999996491586429
+                0.9999991059303284
             ],
             "result": true
         },
@@ -306,7 +294,7 @@
             ],
             "expected_lwin_code": "10287041993",
             "match_score": [
-                0.9999999128297024
+                0.9999995231628418
             ],
             "result": false
         },
@@ -320,21 +308,21 @@
             ],
             "expected_lwin_code": "10140331979",
             "match_score": [
-                0.9999996491586429
+                0.9999991059303284
             ],
             "result": true
         },
         {
             "wine_name": "Mouton Rothschild Collection 1945-2019",
             "matched_wine_name": [
-                "Mouton Rothschild (Luze), Pauillac"
+                "Baron Philippe de Rothschild, Pauillac, The Rothschild Collection Waddesdon"
             ],
             "matched_lwin_code": [
-                "1328051"
+                "1942350"
             ],
             "expected_lwin_code": "10135441945",
             "match_score": [
-                0.9266664933117384
+                0.9571418762207031
             ],
             "result": false
         },
@@ -348,21 +336,21 @@
             ],
             "expected_lwin_code": "10140331961",
             "match_score": [
-                0.9210522905559242
+                0.9210518002510071
             ],
             "result": false
         },
         {
             "wine_name": "Mouton Rothschild 1945",
             "matched_wine_name": [
-                "Mouton Rothschild (Luze), Pauillac"
+                "Mouton Rothschild, Fine & Mouton Brandy"
             ],
             "matched_lwin_code": [
-                "1328051"
+                "2073138"
             ],
             "expected_lwin_code": "10135441945",
             "match_score": [
-                0.9999998266450718
+                0.9999993443489075
             ],
             "result": false
         },
@@ -376,7 +364,7 @@
             ],
             "expected_lwin_code": "10132961989",
             "match_score": [
-                0.9999995643016264
+                0.999998927116394
             ],
             "result": false
         },
@@ -398,7 +386,7 @@
             ],
             "expected_lwin_code": "11413462012",
             "match_score": [
-                0.979999897976376
+                0.979999303817749
             ],
             "result": true
         },
@@ -412,7 +400,7 @@
             ],
             "expected_lwin_code": "10140332000",
             "match_score": [
-                0.9249996491586429
+                0.9249991178512573
             ],
             "result": true
         },
@@ -426,23 +414,17 @@
             ],
             "expected_lwin_code": "10392011987",
             "match_score": [
-                0.9538460632554817
+                0.9538456201553345
             ],
             "result": true
         },
         {
             "wine_name": "Maison Louis Jadot Batard Montrachet 2002",
-            "matched_wine_name": [
-                "Maison Louis Jadot, Batard-Montrachet Grand Cru"
-            ],
-            "matched_lwin_code": [
-                "1070354"
-            ],
+            "matched_wine_name": [],
+            "matched_lwin_code": [],
             "expected_lwin_code": "10703542002",
-            "match_score": [
-                0.9999999364977661
-            ],
-            "result": true
+            "match_score": [],
+            "result": false
         },
         {
             "wine_name": "Louis XIII Remy Martin Time Collection 'The City of Light - 1900 (1 bottle)",
@@ -454,7 +436,7 @@
             ],
             "expected_lwin_code": "2028008",
             "match_score": [
-                0.9705881568717551
+                0.970587968826294
             ],
             "result": true
         },
@@ -468,7 +450,7 @@
             ],
             "expected_lwin_code": "10825422008",
             "match_score": [
-                0.9999999197373963
+                0.9999995231628418
             ],
             "result": true
         },
@@ -482,7 +464,7 @@
             ],
             "expected_lwin_code": "13896672015",
             "match_score": [
-                0.9126579863856209
+                0.9126572012901306
             ],
             "result": false
         },
@@ -496,7 +478,7 @@
             ],
             "expected_lwin_code": "3041068|1547353|2147583|1863383",
             "match_score": [
-                0.9432431016921723
+                0.9432426691055298
             ],
             "result": true
         },
@@ -510,7 +492,7 @@
             ],
             "expected_lwin_code": "10141921996",
             "match_score": [
-                0.9999998179069136
+                0.9999991655349731
             ],
             "result": true
         },
@@ -532,25 +514,31 @@
         },
         {
             "wine_name": "Ch\u00e2teau Latour Vertical  (10 bottles)",
-            "matched_wine_name": [],
-            "matched_lwin_code": [],
+            "matched_wine_name": [
+                "Samaroli, Blended Demerara Vertical Guyana Rum 02 04 Bottled 2016"
+            ],
+            "matched_lwin_code": [
+                "1739127"
+            ],
             "expected_lwin_code": "1017757|1012374|1012316|1888476|2966405",
-            "match_score": [],
-            "result": true
+            "match_score": [
+                0.8548375368118286
+            ],
+            "result": false
         },
         {
             "wine_name": "Domaine Rousseau Chambertin 2015",
             "matched_wine_name": [
-                "Domaine Armand Rousseau, Chambertin Grand Cru"
+                "Domaine Armand Rousseau, Gevrey-Chambertin"
             ],
             "matched_lwin_code": [
-                "1057005"
+                "1057063"
             ],
             "expected_lwin_code": "10570052015",
             "match_score": [
-                0.999999789724831
+                0.9999992251396179
             ],
-            "result": true
+            "result": false
         },
         {
             "wine_name": "Latour 1959",
@@ -570,7 +558,7 @@
             ],
             "expected_lwin_code": "10670001990",
             "match_score": [
-                0.889473248826949
+                0.8894726037979126
             ],
             "result": false
         },
@@ -584,23 +572,23 @@
             ],
             "expected_lwin_code": "1028645|1028687|1028674",
             "match_score": [
-                0.889473248826949
+                0.8894726037979126
             ],
             "result": true
         },
         {
             "wine_name": "JF Mugnier Musigny 2002 (1 bottle)",
             "matched_wine_name": [
-                "Jacques-Frederic Mugnier, Musigny Grand Cru"
+                "Jacques-Frederic Mugnier, Chambolle-Musigny"
             ],
             "matched_lwin_code": [
-                "1049668"
+                "1049639"
             ],
             "expected_lwin_code": "10496682002",
             "match_score": [
-                0.9727270615708453
+                0.9727264642715454
             ],
-            "result": true
+            "result": false
         },
         {
             "wine_name": "Henri Jayer Vosne-Roman\u00e9e Cros Parantoux 2000 (1 magnum)",
@@ -612,35 +600,35 @@
             ],
             "expected_lwin_code": "10392562000",
             "match_score": [
-                0.9666665907971694
+                0.9666663408279419
             ],
             "result": true
         },
         {
             "wine_name": "D.R.C Assortment 9 bottles",
             "matched_wine_name": [
-                "Pierre Beauger, O.S.C.A.R., VdF"
+                "Bizoe, Assortment Case"
             ],
             "matched_lwin_code": [
-                "2751773"
+                "3057081"
             ],
             "expected_lwin_code": "1028645|1009466|1028661|1028687|1170706",
             "match_score": [
-                0.8444440181602157
+                0.9042534828186035
             ],
             "result": false
         },
         {
             "wine_name": "Henri Jayer Vosne Romanee Cros Parantoux Reserve 1996",
             "matched_wine_name": [
-                "Henri Jayer, Vosne-Romanee"
+                "Henri Jayer, Vosne-Romanee Premier Cru, Cros Parantoux The Heritage Reserve"
             ],
             "matched_lwin_code": [
-                "1039214"
+                "2264080"
             ],
             "expected_lwin_code": "10392561996",
             "match_score": [
-                0.9999999299885223
+                0.9999996423721313
             ],
             "result": false
         },
@@ -654,7 +642,7 @@
             ],
             "expected_lwin_code": "10899451975",
             "match_score": [
-                0.9666664815664883
+                0.9666661024093628
             ],
             "result": false
         },
@@ -668,7 +656,7 @@
             ],
             "expected_lwin_code": "1028687",
             "match_score": [
-                0.889473248826949
+                0.8894726037979126
             ],
             "result": true
         },
@@ -682,7 +670,7 @@
             ],
             "expected_lwin_code": "10476481945",
             "match_score": [
-                0.9999998983621439
+                0.9999994039535522
             ],
             "result": true
         },
@@ -696,7 +684,7 @@
             ],
             "expected_lwin_code": "10391681985",
             "match_score": [
-                0.9999999038552141
+                0.999999463558197
             ],
             "result": true
         },
@@ -710,7 +698,7 @@
             ],
             "expected_lwin_code": "10112471989",
             "match_score": [
-                0.999999800622555
+                0.9999992251396179
             ],
             "result": false
         },
@@ -724,7 +712,7 @@
             ],
             "expected_lwin_code": "10494402009",
             "match_score": [
-                0.9586204995645331
+                0.958620011806488
             ],
             "result": true
         },
@@ -738,7 +726,7 @@
             ],
             "expected_lwin_code": "10996922010",
             "match_score": [
-                0.9363635553685182
+                0.9363632202148438
             ],
             "result": true
         },
@@ -752,7 +740,7 @@
             ],
             "expected_lwin_code": "2303073|2303220|2165752|2164885|2303002|2305950|2303217|2305947",
             "match_score": [
-                0.9532108674122197
+                0.9532106518745422
             ],
             "result": false
         },
@@ -766,7 +754,7 @@
             ],
             "expected_lwin_code": "11792202007",
             "match_score": [
-                0.9999999090427754
+                0.9999996423721313
             ],
             "result": true
         },
@@ -780,7 +768,7 @@
             ],
             "expected_lwin_code": "10286872012",
             "match_score": [
-                0.8999996321556646
+                0.8999990224838257
             ],
             "result": false
         },
@@ -794,37 +782,25 @@
             ],
             "expected_lwin_code": "10286872009",
             "match_score": [
-                0.8999996321556646
+                0.8999990224838257
             ],
             "result": false
         },
         {
             "wine_name": "DRC Roman\u00e9e-Conti 2002 (1 Jeroboam)",
-            "matched_wine_name": [
-                "DRC, Corton, Rouge"
-            ],
-            "matched_lwin_code": [
-                "1177301"
-            ],
+            "matched_wine_name": [],
+            "matched_lwin_code": [],
             "expected_lwin_code": "10286872002",
-            "match_score": [
-                0.8999996321556646
-            ],
+            "match_score": [],
             "result": false
         },
         {
             "wine_name": "DRC La Roman\u00e9e-Conti 2016 (2 bottles)",
-            "matched_wine_name": [
-                "Domaine de la Romanee-Conti, Romanee-Conti Grand Cru"
-            ],
-            "matched_lwin_code": [
-                "1028687"
-            ],
+            "matched_wine_name": [],
+            "matched_lwin_code": [],
             "expected_lwin_code": "1028645|1028687|1028674",
-            "match_score": [
-                0.889473248826949
-            ],
-            "result": true
+            "match_score": [],
+            "result": false
         },
         {
             "wine_name": "DRC Montrachet 2017 (1 bottle)",
@@ -836,7 +812,7 @@
             ],
             "expected_lwin_code": "10670002017",
             "match_score": [
-                0.9499990528749546
+                0.94999760389328
             ],
             "result": false
         },
@@ -850,7 +826,7 @@
             ],
             "expected_lwin_code": "10287042013",
             "match_score": [
-                0.8999998143125623
+                0.89999920129776
             ],
             "result": false
         },
@@ -864,7 +840,7 @@
             ],
             "expected_lwin_code": "10287042010",
             "match_score": [
-                0.8999998143125623
+                0.89999920129776
             ],
             "result": false
         },
@@ -878,7 +854,7 @@
             ],
             "expected_lwin_code": "12773332004",
             "match_score": [
-                0.988888776457207
+                0.988888144493103
             ],
             "result": true
         },
@@ -892,21 +868,21 @@
             ],
             "expected_lwin_code": "10287041992",
             "match_score": [
-                0.9999999128297024
+                0.9999995231628418
             ],
             "result": false
         },
         {
             "wine_name": "DRC Richebourg 1993 (7 bottles)",
             "matched_wine_name": [
-                "Moillard, Richebourg Grand Cru"
+                "Grivelet, Richebourg Grand Cru"
             ],
             "matched_lwin_code": [
-                "1047505"
+                "1250842"
             ],
             "expected_lwin_code": "10286741993",
             "match_score": [
-                0.9499993626201407
+                0.9499983191490173
             ],
             "result": false
         },
@@ -920,7 +896,7 @@
             ],
             "expected_lwin_code": "10287041971",
             "match_score": [
-                0.8999998143125623
+                0.89999920129776
             ],
             "result": false
         },
@@ -934,7 +910,7 @@
             ],
             "expected_lwin_code": "10140331982",
             "match_score": [
-                0.9999996491586429
+                0.9999991059303284
             ],
             "result": true
         },
@@ -948,7 +924,7 @@
             ],
             "expected_lwin_code": "1028645|1028687|1028674",
             "match_score": [
-                0.889473248826949
+                0.8894726037979126
             ],
             "result": true
         },
@@ -962,7 +938,7 @@
             ],
             "expected_lwin_code": "10391681990",
             "match_score": [
-                0.9999999038552141
+                0.999999463558197
             ],
             "result": true
         },
@@ -976,16 +952,22 @@
             ],
             "expected_lwin_code": "10286871992",
             "match_score": [
-                0.889473248826949
+                0.8894726037979126
             ],
             "result": true
         },
         {
             "wine_name": "12x Latour 1959 (750ML)",
-            "matched_wine_name": [],
-            "matched_lwin_code": [],
+            "matched_wine_name": [
+                "Latour - (Lafitte)"
+            ],
+            "matched_lwin_code": [
+                "1328035"
+            ],
             "expected_lwin_code": "10140331959",
-            "match_score": [],
+            "match_score": [
+                0.9999983906745911
+            ],
             "result": false
         },
         {
@@ -998,7 +980,7 @@
             ],
             "expected_lwin_code": "10286451990",
             "match_score": [
-                0.889473248826949
+                0.8894726037979126
             ],
             "result": false
         },
@@ -1020,7 +1002,7 @@
             ],
             "expected_lwin_code": "10140331987",
             "match_score": [
-                0.9999996491586429
+                0.9999991059303284
             ],
             "result": true
         },
@@ -1034,7 +1016,7 @@
             ],
             "expected_lwin_code": "10286871990",
             "match_score": [
-                0.889473248826949
+                0.8894726037979126
             ],
             "result": true
         },
@@ -1048,7 +1030,7 @@
             ],
             "expected_lwin_code": "10286871983",
             "match_score": [
-                0.889473248826949
+                0.8894726037979126
             ],
             "result": true
         },
@@ -1062,7 +1044,7 @@
             ],
             "expected_lwin_code": "10286741978",
             "match_score": [
-                0.889473248826949
+                0.8894726037979126
             ],
             "result": false
         },
@@ -1076,7 +1058,7 @@
             ],
             "expected_lwin_code": "10131791989",
             "match_score": [
-                0.99999993166071
+                0.9999995231628418
             ],
             "result": false
         },
@@ -1091,16 +1073,16 @@
         {
             "wine_name": "Domaine Hudelot-No\u00ebllat, Richebourg - 2016",
             "matched_wine_name": [
-                "Domaine Hudelot-Baillet, Bourgogne, Blanc"
+                "Alain Hudelot-Noellat, Richebourg Grand Cru"
             ],
             "matched_lwin_code": [
-                "1446539"
+                "1037382"
             ],
             "expected_lwin_code": "10373822016",
             "match_score": [
-                0.9136984066589939
+                0.9289466142654419
             ],
-            "result": false
+            "result": true
         },
         {
             "wine_name": "DRC La Romanee Conti 2017 (3 bottles)",
@@ -1112,7 +1094,7 @@
             ],
             "expected_lwin_code": "10670002017",
             "match_score": [
-                0.9666665535846988
+                0.9666659832000732
             ],
             "result": false
         },
@@ -1126,22 +1108,16 @@
             ],
             "expected_lwin_code": "10286872010",
             "match_score": [
-                0.9793102748354077
+                0.9793097972869873
             ],
             "result": true
         },
         {
             "wine_name": "DRC Assortment Case 2017 (18 bottles)",
-            "matched_wine_name": [
-                "Wayfarer, Assortment Case"
-            ],
-            "matched_lwin_code": [
-                "2546546"
-            ],
+            "matched_wine_name": [],
+            "matched_lwin_code": [],
             "expected_lwin_code": "10286452017",
-            "match_score": [
-                0.9647056501768632
-            ],
+            "match_score": [],
             "result": false
         },
         {
@@ -1154,36 +1130,24 @@
             ],
             "expected_lwin_code": "10391681999",
             "match_score": [
-                0.9999999038552141
+                0.999999463558197
             ],
             "result": true
         },
         {
             "wine_name": "DRC Assortment Case 1996",
-            "matched_wine_name": [
-                "Wayfarer, Assortment Case"
-            ],
-            "matched_lwin_code": [
-                "2546546"
-            ],
+            "matched_wine_name": [],
+            "matched_lwin_code": [],
             "expected_lwin_code": "10286451996",
-            "match_score": [
-                0.9647056501768632
-            ],
+            "match_score": [],
             "result": false
         },
         {
             "wine_name": "DRC Assortment Case 1995 ",
-            "matched_wine_name": [
-                "Wayfarer, Assortment Case"
-            ],
-            "matched_lwin_code": [
-                "2546546"
-            ],
+            "matched_wine_name": [],
+            "matched_lwin_code": [],
             "expected_lwin_code": "10286451995",
-            "match_score": [
-                0.9647056501768632
-            ],
+            "match_score": [],
             "result": false
         },
         {
@@ -1196,7 +1160,7 @@
             ],
             "expected_lwin_code": "10392562001",
             "match_score": [
-                0.9759999473541288
+                0.9759995937347412
             ],
             "result": true
         },
@@ -1210,7 +1174,7 @@
             ],
             "expected_lwin_code": "10286452019",
             "match_score": [
-                0.9999998397812084
+                0.9999994039535522
             ],
             "result": false
         },
@@ -1224,7 +1188,7 @@
             ],
             "expected_lwin_code": "10286452005",
             "match_score": [
-                0.9999998397812084
+                0.9999994039535522
             ],
             "result": false
         },
@@ -1238,7 +1202,7 @@
             ],
             "expected_lwin_code": "10286451999",
             "match_score": [
-                0.9999998397812084
+                0.9999994039535522
             ],
             "result": false
         },
@@ -1252,7 +1216,7 @@
             ],
             "expected_lwin_code": "10286451999",
             "match_score": [
-                0.9999998397812084
+                0.9999994039535522
             ],
             "result": false
         },
@@ -1266,7 +1230,7 @@
             ],
             "expected_lwin_code": "10286451999",
             "match_score": [
-                0.9999998397812084
+                0.9999994039535522
             ],
             "result": false
         },
@@ -1280,7 +1244,7 @@
             ],
             "expected_lwin_code": "10600302007",
             "match_score": [
-                0.9886075054953294
+                0.9886070489883423
             ],
             "result": false
         },
@@ -1294,7 +1258,7 @@
             ],
             "expected_lwin_code": "10286451992",
             "match_score": [
-                0.9999998397812084
+                0.9999994039535522
             ],
             "result": false
         },
@@ -1308,7 +1272,7 @@
             ],
             "expected_lwin_code": "10140331990",
             "match_score": [
-                0.9999996491586429
+                0.9999991059303284
             ],
             "result": true
         },
@@ -1322,107 +1286,107 @@
             ],
             "expected_lwin_code": "10567891990",
             "match_score": [
-                0.9999998873179718
+                0.999999463558197
             ],
             "result": true
         },
         {
             "wine_name": "Domaine Leroy Musigny 2011 (3 bottles)",
             "matched_wine_name": [
-                "Domaine Leroy, Musigny Grand Cru"
+                "Domaine Leroy, Chambolle-Musigny"
             ],
             "matched_lwin_code": [
-                "1044197"
+                "2952633"
             ],
             "expected_lwin_code": "1044676|1044689|1044197|1044562|1036633",
             "match_score": [
-                0.9999998898288125
+                0.9999992251396179
             ],
-            "result": true
+            "result": false
         },
         {
             "wine_name": "Domaine Leroy Musigny 2011 (3 bottles)",
             "matched_wine_name": [
-                "Domaine Leroy, Musigny Grand Cru"
+                "Domaine Leroy, Chambolle-Musigny"
             ],
             "matched_lwin_code": [
-                "1044197"
+                "2952633"
             ],
             "expected_lwin_code": "1044676|1044689|1044197|1044562|1036633",
             "match_score": [
-                0.9999998898288125
+                0.9999992251396179
             ],
-            "result": true
+            "result": false
         },
         {
             "wine_name": "Domaine Leroy Musigny 2002 (2 bottles)",
             "matched_wine_name": [
-                "Domaine Leroy, Musigny Grand Cru"
+                "Domaine Leroy, Chambolle-Musigny"
             ],
             "matched_lwin_code": [
-                "1044197"
+                "2952633"
             ],
             "expected_lwin_code": "1044197|2853956|1043927",
             "match_score": [
-                0.9999998898288125
+                0.9999992251396179
             ],
-            "result": true
+            "result": false
         },
         {
             "wine_name": "Martell 72 Year-Old Grande Champagne Cognac & Exceptional Experience",
             "matched_wine_name": [
-                "Martell, Cohiba, Grande Champagne Cognac"
+                "Martell, Cognac"
             ],
             "matched_lwin_code": [
-                "1968280"
+                "1324965"
             ],
             "expected_lwin_code": "2976989|1489905|2957960|1968280|2976992|3016286|2989073|1350962",
             "match_score": [
-                0.969565087311071
+                0.9999992847442627
             ],
-            "result": true
+            "result": false
         },
         {
             "wine_name": "Domaine Leroy Musigny 1993 (2 bottles)",
             "matched_wine_name": [
-                "Domaine Leroy, Musigny Grand Cru"
+                "Domaine Leroy, Chambolle-Musigny"
             ],
             "matched_lwin_code": [
-                "1044197"
+                "2952633"
             ],
             "expected_lwin_code": "1044197|2853956|1043927",
             "match_score": [
-                0.9999998898288125
+                0.9999992251396179
             ],
-            "result": true
+            "result": false
         },
         {
             "wine_name": "Domaine Leroy Musigny 1992 (4 bottles)",
             "matched_wine_name": [
-                "Domaine Leroy, Musigny Grand Cru"
+                "Domaine Leroy, Chambolle-Musigny"
             ],
             "matched_lwin_code": [
-                "1044197"
+                "2952633"
             ],
             "expected_lwin_code": "1044197|1043826",
             "match_score": [
-                0.9999998898288125
+                0.9999992251396179
             ],
-            "result": true
+            "result": false
         },
         {
             "wine_name": "Domaine Leflaive Montrachet 1999 (1 bottle)",
             "matched_wine_name": [
-                "Domaine Leflaive, Montrachet Grand Cru"
+                "Domaine Leflaive, Puligny-Montrachet"
             ],
             "matched_lwin_code": [
-                "1073456"
+                "1073469"
             ],
             "expected_lwin_code": "1073456|1073368|1073485|1073498|1073515|1073401|1068616",
             "match_score": [
-                0.9999998897514732
+                0.9999992251396179
             ],
-            "result": true
+            "result": false
         },
         {
             "wine_name": "Domaine Dujac Bonnes Mares 1985 (4 bottles)",
@@ -1434,7 +1398,7 @@
             ],
             "expected_lwin_code": "1030484",
             "match_score": [
-                0.9999999288269579
+                0.9999995231628418
             ],
             "result": true
         },
@@ -1448,7 +1412,7 @@
             ],
             "expected_lwin_code": "11213591962",
             "match_score": [
-                0.999999913684352
+                0.9999995231628418
             ],
             "result": true
         },
@@ -1462,7 +1426,7 @@
             ],
             "expected_lwin_code": "1389667|1044676|1044432|1247354|1277333",
             "match_score": [
-                0.9999999203843426
+                0.9999994039535522
             ],
             "result": true
         },
@@ -1476,7 +1440,7 @@
             ],
             "expected_lwin_code": "10286871990",
             "match_score": [
-                0.9478259573784182
+                0.9478256106376648
             ],
             "result": true
         },
@@ -1490,35 +1454,35 @@
             ],
             "expected_lwin_code": "1026579|1026582",
             "match_score": [
-                0.9666666155942607
+                0.9666662216186523
             ],
             "result": true
         },
         {
             "wine_name": "Domaine Leroy Musigny 1996 (3 bottles)",
             "matched_wine_name": [
-                "Domaine Leroy, Musigny Grand Cru"
+                "Domaine Leroy, Chambolle-Musigny"
             ],
             "matched_lwin_code": [
-                "1044197"
+                "2952633"
             ],
             "expected_lwin_code": "1044676|1044689|1044197|1044562|1036633",
             "match_score": [
-                0.9999998898288125
+                0.9999992251396179
             ],
-            "result": true
+            "result": false
         },
         {
             "wine_name": "Lafleur 1982",
             "matched_wine_name": [
-                "Lafleur Chevalier, Bordeaux"
+                "Lafleur d'Or, Sauternes"
             ],
             "matched_lwin_code": [
-                "1493171"
+                "1347836"
             ],
             "expected_lwin_code": "10119021982",
             "match_score": [
-                0.9999995612409012
+                0.9999989867210388
             ],
             "result": false
         },
@@ -1532,7 +1496,7 @@
             ],
             "expected_lwin_code": "1082656|1319125|1082672",
             "match_score": [
-                0.9799997759961758
+                0.9799994230270386
             ],
             "result": true
         },
@@ -1546,7 +1510,7 @@
             ],
             "expected_lwin_code": "12773592002",
             "match_score": [
-                0.9999999269751161
+                0.9999996423721313
             ],
             "result": true
         },
@@ -1556,13 +1520,13 @@
                 "Domaine d'Auvenay, Chevalier-Montrachet Grand Cru"
             ],
             "matched_lwin_code": [
-                "1060030"
+                "1595426"
             ],
             "expected_lwin_code": "1060030",
             "match_score": [
-                0.9999999192664804
+                0.9999994039535522
             ],
-            "result": true
+            "result": false
         },
         {
             "wine_name": "Chateau Mouton Rothschild 2022 Artist Reveal: Unique Lot and Experience",
@@ -1574,7 +1538,7 @@
             ],
             "expected_lwin_code": "1014004|1013544",
             "match_score": [
-                0.934374890558847
+                0.9343743920326233
             ],
             "result": false
         },
@@ -1588,36 +1552,30 @@
             ],
             "expected_lwin_code": "1141160",
             "match_score": [
-                0.999999948962651
+                0.9999996423721313
             ],
             "result": true
         },
         {
             "wine_name": "Coche-Dury Meursault Charmes 1983 (3 bottles)",
             "matched_wine_name": [
-                "Coche-Dury, Meursault"
+                "Coche-Dury, Meursault Premier Cru, Charmes"
             ],
             "matched_lwin_code": [
-                "1064719"
+                "1064748"
             ],
             "expected_lwin_code": "1064748",
             "match_score": [
-                0.9999999090920226
+                0.9999995231628418
             ],
-            "result": false
+            "result": true
         },
         {
             "wine_name": "Clos Rougeard Saumur-Champigny Le Bourg 2015 (8 bottles)",
-            "matched_wine_name": [
-                "Clos Rougeard, Saumur-Champigny, Saumur Champigny Clos"
-            ],
-            "matched_lwin_code": [
-                "1539134"
-            ],
+            "matched_wine_name": [],
+            "matched_lwin_code": [],
             "expected_lwin_code": "1148778",
-            "match_score": [
-                0.9999999372987864
-            ],
+            "match_score": [],
             "result": false
         },
         {
@@ -1630,23 +1588,17 @@
             ],
             "expected_lwin_code": "10287041990",
             "match_score": [
-                0.9999999128297024
+                0.9999995231628418
             ],
             "result": false
         },
         {
             "wine_name": "Clif Family Winery | Channel Your Inner Chocolatier & Uncork Napa Valley (for 8 people)",
-            "matched_wine_name": [
-                "Clif Family Winery, Chardonnay, Napa Valley"
-            ],
-            "matched_lwin_code": [
-                "2003641"
-            ],
+            "matched_wine_name": [],
+            "matched_lwin_code": [],
             "expected_lwin_code": "1567281|2003641|2003612|1980473|1579668|1012316",
-            "match_score": [
-                0.9535210381649997
-            ],
-            "result": true
+            "match_score": [],
+            "result": false
         },
         {
             "wine_name": "Ch\u00e2teau Rayas 1990 (6 bottles)",
@@ -1658,7 +1610,7 @@
             ],
             "expected_lwin_code": "1011902|1014033|1460654|1007521|1014495|1107654|1107713",
             "match_score": [
-                0.8999995547327355
+                0.8999987840652466
             ],
             "result": false
         },
@@ -1672,7 +1624,7 @@
             ],
             "expected_lwin_code": "10140331982",
             "match_score": [
-                0.8799996491586428
+                0.8799991011619568
             ],
             "result": true
         },
@@ -1686,7 +1638,7 @@
             ],
             "expected_lwin_code": "10140331990",
             "match_score": [
-                0.9999996491586429
+                0.9999991059303284
             ],
             "result": true
         },
@@ -1700,23 +1652,23 @@
             ],
             "expected_lwin_code": "1028645|1028687",
             "match_score": [
-                0.889473248826949
+                0.8894726037979126
             ],
             "result": true
         },
         {
             "wine_name": "6 bouteilles CHAMBERTIN, Grand Cru Armand Rousseau P & F 2005",
             "matched_wine_name": [
-                "Armand Heitz, Chambertin Grand Cru"
+                "Domaine Armand Rousseau, Chambertin Grand Cru"
             ],
             "matched_lwin_code": [
-                "2537913"
+                "1057005"
             ],
             "expected_lwin_code": "1057005|1057018|1057034",
             "match_score": [
-                0.9699998943260323
+                0.9699995517730713
             ],
-            "result": false
+            "result": true
         },
         {
             "wine_name": "Ch\u00e2teau Latour 1988 (10 bottles)",
@@ -1728,16 +1680,10 @@
         },
         {
             "wine_name": "Chateau Latour 1982",
-            "matched_wine_name": [
-                "Grapillons de Chateau Latour, Pauillac"
-            ],
-            "matched_lwin_code": [
-                "1502938"
-            ],
+            "matched_wine_name": [],
+            "matched_lwin_code": [],
             "expected_lwin_code": "10123161982",
-            "match_score": [
-                0.9999997805910508
-            ],
+            "match_score": [],
             "result": false
         },
         {
@@ -1750,23 +1696,17 @@
             ],
             "expected_lwin_code": "1269358|1011247|1013179",
             "match_score": [
-                0.9142855149082694
+                0.9142849445343018
             ],
             "result": false
         },
         {
             "wine_name": "Chappellet Cabernet Sauvignon 1969 (5L)",
-            "matched_wine_name": [
-                "Chappellet, Signature Cabernet Sauvignon, Napa Valley"
-            ],
-            "matched_lwin_code": [
-                "1773688"
-            ],
+            "matched_wine_name": [],
+            "matched_lwin_code": [],
             "expected_lwin_code": "1185793|1773688",
-            "match_score": [
-                0.9999997345951275
-            ],
-            "result": true
+            "match_score": [],
+            "result": false
         },
         {
             "wine_name": "Cecile Tremblay Vosne Romanee Vieilles Vignes 2015 (6 bottles)",
@@ -1778,23 +1718,17 @@
             ],
             "expected_lwin_code": "1216798",
             "match_score": [
-                0.9999999457693172
+                0.9999996423721313
             ],
             "result": true
         },
         {
             "wine_name": "Bonneau du Martray Corton Charlemagne 2011 (6 bottles)",
-            "matched_wine_name": [
-                "Domaine Bonneau du Martray, Charlemagne Grand Cru"
-            ],
-            "matched_lwin_code": [
-                "1061776"
-            ],
+            "matched_wine_name": [],
+            "matched_lwin_code": [],
             "expected_lwin_code": "1061776",
-            "match_score": [
-                0.9686566354480334
-            ],
-            "result": true
+            "match_score": [],
+            "result": false
         },
         {
             "wine_name": "Biondi Santi Brunello di Montalcino Riserva 1945 (3 bottles)",
@@ -1806,23 +1740,17 @@
             ],
             "expected_lwin_code": "1174687|1157327",
             "match_score": [
-                0.9999999476284975
+                0.9999996423721313
             ],
             "result": true
         },
         {
             "wine_name": "DRC La Roman\u00e9e-Conti 1978 (4 bottles)",
-            "matched_wine_name": [
-                "Domaine de la Romanee-Conti, Romanee-Conti Grand Cru"
-            ],
-            "matched_lwin_code": [
-                "1028687"
-            ],
+            "matched_wine_name": [],
+            "matched_lwin_code": [],
             "expected_lwin_code": "1028645|1028661|1028687|1028674|1028690",
-            "match_score": [
-                0.889473248826949
-            ],
-            "result": true
+            "match_score": [],
+            "result": false
         },
         {
             "wine_name": "Masseto Vertical (60 bottles)",
@@ -1834,7 +1762,7 @@
             ],
             "expected_lwin_code": "1017757|1160743|1770010|2920940|1013544",
             "match_score": [
-                0.9129028805300662
+                0.9129023551940918
             ],
             "result": true
         },
@@ -1848,7 +1776,7 @@
             ],
             "expected_lwin_code": "1039256",
             "match_score": [
-                0.9666665907971694
+                0.9666663408279419
             ],
             "result": true
         },
@@ -1862,7 +1790,7 @@
             ],
             "expected_lwin_code": "1067000|1028645|1028687",
             "match_score": [
-                0.9499990528749546
+                0.94999760389328
             ],
             "result": false
         },
@@ -1876,7 +1804,7 @@
             ],
             "expected_lwin_code": "1028645|1028687|1028674",
             "match_score": [
-                0.889473248826949
+                0.8894726037979126
             ],
             "result": true
         },
@@ -1890,23 +1818,23 @@
             ],
             "expected_lwin_code": "10141922009",
             "match_score": [
-                0.9999998179069136
+                0.9999991655349731
             ],
             "result": true
         },
         {
             "wine_name": "1978 Hermitage Jean-Louis Chave (12bs)",
             "matched_wine_name": [
-                "Domaine Jean Louis Chave, Hermitage, Rouge"
+                "Domaine Jean Louis Chave, Hermitage, Blanc"
             ],
             "matched_lwin_code": [
-                "1110012"
+                "1134603"
             ],
             "expected_lwin_code": "1110012",
             "match_score": [
-                0.9999999020291113
+                0.999999463558197
             ],
-            "result": true
+            "result": false
         },
         {
             "wine_name": "Domaine de la Roman\u00e9ee-Conti, La T\u00e2che - 2009",
@@ -1918,7 +1846,7 @@
             ],
             "expected_lwin_code": "1028704",
             "match_score": [
-                0.9493505240551863
+                0.9493500590324402
             ],
             "result": true
         },
@@ -1932,7 +1860,7 @@
             ],
             "expected_lwin_code": "10450062020",
             "match_score": [
-                0.9666666002451689
+                0.9666663408279419
             ],
             "result": true
         },
@@ -1946,7 +1874,7 @@
             ],
             "expected_lwin_code": "10286871989",
             "match_score": [
-                0.9478259573784182
+                0.9478256106376648
             ],
             "result": true
         },
@@ -1960,7 +1888,7 @@
             ],
             "expected_lwin_code": "1028687|1028674",
             "match_score": [
-                0.9886075280729519
+                0.9886071085929871
             ],
             "result": true
         },
@@ -1974,23 +1902,23 @@
             ],
             "expected_lwin_code": "10392011978",
             "match_score": [
-                0.9538460632554817
+                0.9538456201553345
             ],
             "result": true
         },
         {
             "wine_name": "Petrus 1993 (6 bottles - Original Wooden Case)",
             "matched_wine_name": [
-                "Petrus, Pomerol"
+                "Petrus, Assortment Case, Pomerol"
             ],
             "matched_lwin_code": [
-                "1014033"
+                "1867886"
             ],
             "expected_lwin_code": "1017483|1017047|1017656|1017122|1016792|1044852|1014033|1012316",
             "match_score": [
-                0.9999996491586429
+                0.9999994039535522
             ],
-            "result": true
+            "result": false
         }
     ]
 }
