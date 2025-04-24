@@ -1,4 +1,4 @@
-from wine_spider.exceptions import CityNotFoundException
+from wine_spider.wine_spider.exceptions import CityNotFoundException
 
 def find_continent(country):
     country_to_continent = {
@@ -36,12 +36,26 @@ def region_to_country(region):
     region_to_country = {
         "Burgundy": "France",
         "Champagne": "France",
+        "Bordeaux": "France",
         "Rhone": "France",
         "South Australia": "Australia",
         "Loire": "France",
         "Saint Pettersburg": "Spain",
         "Other France": "France",
         "California": "United States",
+        "Kentucky": "United States",
+        "Highlands": "United States",
+        "Speyside": "Scotland",
+        "Other France": "France",
+        "Islay": "Scotland",
+        "Kweichow": "China",
+        "Campbeltown": "Scotland",
+        "Maipo Valley": "Chile",
+        "Languedoc Roussillon": "France",
+        "Saint Pettersburg": "Russia",
+        "Loire": "France",
+        "Philadelphia": "United States",
+        "Baltimore": "United States",
     }
 
     country = region_to_country.get(region)

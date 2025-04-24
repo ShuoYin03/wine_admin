@@ -5,7 +5,7 @@ import json
 from bs4 import BeautifulSoup
 from dotenv import load_dotenv
 from playwright.sync_api import sync_playwright
-from wine_spider.helpers.sothebys.captcha_parser import CaptchaParser
+from wine_spider.helpers import CaptchaParser
 
 load_dotenv()
 

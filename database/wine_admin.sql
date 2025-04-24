@@ -1,5 +1,6 @@
 CREATE TABLE IF NOT EXISTS auctions (
-    id TEXT PRIMARY KEY,
+    Id SERIAL PRIMARY KEY,
+    External_Id TEXT UNIQUE,
     Auction_Title VARCHAR(255),
     Auction_House VARCHAR(255),
     City VARCHAR(100),
@@ -13,16 +14,14 @@ CREATE TABLE IF NOT EXISTS auctions (
 );
 
 CREATE TABLE IF NOT EXISTS lots (
-    id TEXT PRIMARY KEY,
-    Auction_Id TEXT,
-    Lot_Producer VARCHAR(50)[],
-    Wine_Name VARCHAR(150),
-    Vintage VARCHAR(20)[],
+    Id SERIAL PRIMARY KEY,
+    External_Id TEXT UNIQUE,
+    Auction_Id INT REFERENCES auctions(id) ON DELETE CASCADE,
+    Lot_Name VARCHAR(150),
+    Lot_Type VARCHAR(8)[],
     Unit_Format VARCHAR(20)[],
 	Unit INT,
 	Volumn REAL,
-	Lot_Type VARCHAR(8)[],
-	Wine_Type VARCHAR(8),
     Original_Currency VARCHAR(10),
     Start_Price INT,
     End_Price INT,
@@ -37,17 +36,27 @@ CREATE TABLE IF NOT EXISTS lots (
 	Url TEXT
 );
 
-CREATE TABLE IF NOT EXISTS failed_lots (
-    id TEXT PRIMARY KEY,
-    Auction_Id TEXT,
-    Lot_Producer VARCHAR(50)[],
+CREATE TABLE IF NOT EXISTS lot_items (
+    Id SERIAL PRIMARY KEY,
+    Lot_Id INT REFERENCES lots(id) ON DELETE CASCADE,
+    Lot_Producer VARCHAR(50),
     Wine_Name VARCHAR(150),
-    Vintage VARCHAR(20)[],
+    Vintage VARCHAR(20),
+    Unit_Format VARCHAR(20),
+    Unit INT,
+    Volumn REAL,
+    Wine_Colour VARCHAR(8)
+);
+
+CREATE TABLE IF NOT EXISTS failed_lots (
+    Id SERIAL PRIMARY KEY,
+    External_Id TEXT UNIQUE,
+    Auction_Id INT REFERENCES auctions(id) ON DELETE CASCADE,
+    Lot_Name VARCHAR(150),
+    Lot_Type VARCHAR(8)[],
     Unit_Format VARCHAR(20)[],
 	Unit INT,
 	Volumn REAL,
-	Lot_Type VARCHAR(8)[],
-	Wine_Type VARCHAR(8),
     Original_Currency VARCHAR(10),
     Start_Price INT,
     End_Price INT,

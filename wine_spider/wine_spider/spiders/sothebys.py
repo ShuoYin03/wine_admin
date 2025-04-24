@@ -1,17 +1,14 @@
 import os
-import time
 import json
 import scrapy
 import dotenv
 import pandas as pd
 from bs4 import BeautifulSoup
 from database import DatabaseClient
-from wine_spider.helpers import parse_quarter
 from wine_spider.items import AuctionItem, LotItem
-from wine_spider.helpers import find_continent, region_to_country
 from wine_spider.website_clients.sothebys_client import SothebysClient
-from wine_spider.helpers import parse_volumn_and_unit_from_title, parse_year_from_title, match_lot_info
 from wine_spider.exceptions import NoPreDefinedVolumeIdentifierException, AmbiguousRegionAndCountryMatchException, NoMatchedRegionAndCountryException
+from wine_spider.helpers import find_continent, region_to_country, parse_quarter, parse_volumn_and_unit_from_title, parse_year_from_title, match_lot_info
 
 dotenv.load_dotenv()
 FULL_FETCH = os.getenv("FULL_FETCH")
@@ -25,21 +22,21 @@ class SothebysSpider(scrapy.Spider):
         "kar1ueupjd-2.algolianet.com",
         "algolia.net"
     ]
-    start_urls = ["https://www.sothebys.com/en/results?from=&to=&f2=00000164-609a-d1db-a5e6-e9fffcc80000&q="]
+    start_urls = ["https://www.sothebys.com/en/results?from=&to=&f2=0000017e-b9db-d1d4-a9fe-bdfb5bbc0000&f2=00000164-609a-d1db-a5e6-e9fffcc80000&q="]
 
     def __init__(self, *args, **kwargs):
         super(SothebysSpider, self).__init__(*args, **kwargs)
         base_dir = os.path.dirname(os.path.abspath(__file__))
         self.lwin_df = pd.read_excel(os.path.join(base_dir, "LWIN wines.xls"))
         self.base_url = "https://www.sothebys.com"
-        self.client = SothebysClient(headless=False)
+        self.client = SothebysClient(headless=True)
         self.db_client = DatabaseClient()
 
     def parse(self, response):
         total_pages = int(response.css('li.SearchModule-pageCounts span[data-page-count]::text').get())
         self.logger.info(f"Crawling Total pages: {total_pages}")
-        base_url = "https://www.sothebys.com/en/results?from=&to=&f2=00000164-609a-d1db-a5e6-e9fffcc80000&q=&p={}"
-        for page in range(1, 2):
+        base_url = "https://www.sothebys.com/en/results?from=&to=&f2=0000017e-b9db-d1d4-a9fe-bdfb5bbc0000&f2=00000164-609a-d1db-a5e6-e9fffcc80000&q=&p={}"
+        for page in range(1, 5):
             url = base_url.format(page)
             yield scrapy.Request(
                 url=url, 
@@ -62,7 +59,6 @@ class SothebysSpider(scrapy.Spider):
         data = [(asset_data.get("vikingId"), asset_data.get("url")) for _, asset_data in data.items()]
 
         for viking_id, url in data:
-            
             if not FULL_FETCH and self.check_exists(viking_id, "auction"):
                 self.logger.info(f"Auction {viking_id} exists, Skipping...")
                 continue

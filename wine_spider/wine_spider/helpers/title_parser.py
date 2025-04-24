@@ -1,10 +1,9 @@
 import re
-import pandas as pd
 from rapidfuzz import fuzz
 from logging import getLogger
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
-from wine_spider.exceptions import AmbiguousRegionAndCountryMatchException, NoMatchedRegionAndCountryException, NoPreDefinedVolumeIdentifierException
+from wine_spider.wine_spider.exceptions import AmbiguousRegionAndCountryMatchException, NoMatchedRegionAndCountryException, NoPreDefinedVolumeIdentifierException
 
 logger = getLogger(__name__)
 
@@ -12,25 +11,42 @@ VOLUMN_IDENTIFIER = {
     'bt': 750,
     'bts': 750,
     'hb': 375,
+    'hfbt': 375,
     'hbs': 375,
     'mag': 1500,
     'mags': 1500,
+    'dm': 3000,
     'l': 1000,
     'cl': 10,
     'pint': 568.3,
     'half-pint': 284.2,
     'quart': 1136.5,
     'gallon': 4546.1,
+    'half-gallon': 2273.1,
+    'litr': 1000,
     'litre': 1000,
+    'litres': 1000,
     'ml': 1,
     'bottle': 750,
     'ounces': 28.4,
     'pce': 228000,
+    'imp': 6000,
+    'jm30': 3000,
+    'jm50': 5000,
+    'jm70': 7000,
+    'meth': 6000,
+    'feu': 114000,
+    'salr': 9000,
+    'nebr': 15000,
+    'balr': 12000,
+    'prime': 27000,
+    
 }
 
 def parse_volumn_and_unit_from_title(title):
     volumn = 0.0
     potential_volumn_strings = re.findall(r'\((.*?)\)', title)
+
     if not potential_volumn_strings:
         if 'MIXED LOT' in title:
             title = title.replace('MIXED LOT ', '').split(' and ')
@@ -46,8 +62,13 @@ def parse_volumn_and_unit_from_title(title):
             token = token.strip()
             if not token:
                 continue
-            m = re.match(r'^(\d+)\s*(.*)$', token)
-            if m:
+            # 2.5 BT or 2.5 BT75cl
+            if re.match(r'^(\d+\.?\d*)\s*(.*)$', token):
+                m = re.match(r'^(\d+\.?\d*)\s*(.*)$', token)
+                qty = float(m.group(1))
+                desc = m.group(2).strip()
+            elif re.match(r'^(\d+)\s*(.*)$', token):
+                m = re.match(r'^(\d+)\s*(.*)$', token)
                 qty = float(m.group(1))
                 desc = m.group(2).strip()
             else:
@@ -82,27 +103,47 @@ def parse_volumn_and_unit_from_title(title):
                     vol = float(m_b.group(1))
                     matched = True
             
-            # --- Fixed keywords: HFLT, MAG, Hogshead ---
+            # --- Fixed keywords: HFLT, MAG, etc. ---
             if not matched and desc_lower == 'hflt':
                 vol = VOLUMN_IDENTIFIER['hflt']
                 matched = True
             if not matched and desc_lower == 'mag':
                 vol = VOLUMN_IDENTIFIER['mag']
                 matched = True
-            if not matched and desc_lower == 'hogshead':
-                vol = VOLUMN_IDENTIFIER['hogshead']
+            if not matched and desc_lower == 'half-gallon':
+                vol = VOLUMN_IDENTIFIER['half-gallon']
                 matched = True
 
             # --- Bottle patterns ---
             # "Bottles 75cl" or "Bottle 75cl"
-            if not matched and re.fullmatch(r'(?:bottles?|bottle)\s+\d+cl', desc_lower):
-                m_bottle_cl = re.fullmatch(r'(?:bottles?|bottle)\s+(\d+)cl', desc_lower)
+            if not matched and re.fullmatch(r'(?:bottles?|bottle|bt)\s+\d+cl', desc_lower):
+                m_bottle_cl = re.fullmatch(r'(?:bottles?|bottle|bt)\s+(\d+)cl', desc_lower)
                 if m_bottle_cl:
                     vol = float(m_bottle_cl.group(1)) * 10
                     matched = True
+
+            # "Bottle 37.5cl"
+            if not matched and re.fullmatch(r'(?:bottles?|bottle)\s+(\d+(?:\.\d+)?)cl', desc_lower):
+                m_bottle_cl = re.fullmatch(r'(?:bottles?|bottle)\s+(\d+(?:\.\d+)?)cl', desc_lower)
+                if m_bottle_cl:
+                    num = float(m_bottle_cl.group(1))
+                    vol = num * 10
+                    matched = True
+            # "bt 75"
+            if not matched and re.fullmatch(r'(?:bottles?|bottle|bt)\s+(\d+)', desc_lower):
+                m_bottle = re.fullmatch(r'(?:bottles?|bottle|bt)\s+(\d+)', desc_lower)
+                if m_bottle:
+                    vol = float(m_bottle.group(1)) * 10
+                    matched = True
+
+            # "Bottle Pint"
+            if not matched and desc_lower == 'bottle pint' or desc_lower == 'bottles pint' or desc_lower == 'bt pint':
+                vol = VOLUMN_IDENTIFIER['pint']
+                matched = True
+
             # "Bottle 4/5 Quart"
-            if not matched and re.fullmatch(r'(?:bottles?|bottle)\s+(\d+/\d+)\s+quart', desc_lower):
-                m_bottle_quart = re.fullmatch(r'(?:bottles?|bottle)\s+(\d+/\d+)\s+quart', desc_lower)
+            if not matched and re.fullmatch(r'(?:bottles?|bottle|bt)\s+(\d+/\d+)\s+quart', desc_lower):
+                m_bottle_quart = re.fullmatch(r'(?:bottles?|bottle|bt)\s+(\d+/\d+)\s+quart', desc_lower)
                 if m_bottle_quart:
                     frac_str = m_bottle_quart.group(1)
                     num, den = frac_str.split('/')
@@ -110,8 +151,8 @@ def parse_volumn_and_unit_from_title(title):
                     vol = frac * VOLUMN_IDENTIFIER['quart']
                     matched = True
             # "Bottle 1/5 Gallon"
-            if not matched and re.fullmatch(r'(?:bottles?|bottle)\s+(\d+/\d+)\s+gallon', desc_lower):
-                m_bottle_gallon = re.fullmatch(r'(?:bottles?|bottle)\s+(\d+/\d+)\s+gallon', desc_lower)
+            if not matched and re.fullmatch(r'(?:bottles?|bottle|bt)\s+(\d+/\d+)\s+gallon', desc_lower):
+                m_bottle_gallon = re.fullmatch(r'(?:bottles?|bottle|bt)\s+(\d+/\d+)\s+gallon', desc_lower)
                 if m_bottle_gallon:
                     frac_str = m_bottle_gallon.group(1)
                     num, den = frac_str.split('/')
@@ -119,8 +160,8 @@ def parse_volumn_and_unit_from_title(title):
                     vol = frac * VOLUMN_IDENTIFIER['gallon']
                     matched = True
             # "Bottle 25 Fluid Oz" (optionally "fluid" may be omitted)
-            if not matched and re.fullmatch(r'(?:bottles?|bottle)\s+(\d+(?:\.\d+)?)\s*(?:fluid\s*)?(?:oz|ounces|oz\.)', desc_lower):
-                m_bottle_oz = re.fullmatch(r'(?:bottles?|bottle)\s+(\d+(?:\.\d+)?)\s*(?:fluid\s*)?(?:oz|ounces|oz\.)', desc_lower)
+            if not matched and re.fullmatch(r'(?:bottles?|bottle|bt)\s+(\d+(?:\.\d+)?)\s*(?:fluid\s*)?(?:oz|ounces|oz\.)', desc_lower):
+                m_bottle_oz = re.fullmatch(r'(?:bottles?|bottle|bt)\s+(\d+(?:\.\d+)?)\s*(?:fluid\s*)?(?:oz|ounces|oz\.)', desc_lower)
                 if m_bottle_oz:
                     num = float(m_bottle_oz.group(1))
                     vol = num * VOLUMN_IDENTIFIER['ounces']
@@ -129,18 +170,22 @@ def parse_volumn_and_unit_from_title(title):
                 vol = VOLUMN_IDENTIFIER['litre']
                 matched = True
             # "Bottle 1.75 Litre" (or "l")
-            if not matched and re.fullmatch(r'(?:bottles?|bottle)\s+(\d+(?:\.\d+)?)\s*(?:litre|l)', desc_lower):
-                m_bottle_litre = re.fullmatch(r'(?:bottles?|bottle)\s+(\d+(?:\.\d+)?)\s*(?:litre|l)', desc_lower)
+            if not matched and re.fullmatch(r'(?:bottles?|bottle|bt)\s+(\d+(?:\.\d+)?)\s*(?:litre|l)', desc_lower):
+                m_bottle_litre = re.fullmatch(r'(?:bottles?|bottle|bt)\s+(\d+(?:\.\d+)?)\s*(?:litre|l)', desc_lower)
                 if m_bottle_litre:
                     num = float(m_bottle_litre.group(1))
                     vol = num * VOLUMN_IDENTIFIER['litre']
                     matched = True
             # "Bottle Quart"
-            if not matched and re.fullmatch(r'(?:bottles?|bottle)\s+quart', desc_lower):
+            if not matched and re.fullmatch(r'(?:bottles?|bottle|bt)\s+quart', desc_lower):
                 vol = VOLUMN_IDENTIFIER['quart']
                 matched = True
             # "Bottle Half-Pint"
-            if not matched and re.fullmatch(r'(?:bottles?|bottle)\s+half[\s-]?pint', desc_lower):
+            if not matched and re.fullmatch(r'(?:bottles?|bottle|bt)\s+half[\s-]?pint', desc_lower):
+                vol = VOLUMN_IDENTIFIER['half-pint']
+                matched = True
+            # "Bottle Half-Gallon"
+            if not matched and re.fullmatch(r'(?:bottles?|bottle|bt)\s+half[\s-]?gallon', desc_lower):
                 vol = VOLUMN_IDENTIFIER['half-pint']
                 matched = True
             # If descriptor is exactly "bottle" or "bottles" (default)
@@ -148,7 +193,6 @@ def parse_volumn_and_unit_from_title(title):
                 vol = VOLUMN_IDENTIFIER['bottle']
                 matched = True
 
-            # --- UK measures outside of "bottle" context ---
             # "Pint" or "Pints"
             if not matched and desc_lower in ['pint', 'pints']:
                 vol = VOLUMN_IDENTIFIER['pint']
@@ -178,7 +222,7 @@ def parse_volumn_and_unit_from_title(title):
             if not matched and desc_lower in VOLUMN_IDENTIFIER:
                 vol = VOLUMN_IDENTIFIER[desc_lower]
                 matched = True
-            
+           
             volumn += qty * vol
     
     if volumn == 0.0:
@@ -186,6 +230,11 @@ def parse_volumn_and_unit_from_title(title):
     
     return volumn, qty
 
+def christies_parse_volumn_and_unit_from_title(title):
+    title = title.split(' ')
+    for i in title:
+        if i in VOLUMN_IDENTIFIER:
+            volumn = VOLUMN_IDENTIFIER[i]
 
 def parse_year_from_title(title):
     m = re.search(r'(\d{4})-(\d{4})', title)
@@ -262,99 +311,7 @@ def fuzzy_score(title, target):
         return fuzz.token_set_ratio(clean_title(title), clean_title(target))
     return 0
 
-# def match_lot_info(title, df):
-#     cleaned_title = clean_title(title)
-#     print("Cleaned title:", cleaned_title)
-
-#     # Special Case Exact match
-#     lot_producer, region, sub_region, country = special_case_exact_match(cleaned_title)
-    
-#     if not lot_producer:
-#         # Producer Exact Match
-#         producer_exact_match_indices = producer_exact_match(cleaned_title, df['Estate'])
-#         filtered_df = filter_df_by_index(df, producer_exact_match_indices)
-#         # print("Filtered DF:", len(filtered_df))
-#         if len(filtered_df) == 1:
-#             return filtered_df.iloc[0]['Estate'], filtered_df.iloc[0]['Region'], filtered_df.iloc[0]['subRegion'], filtered_df.iloc[0]['Country']
-#         elif len(filtered_df) > 1:
-#             # Wine Name Exact Match
-#             idx = wine_exact_match(cleaned_title, filtered_df['Wine'])
-#             if idx:
-#                 return filtered_df.iloc[idx]['Estate'], filtered_df.iloc[idx]['Region'], filtered_df.iloc[idx]['subRegion'], filtered_df.iloc[idx]['Country']
-#             lot_producer, region, sub_region, country = wine_fuzzy_match(cleaned_title, filtered_df)
-#             return lot_producer, region, sub_region, country
-#         else:
-#             # Wine Name & Producer Fuzzy Match
-#             lot_producer, region, sub_region, country = wine_and_producer_fuzzy_match(cleaned_title, df)
-#             return lot_producer, region, sub_region, country
-            
-#     else:
-#         # Wine Name Exact Match
-#         idx = wine_exact_match(cleaned_title, filtered_df['Wine'])
-#         if idx:
-#             return filtered_df.iloc[idx]['Estate'], filtered_df.iloc[idx]['Region'], filtered_df.iloc[idx]['subRegion'], filtered_df.iloc[idx]['Country']
-#         lot_producer, region, sub_region, country = wine_fuzzy_match(cleaned_title, filtered_df)
-#         return lot_producer, region, sub_region, country
-
-# def filter_df_by_index(df, indices):
-#     return df.iloc[indices]
-
-# def special_case_exact_match(title):
-#     if 'drc' in title.lower() or 'domaine de la romanée conti' in title.lower():
-#         return "Domaine de la Romanée-Conti", "Burgundy", None, "France"
-#     return None, None, None, None
-
-# def producer_exact_match(title, producer_df_column):
-#     indices = []
-#     for idx, producer in enumerate(producer_df_column):
-#         if producer.lower() in title or title in producer.lower():
-#             indices.append(idx)
-    
-#     return indices
-
-# def wine_exact_match(title, wine_df_column):
-#     for idx, wine in enumerate(wine_df_column):
-#         if title in wine.lower() or wine.lower() in title:
-#             return idx
-    
-#     return None
-
-# def wine_fuzzy_match(title, df):
-#     matches = []
-
-#     for row in df.itertuples():
-#         idx = row.Index
-#         wine_score = fuzz.partial_token_sort_ratio(row.Wine.replace("-", " ").lower(), title)
-#         if wine_score > 80:
-#             matches.append((idx, wine_score))
-    
-#     matches.sort(key=lambda x: x[1], reverse=True)
-
-#     if not matches:
-#         return None, None, None, None
-#     else:
-#         idx = matches[0][0]
-#         return df.loc[idx, "Estate"], df.loc[idx, "Region"], df.loc[idx, 'subRegion'], df.loc[idx, "Country"]
-
-# def wine_and_producer_fuzzy_match(title, df):
-#     matches = []
-
-#     for row in df.itertuples():
-#         idx = row.Index
-#         producer_score = fuzz.token_ratio(row.Estate.lower(), title)
-#         wine_score = fuzz.partial_token_sort_ratio(title, row.Wine.replace("-", " ").lower())
-#         added_score = (producer_score * 0.3 + wine_score * 0.7) / 2
-#         if added_score > 30:
-#             matches.append((idx, added_score, producer_score, wine_score))
-    
-#     matches.sort(key=lambda x: x[1], reverse=True)
-
-#     if not matches:
-#         return None, None, None, None
-#     else:
-#         idx = matches[0][0]
-#         return df.loc[idx, "Estate"], df.loc[idx, "Region"], df.loc[idx, 'subRegion'], df.loc[idx, "Country"]
-
 if __name__ == "__main__":
-    df = pd.read_excel(r"LWIN wines.xls")
-    print(match_lot_info("Château Gazin 1989  (12 BT)", df))
+    # df = pd.read_excel(r"LWIN wines.xls")
+    # print(match_lot_info("Château Gazin 1989  (12 BT)", df))
+    print(parse_volumn_and_unit_from_title("Kweichow Moutai Five Star Year of the Rabbit 2023 (2 x 2.5LITRES)"))
