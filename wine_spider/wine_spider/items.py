@@ -1,7 +1,8 @@
 import scrapy
+from datetime import datetime, date
 
 class AuctionItem(scrapy.Item):
-    id = scrapy.Field()
+    external_id = scrapy.Field()
     auction_title = scrapy.Field()
     auction_house = scrapy.Field()
     city = scrapy.Field()
@@ -13,32 +14,13 @@ class AuctionItem(scrapy.Item):
     auction_type = scrapy.Field()
     url = scrapy.Field()
 
-class AuctionSalesItem(scrapy.Item):
-    id = scrapy.Field() 
-    lots = scrapy.Field()
-    sold = scrapy.Field()
-    currency = scrapy.Field()
-    total_low_estimate = scrapy.Field()
-    total_high_estimate = scrapy.Field()
-    total_sales = scrapy.Field()
-    volumn_sold = scrapy.Field()
-    value_sold = scrapy.Field()
-    top_lot = scrapy.Field()
-    sale_type = scrapy.Field()
-    single_cellar = scrapy.Field()
-    ex_ch = scrapy.Field()
-
 class LotItem(scrapy.Item):
-    id = scrapy.Field()
+    external_id = scrapy.Field()
     auction_id = scrapy.Field()
-    lot_producer = scrapy.Field()
-    wine_name = scrapy.Field()
-    vintage = scrapy.Field()
-    unit_format = scrapy.Field()
-    unit = scrapy.Field()
-    volumn = scrapy.Field()
+    lot_name = scrapy.Field()
     lot_type = scrapy.Field()
-    wine_type = scrapy.Field()
+    volume = scrapy.Field()
+    unit = scrapy.Field()
     original_currency = scrapy.Field()
     start_price = scrapy.Field()
     end_price = scrapy.Field()
@@ -52,15 +34,49 @@ class LotItem(scrapy.Item):
     success = scrapy.Field()
     url = scrapy.Field()
 
+    def to_serializable_dict(self):
+        d = dict(self)
+        if isinstance(d.get("sold_date"), (datetime, date)):
+            d["sold_date"] = d["sold_date"].isoformat()
+        return d
+
+class LotDetailItem(scrapy.Item):
+    lot_id = scrapy.Field()
+    lot_producer = scrapy.Field()
+    vintage = scrapy.Field()
+    unit_format = scrapy.Field()
+    wine_colour = scrapy.Field()
+
+class AuctionSalesItem(scrapy.Item):
+    id = scrapy.Field()
+    auction_id = scrapy.Field()
+    lots = scrapy.Field()
+    sold = scrapy.Field()
+    currency = scrapy.Field()
+    total_low_estimate = scrapy.Field()
+    total_high_estimate = scrapy.Field()
+    total_sales = scrapy.Field()
+    volume_sold = scrapy.Field()
+    value_sold = scrapy.Field()
+    top_lot = scrapy.Field()
+    sale_type = scrapy.Field()
+    single_cellar = scrapy.Field()
+    ex_ch = scrapy.Field()
+
 class LwinMatchingItem(scrapy.Item):
     id = scrapy.Field()
+    lot_id = scrapy.Field()
     matched = scrapy.Field()
     lwin = scrapy.Field()
+    lwin_11 = scrapy.Field()
     match_item = scrapy.Field()
     match_score = scrapy.Field()
 
 class FxRateItem(scrapy.Item):
-    id = scrapy.Field()
     rates_from = scrapy.Field()
     rates_to = scrapy.Field()
     rates = scrapy.Field()
+
+class CombinedLotItem(scrapy.Item):
+    lot = scrapy.Field()
+    lot_items = scrapy.Field()

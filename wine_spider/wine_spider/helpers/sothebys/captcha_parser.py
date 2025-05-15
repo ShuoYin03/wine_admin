@@ -2,7 +2,7 @@ import io
 import base64
 import ddddocr
 import cairosvg
-from PIL import Image, ImageOps
+from PIL import Image
 
 class CaptchaParser:
     def __init__(self):

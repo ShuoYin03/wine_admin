@@ -1,7 +1,7 @@
 import os
 import scrapy
 import dotenv
-from database import DatabaseClient
+from wine_spider.services import fx_rates_client
 from wine_spider.items import FxRateItem
 
 dotenv.load_dotenv()
@@ -14,7 +14,7 @@ class FxRatesSpider(scrapy.Spider):
     
     def __init__(self, *args, **kwargs):
         super(FxRatesSpider, self).__init__(*args, **kwargs)
-        self.db = DatabaseClient()
+        self.db = fx_rates_client
         self.rates_list = set(i for i in self.db.query_items(table_name="lots", distinct_fields="original_currency") if i != 'USD')
         self.base_url = f"{os.getenv('BASE_URL')}/rates"
 

@@ -1,3 +1,5 @@
+TWISTED_REACTOR = "twisted.internet.asyncioreactor.AsyncioSelectorReactor"
+
 BOT_NAME = "wine_spider"
 
 SPIDER_MODULES = ["wine_spider.spiders"]
@@ -13,35 +15,64 @@ ROBOTSTXT_OBEY = True
 CONCURRENT_REQUESTS = 16
 
 FEED_EXPORT_ENCODING = "utf-8"
-# LOG_FILE = "scrapy_log.txt"
+LOG_LEVEL = "DEBUG"
 
 AUTOTHROTTLE_ENABLED = True
 AUTOTHROTTLE_START_DELAY = 1.0   # Initial download delay
 AUTOTHROTTLE_MAX_DELAY = 5.0    # Maximum download delay in high latencies
 AUTOTHROTTLE_TARGET_CONCURRENCY = 1.0
 
+# JOBDIR = 'wine_spider/crawl_state/sothebys'
 
-# DOWNLOAD_HANDLERS = {
-#     "http": "scrapy_playwright.handler.ScrapyPlaywrightDownloadHandler",
-#     "https": "scrapy_playwright.handler.ScrapyPlaywrightDownloadHandler",
-# }
+DOWNLOADER_MIDDLEWARES = {
+   'wine_spider.middlewares.SothebysLoginMiddleware': 100,
+   'wine_spider.middlewares.PlaywrightResourceBlockerMiddleware': 200,
+}
 
-# TWISTED_REACTOR = "twisted.internet.asyncioreactor.AsyncioSelectorReactor"
+DOWNLOAD_HANDLERS = {
+    "http": "scrapy_playwright.handler.ScrapyPlaywrightDownloadHandler",
+    "https": "scrapy_playwright.handler.ScrapyPlaywrightDownloadHandler",
+}
+
+PLAYWRIGHT_LAUNCH_OPTIONS = { 
+   "headless": True 
+}
+
+ITEM_PIPELINES = {
+   "wine_spider.pipelines.AuctionStoragePipeline": 100,
+   "wine_spider.pipelines.LotStoragePipeline": 200,
+   "wine_spider.pipelines.LotDetailStoragePipeline": 300,
+   "wine_spider.pipelines.LwinMatchingPipeline": 400,
+   "wine_spider.pipelines.AuctionSalesPipeline": 500,
+   # "wine_spider.pipelines.FxRatesStoragePipeline": 500,
+}
+
+SOTHEBYS_STATE_PATH         = "wine_spider/login_state/sothebys_cookies.json"
+SOTHEBYS_STATE_EXPIRE_DAYS  = 10
+SOTHEBYS_LOGIN_SCRIPT       = "wine_spider/helpers/sothebys/login.py"
+
+PLAYWRIGHT_CONTEXTS = {
+    "sothebys": {
+        "storage_state": "wine_spider/login_state/sothebys_cookies.json",
+    },
+}
+PLAYWRIGHT_PROCESS_RESPONSE = True
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'loggers': {
+        'scrapy-playwright': {
+            'level': 'WARNING',
+        }
+    },
+}
+
+import logging
+logging.getLogger('scrapy-playwright').setLevel(logging.WARNING)
 
 # PLAYWRIGHT_BROWSER_TYPE = "chromium"
 
-# PLAYWRIGHT_DEFAULT_NAVIGATION_TIMEOUT = 30000  
-# PLAYWRIGHT_LAUNCH_OPTIONS = {
-#     "headless": False,
-#     "args": [
-#         "--disable-blink-features=AutomationControlled"
-#     ],
-# }
-
-# Configure a delay for requests for the same website (default: 0)
-# See https://docs.scrapy.org/en/latest/topics/settings.html#download-delay
-# See also autothrottle settings and docs
-# DOWNLOAD_DELAY = 3
 # The download delay setting will honor only one of:
 #CONCURRENT_REQUESTS_PER_DOMAIN = 16
 #CONCURRENT_REQUESTS_PER_IP = 16
@@ -58,42 +89,10 @@ AUTOTHROTTLE_TARGET_CONCURRENCY = 1.0
 #    "Accept-Language": "en",
 #}
 
-# Enable or disable spider middlewares
-# See https://docs.scrapy.org/en/latest/topics/spider-middleware.html
-#SPIDER_MIDDLEWARES = {
-#    "wine_spider.middlewares.WineSpiderSpiderMiddleware": 543,
-#}
-
-# Enable or disable downloader middlewares
-# See https://docs.scrapy.org/en/latest/topics/downloader-middleware.html
-#DOWNLOADER_MIDDLEWARES = {
-#    "wine_spider.middlewares.WineSpiderDownloaderMiddleware": 543,
-#}
-
-# Enable or disable extensions
-# See https://docs.scrapy.org/en/latest/topics/extensions.html
 #EXTENSIONS = {
 #    "scrapy.extensions.telnet.TelnetConsole": None,
 #}
 
-# Configure item pipelines
-# See https://docs.scrapy.org/en/latest/topics/item-pipeline.html
-ITEM_PIPELINES = {
-   "wine_spider.pipelines.DataStoragePipeline": 300,
-   "wine_spider.pipelines.LwinMatchingPipeline": 400,
-   "wine_spider.pipelines.FxRatesStoragePipeline": 500,
-}
-
-# Enable and configure the AutoThrottle extension (disabled by default)
-# See https://docs.scrapy.org/en/latest/topics/autothrottle.html
-#AUTOTHROTTLE_ENABLED = True
-# The initial download delay
-#AUTOTHROTTLE_START_DELAY = 5
-# The maximum download delay to be set in case of high latencies
-#AUTOTHROTTLE_MAX_DELAY = 60
-# The average number of requests Scrapy should be sending in parallel to
-# each remote server
-#AUTOTHROTTLE_TARGET_CONCURRENCY = 1.0
 # Enable showing throttling stats for every response received:
 #AUTOTHROTTLE_DEBUG = False
 
@@ -104,7 +103,3 @@ ITEM_PIPELINES = {
 #HTTPCACHE_DIR = "httpcache"
 #HTTPCACHE_IGNORE_HTTP_CODES = []
 #HTTPCACHE_STORAGE = "scrapy.extensions.httpcache.FilesystemCacheStorage"
-
-# Set settings whose default value is deprecated to a future-proof value
-# TWISTED_REACTOR = "twisted.internet.asyncioreactor.AsyncioSelectorReactor"
-

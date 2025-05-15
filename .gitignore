@@ -1,5 +1,7 @@
 *.env
 files/
+logs/
+crawl_state/
 
 __pycache__/
 *.pyc
@@ -10,4 +12,5 @@ __pycache__/
 test.py
 login_state/
 scrapy_log.txt
+christies_log.txt
 overall.py

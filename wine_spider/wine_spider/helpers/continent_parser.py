@@ -22,10 +22,20 @@ def find_continent(country):
         "Paris": "Europe",
         "Bordeaux": "Europe",
         "Abergavenny": "Europe",
-        "Dijon (France)": "Europe"
+        "Dijon": "Europe",
+        "Amsterdam": "Europe",
+        "Shanghai": "Asia",
+        "Shanghai Auction": "Asia",
+        "London": "Europe",
+
     }
 
     continent = country_to_continent.get(country)
+
+    for key, value in country_to_continent.items():
+        if key in country:
+            continent = value
+            break
 
     if continent:
         return continent
@@ -36,12 +46,27 @@ def region_to_country(region):
     region_to_country = {
         "Burgundy": "France",
         "Champagne": "France",
+        "Bordeaux": "France",
         "Rhone": "France",
         "South Australia": "Australia",
         "Loire": "France",
         "Saint Pettersburg": "Spain",
         "Other France": "France",
         "California": "United States",
+        "Kentucky": "United States",
+        "Highland": "United Kingdom",
+        "Highlands": "United Kingdom",
+        "Speyside": "Scotland",
+        "Other France": "France",
+        "Islay": "Scotland",
+        "Kweichow": "China",
+        "Campbeltown": "Scotland",
+        "Maipo Valley": "Chile",
+        "Languedoc Roussillon": "France",
+        "Saint Pettersburg": "Russia",
+        "Loire": "France",
+        "Philadelphia": "United States",
+        "Baltimore": "United States",
     }
 
     country = region_to_country.get(region)

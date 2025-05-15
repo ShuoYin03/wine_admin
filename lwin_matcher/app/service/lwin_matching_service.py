@@ -1,24 +1,15 @@
-import numpy as np
 import pandas as pd
 from rapidfuzz import fuzz
 from app.model import MatchResult
+from flask import current_app, g
 from collections import OrderedDict
 from .utils import LwinMatchingUtils
-from database.database_client import DatabaseClient
 from database.model import LwinDatabaseModel
 
 class LwinMatchingService:
-    def __init__(self):
-        self.db = DatabaseClient()
-        self.sess = self.db.Session()
-        self.table = self.db.get_table('lwin_database')
-
-        table_items = pd.read_sql(self.sess.query(self.table).statement, self.sess.bind)
-        self.utils = LwinMatchingUtils(
-            table_items
-        )
-        self.table_items = table_items
-
+    def __init__(self, table_items):
+        self.utils = LwinMatchingUtils(table_items)
+        
     def lwin_matching(self, lwinMatchingParams):
         matches = self.calculate_multiple(lwinMatchingParams)
         matches = self.filter_matches(matches, lwinMatchingParams)
@@ -77,6 +68,7 @@ class LwinMatchingService:
         
         return filtered_matches
 
+
     def match_target(self, lwinMatchingParams, target_record):
         matches = self.utils.search_by_bm25_on_target(lwinMatchingParams.wine_name)
 
@@ -98,4 +90,3 @@ class LwinMatchingService:
         improved_matches = improved_matches[:1]
 
         return [(row, score) for row, score in improved_matches]
-        pass

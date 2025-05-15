@@ -1,10 +1,23 @@
-from .exceptions import CityNotFoundException, InvalidDateInputException, UnknownWineVolumnFormatException, AmbiguousRegionAndCountryMatchException, NoMatchedRegionAndCountryException, NoPreDefinedVolumeIdentifierException
+from .exceptions import (
+    CityNotFoundException, 
+    InvalidDateInputException, 
+    UnknownWineVolumeFormatException, 
+    AmbiguousRegionAndCountryMatchException, 
+    NoMatchedRegionAndCountryException, 
+    NoPreDefinedVolumeIdentifierException,
+    WrongMatchedRegionAndCountryException,
+    NoVolumnInfoException,
+    ChristiesFilterNotFoundException
+)
 
 __all__ = [
     "CityNotFoundException",
     "InvalidDateInputException",
-    "UnknownWineVolumnFormatException",
+    "UnknownWineVolumeFormatException",
     "AmbiguousRegionAndCountryMatchException",
     "NoMatchedRegionAndCountryException",
-    "NoPreDefinedVolumeIdentifierException"
+    "NoPreDefinedVolumeIdentifierException",
+    "WrongMatchedRegionAndCountryException",
+    "NoVolumnInfoException",
+    "ChristiesFilterNotFoundException"
 ]
