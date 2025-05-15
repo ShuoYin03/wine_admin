@@ -7,17 +7,21 @@ export enum MatchStatusType {
 };
 
 export type LwinMatchingType = {
-    id: string;
-    wine_name: string;
+    id: number;
+    lot_id: string;
+    lot_name: string;
     matched: string;
     lwin?: number[];
+    lwin_11?: number[];
     match_score?: number[];
     match_item?: Record<string, string>[];
 }
 
 export type LwinDisplayType = {
-    wine_name: string;
-    lwin: string[];
+    id: number;
+    lot_name: string;
+    lwin: number[];
+    lwin11: number[];
     match_score: number[];
     match_status: MatchStatusType;
 };
@@ -28,12 +32,16 @@ export const LwinMatchingColumns: Column[] = [
         accessor: "id",
     },
     {
-        header: "Wine Name",
-        accessor: "wine_name",
+        header: "Lot Name",
+        accessor: "lot_name",
     },
     {
         header: "Lwin",
         accessor: "lwin",
+    },
+    {
+        header: "Lwin 11",
+        accessor: "lwin_11",
     },
     {
         header: "Maching Score",

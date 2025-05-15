@@ -17,16 +17,15 @@ const filterData = (
     lot: Array<LotType>
 ) => {
     const filtered_data = lot.map((lot: LotType) => ({
-        wine_name: lot.wine_name,
-        vintage: lot.vintage,
+        id: lot.id,
+        lot_name: lot.lot_name,
         region: lot.region,
         country: lot.country,
         unit: lot.unit,
-        colour: lot.wine_type,
         currency: lot.original_currency,
         start_price: lot.start_price,
         end_price: lot.end_price,
-        sold: lot.sold
+        sold: lot.sold,
     }));
 
     return filtered_data;

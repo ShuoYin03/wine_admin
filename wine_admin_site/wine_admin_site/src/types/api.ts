@@ -4,3 +4,11 @@ export type ApiPayload = {
     page: number;
     page_size: number;
 }
+
+export type ApiResponse = {
+    status_code: number;
+}
+
+export type ApiErrorResponse = ApiResponse & {
+    error_message: string;
+}

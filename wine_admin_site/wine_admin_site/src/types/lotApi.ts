@@ -13,16 +13,13 @@ export interface LotApiPayload {
 };
 
 export type LotType = {
-    id: string;
-    auction_id: number;
-    lot_producer?: string;
-    wine_name: string;
-    vintage?: string;
-    unit_format?: string;
+    id: number;
+    external_id: string;
+    auction_id: string;
+    lot_name: string;
     unit?: number;
-    volumn?: number;
+    volume?: number;
     lot_type?: string;
-    wine_type?: string;
     original_currency: string;
     start_price: number;
     end_price?: number;
@@ -34,6 +31,16 @@ export type LotType = {
     country?: string;
     success: boolean;
     url: string;
+    lot_items?: Array<LotItemType>;
+};
+
+export type LotItemType = {
+    id: number;
+    lot_id: string;
+    lot_producer?: string;
+    vintage?: string;
+    unit_format?: string;
+    wine_colour?: string;
 };
 
 export type LotDisplayType = {
@@ -56,12 +63,8 @@ export const LotColumns: Column[] = [
         accessor: "id",
     },
     {
-        header: "Wine Name",
-        accessor: "wine_name",
-    },
-    {
-        header: "Vintage",
-        accessor: "vintage",
+        header: "Lot Name",
+        accessor: "lot_name",
     },
     {
         header: "Region",
@@ -74,10 +77,6 @@ export const LotColumns: Column[] = [
     {
         header: "Units",
         accessor: "unit",
-    },
-    {
-        header: "Colour",
-        accessor: "colour",
     },
     {
         header: "Currency",
@@ -95,5 +94,9 @@ export const LotColumns: Column[] = [
         header: "Sold",
         accessor: "sold",
     },
+    {
+        header: "Lot Items",
+        accessor: "lot_items",
+    }
 ]
     

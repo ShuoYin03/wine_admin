@@ -1,47 +1,53 @@
-from scrapy import signals
+import os
+import time
+import subprocess
+from dotenv import load_dotenv
+from scrapy_playwright.page import PageMethod
 
-class WineSpiderSpiderMiddleware:
+load_dotenv()
+EMAIL = os.getenv("EMAIL")
+PASSWORD = os.getenv("PASSWORD")
 
-    @classmethod
-    def from_crawler(cls, crawler):
-        s = cls()
-        crawler.signals.connect(s.spider_opened, signal=signals.spider_opened)
-        return s
-
-    def process_spider_input(self, response, spider):
-        return None
-
-    def process_spider_output(self, response, result, spider):
-        for i in result:
-            yield i
-
-    def process_spider_exception(self, response, exception, spider):
-        pass
-
-    def process_start_requests(self, start_requests, spider):
-        for r in start_requests:
-            yield r
-
-    def spider_opened(self, spider):
-        spider.logger.info("Spider opened: %s" % spider.name)
-
-
-class WineSpiderDownloaderMiddleware:
+class SothebysLoginMiddleware:
+    def __init__(self, state_path, expire_days, login_script):
+        self.state_path = state_path
+        self.expire_seconds = expire_days * 86400
+        self.login_script = login_script
+        self.cookie = None
 
     @classmethod
     def from_crawler(cls, crawler):
-        s = cls()
-        crawler.signals.connect(s.spider_opened, signal=signals.spider_opened)
-        return s
+        state_path    = crawler.settings.get("SOTHEBYS_STATE_PATH")
+        expire_days   = crawler.settings.getint("SOTHEBYS_STATE_EXPIRE_DAYS", 10)
+        login_script  = crawler.settings.get("SOTHEBYS_LOGIN_SCRIPT", "login.py")
+        inst = cls(state_path, expire_days, login_script)
+        return inst
+    
+    def _ensure_fresh_state(self):
+        if not os.path.exists(self.state_path) or \
+           (time.time() - os.path.getmtime(self.state_path)) > self.expire_seconds:
+            print("Login state missing or expired, re-running login script…")
+            subprocess.run(
+                ["python", self.login_script],
+                check=True
+            )
 
     def process_request(self, request, spider):
+        if spider.name == "sothebys_spider":
+            self._ensure_fresh_state()
+            request.meta["playwright_context"] = "sothebys"
+
         return None
+    
+class PlaywrightResourceBlockerMiddleware:
+    def process_request(self, request, spider):
+        if request.meta.get("playwright"):
+            request.meta.setdefault("playwright_page_methods", []).append(
+                PageMethod("route", "**/*", self._abort_resources)
+            )
 
-    def process_response(self, request, response, spider):
-        return response
-
-    def process_exception(self, request, exception, spider):
-        pass
-
-    def spider_opened(self, spider):
-        spider.logger.info("Spider opened: %s" % spider.name)
+    async def _abort_resources(self, route, request):
+        if request.resource_type in ["image", "stylesheet", "font"]:
+            await route.abort()
+        else:
+            await route.continue_()

@@ -1,9 +1,8 @@
 import os
 import pandas as pd
 from database import DatabaseClient
-from wine_spider.wine_spider.helpers import parse_volumn_and_unit_from_title, match_lot_info, region_to_country
-from wine_spider.wine_spider.exceptions import (
-    NoPreDefinedVolumeIdentifierException,
+from wine_spider.helpers import parse_volume_and_unit_from_title, match_lot_info, region_to_country
+from wine_spider.exceptions import (
     AmbiguousRegionAndCountryMatchException,
     NoMatchedRegionAndCountryException,
 )
@@ -24,7 +23,7 @@ class SothebysReprocessor:
         for item in failed_items:
             item_id = item.get("id")
             try:
-                item['volumn'], item['unit'] = parse_volumn_and_unit_from_title(item['wine_name'])
+                item['volume'], item['unit'] = parse_volume_and_unit_from_title(item['wine_name'])
                 if not item['lot_producer'] and 'Spirits' not in item['lot_type'] or not item['region'] or not item['country']:
                     lot_info = match_lot_info(item['wine_name'], self.lwin_df)
                     item['lot_producer'] = [lot_info[0]] if not item['lot_producer'] else item['lot_producer']

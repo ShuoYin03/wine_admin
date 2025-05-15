@@ -4,7 +4,7 @@ import { filterData } from './lwin.utils';
 export async function POST(req: NextRequest) {
     const payload = await req.json();
 
-    const response = await fetch(`http://localhost:5000/lwin_and_lots_query`, {
+    const response = await fetch(`http://localhost:5000/lwin_query`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'

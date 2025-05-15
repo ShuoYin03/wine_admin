@@ -16,12 +16,11 @@ CREATE TABLE IF NOT EXISTS auctions (
 CREATE TABLE IF NOT EXISTS lots (
     Id SERIAL PRIMARY KEY,
     External_Id TEXT UNIQUE,
-    Auction_Id INT REFERENCES auctions(id) ON DELETE CASCADE,
+    Auction_Id TEXT REFERENCES auctions(External_Id) ON DELETE CASCADE,
     Lot_Name VARCHAR(150),
     Lot_Type VARCHAR(8)[],
-    Unit_Format VARCHAR(20)[],
-	Unit INT,
-	Volumn REAL,
+    Volume REAL,
+    Unit INT,
     Original_Currency VARCHAR(10),
     Start_Price INT,
     End_Price INT,
@@ -38,49 +37,24 @@ CREATE TABLE IF NOT EXISTS lots (
 
 CREATE TABLE IF NOT EXISTS lot_items (
     Id SERIAL PRIMARY KEY,
-    Lot_Id INT REFERENCES lots(id) ON DELETE CASCADE,
+    Lot_Id TEXT REFERENCES lots(External_Id) ON DELETE CASCADE,
     Lot_Producer VARCHAR(50),
-    Wine_Name VARCHAR(150),
     Vintage VARCHAR(20),
     Unit_Format VARCHAR(20),
-    Unit INT,
-    Volumn REAL,
-    Wine_Colour VARCHAR(8)
-);
-
-CREATE TABLE IF NOT EXISTS failed_lots (
-    Id SERIAL PRIMARY KEY,
-    External_Id TEXT UNIQUE,
-    Auction_Id INT REFERENCES auctions(id) ON DELETE CASCADE,
-    Lot_Name VARCHAR(150),
-    Lot_Type VARCHAR(8)[],
-    Unit_Format VARCHAR(20)[],
-	Unit INT,
-	Volumn REAL,
-    Original_Currency VARCHAR(10),
-    Start_Price INT,
-    End_Price INT,
-	Low_Estimate INT,
-	High_Estimate INT,
-    Sold BOOLEAN,
-    Sold_Date DATE,
-    Region VARCHAR(20),
-	Sub_Region VARCHAR(50),
-    Country VARCHAR(20),
-	Success BOOLEAN,
-	Url TEXT
+    Wine_Colour VARCHAR(20)
 );
 
 CREATE TABLE IF NOT EXISTS auction_sales (
-    id TEXT PRIMARY KEY,
+    id SERIAL PRIMARY KEY,
+    Auction_Id TEXT REFERENCES auctions(External_Id) ON DELETE CASCADE UNIQUE,
     Lots INT,
     Sold INT,
     Currency VARCHAR(10),
     Total_Low_Estimate INT,
     Total_High_Estimate INT,
     Total_Sales INT,
-    Volumn_Sold VARCHAR(50),
-    Value_Sold VARCHAR(50),
+    Volume_Sold REAL,
+    Value_Sold REAL,
     Top_Lot TEXT,
     Sale_Type VARCHAR(50),
     Single_Cellar BOOLEAN,
@@ -105,19 +79,20 @@ CREATE TABLE IF NOT EXISTS lwin_database (
     Sub_Type TEXT,
     Designation TEXT,
     Classification TEXT,
-    Vintage TEXT,
+    Vintage_Config TEXT,
     First_Vintage INT,
     Final_Vintage INT,
-    Date_Added DATETIME,
-    Date_Updated DATETIME,
-    Reference INT
+    Date_Added TIMESTAMP,
+    Date_Updated TIMESTAMP,
+    Reference TEXT
 );
 
 CREATE TABLE IF NOT EXISTS lwin_matching (
-    id TEXT PRIMARY KEY,
+    id SERIAL PRIMARY KEY,
+    Lot_Id TEXT REFERENCES lots(External_Id) ON DELETE CASCADE,
     Matched TEXT,
     Lwin INT[],
-    Lwin_11 INT[],
+    Lwin_11 BIGINT[],
     Match_Item JSONB,
     Match_Score DOUBLE PRECISION[]
 );
@@ -126,5 +101,6 @@ CREATE TABLE IF NOT EXISTS fx_rates_cache (
     id SERIAL PRIMARY KEY,
     Rates_From VARCHAR(10),
     Rates_To VARCHAR(10),
+    Date DATE,
     Rates DOUBLE PRECISION
 );

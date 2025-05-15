@@ -1,4 +1,4 @@
-from wine_spider.wine_spider.exceptions import CityNotFoundException
+from wine_spider.exceptions import CityNotFoundException
 
 def find_continent(country):
     country_to_continent = {
@@ -22,10 +22,20 @@ def find_continent(country):
         "Paris": "Europe",
         "Bordeaux": "Europe",
         "Abergavenny": "Europe",
-        "Dijon (France)": "Europe"
+        "Dijon": "Europe",
+        "Amsterdam": "Europe",
+        "Shanghai": "Asia",
+        "Shanghai Auction": "Asia",
+        "London": "Europe",
+
     }
 
     continent = country_to_continent.get(country)
+
+    for key, value in country_to_continent.items():
+        if key in country:
+            continent = value
+            break
 
     if continent:
         return continent
@@ -44,7 +54,8 @@ def region_to_country(region):
         "Other France": "France",
         "California": "United States",
         "Kentucky": "United States",
-        "Highlands": "United States",
+        "Highland": "United Kingdom",
+        "Highlands": "United Kingdom",
         "Speyside": "Scotland",
         "Other France": "France",
         "Islay": "Scotland",
