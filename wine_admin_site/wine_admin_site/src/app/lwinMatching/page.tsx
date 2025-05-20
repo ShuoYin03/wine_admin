@@ -9,6 +9,15 @@ import { LwinMatchingColumns } from "@/types/lwinApi"
 import DataTableBottom from "@/components/DataTable/DataTableBottom"
 import SwitchFilter from "@/components/SwitchFilter/SwitchFilter"
 import LwinInfo from "@/components/LwinInfo/LwinInfo"
+import {
+    FilterProvider,
+    useFilterContext,
+} from "@/contexts/FilterContext"
+import {
+    lwinMatchingFilterOptions,
+    lwinMatchingOrderByOptions,
+} from "./lwinMatching.utils"
+
 
 const LwinMatchingContainer = styled.div`
     display: flex;
@@ -19,7 +28,7 @@ const LwinMatchingContainer = styled.div`
     min-height: 82vh;
 `;
 
-const LwinMatching = () => {
+const LwinMatchingContent = () => {
     const [filters, setFilters] = useState<[string, string, string][]>([["matched", "eq", "exact_match"]]);
     const [order_by, setOrderBy] = useState<string>("");
     const [page, setPage] = useState<number>(1);
@@ -87,16 +96,6 @@ const LwinMatching = () => {
         setPage(1);
     };
 
-    const handleFilterChange = (newFilters: [string, string, string][]) => {
-        setFilters(newFilters);
-        setPage(1);
-    };
-
-    const handleOrderByChange = (newOrderBy: string) => {
-        setOrderBy(newOrderBy);
-        setPage(1);
-    };
-
     const handleSelectChange = (selectedOption: string) => {
         setFilters((prevFilters) => {
             const clearedFilters = prevFilters.filter((filter) => filter[0] !== "matched");
@@ -123,11 +122,20 @@ const LwinMatching = () => {
             <MainTitle title={"Lwin Matching"} subtitle={"Browse, Search, and Manage Lwin Matching Results"}></MainTitle>
             <LwinInfo totalLwinCount={exactCount + multiCount + NotCount} exactMatchCount={exactCount} multiMatchCount={multiCount} notMatchCount={NotCount}/>
             <SwitchFilter options={["All Results", "Exact Match", "Multi Match", "Not Match"]} selectedOption={selectedOption} onSelect={handleSelectChange}></SwitchFilter>
-            <SearchBar callbackFilter={handleFilterChange} callbackOrderBy={handleOrderByChange}/>
+            <SearchBar type='lwin'/>
             <DataTable<LwinDisplayType> columns={LwinMatchingColumns} data={data} />
             <DataTableBottom page={page} setPage={setPage} pageSize={page_size} setPageSize={setPageSize} handlePageChange={handlePageChange} handlePageSizeChange={handlePageSizeChange} count={count}/>
         </LwinMatchingContainer>
     );
 }
+
+const LwinMatching = () => {
+    return (
+        <FilterProvider filterOptions={lwinMatchingFilterOptions} orderByOptions={lwinMatchingOrderByOptions}>
+            <LwinMatchingContent />
+        </FilterProvider>
+    );
+};
+
 
 export default LwinMatching;

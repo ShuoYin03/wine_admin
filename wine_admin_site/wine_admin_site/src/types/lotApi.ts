@@ -1,10 +1,5 @@
 import { Column } from '@/components/DataTable/DataTable.type';
 
-export interface LotApiParams {
-    page?: number;
-    page_size?: number;
-};
-
 export interface LotApiPayload {
     filters?: object;
     order_by?: Array<string>;

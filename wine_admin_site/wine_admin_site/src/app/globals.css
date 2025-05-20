@@ -12,9 +12,15 @@ body {
   font-family: 'Inter', sans-serif;
   min-height: 100vh;
 
-  
+  scrollbar-gutter: stable overlay;
   &::-webkit-scrollbar {
     -ms-overflow-style: none;
-    scrollbar-width: none;
+    width: 6px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: rgba(0, 0, 0, 0.3);
+    border-radius: 6px;
+    width: 3px;
   }
 }

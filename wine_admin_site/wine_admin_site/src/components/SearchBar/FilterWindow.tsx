@@ -9,22 +9,26 @@ import {
     toggleDateFilter,
     togglePriceRangeFilter
 } from "@/utils/toggleFilter";
-import { keyMap } from "@/utils/data";
+import { keyMap } from "@/utils/staticData";
 import FullCalendar from "../Calendar/FullCalendar";
 import CustomYearCalendar from "../Calendar/CustomYearCalendar";
 import PriceRange from "../PriceRange/PriceRange";
+import { useFilterContext } from "@/contexts/FilterContext";
+import flexibleContext from "@/contexts/FlexibleContext";
 
-const FilterWindowContainer = styled.div`
-    position: relative;
+const FilterWindowContainer = styled.div<{ top: number; left: number; numberfilters: number; }>`
+    position: absolute;
+    top: ${(props) => props.top}px;
+    left: ${(props) => props.left}px;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: flex-start;
     width: 230px;
-    height: 420px;
     padding: 0px 5px;
     margin-top: 50px;
-    margin-left: 675px;
+    padding-bottom: 6px;
+
     background-color: #FDFCFB;
     border-radius: 8px;
     border: 1px solid rgb(204, 199, 195);
@@ -123,38 +127,33 @@ const ClearFilterButton = styled.button`
 `;
 
 type FilterWindowProps = {
+    position: { top: number, left: number }
     callback: (
         filters: Array<[string, string, string]>,
         count: Record<string, number>
       ) => void;
     onClose: () => void;
-    filters: Array<[string, string, string]>;
-    setFilters: React.Dispatch<React.SetStateAction<Array<[string, string, string]>>>;
-    filterCount: Record<string, number>;
-    setFilterCount: React.Dispatch<React.SetStateAction<Record<string, number>>>;
-    selectedOptions: Record<string, Set<any>>;
-    setSelectedOptions: React.Dispatch<React.SetStateAction<Record<string, Set<any>>>>;
-    maxPrice: number;
-    minPrice: number;
+    type: string;
 };
 
-const FilterWindow = ({ callback, onClose, filters, setFilters, filterCount, setFilterCount, selectedOptions, setSelectedOptions, maxPrice, minPrice }: FilterWindowProps) => {
-    const selectFilters = [
-        "Auction House",
-        "Lot Producer",
-        "Region",
-        "Colour",
-        "Format",
-        "Vintage",
-        "Auction Before",
-        "Auction After",
-        "Price Range",
-    ];
+const FilterWindow = ({ position, callback, onClose, type }: FilterWindowProps) => {
+    const useDataContext = flexibleContext(type);
+    const {
+        filters,
+        setFilters,
+        filterCount,
+        setFilterCount,
+        selectedOptions,
+        setSelectedOptions,
+        filterOptions,
+    } = useFilterContext();
 
+    const { maxPrice, minPrice } = useDataContext();
     const [activeFilter, setActiveFilter] = useState<string | null>(null);
     const [filterPosition, setFilterPosition] = useState<{ top: number, left: number }>({ top: 0, left: 0 });
-    const [auctionBeforeDate, setAuctionBeforeDate] = useState<Dayjs | null>(null);
-    const [auctionAfterDate, setAuctionAfterDate] = useState<Dayjs | null>(null);
+    const now = typeof window !== 'undefined' ? dayjs() : null;
+    const [auctionBeforeDate, setAuctionBeforeDate] = useState<Dayjs | null>(now);
+    const [auctionAfterDate, setAuctionAfterDate] = useState<Dayjs | null>(now);
     const containerRef = useRef<HTMLDivElement>(null);
     const optionsRef = useRef<HTMLDivElement>(null);
 
@@ -175,14 +174,6 @@ const FilterWindow = ({ callback, onClose, filters, setFilters, filterCount, set
             document.removeEventListener("mousedown", handleClickOutside);
         };
     }, [onClose]);
-
-    useEffect(() => {
-        if (typeof window !== "undefined") {
-            const now = dayjs();
-            setAuctionBeforeDate(now);
-            setAuctionAfterDate(now);
-        }
-      }, []);
 
     const handleAddFilter = (filter: string, value: string) => {
         const filterKey = keyMap[filter];
@@ -264,15 +255,12 @@ const FilterWindow = ({ callback, onClose, filters, setFilters, filterCount, set
             [filter]: prevCount[filter] + (existed ? -1 : 1),
         }));
     }
-
     
     const handleClearFilters = () => {
-        const clearedFilters = [] as [string, string, string][];
-        const clearedCount = selectFilters.reduce((acc, f) => ({ ...acc, [f]: 0 }), {});
-        setFilters(clearedFilters);
-        setFilterCount(clearedCount);
+        setFilters([]);
+        setFilterCount(Object.fromEntries(filterOptions.map((f) => [f, 0])));
         setSelectedOptions({});
-        callback(clearedFilters, clearedCount);
+        onClose();
     };
 
     const handleApplyFilters = () => {
@@ -298,8 +286,13 @@ const FilterWindow = ({ callback, onClose, filters, setFilters, filterCount, set
 
     return (
         <>
-            <FilterWindowContainer ref={containerRef}>
-                {selectFilters.map((filter, index) => (
+            <FilterWindowContainer   
+                top={position.top}
+                left={position.left}
+                numberfilters={filterOptions.length}
+                ref={containerRef}
+            >
+                {filterOptions.map((filter, index) => (
                     <SelectFilter key={index} onClick={(e) => handleFilterClick(filter, e)}>
                         {`Select ${filter}`}
                         {filterCount[filter] > 0 && <Count count={filterCount[filter]} />}

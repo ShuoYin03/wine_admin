@@ -22,6 +22,10 @@ const SquareButtonContainer = styled.button`
     &:hover {
         background-color: #996932;
         transition: background-color 0.2s, color 0.2s;
+
+        .svg {
+            fill: #ffffff;
+        }
     }
 `;
 

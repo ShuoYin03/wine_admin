@@ -4,6 +4,7 @@ from contextlib import contextmanager
 from sqlalchemy.orm.attributes import InstrumentedAttribute
 from sqlalchemy import create_engine, and_, or_, func, text
 from sqlalchemy.orm import sessionmaker, scoped_session
+from sqlalchemy.dialects.postgresql import ARRAY
 
 class BaseDatabaseClient:
     def __init__(self, orm_model, db_instance):
@@ -109,7 +110,10 @@ class BaseDatabaseClient:
             elif op == "between" and isinstance(value, (tuple, list)) and len(value) == 2:
                 condition = col.between(value[0], value[1])
             elif op == "contains":
-                condition = col.any(value)
+                if isinstance(col.type, ARRAY):
+                    condition = func.any(col) == value
+                else:
+                    condition = col.ilike(f'%{value}%')
 
             if condition is not None:
                 if op == "contains":
@@ -171,9 +175,12 @@ class BaseDatabaseClient:
             query = query.limit(limit)
         return query
     
-    
-    def get_table_count(self, session):
+    def get_table_count(self, session, filters=None, table_map=None):
         count_query = session.query(func.count(self.model.id))
+
+        if filters and table_map:
+            count_query = self.apply_filters(count_query, filters, table_map)
+
         return count_query.scalar()
         
     def bm25_search(self, table_name, search_text, limit=50):

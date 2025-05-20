@@ -52,8 +52,8 @@ const ApplyButton = styled.button`
 
 interface PriceRangeProps {
   position: { top: number; left: number };
-  maxPrice: number;
-  minPrice: number;
+  maxPrice?: number;
+  minPrice?: number;
   onPriceChange: (minPrice: number, maxPrice: number) => void;
 }
 
@@ -91,13 +91,13 @@ const PriceRange: React.FC<PriceRangeProps> = ({
         <Label>Max Price</Label>
         <Input
           type="number"
-          value={min === 0 ? '' : min}
+          value={max === 0 ? '' : max}
           onChange={(e) => {
             const val = e.target.value;
             if (val === '') {
-              setMin(0);
+              setMax(0);
             } else {
-              setMin(Number(val));
+              setMax(Number(val));
         }}}/>
       </div>
       <ApplyButton onClick={handleApply}>Add Filter</ApplyButton>

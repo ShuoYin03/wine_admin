@@ -94,7 +94,7 @@ const DataTableBottom: React.FC<DataTableBottomProps> = ({ page, setPage, pageSi
                         handlePageSizeChange(Number(e.target.value));
                     }}
                     >
-                    {[10, 20, 50, 100].map((size) => (
+                    {[pageSize, pageSize * 2, pageSize * 5, pageSize * 10].map((size) => (
                     <option key={size} value={size}>
                             {size}
                         </option>

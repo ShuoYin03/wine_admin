@@ -1,80 +1,20 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useRef } from "react";
 import styled from "styled-components";
-import SearchIcon from "@/assets/search.svg";
 import FunnelIcon from "@/assets/funnel.svg";
 import FilterWindow from "./FilterWindow";
-import SquareButton from "../SquareButton/SquareButton";
-import ArrowUpShort from "@/assets/arrow-up-short.svg";
-import ArrowDownShort from "@/assets/arrow-down-short.svg";
-
-const SearchBarMainContainer = styled.div`
-    display: flex;
-    flex-direction: column;
-    background-color: #FDF8F5;
-`;
+import Button from "../Button/Button";
+import Container from "../Container/Container";
+import Sorter from "../Sorter/Sorter";
+import { useFilterContext } from "@/contexts/FilterContext";
+import Search from "../Search/Search";
+import { Download } from "lucide-react";
 
 const SearchBarContainer = styled.div`
     display: flex;
     align-items: center;
     width: 100%;
     height: 45px;
-`;
-
-const SearchWrapper = styled.div`
-    display: flex;
-    align-items: center;
-    width: 380px;
-    height: 100%;
-    border: 1px solid #705C61;
-    border-radius: 10px;
-    padding: 0 12px;
-    background-color: #FDFCFB;
-`;
-
-const SearchIconWrapper = styled.div`
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-right: 5px;
-    padding-top: 2px;
-    padding-left: 2px;
-
-    svg {
-        width: 18px;
-        height: 18px;
-        fill: #705C61;
-    }
-`;
-
-const SearchInput = styled.input`
-    flex: 1;
-    height: 100%;
-    border: none;
-    font-size: 16px;
-    outline: none;
-    background-color: transparent;
-    color: #333;
-
-    &::placeholder {
-        color: #705C61;
-    }
-`;
-
-const SubmitButton = styled.button`
-    width: 100px;
-    height: 46px;
-    border: none;
-    border-radius: 8px;
-    font-weight: 600;
-    color: #ffffff;
-    background-color: rgb(133, 56, 65);
-    cursor: pointer;
-    margin-left: 10px;
-
-    &:hover {
-        background-color: #722F37;
-        transition: background-color 0.2s, color 0.2s;
-    }
+    gap: 10px;
 `;
 
 const RightSideContainer = styled.div`
@@ -87,7 +27,7 @@ const RightSideContainer = styled.div`
 const FilterButton = styled.button`
     display: flex;
     width: 110px;
-    height: 46px;
+    height: 40px;
     border: none;
     border-radius: 8px;
     font-weight: 600;
@@ -124,104 +64,58 @@ const FilterText = styled.span`
     font-size: 16px;
 `;
 
-const SortWrapper = styled.div`
-    display: flex;
-    align-items: center;
-    margin-left: 20px;
-    margin-right: 10px;
-`;
-
-const SortText = styled.span`
-    font-size: 13px;
-    font-weight: 600;
-    color: #705C61;
-    margin-right: 5px;
-`;
-
-const SortSelect = styled.select`
-    width: 160px;
-    height: 40px;
-    border: 1px solid rgb(204, 199, 195);
-    border-radius: 8px;
-    background-color: #FDFCFB;
-    color: #705C61;
-    cursor: pointer;
-    margin-right: 10px;
-    outline: none;
-    padding: 10px;
-
-    appearance: none;
-    -webkit-appearance: none;
-    -moz-appearance: none;
-
-    background-image: url("data:image/svg+xml;utf8,<svg fill='%23705C61' height='14' viewBox='0 0 24 24' width='14' xmlns='http://www.w3.org/2000/svg'><path d='M7 10l5 5 5-5z'/></svg>");
-    background-repeat: no-repeat;
-    background-position: right 6px center;
-    background-size: 14px;
-`;
-
-const Button = styled.button`
-    width: 100px;
-    height: 46px;
-    border: 1px solid rgb(204, 199, 195);
-    border-radius: 8px;
-    font-weight: 600;
-    color: #705C61;
-    background-color: #FDFCFB;
-    cursor: pointer;
-    margin-left: 10px;
-    &:hover {
-        color: #ffffff;
-        background-color: #996932;
-        transition: background-color 0.2s, color 0.2s;
-    }
-`;
-
 interface SearchBarProps {
-    callbackFilter: (filters: [string, string, string][]) => void;
-    callbackOrderBy: (orderBy: string) => void;
-    maxPrice: number;
-    minPrice: number;
-    exportCallback: () => void;
+    exportCallback?: () => void;
+    type: string;
 };
 
 const SearchBar: React.FC<SearchBarProps> = ({ 
-    callbackFilter, 
-    callbackOrderBy, 
-    maxPrice, 
-    minPrice, 
-    exportCallback 
+    exportCallback,
+    type
 }) => {
-    const selectFilters = [
-        "Auction House",
-        "Lot Producer",
-        "Region",
-        "Colour",
-        "Format",
-        "Vintage",
-        "Auction Before",
-        "Auction After",
-        "Price Range",
-    ];
-
     const [showFilterWindow, setShowFilterWindow] = useState(false);
-    const [sortField, setSortField] = useState("");
-    const [sortDirection, setSortDirection] = useState("asc");
-    const [filters, setFilters] = useState<Array<[string, string, string]>>([]);
-    const [filterCount, setFilterCount] = useState<Record<string, number>>(
-        selectFilters.map((filter) => [filter, 0]).reduce((acc, [key, value]) => ({ ...acc, [key]: value }), {})
-    );
-    const [selectedOptions, setSelectedOptions] = useState<Record<string, Set<any>>>({});
+    const [filterWindowPosition, setFilterWindowPosition] = useState<{ top: number, left: number }>({ top: 0, left: 0 });
     const [searchText, setSearchText] = useState("");
+    const filterButtonRef = useRef<HTMLButtonElement>(null);
+    
+    const {
+        filters,
+        setFilters,
+        setOrderBy,
+        setFilterCount,
+        orderByOptions,
+      } = useFilterContext();
+    
 
     const toggleFilterWindow = () => {
+        if (filterButtonRef.current) {
+          const rect = filterButtonRef.current.getBoundingClientRect();
+          setFilterWindowPosition({
+            top: rect.bottom + window.scrollY - 45,
+            left: rect.left + window.scrollX
+          });
+        }
         setShowFilterWindow(!showFilterWindow);
-    };
-
+      };
+    
     const handleSubmit = () => {
-        const newFilters = [...filters, ["wine_name", "like", searchText]] as [string, string, string][];
-        setFilters(filters);
-        callbackFilter(newFilters);
+        let searchField = "";
+        if (type === "lot") {
+            searchField = "wine_name";
+        } else if (type === "auction") {
+            searchField = "auction_title";
+        }
+
+        const cleanedFilters = filters.filter(
+            ([field, operator]) => operator !== "like"
+        );
+
+        const newFilters: [string, string, string][] = [
+            ...cleanedFilters,
+            [searchField, "like", searchText]
+        ];
+
+        setFilters(newFilters);
     };
 
     const handleFilterChange = (
@@ -230,78 +124,38 @@ const SearchBar: React.FC<SearchBarProps> = ({
     ) => {
         setFilters(filters);
         setFilterCount(count);
-        callbackFilter(filters);
     };
 
-    const handleSortDirectionChange = () => {
-        setSortDirection((prevDirection) => (prevDirection === "asc" ? "desc" : "asc"));
-    }
-
-    useEffect(() => {
-        const sortDirectionSymbol = sortDirection === "asc" ? "" : "-";
-        callbackOrderBy(`${sortDirectionSymbol}${sortField}`);
-    }, [sortField, sortDirection]);
-
     return (
-        <SearchBarMainContainer>
+        <Container mode="fullWidth">
             <SearchBarContainer>
-                <SearchWrapper>
-                    <SearchIconWrapper>
-                    <SearchIcon />
-                    </SearchIconWrapper>
-                    <SearchInput 
-                        placeholder="Search lots by name, vintage, region..." 
-                        onChange={(e) => setSearchText(e.target.value)} 
-                        onKeyDown={(e) => {
-                            if (e.key === 'Enter') {
-                              handleSubmit();
-                            }
-                        }}
-                    />
-                </SearchWrapper>
-                <SubmitButton onClick={handleSubmit}>Search</SubmitButton>
+                <Search setSearchText={setSearchText} handleSubmit={handleSubmit}/>
+                <Button onClick={handleSubmit}>Search</Button>
                 <RightSideContainer>
-                    <FilterButton onMouseDown={(e) => {e.stopPropagation(); toggleFilterWindow();}}>
+                    <FilterButton 
+                        ref={filterButtonRef}
+                        onMouseDown={(e) => {e.stopPropagation(); toggleFilterWindow();
+                    }}>
                         <FilterIconWrapper>
                             <FunnelIcon />
                         </FilterIconWrapper>
                         <FilterText>Filters</FilterText>
                     </FilterButton>
-                    <SortWrapper>
-                        <SortText>Sort by :</SortText>
-                        <SortSelect onChange={(e) => setSortField(e.target.value)}>
-                            <option value=""></option>
-                            <option value="wine_name">Name</option>
-                            <option value="vintage">Vintage</option>
-                            <option value="region">Region</option>
-                            <option value="end_price">Price</option>
-                        </SortSelect>
-                        <SquareButton onClick={handleSortDirectionChange}>
-                            {sortDirection === "asc" ? (
-                                <ArrowUpShort />
-                            ) : (
-                                <ArrowDownShort />
-                            )}
-                        </SquareButton>
-                    </SortWrapper>
-                    <Button>Import</Button>
-                    <Button onClick={exportCallback}>Export</Button>
+                    <Sorter options={orderByOptions} callback={setOrderBy} />
+                    <Button mode="outline" onClick={exportCallback}>
+                        <Download size={16} style={{"marginRight": "5px"}}/>
+                        Export
+                    </Button>
                 </RightSideContainer>
             </SearchBarContainer>
             {showFilterWindow && 
                 <FilterWindow 
+                    position={filterWindowPosition}
                     callback={handleFilterChange}
                     onClose={() => toggleFilterWindow()}
-                    filters={filters}
-                    setFilters={setFilters}
-                    filterCount={filterCount}
-                    setFilterCount={setFilterCount}
-                    selectedOptions={selectedOptions}
-                    setSelectedOptions={setSelectedOptions}
-                    maxPrice={maxPrice}
-                    minPrice={minPrice}
+                    type={type}
                 />}
-        </SearchBarMainContainer>
+        </Container>
   );
 };
 
