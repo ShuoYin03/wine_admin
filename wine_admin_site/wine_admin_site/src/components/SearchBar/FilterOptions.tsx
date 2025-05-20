@@ -3,7 +3,7 @@ import styled from "styled-components";
 import { 
   keyMap,
   keyMapOptions
- } from "@/utils/data"
+ } from "@/utils/staticData"
  import SearchIcon from "@/assets/search.svg";
 
 const FilterOptionsContainer = styled.div<{ top: number; left: number }>`
@@ -118,16 +118,19 @@ const FilterOptions: React.FC<FilterOptionsProps> = ({ filterType, position, sel
       </SearchWrapper>
       <OptionsContainer>
         {displayOptions.map((opt, i) => (
-          <OptionContainer key={i}>
+          <OptionContainer key={i} onClick={() => onClick(opt)}>
             <OptionItem >
               {opt}
             </OptionItem>
             <OptionTickBox 
               type="checkbox"
               checked={selected.has(opt)}
-              onChange={() => {
-                onClick(opt);
-            }}/>
+              onClick={(e) => {
+                e.stopPropagation();
+                onClick(opt);  
+              }}
+              readOnly
+            />
           </OptionContainer>
         ))}
       </OptionsContainer>

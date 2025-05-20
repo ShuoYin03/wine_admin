@@ -1,19 +1,6 @@
-import { LotApiParams, LotType } from '@/types/lotApi';
-import { start } from 'repl';
+import { LotType } from '@/types/lotApi';
 
-const createParamString = ({
-    page, 
-    page_size}: LotApiParams
-) => {
-    const paramString = new URLSearchParams({
-        ...(page && {page: page.toString()}),
-        ...(page_size && {page_size: page_size.toString()}),
-    }).toString();
-
-    return paramString;
-};
-
-const filterData = (
+export const filterData = (
     lot: Array<LotType>
 ) => {
     const filtered_data = lot.map((lot: LotType) => ({
@@ -30,5 +17,3 @@ const filterData = (
 
     return filtered_data;
 };
-
-export { createParamString, filterData };

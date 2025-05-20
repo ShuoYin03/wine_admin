@@ -1,12 +1,8 @@
 'use client';
 import React, { useState, useEffect} from 'react';
 import styled from 'styled-components';
-import SearchBar from '@/components/SearchBar/SearchBar';
-import DataTable from '@/components/DataTable/DataTable';
 import { LotDisplayType } from '@/types/lotApi';
 import MainTitle from '@/components/MainTitle/MainTitle';
-import { LotColumns } from '@/types/lotApi';
-import DataTableBottom from '@/components/DataTable/DataTableBottom';
 
 const HomeContainer = styled.div`
     display: flex;
@@ -107,9 +103,6 @@ const Home = () => {
     return (
       <HomeContainer>
         <MainTitle title={"Wine Admin Site"} subtitle={"Browse, Search, and Manage Wine Lots"}></MainTitle>
-        <SearchBar callbackFilter={handleFilterChange} callbackOrderBy={handleOrderByChange} minPrice={minPrice} maxPrice={maxPrice} exportCallback={handleExport}/>
-        <DataTable<LotDisplayType> columns={LotColumns} data={data} />
-        <DataTableBottom page={page} setPage={setPage} pageSize={page_size} setPageSize={setPageSize} handlePageChange={handlePageChange} handlePageSizeChange={handlePageSizeChange} count={count}/>
       </HomeContainer>
     );
 }

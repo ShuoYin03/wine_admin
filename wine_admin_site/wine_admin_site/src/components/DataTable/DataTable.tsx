@@ -32,9 +32,10 @@ const TableHeaderRow = styled.tr`
 const TableHeaderCell = styled.th`
     padding: 12px;
     background-color: #F5F1ED;
-    color: #000000;
+    color: #705C61;
     text-align: left;
-    font-weight: bold;
+    font-weight: 600;
+    font-size: 15px;
 
     &:first-child {
         border-top-left-radius: 10px;
@@ -57,6 +58,7 @@ const TableCell = styled.td`
     max-width: 200px;
     word-break: break-word;
     white-space: normal;
+    font-size: 14px;
 `;
 
 const DataTable = <T extends Record<string, any>>({ columns, data }: TableProps<T>) => {

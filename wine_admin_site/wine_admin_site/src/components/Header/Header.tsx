@@ -8,8 +8,8 @@ const Navbar = styled.div`
     height: 70px;
     align-items: center;
     justify-content: flex-end;
-    border-bottom: 1px solid rgb(204, 199, 195);
-    padding: 0px 200px;
+    border-bottom: 1px solid #DED9D3;
+    padding: 0px 160px;
     background-color: #FEFAF9;
 `;
 
@@ -59,11 +59,12 @@ const Header: React.FC = () => {
     return (
         <Navbar>
             <MainTitle>
-                <Link href="/" passHref>Wine Admin</Link>
+                <Link href="/">Wine Admin</Link>
             </MainTitle>
-            <LinkStyled><Link href="/" passHref>Lots</Link></LinkStyled>
-            <LinkStyled><Link href="lwinMatching" passHref>Lwin Matching</Link></LinkStyled>
-            <LinkStyled><Link href="fxRates" passHref>FX Rates</Link></LinkStyled>
+            <LinkStyled><Link href="/auctions">Auctions</Link></LinkStyled>
+            <LinkStyled><Link href="/lots">Lots</Link></LinkStyled>
+            <LinkStyled><Link href="/lwinMatching">Lwin Matching</Link></LinkStyled>
+            <LinkStyled><Link href="/fxRates">FX Rates</Link></LinkStyled>
         </Navbar>
     );
 };

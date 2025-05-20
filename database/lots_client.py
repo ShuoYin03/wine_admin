@@ -21,7 +21,7 @@ class LotsClient(BaseDatabaseClient):
 
             count = None
             if return_count:
-                count = self.get_table_count(session)
+                count = self.get_table_count(session, filters=filters, table_map=table_map)
 
             results = query.all()
             data = [
@@ -49,7 +49,7 @@ class LotsClient(BaseDatabaseClient):
             
             count = None
             if return_count:
-                count = self.get_table_count(session)
+                count = self.get_table_count(session, filters=filters, table_map=table_map)
 
             results = query.all()
             data = [

@@ -12,6 +12,7 @@ export const keyMap: Record<string, string> = {
 
 export const AuctionHouseOptions = [
     "Sotheby's",
+    "Christie's",
 ]
 
 export const LotProducerOptions = [
