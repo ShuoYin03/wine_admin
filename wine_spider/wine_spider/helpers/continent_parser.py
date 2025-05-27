@@ -1,4 +1,6 @@
-from wine_spider.exceptions import CityNotFoundException
+from wine_spider.exceptions import (
+    CityNotFoundException,
+)
 
 def find_continent(country):
     country_to_continent = {
@@ -74,4 +76,26 @@ def region_to_country(region):
     if country:
         return country
     else:
-        raise CityNotFoundException(region)
+        return None
+    
+def producer_to_country(producer):
+    producer_to_country = {
+        "Chateau Lafite Rothschild": "France",
+        "Chateau Latour": "France",
+        "Chateau Margaux": "France",
+        "Chateau Mouton Rothschild": "France",
+        "Chateau Haut-Brion": "France",
+        "Domaine de la Romanee-Conti": "France",
+        "Screaming Eagle": "United States",
+        "Harlan Estate": "United States",
+        "Penfolds Grange": "Australia",
+        "Yquem": "France",
+        "Massandra": "Ukraine",
+    }
+
+    country = producer_to_country.get(producer)
+
+    if country:
+        return country
+    else:
+        return None

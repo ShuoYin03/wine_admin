@@ -44,6 +44,17 @@ class SothebysSpider(scrapy.Spider):
     custom_settings = {
         "LOG_FILE": "sothebys_log.txt",
         # "JOBDIR": "wine_spider/crawl_state/sothebys",
+        "SOTHEBYS_STATE_PATH": "wine_spider/login_state/sothebys_cookies.json",
+        "SOTHEBYS_STATE_EXPIRE_DAYS" : 10,
+        "SOTHEBYS_LOGIN_SCRIPT": "wine_spider/helpers/sothebys/login.py",
+        "PLAYWRIGHT_CONTEXTS": {
+            "sothebys": {
+                "storage_state": "wine_spider/login_state/sothebys_cookies.json"
+            }
+        },
+        "DOWNLOADER_MIDDLEWARES": {
+            'wine_spider.middlewares.sothebys_login_middleware.SothebysLoginMiddleware': 100,
+        }
     }
 
     start_urls = ["https://www.sothebys.com/en/results?from=&to=&f2=0000017e-b9db-d1d4-a9fe-bdfb5bbc0000&f2=00000164-609a-d1db-a5e6-e9fffcc80000&q="]
