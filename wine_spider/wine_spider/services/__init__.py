@@ -1,5 +1,6 @@
 from .sothebys_client import SothebysClient
 from .christies_client import ChristiesClient
+from .zachys_client import ZachysClient
 from .database import (
     lots_client,
     auctions_client,
@@ -18,4 +19,5 @@ __all__ = [
     "fx_rates_client",
     "lwin_matching_client",
     "ChristiesClient",
+    "ZachysClient"
 ]
