@@ -12,8 +12,7 @@ class BaseDatabaseClient:
         if db_instance:
             self.db = db_instance
         else:
-            # db_url = os.getenv("DB_URL")
-            db_url = "postgresql://postgres:341319@localhost:5432/wine_admin?options=-csearch_path=wine_admin"
+            db_url = os.getenv("DB_URL")
             engine = create_engine(db_url)
             self.db = None
             self.Session = scoped_session(sessionmaker(bind=engine))

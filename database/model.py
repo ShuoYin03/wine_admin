@@ -30,12 +30,12 @@ class LotModel(Base):
     external_id = Column(Text, unique=True)
     auction_id = Column(Text, ForeignKey('auctions.external_id', ondelete="CASCADE"))
     lot_name = Column(Text)
-    lot_type = Column(ARRAY(String(8)))
+    lot_type = Column(ARRAY(String(100)))
     volume = Column(Float)
     unit = Column(Integer)
     original_currency = Column(String(10))
     start_price = Column(Integer)
-    end_price = Column(Integer)
+    end_price = Column(Float)
     low_estimate = Column(Integer)
     high_estimate = Column(Integer)
     sold = Column(Boolean)
@@ -57,7 +57,7 @@ class LotItemModel(Base):
     lot_producer = Column(String(50))
     vintage = Column(String(20))
     unit_format = Column(String(20))
-    wine_colour = Column(String(8))
+    wine_colour = Column(String(20))
 
     lot = relationship("LotModel", back_populates="items")
 

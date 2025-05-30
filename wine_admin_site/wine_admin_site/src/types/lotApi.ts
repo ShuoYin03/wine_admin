@@ -88,10 +88,6 @@ export const LotColumns: Column[] = [
     {
         header: "Sold",
         accessor: "sold",
-    },
-    {
-        header: "Lot Items",
-        accessor: "lot_items",
     }
 ]
     
