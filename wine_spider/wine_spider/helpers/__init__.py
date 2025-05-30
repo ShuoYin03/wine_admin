@@ -11,6 +11,8 @@ from .price_helper import currency_to_symbol, symbol_to_currency, remove_commas
 from .zachys.volume_parser import parse_volume, combine_volume
 from .zachys.lot_detail_info_parser import extract_lot_detail_info
 from .json_serializer import make_serializable
+from .wineauctioneer.date_parser import parse_date as wineauctioneer_parse_date
+from .wineauctioneer.unit_format_parser import parse_unit_format, extract_unit_and_unit_format
 
 __all__ = [
     'find_continent',
@@ -34,5 +36,8 @@ __all__ = [
     'parse_volume',
     'combine_volume',
     'extract_lot_detail_info',
-    'make_serializable'
+    'make_serializable',
+    'wineauctioneer_parse_date',
+    'parse_unit_format',
+    'extract_unit_and_unit_format',
 ]
