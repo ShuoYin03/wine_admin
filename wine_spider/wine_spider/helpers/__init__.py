@@ -7,12 +7,15 @@ from .christies.filter_parser import is_filter_exists, map_filter_to_field
 from .christies.year_parser import extract_years_from_json
 from .christies.volume_parser import parse_qty_and_unit_from_secondary_title
 from .lot_detail_item_filler import expand_to_lot_items
-from .price_helper import currency_to_symbol, symbol_to_currency, remove_commas
+from .price_helper import currency_to_symbol, symbol_to_currency, remove_commas, extract_price_range
 from .zachys.volume_parser import parse_volume, combine_volume
 from .zachys.lot_detail_info_parser import extract_lot_detail_info
 from .json_serializer import make_serializable
 from .wineauctioneer.date_parser import parse_date as wineauctioneer_parse_date
 from .wineauctioneer.unit_format_parser import parse_unit_format, extract_unit_and_unit_format
+from .tajan.external_id_generator import generate_external_id
+from .tajan.date_parser import extract_month_year_and_format
+from .tajan.title_parser import extract_years
 
 __all__ = [
     'find_continent',
@@ -40,4 +43,8 @@ __all__ = [
     'wineauctioneer_parse_date',
     'parse_unit_format',
     'extract_unit_and_unit_format',
+    'generate_external_id',
+    'extract_month_year_and_format',
+    'extract_price_range',
+    'extract_years',
 ]

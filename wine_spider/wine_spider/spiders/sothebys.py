@@ -4,7 +4,6 @@ install_reactor('twisted.internet.asyncioreactor.AsyncioSelectorReactor')
 import os
 import re
 import json
-import time
 import scrapy
 import dotenv
 import asyncio

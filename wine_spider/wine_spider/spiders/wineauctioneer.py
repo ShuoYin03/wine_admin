@@ -49,7 +49,6 @@ class WineAuctioneerSpider(scrapy.Spider):
         
         for link in auction_links:
             yield response.follow(link, self.parse_auction, dont_filter="true")
-            break
     
     def parse_auction(self, response):
         auction_item = AuctionItem()
@@ -70,21 +69,23 @@ class WineAuctioneerSpider(scrapy.Spider):
 
         lot_links = response.css("h3.teaser-title a::attr(href)").getall()
         for link in lot_links:
-            yield response.follow(link, self.parse_lot, dont_filter="true")
+            yield response.follow(link, self.parse_lot, meta={"auction_id": auction_item["external_id"]}, dont_filter="true")
             break
-
-        # next_page = response.xpath('//a[@rel="next"]/@href').get()
-        # if next_page:
-        #     yield response.follow(next_page, self.parse_auction_next_page, dont_filter="true")
-
-    def parse_auction_next_page(self, response):
-        lot_links = response.css("h3.teaser-title a::attr(href)").getall()
-        for link in lot_links:
-            yield response.follow(link, self.parse_lot)
 
         next_page = response.xpath('//a[@rel="next"]/@href').get()
         if next_page:
-            yield response.follow(next_page, self.parse_auction_next_page)
+            yield response.follow(next_page, self.parse_auction_next_page, meta={"auction_id": auction_item["external_id"]}, dont_filter="true")
+
+    def parse_auction_next_page(self, response):
+        auction_id = response.meta.get("auction_id", None)
+        
+        lot_links = response.css("h3.teaser-title a::attr(href)").getall()
+        for link in lot_links:
+            yield response.follow(link, self.parse_lot, meta={"auction_id": auction_id}, dont_filter="true")
+
+        next_page = response.xpath('//a[@rel="next"]/@href').get()
+        if next_page:
+            yield response.follow(next_page, self.parse_auction_next_page, meta={"auction_id": auction_id}, dont_filter="true")
 
     def parse_lot(self, response):
         auction_id = response.meta.get("auction_id", None)
@@ -95,8 +96,9 @@ class WineAuctioneerSpider(scrapy.Spider):
         lot_item["lot_name"] = response.css("h1.page-title::text").get().strip()
         lot_type = response.css("div.field.field--name-field-type div.field__item::text").get()
         if lot_type:
-            lot_item["lot_type"] = lot_type.strip()
+            lot_item["lot_type"] = [lot_type.strip()]
         unit_info = response.css("div.field.field--name-field-size div.field__item::text").get()
+        unit_format = None
         if unit_info:
             lot_item['volume'] = parse_unit_format(unit_info)
             lot_item['unit'], unit_format = extract_unit_and_unit_format(unit_info)
@@ -114,7 +116,7 @@ class WineAuctioneerSpider(scrapy.Spider):
         lot_item["sold_date"] = wineauctioneer_parse_date(sold_date.strip()) if sold_date else None
         lot_item["success"] = True
         lot_item["url"] = response.url
-        # yield lot_item
+        yield lot_item
 
         lot_producer = []
         if response.css("div.field.field--name-field-producer div.field__item a::text").get():
@@ -122,7 +124,7 @@ class WineAuctioneerSpider(scrapy.Spider):
         vintage = []
         if response.css("div.field.field--name-field-vintage div.field__item::text").get():
             vintage.append(response.css("div.field.field--name-field-vintage div.field__item::text").get().strip())
-        unit_format = [unit_format]
+        unit_format = [unit_format] if unit_format else []
         wine_colour = []
         if response.css("div.field.field--name-field-type div.field__item::text").get():
             wine_colour.append(response.css("div.field.field--name-field-type div.field__item::text").get().strip())
@@ -136,4 +138,4 @@ class WineAuctioneerSpider(scrapy.Spider):
 
         for lot_detail_item in lot_detail_items:
             lot_detail_item['lot_id'] = lot_item['external_id']
-            # yield lot_detail_item
+            yield lot_detail_item

@@ -1,3 +1,5 @@
+import re
+
 def currency_to_symbol(currency):
     currency_symbols = {
         "USD": "$",
@@ -29,3 +31,13 @@ def symbol_to_currency(symbol):
 
 def remove_commas(value):
     return value.replace(",", "")
+
+
+
+def extract_price_range(text: str):
+    matches = re.findall(r"[\d,.]+", text)
+    if len(matches) >= 2:
+        low = float(matches[0].replace(",", ""))
+        high = float(matches[1].replace(",", ""))
+        return low, high
+    return None, None
