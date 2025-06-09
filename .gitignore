@@ -11,8 +11,9 @@ __pycache__/
 *.xls
 test.py
 login_state/
+overall.py
 scrapy_log.txt
 christies_log.txt
-overall.py
 wineauctioneer_log.txt
 tajan_log.txt
+sylvies_log.txt

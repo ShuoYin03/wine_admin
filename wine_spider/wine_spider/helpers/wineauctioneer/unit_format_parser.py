@@ -1,47 +1,9 @@
 import re
 from typing import Optional, Union
 import logging
+from ..static import VOLUME_IDENTIFIER
 
 logger = logging.getLogger(__name__)
-
-VOLUME_IDENTIFIER = {
-    'bt': 750,
-    'bts': 750,
-    'hb': 375,
-    'hfbt': 375,
-    'hbs': 375,
-    'mag': 1500,
-    'mags': 1500,
-    'double-magnum': 3000,
-    'dm': 3000,
-    'l': 1000,
-    'cl': 10,
-    'pint': 568.3,
-    'half-pint': 284.2,
-    'quart': 1136.5,
-    'gallon': 4546.1,
-    'half-gallon': 2273.1,
-    'hflt': 500,
-    'litr': 1000,
-    'litrs': 1000,
-    'litre': 1000,
-    'litres': 1000,
-    'ml': 1,
-    'bottle': 750,
-    'ounces': 28.4,
-    'pce': 228000,
-    'imp': 6000,
-    'jm30': 3000,
-    'jm50': 5000,
-    'jm70': 7000,
-    'meth': 6000,
-    'feu': 114000,
-    'salr': 9000,
-    'nebr': 15000,
-    'balr': 12000,
-    'prime': 27000,
-    'regular bottle': 750
-}
 
 def parse_unit_format(unit_format: str) -> Optional[Union[str, int]]:
     s = unit_format.strip().lower()

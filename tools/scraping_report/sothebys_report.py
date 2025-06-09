@@ -5,7 +5,7 @@ import aiohttp
 from wine_spider.wine_spider.services import SothebysClient
 
 SEM_LIMIT = 10
-REPORT_FILE = "auction_report.csv"
+REPORT_FILE = "sothebys_report.csv"
 
 async def fetch_hits(session: aiohttp.ClientSession, sem: asyncio.Semaphore,
                      client: SothebysClient, external_id: str, url: str, lot_count: int):

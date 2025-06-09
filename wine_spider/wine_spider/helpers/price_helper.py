@@ -32,8 +32,6 @@ def symbol_to_currency(symbol):
 def remove_commas(value):
     return value.replace(",", "")
 
-
-
 def extract_price_range(text: str):
     matches = re.findall(r"[\d,.]+", text)
     if len(matches) >= 2:

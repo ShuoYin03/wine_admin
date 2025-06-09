@@ -10,45 +10,9 @@ from wine_spider.exceptions import (
     WrongMatchedRegionAndCountryException,
     NoVolumnInfoException
 )
+from ..static import VOLUME_IDENTIFIER
 
 logger = getLogger(__name__)
-
-VOLUME_IDENTIFIER = {
-    'bt': 750,
-    'bts': 750,
-    'hb': 375,
-    'hfbt': 375,
-    'hbs': 375,
-    'mag': 1500,
-    'mags': 1500,
-    'dm': 3000,
-    'l': 1000,
-    'cl': 10,
-    'pint': 568.3,
-    'half-pint': 284.2,
-    'quart': 1136.5,
-    'gallon': 4546.1,
-    'half-gallon': 2273.1,
-    'hflt': 500,
-    'litr': 1000,
-    'litrs': 1000,
-    'litre': 1000,
-    'litres': 1000,
-    'ml': 1,
-    'bottle': 750,
-    'ounces': 28.4,
-    'pce': 228000,
-    'imp': 6000,
-    'jm30': 3000,
-    'jm50': 5000,
-    'jm70': 7000,
-    'meth': 6000,
-    'feu': 114000,
-    'salr': 9000,
-    'nebr': 15000,
-    'balr': 12000,
-    'prime': 27000,
-}
 
 def parse_volume_and_unit_from_title(title):
     volume = 0.0
@@ -263,7 +227,7 @@ def standardize_title(title):
         title = title.replace(key, value)
     return title
 
-def match_lot_info(title, df, lot_producer=None, region=None, country=None):
+def match_lot_info(title, df, lot_producer=None, region=None, country=None, throw_exception=True):
     wine_column = 'Wine'
     producer_column = 'Estate'
     region_column = 'Region'
@@ -287,7 +251,7 @@ def match_lot_info(title, df, lot_producer=None, region=None, country=None):
 
     max_score = df['combined_score'].max()
     best_match = df[df['combined_score'] == max_score]
-    if len(best_match) > 1:
+    if len(best_match) > 1 and throw_exception:
         raise AmbiguousRegionAndCountryMatchException(title)
     best_match = best_match.iloc[0]
 
@@ -296,8 +260,10 @@ def match_lot_info(title, df, lot_producer=None, region=None, country=None):
                 best_match[region_column], 
                 best_match[sub_region_column], 
                 best_match[country_column])
-    else:
-        raise NoMatchedRegionAndCountryException(title, best_match[wine_column], best_match[producer_column], best_match[region_column], best_match[sub_region_column], best_match[country_column], best_match[combined_score_column])
+    
+    if not throw_exception:
+        return (None, None, None, None)
+    raise NoMatchedRegionAndCountryException(title, best_match[wine_column], best_match[producer_column], best_match[region_column], best_match[sub_region_column], best_match[country_column], best_match[combined_score_column])
 
 def calculate_tfidf_similarity(title, df_column):
     vectorizer = TfidfVectorizer()

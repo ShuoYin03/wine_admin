@@ -17,6 +17,31 @@ from .items import (
 from collections import defaultdict
 from sqlalchemy.exc import IntegrityError
 from psycopg2.errors import ForeignKeyViolation
+import threading
+import time
+
+class PipelineCoordinator:
+    def __init__(self):
+        self.processed_lots = set()
+        self.pending_lot_details = defaultdict(list)
+        self.lock = threading.Lock()
+    
+    def mark_lot_processed(self, lot_id):
+        with self.lock:
+            self.processed_lots.add(lot_id)
+            if lot_id in self.pending_lot_details:
+                return self.pending_lot_details.pop(lot_id)
+        return []
+    
+    def is_lot_processed(self, lot_id):
+        with self.lock:
+            return lot_id in self.processed_lots
+    
+    def add_pending_lot_detail(self, lot_id, lot_detail_data):
+        with self.lock:
+            self.pending_lot_details[lot_id].append(lot_detail_data)
+
+coordinator = PipelineCoordinator()
 
 class LwinMatchingPipeline:
     def __init__(self):
@@ -56,6 +81,38 @@ class AuctionStoragePipeline:
             auctions_client.upsert_by_external_id(ItemAdapter(item).asdict())
         return item
     
+# class LotStoragePipeline:
+#     def __init__(self):
+#         self.to_retry = []
+    
+#     def process_item(self, item, spider):
+#         if isinstance(item, LotItem):
+#             data = ItemAdapter(item).asdict()
+#             try:
+#                 lots_client.upsert_by_external_id(data)
+#                 lot_items_client.delete_by_external_id(item['external_id'])
+#             except IntegrityError as e:
+#                 orig = getattr(e, "orig", None)
+#                 if isinstance(orig, ForeignKeyViolation):
+#                     spider.logger.warning(f"FK violation inserting lot {item['external_id']}, retrying later...")
+#                     self.to_retry.append((data, item['external_id'], item['auction_id']))
+#                     return item
+#                 raise
+
+#         return item
+    
+#     def close_spider(self, spider):
+#         if not self.to_retry:
+#             return
+        
+#         spider.logger.info(f"Retrying {len(self.to_retry)} failed Lot insertions...")
+#         for data, lot_id, auction_id in self.to_retry:
+#             try:
+#                 lots_client.upsert_by_external_id(data)
+#                 spider.logger.info(f"Successfully retried Lot {lot_id} for Auction {auction_id}")
+#             except IntegrityError as e:
+#                 spider.logger.warning(f"Failed to retry Lot {lot_id} for Auction {auction_id}: {e}")
+
 class LotStoragePipeline:
     def __init__(self):
         self.to_retry = []
@@ -63,16 +120,27 @@ class LotStoragePipeline:
     def process_item(self, item, spider):
         if isinstance(item, LotItem):
             data = ItemAdapter(item).asdict()
+            lot_id = item['external_id']
+            
             try:
                 lots_client.upsert_by_external_id(data)
-                lot_items_client.delete_by_external_id(item['external_id'])
+                lot_items_client.delete_by_external_id(lot_id)
+                
+                pending_lot_detail_items = coordinator.mark_lot_processed(lot_id)
+                
+                for pending_lot_detail_item in pending_lot_detail_items:
+                    try:
+                        lot_items_client.upsert(pending_lot_detail_item)
+                    except Exception as e:
+                        spider.logger.error(f"Error processing pending lot detail for lot {lot_id}: {e}")
+                        
             except IntegrityError as e:
                 orig = getattr(e, "orig", None)
                 if isinstance(orig, ForeignKeyViolation):
-                    spider.logger.warning(f"FK violation inserting lot {item['external_id']}, retrying later...")
-                    self.to_retry.append((data, item['external_id'], item['auction_id']))
+                    spider.logger.warning(f"FK violation inserting lot {lot_id}, retrying later...")
+                    self.to_retry.append((data, lot_id, item['auction_id']))
                     return item
-                raise
+                # raise
 
         return item
     
@@ -84,16 +152,67 @@ class LotStoragePipeline:
         for data, lot_id, auction_id in self.to_retry:
             try:
                 lots_client.upsert_by_external_id(data)
+                lot_items_client.delete_by_external_id(lot_id)
+                
+                pending_details = coordinator.mark_lot_processed(lot_id)
+                for detail_data in pending_details:
+                    try:
+                        lot_items_client.upsert(detail_data)
+                        spider.logger.info(f"Processed pending lot detail for retried lot {lot_id}")
+                    except Exception as e:
+                        spider.logger.error(f"Error processing pending lot detail for retried lot {lot_id}: {e}")
+                
                 spider.logger.info(f"Successfully retried Lot {lot_id} for Auction {auction_id}")
             except IntegrityError as e:
                 spider.logger.warning(f"Failed to retry Lot {lot_id} for Auction {auction_id}: {e}")
     
 
+# class LotDetailStoragePipeline:
+#     def process_item(self, item, spider):
+#         if isinstance(item, LotDetailItem):
+#             lot_items_client.upsert(ItemAdapter(item).asdict())
+#         return item
 class LotDetailStoragePipeline:
+    def __init__(self):
+        self.to_retry = []
+    
     def process_item(self, item, spider):
         if isinstance(item, LotDetailItem):
-            lot_items_client.upsert(ItemAdapter(item).asdict())
+            data = ItemAdapter(item).asdict()
+            lot_id = item['lot_id']
+            
+            # 检查对应的lot是否已处理
+            if coordinator.is_lot_processed(lot_id):
+                try:
+                    lot_items_client.upsert(data)
+                except IntegrityError as e:
+                    orig = getattr(e, "orig", None)
+                    if isinstance(orig, ForeignKeyViolation):
+                        spider.logger.warning(f"FK violation inserting lot detail for lot {lot_id}, retrying later...")
+                        self.to_retry.append(data)
+                        return item
+                    raise
+            else:
+                # lot还未处理，加入等待队列
+                coordinator.add_pending_lot_detail(lot_id, data)
+                spider.logger.debug(f"Lot detail for lot {lot_id} added to pending queue")
+                
         return item
+    
+    def close_spider(self, spider):
+        if not self.to_retry:
+            return
+            
+        spider.logger.info(f"Retrying {len(self.to_retry)} failed LotDetail insertions...")
+        time.sleep(1)
+        
+        for data in self.to_retry:
+            lot_id = data.get('lot_id')
+            try:
+                lot_items_client.upsert(data)
+                spider.logger.info(f"Successfully retried LotDetail for lot {lot_id}")
+            except IntegrityError as e:
+                spider.logger.warning(f"Failed to retry LotDetail for lot {lot_id}: {e}")
 
 
 class AuctionSalesPipeline:

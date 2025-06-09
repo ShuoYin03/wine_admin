@@ -168,14 +168,12 @@ class TajanSpider(scrapy.Spider):
                 lot_item['success'] = False
 
             yield lot_item
-            # print(lot_item)
 
             lot_detail_items = expand_to_lot_items(lot_producer, vintage, [], [])
             
             for lot_detail_item in lot_detail_items:
                 lot_detail_item["lot_id"] = lot_item["external_id"]
                 yield lot_detail_item
-                # print(lot_detail_item)
         
         last_page = response.css("ol.pagination.justify-content-center > li:last-child a::attr(href)").get()
         if last_page and last_page != "#":
