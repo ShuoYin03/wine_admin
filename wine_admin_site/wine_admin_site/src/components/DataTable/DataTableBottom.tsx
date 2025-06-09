@@ -78,6 +78,8 @@ interface DataTableBottomProps {
 }
 
 const DataTableBottom: React.FC<DataTableBottomProps> = ({ page, setPage, pageSize, setPageSize, handlePageChange, handlePageSizeChange, count }) => {
+    const [fixedPageSize, setFixedPageSize] = React.useState(pageSize);
+
     return (
         <TableBottomContainer>
             <DisplayPageSize>
@@ -94,7 +96,7 @@ const DataTableBottom: React.FC<DataTableBottomProps> = ({ page, setPage, pageSi
                         handlePageSizeChange(Number(e.target.value));
                     }}
                     >
-                    {[pageSize, pageSize * 2, pageSize * 5, pageSize * 10].map((size) => (
+                    {[fixedPageSize, fixedPageSize * 2, fixedPageSize * 5, fixedPageSize * 10].map((size) => (
                     <option key={size} value={size}>
                             {size}
                         </option>

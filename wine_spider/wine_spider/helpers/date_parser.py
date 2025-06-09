@@ -11,10 +11,30 @@ def parse_quarter(month):
     elif month in [10, 11, 12]:
         return 4
     else:
-        raise InvalidDateInputException(month) 
+        raise InvalidDateInputException(month)
+    
+def month_to_quarter(month):
+    month_dict = {
+        "january": 1,
+        "february": 1,
+        "march": 1,
+        "april": 2,
+        "may": 2,
+        "june": 2,
+        "july": 3,
+        "august": 3,
+        "september": 3,
+        "october": 4,
+        "november": 4,
+        "december": 4
+    }
+
+    if month.lower() in month_dict:
+        return month_dict[month.lower()]
     
 def extract_date(date_string):
     try:
         return datetime.strptime(date_string.split("T")[0], "%Y-%m-%d").date()
     except (AttributeError, ValueError):
         raise InvalidDateInputException(date_string)
+
