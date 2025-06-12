@@ -1,9 +1,10 @@
 from .continent_parser import find_continent, region_to_country, producer_to_country
-from .date_parser import parse_quarter, extract_date, month_to_quarter
+from .date_parser import parse_quarter, extract_date, month_to_quarter, extract_year
 from .lot_detail_item_filler import expand_to_lot_items
 from .price_helper import currency_to_symbol, symbol_to_currency, remove_commas, extract_price_range
 from .json_serializer import make_serializable
 from .environment_helper import EnvironmentHelper
+from .volume_parser import unit_format_to_volume
 
 from .sothebys.title_parser import parse_volume_and_unit_from_title, parse_year_from_title, match_lot_info
 from .sothebys.captcha_parser import CaptchaParser
@@ -24,6 +25,8 @@ from .tajan.title_parser import extract_years
 
 from .sylvies.volume_parser import extract_volume_unit as extract_volume_unit, convert_to_volume
 from .sylvies.pdf_parser import parse_pdf
+
+from .baghera.filter_helper import filter_to_params
 
 __all__ = [
     'find_continent',
@@ -60,4 +63,7 @@ __all__ = [
     'convert_to_volume',
     'month_to_quarter',
     'parse_pdf',
+    'extract_year',
+    'filter_to_params',
+    'unit_format_to_volume',
 ]

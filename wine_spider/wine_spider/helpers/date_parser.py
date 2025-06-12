@@ -1,5 +1,6 @@
 from wine_spider.exceptions import InvalidDateInputException
 from datetime import datetime
+import re
 
 def parse_quarter(month):
     if month in [1, 2, 3]:
@@ -37,4 +38,15 @@ def extract_date(date_string):
         return datetime.strptime(date_string.split("T")[0], "%Y-%m-%d").date()
     except (AttributeError, ValueError):
         raise InvalidDateInputException(date_string)
+    
+def extract_year(date_string):
+    if not date_string:
+        return None
+    # Match 4 digits or 4digits-4digits pattern
+    pattern = r'(\d{4})(?:-(\d{4}))?'
+    match = re.search(pattern, date_string)
+    if match:
+        return match.group(0)
+    return None
+
 

@@ -70,23 +70,26 @@ class LwinMatchingService:
 
 
     def match_target(self, lwinMatchingParams, target_record):
-        matches = self.utils.search_by_bm25_on_target(lwinMatchingParams.wine_name)
-
-        improved_matches = []
         query_cleaned = self.utils.clean_title(lwinMatchingParams.wine_name)
+        query_tokens = bm25s.tokenize([lwinMatchingParams.wine_name], stopwords="en", stemmer=self.utils.stemmer)
 
-        for row, bm25_score in matches:
-            wine_name = row['display_name']
-            wine_name_cleaned = self.utils.clean_title(wine_name)
+        results, scores = self.utils.retriever.retrieve(query_tokens, k=len(self.utils.table_items))
 
-            fuzz_score = fuzz.token_set_ratio(query_cleaned, wine_name_cleaned)
+        # 拿 target_idx 对应的 BM25 score
+        bm25_score = 0
+        for idx, score in zip(results[0], scores[0]):
+            if idx == target_idx:
+                bm25_score = score
+                break
 
-            final_score = 0.7 * (bm25_score / (bm25_score + 1e-5)) + 0.3 * (fuzz_score / 100)
+        # 取出 target_record
+        target_record = self.utils.table_items.iloc[target_idx]
 
-            improved_matches.append((row, final_score))
+        # fuzzy 计算
+        wine_name_cleaned = self.utils.clean_title(target_record['display_name'])
+        fuzz_score = fuzz.token_set_ratio(query_cleaned, wine_name_cleaned)
 
-        improved_matches.sort(key=lambda x: x[1], reverse=True)
+        # 综合评分
+        final_score = 0.7 * (bm25_score / (bm25_score + 1e-5)) + 0.3 * (fuzz_score / 100)
 
-        improved_matches = improved_matches[:1]
-
-        return [(row, score) for row, score in improved_matches]
+        return final_score
