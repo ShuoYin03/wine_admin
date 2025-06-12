@@ -4,6 +4,8 @@ VOLUME_IDENTIFIER = {
     'bts': 750,
     'hb': 375,
     'hfbt': 375,
+    'bottle': 750,
+    'half-bottle': 375,
     'hbs': 375,
     'mag': 1500,
     'magum': 1500,
@@ -28,7 +30,6 @@ VOLUME_IDENTIFIER = {
     'litre': 1000,
     'litres': 1000,
     'ml': 1,
-    'bottle': 750,
     'ounces': 28.4,
     'pce': 228000,
     'imp': 6000,
@@ -46,4 +47,6 @@ VOLUME_IDENTIFIER = {
     'prime': 27000,
     'regular bottle': 750,
     'case': 9000,
+    'methuselah': 6000,
+    'melchior': 18000,
 }

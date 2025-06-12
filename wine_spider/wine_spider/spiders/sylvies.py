@@ -65,8 +65,6 @@ class SylviesSpider(scrapy.Spider):
                 }
             )
 
-            break
-
     def parse_auction(self, response):
         auction_id = response.meta.get('auction_id', None)
         auction_item = response.meta.get('auction_item', None)
