@@ -9,6 +9,7 @@ __pycache__/
 *.pyd
 
 *.xls
+*.csv
 test.py
 login_state/
 overall.py

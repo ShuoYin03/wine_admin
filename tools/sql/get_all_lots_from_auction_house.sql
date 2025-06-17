@@ -1,0 +1,1 @@
+SELECT * FROM wine_admin.lots l JOIN wine_admin.auction_house ah ON l.auction_id = ah.external_id WHERE ah.external_id = ''

@@ -54,10 +54,10 @@ class LotItemModel(Base):
     __tablename__ = 'lot_items'
     id = Column(Integer, primary_key=True)
     lot_id = Column(Text, ForeignKey('lots.external_id', ondelete="CASCADE"))
-    lot_producer = Column(String(50))
+    lot_producer = Column(String(100))
     vintage = Column(String(20))
     unit_format = Column(String(20))
-    wine_colour = Column(String(20))
+    wine_colour = Column(String(50))
 
     lot = relationship("LotModel", back_populates="items")
 

@@ -1,3 +1,3 @@
-from .lwin_matching_service import LwinMatchingService
+from .lwin_matching_service import LwinMatcherEngine
 
-__all__ = ['LwinMatchingService']
+__all__ = ['LwinMatcherEngine']

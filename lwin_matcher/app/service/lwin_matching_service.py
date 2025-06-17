@@ -1,95 +1,129 @@
-import pandas as pd
+import re
+import bm25s
+import Stemmer
+import numpy as np
 from rapidfuzz import fuzz
-from app.model import MatchResult
-from flask import current_app, g
 from collections import OrderedDict
-from .utils import LwinMatchingUtils
+from app.model import MatchResult
 from database.model import LwinDatabaseModel
 
-class LwinMatchingService:
+class LwinMatcherEngine:
     def __init__(self, table_items):
-        self.utils = LwinMatchingUtils(table_items)
-        
-    def lwin_matching(self, lwinMatchingParams):
-        matches = self.calculate_multiple(lwinMatchingParams)
-        matches = self.filter_matches(matches, lwinMatchingParams)
+        self.table_items = table_items
+        self.stemmer = Stemmer.Stemmer("english")
 
-        if len(matches) == 0:
-            match_result = MatchResult.NOT_MATCH
-        elif len(matches) == 1:
-            match_result = MatchResult.EXACT_MATCH
-        else:
-            match_result = MatchResult.MULTI_MATCH
-        
-        columns = [column.name for column in LwinDatabaseModel.__table__.columns]
-        return match_result, \
-            [match[0]['lwin'] for match in matches], \
-            self.utils.convert_to_serializable([match[1] for match in matches]), \
-            [OrderedDict({columns[i]: match[0].iloc[i] for i in range(len(columns))}) for match in matches]
+        self.corpus = table_items.apply(self._merge_text_fields, axis=1).apply(self._clean_title).tolist()
+        self.tokenized_corpus = bm25s.tokenize(self.corpus, stopwords="en", stemmer=self.stemmer)
 
-    def calculate_multiple(self, lwinMatchingParams):
-        matches = self.utils.search_by_bm25(lwinMatchingParams.wine_name, limit=20)
+        self.retriever = bm25s.BM25()
+        self.retriever.index(self.tokenized_corpus)
 
-        improved_matches = []
-        query_cleaned = self.utils.clean_title(lwinMatchingParams.wine_name)
+    # -------------- 外部调用接口 ----------------
+    def match(self, lwinMatchingParams, limit=20, topk=1):
+        matches = self._bm25_candidates(lwinMatchingParams.wine_name, limit)
+        query_cleaned = self._clean_title(lwinMatchingParams.wine_name)
 
-        for row, bm25_score in matches:
-            wine_name = row['display_name']
-            wine_name_cleaned = self.utils.clean_title(wine_name)
+        scored_matches = [
+            (row, self._score(row, query_cleaned, bm25_score))
+            for row, bm25_score in matches
+        ]
 
-            fuzz_score = fuzz.token_set_ratio(query_cleaned, wine_name_cleaned)
+        scored_matches.sort(key=lambda x: x[1], reverse=True)
+        scored_matches = scored_matches[:topk]
 
-            final_score = 0.7 * (bm25_score / (bm25_score + 1e-5)) + 0.3 * (fuzz_score / 100)
+        filtered_matches = self._filter_matches(scored_matches, lwinMatchingParams)
+        match_result = self._classify(filtered_matches)
 
-            improved_matches.append((row, final_score))
-
-        improved_matches.sort(key=lambda x: x[1], reverse=True)
-
-        improved_matches = improved_matches[:1]
-
-        return [(row, score) for row, score in improved_matches]
+        columns = [col.name for col in LwinDatabaseModel.__table__.columns]
+        return (
+            match_result,
+            [m[0]['lwin'] for m in filtered_matches],
+            self._convert_scores([m[1] for m in filtered_matches]),
+            [OrderedDict({columns[i]: m[0].iloc[i] for i in range(len(columns))}) for m in filtered_matches]
+        )
     
-    def filter_matches(self, matches, lwinMatchingParams):
-        filtered_matches = []
+    def match_target_by_id(self, lwinMatchingParams, record_id):
+        target_idx = self.table_items[self.table_items['id'] == record_id].index[0]
+        return self.match_target(lwinMatchingParams, target_idx)
 
-        for match in matches:
-            if lwinMatchingParams.lot_producer and match[0]['producer_name'] and fuzz.partial_ratio(lwinMatchingParams.lot_producer.lower(), match[0]['producer_name'].lower()) < 90:
-                continue
-            if lwinMatchingParams.country and match[0]['country'] and fuzz.partial_ratio(lwinMatchingParams.country.lower(), match[0]['country'].lower()) < 90:
-                continue
-            if lwinMatchingParams.region and match[0]['region'] and fuzz.partial_ratio(lwinMatchingParams.region.lower(), match[0]['region'].lower()) < 90:
-                continue
-            if lwinMatchingParams.sub_region and match[0]['sub_region'] and fuzz.partial_ratio(lwinMatchingParams.sub_region.lower(), match[0]['sub_region'].lower()) < 90:
-                continue
-            if lwinMatchingParams.colour and match[0]['colour'] and fuzz.partial_ratio(lwinMatchingParams.colour.lower(), match[0]['colour'].lower()) < 90:
-                continue
+    def match_target(self, lwinMatchingParams, target_idx):
+        query_cleaned = self._clean_title(lwinMatchingParams.wine_name)
+        query_tokens = bm25s.tokenize([lwinMatchingParams.wine_name], stopwords="en", stemmer=self.stemmer)
+        results, scores = self.retriever.retrieve(query_tokens, k=len(self.table_items))
+        score_dict = dict(zip(results[0], scores[0]))
+        bm25_score = score_dict.get(target_idx, 0)
 
-            filtered_matches.append(match)
-        
-        return filtered_matches
+        target_row = self.table_items.iloc[target_idx]
+        print(f"Target row: {target_row['display_name']}")
+        wine_cleaned = self._clean_title(target_row['display_name'])
+        fuzz_score = fuzz.token_set_ratio(query_cleaned, wine_cleaned)
 
+        return 0.7 * (bm25_score / (bm25_score + 1e-5)) + 0.3 * (fuzz_score / 100)
 
-    def match_target(self, lwinMatchingParams, target_record):
-        query_cleaned = self.utils.clean_title(lwinMatchingParams.wine_name)
-        query_tokens = bm25s.tokenize([lwinMatchingParams.wine_name], stopwords="en", stemmer=self.utils.stemmer)
+    # -------------- 内部 BM25 检索 ----------------
+    def _bm25_candidates(self, title, limit):
+        if not title:
+            return []
+        query_tokens = bm25s.tokenize([title], stopwords="en", stemmer=self.stemmer)
+        results, scores = self.retriever.retrieve(query_tokens, k=limit)
+        return [(self.table_items.iloc[idx], score) for idx, score in zip(results[0], scores[0])]
 
-        results, scores = self.utils.retriever.retrieve(query_tokens, k=len(self.utils.table_items))
+    # -------------- 内部匹配评分逻辑 ----------------
+    def _score(self, row, query_cleaned, bm25_score):
+        wine_cleaned = self._clean_title(row['display_name'])
+        fuzz_score = fuzz.token_set_ratio(query_cleaned, wine_cleaned)
+        return 0.7 * (bm25_score / (bm25_score + 1e-5)) + 0.3 * (fuzz_score / 100)
 
-        # 拿 target_idx 对应的 BM25 score
-        bm25_score = 0
-        for idx, score in zip(results[0], scores[0]):
-            if idx == target_idx:
-                bm25_score = score
-                break
+    def _filter_matches(self, matches, params):
+        filtered = []
+        for row, score in matches:
+            if self._passes_filters(row, params):
+                filtered.append((row, score))
+        return filtered
 
-        # 取出 target_record
-        target_record = self.utils.table_items.iloc[target_idx]
+    def _passes_filters(self, row, params):
+        filters = [
+            (params.lot_producer, row.get('producer_name')),
+            (params.country, row.get('country')),
+            (params.region, row.get('region')),
+            (params.sub_region, row.get('sub_region')),
+            (params.colour, row.get('colour')),
+        ]
+        for param_val, row_val in filters:
+            if param_val and row_val:
+                if fuzz.partial_ratio(param_val.lower(), row_val.lower()) < 90:
+                    return False
+        return True
 
-        # fuzzy 计算
-        wine_name_cleaned = self.utils.clean_title(target_record['display_name'])
-        fuzz_score = fuzz.token_set_ratio(query_cleaned, wine_name_cleaned)
+    def _classify(self, matches):
+        if not matches:
+            return MatchResult.NOT_MATCH
+        if len(matches) == 1:
+            return MatchResult.EXACT_MATCH
+        return MatchResult.MULTI_MATCH
 
-        # 综合评分
-        final_score = 0.7 * (bm25_score / (bm25_score + 1e-5)) + 0.3 * (fuzz_score / 100)
+    # -------------- 清洗预处理逻辑 ----------------
+    def _clean_title(self, title):
+        if not title:
+            return ''
+        title = re.sub(r'\s*\(.*?\)\s*$', '', title)
+        title = re.sub(r'\b\d{4}\b', '', title)
+        title = re.sub(r'[^\w\s]', ' ', title)
+        title = re.sub(r'\s+', ' ', title)
+        return title.lower().strip()
 
-        return final_score
+    def _merge_text_fields(self, row):
+        return ' '.join(filter(None, [
+            row.get('display_name', ''),
+            row.get('producer_title', ''),
+            row.get('producer_name', ''),
+            row.get('wine', '')
+        ]))
+
+    def _convert_scores(self, obj):
+        for i in range(len(obj)):
+            if isinstance(obj[i], (np.float64, np.float32)):
+                obj[i] = float(obj[i])
+            elif isinstance(obj[i], (np.int64, np.int32)):
+                obj[i] = int(obj[i])
+        return obj
