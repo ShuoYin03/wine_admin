@@ -40,9 +40,9 @@ class LotModel(Base):
     high_estimate = Column(Integer)
     sold = Column(Boolean)
     sold_date = Column(Date)
-    region = Column(String(20))
-    sub_region = Column(String(50))
-    country = Column(String(20))
+    region = Column(String(100))
+    sub_region = Column(String(100))
+    country = Column(String(50))
     success = Column(Boolean)
     url = Column(Text)
 

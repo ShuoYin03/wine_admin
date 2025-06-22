@@ -13,6 +13,7 @@ def find_continent(country):
         "Boston": "US",
         "Delaware": "US",
         "New York": "US",
+        "America": "US",
         "Marlborough": "US",
         "Los Angeles": "US",
         "Beverly Hills": "US",
@@ -29,7 +30,10 @@ def find_continent(country):
         "Shanghai": "Asia",
         "Shanghai Auction": "Asia",
         "London": "Europe",
-
+        "Europe": "Europe",
+        "Asia": "Asia",
+        "United States": "US",
+        "United Kingdom": "Europe",
     }
 
     continent = country_to_continent.get(country)

@@ -5,10 +5,8 @@ def extract_volume_unit(text):
     if not text:
         return None, None
 
-    # 统一清理格式
     text = text.strip().lower().replace(" ,", ",").replace(", ", ",").replace(" , ", ",")
     
-    # 提前排除无意义信息
     if text in {"0", "0,owc", "0,owc-", "n/a", "none"}:
         return None, None
 
@@ -25,6 +23,15 @@ def extract_volume_unit(text):
         number_part = match_mul.group(2).replace(",", ".")
         unit = match_mul.group(3).strip()
         return quantity, f"{number_part} {unit}"
+
+    match_quantity_unit = re.search(
+        rf'\b(\d+)\s*[x×]\s*({unit_pattern})\b',
+        text, flags=re.IGNORECASE
+    )
+    if match_quantity_unit:
+        quantity = int(match_quantity_unit.group(1))
+        unit_format = match_quantity_unit.group(2).strip()
+        return quantity, unit_format
 
     match_counted_unit = re.search(
         rf'\b(\d+)\s+({unit_pattern})\b',

@@ -47,6 +47,10 @@ class LotDetailItem(scrapy.Item):
     unit_format = scrapy.Field()
     wine_colour = scrapy.Field()
 
+    def to_serializable_dict(self):
+        d = dict(self)
+        return d
+
 class AuctionSalesItem(scrapy.Item):
     id = scrapy.Field()
     auction_id = scrapy.Field()
