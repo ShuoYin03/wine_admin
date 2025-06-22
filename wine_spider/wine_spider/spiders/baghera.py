@@ -17,6 +17,7 @@ from wine_spider.helpers import filter_to_params
 from wine_spider.helpers import region_to_country
 from wine_spider.services import PDFParser
 from wine_spider.helpers import expand_to_lot_items
+from wine_spider.helpers import extract_lot_part
 
 dotenv.load_dotenv()
 FULL_FETCH = os.getenv("FULL_FETCH")
@@ -68,7 +69,10 @@ class BagheraSpider(scrapy.Spider):
                         "vintage", 
                         "unit_format", 
                         "wine_colour"
-                    ]}})
+                    ]
+                }
+            }
+        )
         processed_lots = []
         
         currency = response.css("select.form-control#change_devise option[selected]::text").get()
@@ -216,6 +220,7 @@ class BagheraSpider(scrapy.Spider):
     def parse_lot_page(self, response):
         lot_item = response.meta.get("lot_item")
         sequence_external_id = response.meta.get("sequence_external_id")
+        pdf_url = response.meta.get("pdf_url")
 
         lot_detail_information_section = response.css("span.ecart.style7").get()
         if not lot_detail_information_section:
@@ -262,15 +267,21 @@ class BagheraSpider(scrapy.Spider):
         lot_item["country"] = country if country else None
         lot_item["sub_region"] = sub_region if sub_region else None
 
-        yield scrapy.Request(
-            url=response.meta.get("pdf_url"),
-            callback=self.parse_pdf_for_single_lot,
-            meta={
-                "lot_item": lot_item,
-                "lot_detail_items": lot_detail_items,
-                "sequence_external_id": sequence_external_id,
-            }
-        )
+        if pdf_url:
+            yield scrapy.Request(
+                url=pdf_url,
+                callback=self.parse_pdf_for_single_lot,
+                meta={
+                    "lot_item": lot_item,
+                    "lot_detail_items": lot_detail_items,
+                    "sequence_external_id": sequence_external_id,
+                }
+            )
+        else:
+            self.logger.info(f"No sales PDF found for lot {sequence_external_id}.")
+            yield lot_item
+            for lot_detail_item in lot_detail_items:
+                yield lot_detail_item
 
     def parse_pdf_for_single_lot(self, response):
         lot_item = response.meta.get("lot_item")
@@ -282,7 +293,8 @@ class BagheraSpider(scrapy.Spider):
 
         for line in lines:
             if line.startswith(sequence_external_id):
-                price = line.split(" ")[-1]
+                processed_line = extract_lot_part(line)
+                price = processed_line.split(" ")[-1]
                 price = price.replace("'", "")
                 if price.isdigit() and int(price) > 0:
                     lot_item["end_price"] = int(price)
@@ -299,15 +311,22 @@ class BagheraSpider(scrapy.Spider):
         content = self.pdf_parser.parse(response.body)
         lines = content.splitlines()
 
+        next_line_number = 1
         for line in lines:
             if line[0].isdigit():
-                sequence_external_id = line.split(" ")[0]
+                match = re.match(r"^(\d+)", line)
+                if match.group(1).isdigit() and int(match.group(1)) != next_line_number:
+                    next_line_number += 1
+                    continue
+                processed_line = extract_lot_part(line)
+                sequence_external_id = processed_line.split(" ")[0]
                 if sequence_external_id in lots:
-                    price = line.split(" ")[-1]
+                    price = processed_line.split(" ")[-1]
                     price = price.replace("'", "")
                     lots[sequence_external_id]["lot_item"]["end_price"] = price
                 else:
                     self.logger.warning(f"Lot {sequence_external_id} not found in lots dictionary while parsing PDF.")
+            next_line_number += 1
 
         self.yield_items(lots)
 
