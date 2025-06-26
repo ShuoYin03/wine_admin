@@ -32,6 +32,8 @@ from .baghera.pdf_extract import extract_lot_part
 from .bonhams.volume_parser import parse_all_valid_quantity_volume, extract_all_volume_units
 from .bonhams.multi_lot_spliter import split_title_by_valid_brackets
 
+from .steinfels.description_parser import parse_description
+
 __all__ = [
     'find_continent',
     'region_to_country',
@@ -74,4 +76,5 @@ __all__ = [
     'parse_all_valid_quantity_volume',
     'extract_all_volume_units',
     'split_title_by_valid_brackets',
+    'parse_description',
 ]

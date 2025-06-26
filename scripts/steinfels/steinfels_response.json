@@ -1,0 +1,17 @@
+{
+    "@related": {
+        "auctions": [],
+        "catalogs": [],
+        "parts": [],
+        "prebidGroups": [],
+        "materials": [],
+        "previousLot": null,
+        "nextLot": null
+    },
+    "$page": 1,
+    "$pageSize": 100,
+    "$itemCount": 0,
+    "$totalCount": 0,
+    "$totalPages": 1,
+    "items": []
+}
