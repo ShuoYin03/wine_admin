@@ -1,6 +1,4 @@
 import asyncio
-import csv
-import pandas as pd
 import aiohttp
 from wine_spider.wine_spider.services import SothebysClient
 from tools.scraping_report.auction_scraping_report_generator import AuctionScrapingReportGenerator

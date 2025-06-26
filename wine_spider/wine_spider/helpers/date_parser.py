@@ -42,7 +42,7 @@ def extract_date(date_string):
 def extract_year(date_string):
     if not date_string:
         return None
-    # Match 4 digits or 4digits-4digits pattern
+
     pattern = r'(\d{4})(?:-(\d{4}))?'
     match = re.search(pattern, date_string)
     if match:
