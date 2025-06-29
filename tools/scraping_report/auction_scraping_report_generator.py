@@ -13,8 +13,8 @@ class AuctionScrapingReportGenerator:
         self.report_file = f"{auction_house}_scraping_report.csv"
 
     def add_result(self, external_id, hits, lot_count, match, url):
-        self.total_actual_count += lot_count
         self.total_expected_count += hits
+        self.total_actual_count += lot_count
         if not match:
             self.false_count += 1
 
@@ -60,11 +60,16 @@ class AuctionScrapingReportGenerator:
             writer = csv.writer(f)
 
             writer.writerow(["Auction House", self.auction_house])
-            writer.writerow(["Total Actual Lot Count", self.total_actual_count])
-            writer.writerow(["Total Expected (API Hits)", self.total_expected_count])
+            writer.writerow(["Total Auctions Scraped", len(self.detailed_rows)])
+            writer.writerow(["Total Expected Lot Count", self.total_expected_count])
+            writer.writerow(["Total Scraped Lot Count", self.total_actual_count])
+            writer.writerow(["Matched Auctions", len(self.detailed_rows) - self.false_count])
             writer.writerow(["Mismatched Auctions", self.false_count])
-            writer.writerow(["Matching Accuracy (%)", 
+            writer.writerow(["Auction Matching Accuracy (%)", 
                              round(100 * (1 - self.false_count / len(self.detailed_rows)), 2) if self.detailed_rows else 100])
+            writer.writerow(["Lot Matching Accuracy (%)", 
+                             round(100 * (self.total_actual_count / self.total_expected_count), 2) if self.total_expected_count else 100])
+
             writer.writerow([])
 
             writer.writerow(["external_id", "hits_from_api", "lot_count_in_db", "match_status", "auction_url"])

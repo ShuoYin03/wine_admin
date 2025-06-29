@@ -347,7 +347,8 @@ class BagheraSpider(scrapy.Spider):
                 yield lot_detail_item
 
     def parse_auction(self, auction_info, auction_title, url):
-        auction_id = auction_info.css("li:nth-child(4)::text").get().strip().split(" ")[1]
+        auction_id_text_split = auction_info.css("li:nth-child(4)::text").get().strip().split(" ")
+        auction_id = "".join(auction_id_text_split[1:])
         auction_time_and_location = auction_info.css("li:nth-child(2) span::text").get().strip()
         auction_time = auction_time_and_location.split(" (")[0].strip()
         auction_time = parser.parse(auction_time)
