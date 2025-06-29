@@ -37,7 +37,8 @@ class WineAuctioneerSpider(scrapy.Spider):
     }
 
     start_urls = [
-        "https://wineauctioneer.com/wine-auctions#past-auctions"
+        f"https://wineauctioneer.com/wine-auctions?page=0,{idx},0,0,0#past-auctions"
+        for idx in range(0, 3)
     ]
 
     def __init__(self, *args, **kwargs):

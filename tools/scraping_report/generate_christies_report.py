@@ -63,7 +63,8 @@ async def fetch_hits(session, sem, url, sale_id, sales_number):
                         if match:
                             return (int(match.group(1)), sale_id, sales_number)
                 except Exception as e:
-                    print(url, "Error:", e)
+                    print(url, "JSON decode error:", e)
+                    
 
 async def fetch_listing_urls(session, url):
     try:

@@ -8,10 +8,10 @@
         "previousLot": null,
         "nextLot": null
     },
-    "$page": 1,
+    "$page": 2,
     "$pageSize": 100,
     "$itemCount": 0,
-    "$totalCount": 0,
+    "$totalCount": 92,
     "$totalPages": 1,
     "items": []
 }

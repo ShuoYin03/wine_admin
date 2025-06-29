@@ -21,11 +21,12 @@ class SteinfelsClient:
     def get_lot_page_url(self, lot_id: str, auction_catalog_id: str) -> str:
         return f"https://auktionen.steinfelsweine.ch/en-us/auctions/lots/{lot_id}?$page=1&$maxpagesize=20&$sortby=lot_number&$sortdir=asc&cat_id={auction_catalog_id}&$goto={lot_id}"
 
-    def get_lot_api_url(self, auction_catalog_id: str) -> str:
-        return f"https://auktionen.steinfelsweine.ch/api/lots?cat_id={auction_catalog_id}&my=false&s=&consignments_only=false&%24sortby=lot_number&%24sortdir=asc&%24page=1&%24maxpagesize=100"
+    def get_lot_api_url(self, auction_catalog_id: str, page: int = 1) -> str:
+        return f"https://auktionen.steinfelsweine.ch/api/lots?cat_id={auction_catalog_id}&my=false&s=&consignments_only=false&%24sortby=lot_number&%24sortdir=asc&%24page={page}&%24maxpagesize=1000"
     
     def parse_auction_api_response(self, response: dict) -> dict:
         auctions = []
+        auction_catalog_id = []
 
         for auction in response:
             catalog = auction.get("catalogs")[0]
@@ -41,6 +42,7 @@ class SteinfelsClient:
             auction_item['url'] = self.get_auction_page_url(catalog.get("id"))
 
             auctions.append(auction_item)
+            auction_catalog_id.append(catalog.get("id"))
 
         return auctions, catalog.get("id")
     
@@ -49,7 +51,8 @@ class SteinfelsClient:
         try:
             auction = response.get("@related").get("auctions")[0]
         except Exception as e:
-            self.logger.error(f"Auction Not Exist for this url: {url}")
+            if response.get("$itemCount") != 0:
+                self.logger.error(f"Auction Not Exist for this url: {url}")
             return lots
 
         for lot in response.get("items", []):

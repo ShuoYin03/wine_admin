@@ -34,8 +34,10 @@ class SteinfelsSpider(scrapy.Spider):
         )
 
     def parse(self, response):
-        auctions, auction_catalog_id = self.steinfels_client.parse_auction_api_response(response.json())
-        for auction in auctions:
+        auctions, auction_catalog_ids = self.steinfels_client.parse_auction_api_response(response.json())
+        for i in range(len(auctions)):
+            auction = auctions[i]
+            auction_catalog_id = auction_catalog_ids[i]
             yield auction
 
             yield scrapy.Request(
@@ -49,6 +51,7 @@ class SteinfelsSpider(scrapy.Spider):
     
     def parse_lots(self, response):
         auction_catalog_id = response.meta.get('auction_catalog_id')
+        current_page = response.meta.get('page', 1)
 
         results = self.steinfels_client.parse_lot_api_response(
             response=response.json(), 
@@ -61,3 +64,13 @@ class SteinfelsSpider(scrapy.Spider):
 
             for lot_detail_item in result[1]:
                 yield lot_detail_item
+        
+        yield scrapy.Request(
+            url=self.steinfels_client.get_lot_api_url(auction_catalog_id, page=current_page + 1),
+            headers=self.custom_headers,
+            callback=self.parse_lots,
+            meta={
+                'auction_catalog_id': auction_catalog_id,
+                'page': current_page
+            }
+        )
