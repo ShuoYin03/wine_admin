@@ -17,7 +17,6 @@ class BaseDatabaseClient:
             self.db = None
             self.Session = scoped_session(sessionmaker(bind=engine))
 
-
     @contextmanager
     def session_scope(self):
         if self.db:

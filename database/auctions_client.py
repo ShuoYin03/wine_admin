@@ -4,7 +4,12 @@ from .model import AuctionModel, AuctionSalesModel, LotModel
 class AuctionsClient(BaseDatabaseClient):
     def __init__(self, db_instance=None):
         super().__init__(AuctionModel, db_instance=db_instance)
-    
+
+    def get_all_by_auction_house(self, auction_house):
+        with self.session_scope() as session:
+            auctions = session.query(AuctionModel).filter_by(auction_house=auction_house).all()
+            return [auction.model_to_dict() for auction in auctions]
+
     def query_single_auction(self, auction_id):
         with self.session_scope() as session:
             auction = session.query(AuctionModel).filter_by(external_id=auction_id).first()

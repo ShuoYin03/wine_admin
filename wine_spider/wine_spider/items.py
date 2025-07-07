@@ -1,3 +1,4 @@
+from enum import Enum
 import scrapy
 from datetime import datetime, date
 
@@ -84,3 +85,15 @@ class FxRateItem(scrapy.Item):
 class CombinedLotItem(scrapy.Item):
     lot = scrapy.Field()
     lot_items = scrapy.Field()
+
+class AuctionHouse(Enum):
+    SOTHEBY = "Sotheby's"
+    CHRISTIE = "Christie's"
+    ZACHYS = "Zachys"
+    SYLVIES = "Sylvie's"
+    TAJAN = "Tajan"
+    WINEAUCTIONEER = "Wine Auctioneer"
+    BONHAMS = "Bonhams"
+    BAGHERA = "Baghera"
+    STEINFELS = "Steinfels"
+    

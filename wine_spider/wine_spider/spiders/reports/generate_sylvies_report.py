@@ -1,8 +1,9 @@
 import re
+import random
 import asyncio
 import aiohttp
 from bs4 import BeautifulSoup
-from tools.scraping_report.auction_scraping_report_generator import AuctionScrapingReportGenerator
+from wine_spider.spiders.reports.auction_scraping_report_generator import AuctionScrapingReportGenerator
 
 SEM_LIMIT = 10
 MAX_RETRIES = 3

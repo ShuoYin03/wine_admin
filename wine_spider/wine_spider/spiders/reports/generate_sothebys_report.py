@@ -1,7 +1,7 @@
 import asyncio
 import aiohttp
-from wine_spider.wine_spider.services import SothebysClient
-from tools.scraping_report.auction_scraping_report_generator import AuctionScrapingReportGenerator
+from wine_spider.services import SothebysClient
+from wine_spider.spiders.reports.auction_scraping_report_generator import AuctionScrapingReportGenerator
 
 SEM_LIMIT = 10
 REPORT_FILE = "sothebys_report.csv"

@@ -1,4 +1,4 @@
-from tools.scraping_report.auction_scraping_report_generator import AuctionScrapingReportGenerator
+from wine_spider.spiders.reports.auction_scraping_report_generator import AuctionScrapingReportGenerator
 import asyncio
 import aiohttp
 import re
@@ -20,7 +20,6 @@ def extract_lots_page_urls(html: str) -> Optional[list[str]]:
 
     for event in events:
         filters = event.get("filter_ids", "")
-
 
         if "category_14" in filters:
             url = event.get("landing_url", None)
@@ -44,7 +43,7 @@ def extract_lots_page_urls(html: str) -> Optional[list[str]]:
 
 async def fetch_hits(session, sem, url, sale_id, sales_number):
     if url.split("/")[-1].strip().isdigit():
-        sale_id = int(url.split("/")[-1].strip())
+        print("Found a new!!", int(url.split("/")[-1].strip()))
 
     async with sem:
         async with session.get(url) as response:
@@ -53,18 +52,29 @@ async def fetch_hits(session, sem, url, sale_id, sales_number):
                     html = await response.text()
                     soup = BeautifulSoup(html, 'html.parser')
                     dropdown = soup.find("chr-dropdown")
-                    if not dropdown:
-                        return
-                    action_items_raw = dropdown.get("action-items")
-                    action_items = json.loads(action_items_raw)
-                    for item in action_items:
-                        label = item.get("label", "")
-                        match = re.search(r'Browse lots\s*\((\d+)\)', label)
+                    if dropdown:
+                        action_items_raw = dropdown.get("action-items")
+                        action_items = json.loads(action_items_raw)
+                        for item in action_items:
+                            label = item.get("label", "")
+                            match = re.search(r'Browse lots\s*\((\d+)\)', label)
                         if match:
                             return (int(match.group(1)), sale_id, sales_number)
+                    # else:
+                    #     a = soup.find("a", class_="chr-page-nav__link chr-page-nav__link--active")
+                    #     num = a.split("(")[1].split(")")[0]
+                    #     return (int(num), sale_id, sales_number)
                 except Exception as e:
-                    print(url, "JSON decode error:", e)
-                    
+                    # print(action_items_raw)
+                    # print(url, "JSON decode error:", e)
+                    try:
+                        a = soup.find("a", class_="chr-page-nav__link chr-page-nav__link--active")
+                        text = a.get_text(strip=True)
+                        num = text.split("(")[1].split(")")[0]
+                        return (int(num), sale_id, sales_number)
+                    except Exception as e:
+                        print(f"Failed to parse hits from {url}: {e}")
+                        return None
 
 async def fetch_listing_urls(session, url):
     try:
@@ -93,14 +103,12 @@ async def main():
         )
 
         all_urls = [(url, sales_id, sales_number) for sublist in results if sublist for url, sales_id, sales_number in sublist]
-        
         sem = asyncio.Semaphore(10)
         counts = await asyncio.gather(
             *[fetch_hits(session, sem, url, sales_id, sales_number) for url, sales_id, sales_number in all_urls]
         )
         counts = [count for count in counts if count is not None]
         for count, sales_id, sales_number in counts:
-            # if count is not None:
             for lot in auction_lots_data:
                 if lot['external_id'] == f"{sales_id}#{sales_number}":
                     report.add_result(

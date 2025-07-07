@@ -2,7 +2,8 @@ import os
 import json
 import scrapy
 import dotenv
-from wine_spider.services import BonhamsClient, LotInformationFinder
+from wine_spider.services.bonhams_client import BonhamsClient
+from wine_spider.services.lot_information_finder import LotInformationFinder
 
 dotenv.load_dotenv()
 FULL_FETCH = os.getenv("FULL_FETCH")
@@ -50,16 +51,34 @@ class BonhamsSpider(scrapy.Spider):
                 url=self.bonhams_client.api_url,
                 method="POST",
                 body=json.dumps(payload),
-                callback=self.parse_lots
+                callback=self.parse_lots,
+                meta={
+                    "auction_id": auction['external_id']
+                }
             )
 
     def parse_lots(self, response):
         data = response.json()
+        auction_id = response.meta.get("auction_id")
+        current_page = response.meta.get("current_page", 1)
 
         lots = self.bonhams_client.parse_lot_api_response(data)
+        if lots:
+            for lot in lots:
+                yield lot[0]
 
-        for lot in lots:
-            yield lot[0]
+                for lot_detail in lot[1]:
+                    yield lot_detail
 
-            for lot_detail in lot[1]:
-                yield lot_detail
+            payload = self.bonhams_client.get_lot_search_payload(auction_id, current_page + 1)
+
+            yield scrapy.Request(
+                url=self.bonhams_client.api_url,
+                method="POST",
+                body=json.dumps(payload),
+                callback=self.parse_lots,
+                meta={
+                    "auction_id": auction_id,
+                    "current_page": current_page + 1
+                }   
+            )

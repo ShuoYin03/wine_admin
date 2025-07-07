@@ -1,5 +1,5 @@
 from .continent_parser import find_continent, region_to_country, producer_to_country
-from .date_parser import parse_quarter, extract_date, month_to_quarter, extract_year
+from .date_parser import parse_quarter, extract_date, month_to_quarter, extract_year, get_current_timestamp
 from .lot_detail_item_filler import expand_to_lot_items
 from .price_helper import currency_to_symbol, symbol_to_currency, remove_commas, extract_price_range
 from .json_serializer import make_serializable
@@ -77,4 +77,5 @@ __all__ = [
     'extract_all_volume_units',
     'split_title_by_valid_brackets',
     'parse_description',
+    'get_current_timestamp',
 ]

@@ -18,6 +18,7 @@ from wine_spider.helpers import (
 )
 from wine_spider.services import ChristiesClient
 from wine_spider.services.lot_information_finder import LotInformationFinder
+from wine_spider.services import auctions_client
 
 dotenv.load_dotenv()
 FULL_FETCH = os.getenv("FULL_FETCH")
@@ -66,7 +67,6 @@ class ChristiesSpider(scrapy.Spider):
 
             if "category_14" in filters:
                 auctionItem = AuctionItem()
-
                 auctionItem["auction_title"] = event.get("title_txt", None)
                 auctionItem["auction_house"] = "Christie's"
                 auctionItem["city"] = event.get("location_txt", None)
@@ -95,23 +95,26 @@ class ChristiesSpider(scrapy.Spider):
                     
                     if not sale_number or not sale_id:
                         raise ValueError("Sale number or Sale ID is missing")
+                    
+                    if (auctions_client.get_by_external_id(f"{sale_id}#{sale_number}") and FULL_FETCH == "True") \
+                    or not auctions_client.get_by_external_id(f"{sale_id}#{sale_number}"):
+                        auctionItem["external_id"] = f"{sale_id}#{sale_number}"
+                        yield auctionItem
 
-                    auctionItem["external_id"] = f"{sale_id}#{sale_number}"
-                    yield auctionItem
-
-                    yield scrapy.Request(
-                        url=auctionItem["url"],
-                        callback=self.parse_auctions,
-                        meta={
-                            "auction_id": auctionItem["external_id"],
-                            "sale_id": sale_id,
-                            "sale_number": sale_number,
-                        }
-                    )
+                        yield scrapy.Request(
+                            url=auctionItem["url"],
+                            callback=self.parse_auctions,
+                            meta={
+                                "auction_id": auctionItem["external_id"],
+                                "sale_id": sale_id,
+                                "sale_number": sale_number,
+                            }
+                        )
+                    else:
+                        self.logger.debug(f"Skipping auction {sale_id}#{sale_number} as it already exists in the database or FULL_FETCH is not set.")
 
                 except Exception as e:
                     self.logger.error(f"Error parsing auction: {e}")      
-            
                     
     def parse_auctions(self, response):
         sale_id = response.meta.get("sale_id")
@@ -148,11 +151,15 @@ class ChristiesSpider(scrapy.Spider):
         all_filters = []
         for filter in filters:
             title = filter.get("title_txt", None)
-            if is_filter_exists(title):
-                filter_items = filter.get("filters", [])
-                for item in filter_items:
-                    id = item.get("id", None)
-                    all_filters.append(id)
+            try:
+                if is_filter_exists(title):
+                    filter_items = filter.get("filters", [])
+                    for item in filter_items:
+                        id = item.get("id", None)
+                        all_filters.append(id)
+            except Exception as e:
+                self.logger.error(f"Error processing filter {title}: {e}")
+                continue
 
         yield scrapy.Request(
             url=basic_url,
@@ -209,6 +216,7 @@ class ChristiesSpider(scrapy.Spider):
                 success = False
             lot_item["volume"] = volume
             lot_item["unit"] = unit
+            lot_item['success'] = True
             
             lots[lot_item["external_id"]]["lot_item"] = lot_item
 
@@ -246,7 +254,6 @@ class ChristiesSpider(scrapy.Spider):
                     self.add_data(current_filter, lot_item, lot_detail_info)
             except Exception as e:
                 self.logger.error(f"Error parsing lots: {e}")
-                return
 
         if not all_filters:
             yield from self.yield_items(lots, auction_id)

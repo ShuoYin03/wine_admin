@@ -58,6 +58,7 @@ class BagheraSpider(scrapy.Spider):
         original_url = response.meta.get("original_url")
         auction_info = response.css("ul.infos.text-uppercase")
         yield from self.parse_auction(auction_info, response.css("h1::text").get().strip(), response.url)
+
         pdf_url = response.xpath('//a[@class="lien-noir" and @target="_blank" and contains(text(), "Sale results")]/@href').get()
 
         lots = defaultdict(
@@ -95,7 +96,7 @@ class BagheraSpider(scrapy.Spider):
             sequence_external_id = lot_html.css("p.numero.mb0::text").get().strip()
             lot_item = LotItem(
                 external_id = lot_html.css("a.lien-lot::attr(href)").get().split("/")[-1],
-                auction_id = auction_info.css("li:nth-child(4)::text").get().strip().split(" ")[1],
+                auction_id = "".join(auction_info.css("li:nth-child(4)::text").get().strip().split(" ")[1:]),
                 lot_name = lot_html.css("h3 span::text").get().strip(),
                 unit = lot_unit,
                 original_currency = currency,
@@ -204,7 +205,7 @@ class BagheraSpider(scrapy.Spider):
                 break
 
         if not trigered:
-            pdf_url = response.xpath('//a[@class="lien-noir" and @target="_blank" and contains(text(), "Sale results")]/@href').get()
+            pdf_url = response.xpath('//a[@class="lien-noir" and @target="_blank" and (contains(text(), "Sale results") or contains(text(), "Sale result"))]/@href').get()
             if pdf_url:
                 yield scrapy.Request(
                     url=pdf_url,

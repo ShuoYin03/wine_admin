@@ -49,4 +49,8 @@ def extract_year(date_string):
         return match.group(0)
     return None
 
+def get_current_timestamp(one_hour_ago=False):
+    if one_hour_ago:
+        return str(int((datetime.now().timestamp() - 3600) * 1000))
+    return str(int(datetime.now().timestamp() * 1000))
 

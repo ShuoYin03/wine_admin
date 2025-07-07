@@ -1,11 +1,11 @@
 import csv
 import argparse
-from database import LotsExportClient
+from database import DataExportClient
 
-lots_export_client = LotsExportClient()
+lots_export_client = DataExportClient()
 
-def export_to_csv(auction_house: str, output_path: str):
-    client = LotsExportClient()
+def lot_export_to_csv(auction_house: str, output_path: str):
+    client = DataExportClient()
     data = client.export_lots_with_items_by_house(auction_house)
 
     if not data:
@@ -29,10 +29,55 @@ def export_to_csv(auction_house: str, output_path: str):
 
     print(f"Export completed. CSV saved to {output_path}")
 
+def auction_export_to_csv(auction_house: str, output_path: str):
+    client = DataExportClient()
+    data = client.export_auctions_by_house(auction_house)
+
+    if not data:
+        print("No data found.")
+        return
+        
+    fieldnames = [
+        "id", "title", "house", "city", "continent", "start_date",
+        "end_date", "year", "quarter", "lots", "sold", "currency",
+        "total_low_estimate", "total_high_estimate", "total_sales",
+        "volume_sold", "top_lot", "single_cellar", "url"
+    ]
+
+    with open(output_path, "w", encoding="utf-8-sig", newline="") as csvfile:
+        writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
+        writer.writeheader()
+        for row in data:
+            writer.writerow(row)
+
+    print(f"Export completed. CSV saved to {output_path}")
+
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description="Export lots data by auction house")
+    parser = argparse.ArgumentParser(description="Export data by auction house")
     parser.add_argument("--auction_house", required=True, help="Auction house name (e.g. Sothebys)")
+    parser.add_argument("--type", required=True, help="Type of data to export (e.g. lots, auctions)")
 
     args = parser.parse_args()
 
-    export_to_csv(args.auction_house, f"{args.auction_house}_lots.csv")
+    if args.auction_house == "all":
+        auction_houses = [
+            "Sotheby's", 
+            "Christie's", 
+            "Bonhams",
+            "Sylvie's",
+            "Wineauctioneer",
+            "Baghera",
+            "Tajan",
+            "Zachys",
+            "Steinfels"            
+        ]
+        for house in auction_houses:
+            if args.type == "lots":
+                lot_export_to_csv(house, f"{house}_lots.csv")
+            elif args.type == "auctions":
+                auction_export_to_csv(house, f"{house}_auctions.csv")
+    else:
+        if args.type == "lots":
+            lot_export_to_csv(args.auction_house, f"{args.auction_house}_lots.csv")
+        elif args.type == "auctions":
+            auction_export_to_csv(args.auction_house, f"{args.auction_house}_auctions.csv")

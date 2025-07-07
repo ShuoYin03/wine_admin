@@ -2,7 +2,7 @@ import re
 import asyncio
 import aiohttp
 from bs4 import BeautifulSoup
-from tools.scraping_report.auction_scraping_report_generator import AuctionScrapingReportGenerator
+from wine_spider.spiders.reports.auction_scraping_report_generator import AuctionScrapingReportGenerator
 
 SEM_LIMIT = 10
 
@@ -26,13 +26,10 @@ async def fetch_hits(session, sem, url):
                         match = re.search(r'(\d+)\s+Lots', last_li.text)
                         if match:
                             lots_count = int(match.group(1))
-                            print(f"Found {lots_count} lots for external_id: {external_id}")
-                            return lots_count, external_id
+                            return lots_count, external_id, url
                         else:
-                            print(f"No match found in last li: {last_li.text}")
-                            return 0, external_id
+                            return 0, external_id, url
             else:
-                print(f"Failed to fetch {url}: {response.status}")
                 return []
 
 async def main():
@@ -63,13 +60,15 @@ async def main():
 
         for result in results:
             if result:
-                hits, external_id = result
+                hits, external_id, url = result
+                found = False
+
                 for lot in auction_lots_data:
                     if lot['external_id'] == external_id:
                         lot_count = lot['lot_count']
                         url = lot['url']
                         match = hits == lot_count
-                        print(f"Processing {external_id}: hits={hits}, lot_count={lot_count}, match={match}, url={url}")
+
                         report.add_result(
                             external_id=external_id,
                             hits=hits,
@@ -77,7 +76,17 @@ async def main():
                             match=match,
                             url=url
                         )
+                        found = True
                         break
+
+                if not found:
+                    report.add_result(
+                        external_id=external_id,
+                        hits=hits,
+                        lot_count=0,
+                        match=False,
+                        url=url
+                    )
 
         report.export()
 

@@ -6,7 +6,7 @@ from .auction_sales_client import AuctionSalesClient
 from .fx_rates_client import FxRatesClient
 from .lwin_matching_client import LwinMatchingClient
 from .lwin_database_client import LwinDatabaseClient
-from .lots_export_client import LotsExportClient
+from .data_export_client import DataExportClient
 from .model import LotModel
 
 __all__ = [
@@ -19,5 +19,5 @@ __all__ = [
     'LotModel',
     'LwinMatchingClient',
     'LwinDatabaseClient',
-    'LotsExportClient'
+    'DataExportClient'
 ]

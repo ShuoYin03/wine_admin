@@ -6,6 +6,11 @@ class LotsClient(BaseDatabaseClient):
     def __init__(self, db_instance=None):
         super().__init__(LotModel, db_instance=db_instance)
         
+    def get_all_by_auction(self, auction_id):
+        with self.session_scope() as session:
+            lots = session.query(LotModel).filter_by(auction_id=auction_id).all()
+            return [lot.model_to_dict() for lot in lots]
+
     def query_lots_with_auction(self, filters=None, order_by=None, limit=None, offset=None, return_count=False):
         with self.session_scope() as session:
             lots = LotModel

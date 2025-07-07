@@ -1,6 +1,6 @@
 import asyncio
 import aiohttp
-from tools.scraping_report.auction_scraping_report_generator import AuctionScrapingReportGenerator
+from wine_spider.spiders.reports.auction_scraping_report_generator import AuctionScrapingReportGenerator
 
 SEM_LIMIT = 10
 
@@ -55,7 +55,7 @@ async def main():
     async with aiohttp.ClientSession(connector=connector, timeout=timeout) as session:
         tasks = [
             fetch_hits(session, bonhams_api_url, get_bonhams_payload(page), headers) 
-            for page in range(0, 4)
+            for page in range(1, 4)
         ]
 
         results = await asyncio.gather(*tasks)

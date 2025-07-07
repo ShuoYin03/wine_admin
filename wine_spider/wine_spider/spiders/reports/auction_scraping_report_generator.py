@@ -9,6 +9,7 @@ class AuctionScrapingReportGenerator:
         self.total_actual_count = 0
         self.total_expected_count = 0
         self.false_count = 0
+        self.seen = set()
         self.detailed_rows = []
         self.report_file = f"{auction_house}_scraping_report.csv"
 
@@ -18,6 +19,11 @@ class AuctionScrapingReportGenerator:
         if not match:
             self.false_count += 1
 
+        if self.check_duplicates(external_id):
+            print(f"Duplicate auction found: {external_id}. Skipping.")
+            return
+        
+        self.seen.add(external_id)
         self.detailed_rows.append({
             "external_id": external_id,
             "hits": hits,
@@ -26,6 +32,11 @@ class AuctionScrapingReportGenerator:
             "url": url
         })
 
+    def check_duplicates(self, external_id):
+        if self.seen and external_id in self.seen:
+            return True
+        return False
+    
     def load_lot_counts_from_db(self):
         client = AuctionsClient()
 

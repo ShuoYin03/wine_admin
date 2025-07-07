@@ -1,6 +1,5 @@
 import os
 import re
-import json
 import scrapy
 import dotenv
 import pandas as pd
@@ -46,21 +45,24 @@ class TajanSpider(scrapy.Spider):
             },
         )
 
-    def parse(self, response):
+    async def parse(self, response):
         container = response.css("div#plab__results-container")
         auctions = container.css("div.widget-event")
 
         for auction in auctions:
             title = auction.css("h2.event__title a::text").get().strip().lower()
             if "wine" in title or "spirits" in title:
+                raw_date = auction.css("div.event__date::text").get()
+                raw_time = auction.css("div.event__time.mb-0::text").get()
+
                 auction_item = AuctionItem()
-                auction_item["external_id"] = f"tajan_{generate_external_id(title)}"
+                auction_item["external_id"] = f"tajan_{generate_external_id(f"{title} {raw_date} {raw_time}")}"
                 auction_item["auction_title"] = auction.css("h2.event__title a::text").get().strip()
                 auction_item["auction_house"] = "Tajan"
                 auction_item["city"] = auction.css("div.event__location.mb-0::text").get().split(",")[0].strip()
                 auction_item["continent"] = find_continent(auction.css("div.event__location.mb-0::text").get().split(",")[0].strip())
-                raw_date_html = auction.css("div.event__date").get()
-                raw_dates = self.extract_raw_dates_from_event_date(raw_date_html)
+                
+                raw_dates = self.extract_raw_dates_from_event_date(raw_date)
                 if len(raw_dates) == 1:
                     month, year, start_date = extract_month_year_and_format(raw_dates[0])
                     auction_item["start_date"] = start_date
@@ -84,7 +86,7 @@ class TajanSpider(scrapy.Spider):
                     self.enter_auction_page,
                     meta={
                         "playwright": True,
-                        "auction_id": generate_external_id(title)
+                        "auction_id": auction_item["external_id"]
                     }
                 )
 
@@ -104,7 +106,11 @@ class TajanSpider(scrapy.Spider):
             auction_link = None
             for a in response.css("div.sale-ctas a"):
                 text = a.css("::text").get()
-                if text and ("view auction" in text.lower() or "browse lots" in text.lower()):
+                if text and ( \
+                    "view auction" in text.lower() or
+                    "browse lots" in text.lower() or
+                    "view lots" in text.lower() or
+                    "view lot" in text.lower()):
                     auction_link = a.css("::attr(href)").get()
                     break
 
@@ -119,13 +125,6 @@ class TajanSpider(scrapy.Spider):
             )
         else:
             self.logger.warning(f"No auction link found for URL: {response.url}")
-            # yield response.replace(
-            #     callback=self.parse_auction_page,
-            #     meta={
-            #         "playwright": True,
-            #         "auction_id": response.meta.get("auction_id", None)
-            #     }
-            # )
             yield from self.parse_auction_page(response)
     
     def parse_auction_page(self, response):
@@ -137,17 +136,17 @@ class TajanSpider(scrapy.Spider):
             lot_title = lot.css("h2.lot-title-block a::text").get().strip()
             lot_id = lot_title.split(": ")[0].strip()
             lot_name = lot_title.split(": ")[1].strip()
-            lot_item["external_id"] = f"tajan_{auction_id}_{lot_id}"
-            lot_item["auction_id"] = f"tajan_{auction_id}"
+            lot_item["external_id"] = f"{auction_id}_{lot_id}"
+            lot_item["auction_id"] = f"{auction_id}"
             lot_item["lot_name"] = lot_name
             lot_item["lot_type"] = ["Wine & Spirits"]
             estimate_info = lot.css("p.lot-estimate::text").get()
-            currency = symbol_to_currency(estimate_info.split(": ")[1][0])
+            currency = symbol_to_currency(estimate_info.split(": ")[1][0]) if estimate_info else None
             lot_item["original_currency"] = currency
             price_info_element = lot.css("div.realized.mb-2")
             price_info = price_info_element.css("span::text").get()
             lot_item["end_price"] = float(remove_commas(price_info[1:])) if price_info else None
-            low_estimate, high_estimate = extract_price_range(estimate_info.split(":")[1])
+            low_estimate, high_estimate = extract_price_range(estimate_info.split(":")[1]) if estimate_info else (None, None)
             lot_item["low_estimate"] = low_estimate
             lot_item["high_estimate"] = high_estimate
             lot_item["sold"] = lot_item["end_price"] is not None and lot_item["end_price"] > 0
@@ -186,8 +185,6 @@ class TajanSpider(scrapy.Spider):
                 }
             )
     
-    def extract_raw_dates_from_event_date(self, html: str) -> list[str]:
-        html = re.sub(r"<br\s*/?>", " - ", html, flags=re.IGNORECASE)
-        html = re.sub(r",\s*\d{1,2}\.\d{2}\s*(AM|PM)?(\s*[A-Z]{2,5})?", "", html)
-        parts = [p.strip() for p in html.split(" - ") if p.strip()]
-        return parts
+    def extract_raw_dates_from_event_date(self, text: str) -> list[str]:
+        pattern = r"(?:Monday|Tuesday|Wednesday|Thursday|Friday|Saturday|Sunday),\s+[A-Za-z]+\s+\d{1,2},\s+\d{4}"
+        return re.findall(pattern, text)

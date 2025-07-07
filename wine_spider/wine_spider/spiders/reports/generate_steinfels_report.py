@@ -1,6 +1,6 @@
 import asyncio
 import aiohttp
-from tools.scraping_report.auction_scraping_report_generator import AuctionScrapingReportGenerator
+from wine_spider.spiders.reports.auction_scraping_report_generator import AuctionScrapingReportGenerator
 
 SEM_LIMIT = 10
 
@@ -14,7 +14,6 @@ async def main():
     report = AuctionScrapingReportGenerator("Steinfels")
 
     auction_lots_data = report.load_lot_counts_from_db()
-    print(auction_lots_data)
 
     connector = aiohttp.TCPConnector(limit=SEM_LIMIT)
     timeout = aiohttp.ClientTimeout(total=60)
@@ -28,7 +27,7 @@ async def main():
             items = await response.json()
             for item in items: 
                 external_id = f"steinfels_{item.get('id')}"
-                hits = item.get("catalogs", {})[0].get("parts", {})[0].get("lotNumberEnd")
+                hits = item.get("catalogs", {})[0].get("parts", {})[-1].get("lotNumberEnd")
 
                 for auction in auction_lots_data:
                     if auction['external_id'] == external_id:

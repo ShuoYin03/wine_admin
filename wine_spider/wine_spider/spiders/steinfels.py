@@ -65,12 +65,13 @@ class SteinfelsSpider(scrapy.Spider):
             for lot_detail_item in result[1]:
                 yield lot_detail_item
         
-        yield scrapy.Request(
-            url=self.steinfels_client.get_lot_api_url(auction_catalog_id, page=current_page + 1),
-            headers=self.custom_headers,
-            callback=self.parse_lots,
-            meta={
-                'auction_catalog_id': auction_catalog_id,
-                'page': current_page
-            }
-        )
+        if results:
+            yield scrapy.Request(
+                url=self.steinfels_client.get_lot_api_url(auction_catalog_id, page=current_page + 1),
+                headers=self.custom_headers,
+                callback=self.parse_lots,
+                meta={
+                    'auction_catalog_id': auction_catalog_id,
+                    'page': current_page + 1
+                }
+            )
