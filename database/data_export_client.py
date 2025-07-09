@@ -1,5 +1,5 @@
 import csv
-from .model import AuctionModel, AuctionSalesModel, LotModel, LotItemModel
+from .model import AuctionModel, AuctionSalesModel, LotModel, LotItemModel, LwinMatchingModel
 from .base_database_client import BaseDatabaseClient
 
 class DataExportClient(BaseDatabaseClient):
@@ -9,21 +9,24 @@ class DataExportClient(BaseDatabaseClient):
     def export_lots_with_items_by_house(self, auction_house: str):
         with self.session_scope() as session:
             query = (
-                session.query(LotModel, LotItemModel, AuctionModel)
+                session.query(LotModel, LotItemModel, AuctionModel, LwinMatchingModel)
                 .join(AuctionModel, LotModel.auction_id == AuctionModel.external_id)
                 .outerjoin(LotItemModel, LotModel.external_id == LotItemModel.lot_id)
+                .outerjoin(LwinMatchingModel, LotItemModel.id == LwinMatchingModel.lot_id)
                 .filter(AuctionModel.auction_house == auction_house)
             )
 
             rows = query.all()
 
             data = []
-            for lot, lot_item, auction in rows:
-                print(lot.sold_date)
+            for lot, lot_item, auction, lwin in rows:
+
                 data.append({
                     "id": lot.id,
                     "name": lot.lot_name,
                     "type": lot.lot_type,
+                    "lwin_7": lwin.lwin if lwin else None,
+                    "lwin_11": lwin.lwin_11 if lwin else None,
                     "volume": lot.volume,
                     "unit": lot.unit,
                     "original_currency": lot.original_currency,

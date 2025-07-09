@@ -18,7 +18,7 @@ class LwinMatcherEngine:
         self.retriever = bm25s.BM25()
         self.retriever.index(self.tokenized_corpus)
 
-    # -------------- 外部调用接口 ----------------
+    # -------------- Public Interface ----------------
     def match(self, lwinMatchingParams, limit=20, topk=1):
         matches = self._bm25_candidates(lwinMatchingParams.wine_name, limit)
         query_cleaned = self._clean_title(lwinMatchingParams.wine_name)
@@ -39,7 +39,8 @@ class LwinMatcherEngine:
             match_result,
             [m[0]['lwin'] for m in filtered_matches],
             self._convert_scores([m[1] for m in filtered_matches]),
-            [OrderedDict({columns[i]: m[0].iloc[i] for i in range(len(columns))}) for m in filtered_matches]
+            # [OrderedDict({columns[i]: m[0].iloc[i] for i in range(len(columns))}) for m in filtered_matches]
+            [m[0][columns].to_dict(into=OrderedDict) for m in filtered_matches]
         )
     
     def match_target_by_id(self, lwinMatchingParams, record_id):

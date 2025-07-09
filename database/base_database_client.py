@@ -108,10 +108,16 @@ class BaseDatabaseClient:
             elif op == "between" and isinstance(value, (tuple, list)) and len(value) == 2:
                 condition = col.between(value[0], value[1])
             elif op == "contains":
-                if isinstance(col.type, ARRAY):
-                    condition = func.any(col) == value
-                else:
-                    condition = col.ilike(f'%{value}%')
+                # if isinstance(col.type, ARRAY):
+                condition = col.any(value)
+                # else:
+                #     print(f"[WARNING] 'contains' operator is not supported for {col.type} type.")
+                #     condition = col.ilike(f'%{value}%')
+            # elif op == "isnull":
+            #     if value:
+            #         condition = col == None  # 或 col.is_(None)
+            #     else:
+            #         condition = col != None
 
             if condition is not None:
                 if op == "contains":

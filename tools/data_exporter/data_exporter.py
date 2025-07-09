@@ -13,7 +13,7 @@ def lot_export_to_csv(auction_house: str, output_path: str):
         return
 
     fieldnames = [
-        "id", "name", "type", "volume", "unit", "original_currency",
+        "id", "name", "lwin_7", "lwin_11", "type", "volume", "unit", "original_currency",
         "start_price", "end_price", "low_estimate", "high_estimate", "sold",
         "sold_date", "region", "sub_region", "country", "url",
         "item_producer", "item_vintage", "item_unit_format", "item_wine_colour",

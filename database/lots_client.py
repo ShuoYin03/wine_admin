@@ -1,6 +1,7 @@
 from .base_database_client import BaseDatabaseClient
 from .model import LotModel, AuctionModel, LotItemModel
 from sqlalchemy import func
+from sqlalchemy.orm import joinedload
 
 class LotsClient(BaseDatabaseClient):
     def __init__(self, db_instance=None):
@@ -10,6 +11,33 @@ class LotsClient(BaseDatabaseClient):
         with self.session_scope() as session:
             lots = session.query(LotModel).filter_by(auction_id=auction_id).all()
             return [lot.model_to_dict() for lot in lots]
+        
+    def query_lots_with_lot_items(self, filters=None, order_by=None, limit=None, offset=None, return_count=False):
+        with self.session_scope() as session:
+            lots = LotModel
+            items = LotItemModel
+            table_map = {"lots": lots, "items": items}
+
+            query = session.query(LotModel).options(joinedload(LotModel.items))
+
+            query = self.apply_filters(query, filters, table_map)
+            query = self.apply_sort(query, order_by, table_map)
+            query = self.apply_pagination(query, limit, offset)
+
+            count = None
+            if return_count:
+                count = self.get_table_count(session, filters=filters, table_map=table_map)
+
+            results = query.all()
+            data = [
+                {
+                    **lot.model_to_dict(),
+                    "lot_items": [item.model_to_dict() for item in lot.items]
+                }
+                for lot in results
+            ]
+            
+            return (data, count) if return_count else (data, None)
 
     def query_lots_with_auction(self, filters=None, order_by=None, limit=None, offset=None, return_count=False):
         with self.session_scope() as session:

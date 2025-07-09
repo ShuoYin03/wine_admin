@@ -1,6 +1,7 @@
 from .base_database_client import BaseDatabaseClient
 from .model import LwinMatchingModel, LotModel
 from sqlalchemy import func
+from sqlalchemy.dialects.postgresql import insert
 
 class LwinMatchingClient(BaseDatabaseClient):
     def __init__(self, db_instance=None):
@@ -52,6 +53,11 @@ class LwinMatchingClient(BaseDatabaseClient):
             count = query.scalar()
             return count
         
+    def get_by_external_id(self, external_id):
+        with self.session_scope() as session:
+            instance = session.query(self.model).filter_by(lot_id=external_id).first()
+            return instance.model_to_dict() if instance else None
+        
     def upsert_by_external_id(self, data_dict):
         with self.session_scope() as session:
             instance = session.query(self.model).filter_by(lot_id=data_dict.get("lot_id")).first()
@@ -61,3 +67,35 @@ class LwinMatchingClient(BaseDatabaseClient):
             else:
                 instance = self.model(**data_dict)
                 session.add(instance)
+    
+    def get_all_lot_ids(self):
+        with self.session_scope() as session:
+            return [item.lot_id for item in session.query(self.model.lot_id).all()]
+    
+    def bulk_insert(self, rows):
+        if not rows:
+            return 0
+        with self.session_scope() as session:
+            stmt = insert(self.model).values(rows)
+            result = session.execute(stmt)
+            return result.rowcount
+    
+    def bulk_upsert(self, rows, conflict_columns=None, update_columns=None):
+        if not rows:
+            return 0
+        conflict_columns = conflict_columns or ['lot_id']
+
+        if update_columns is None:
+            model_cols = set(self.model.__table__.columns.keys())
+            update_columns = list(model_cols - set(conflict_columns))
+
+        with self.session_scope() as session:
+            stmt = insert(self.model).values(rows)
+            update_dict = {c: getattr(stmt.excluded, c) for c in update_columns}
+            upsert_stmt = stmt.on_conflict_do_update(
+                index_elements=conflict_columns,
+                set_=update_dict
+            )
+            result = session.execute(upsert_stmt)
+
+            return result.rowcount

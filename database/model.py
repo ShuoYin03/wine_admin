@@ -109,7 +109,7 @@ class LwinDatabaseModel(Base):
 class LwinMatchingModel(Base):
     __tablename__ = 'lwin_matching'
     id = Column(Integer, primary_key=True)
-    lot_id = Column(Text, ForeignKey('lots.external_id', ondelete="CASCADE"))
+    lot_id = Column(Integer)
     matched = Column(Text)
     lwin = Column(ARRAY(Integer))
     lwin_11 = Column(ARRAY(BigInteger))
