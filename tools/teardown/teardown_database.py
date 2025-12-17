@@ -64,4 +64,4 @@ db_client_map = {
     "auction_sale": auctionSalesClient,
 }
 
-teardown_by_auction_house("Tajan", db_client_map)
+teardown_by_auction_house("Sylvie's", db_client_map)

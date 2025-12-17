@@ -1,4 +1,4 @@
-from database import (
+from shared.database import (
     LotsClient,
     AuctionsClient,
     LotItemsClient,

@@ -1,0 +1,2067 @@
+{
+  "summary": {
+    "total_lots": 100,
+    "total_items": 111,
+    "matched_correct": 64,
+    "matched_correct_percentage": 57.65765765765766,
+    "matched_wrong": 47,
+    "matched_wrong_percentage": 42.34234234234234,
+    "no_match_result": 0
+  },
+  "results": [
+    {
+      "lot": "CASTILLA Y LEÓN Cosecheros y Criadores",
+      "lot_items": [
+        {
+          "id": "62230",
+          "lot_item": "CASTILLA Y LEÓN Cosecheros y Criadores",
+          "lot_type": [
+            "Wine & Spirits"
+          ],
+          "match_result": {
+            "matched_name": "Mauro, Castilla Y Leon, Castilla y Leon",
+            "matched_producer": null,
+            "matched_region": "Castilla y Leon",
+            "matched_sub_region": null
+          },
+          "is_right_match": false
+        }
+      ]
+    },
+    {
+      "lot": "Château Moulin des Laurets",
+      "lot_items": [
+        {
+          "id": "55933",
+          "lot_item": "Château Moulin des Laurets",
+          "lot_type": [
+            "Wine & Spirits"
+          ],
+          "match_result": {
+            "matched_name": "Chateau des Laurets, Puisseguin-Saint-Emilion",
+            "matched_producer": "Chateau",
+            "matched_region": "Bordeaux",
+            "matched_sub_region": "Puisseguin-Saint-Emilion"
+          },
+          "is_right_match": false
+        }
+      ]
+    },
+    {
+      "lot": "RIOJA La Rioja Alta",
+      "lot_items": [
+        {
+          "id": "185135",
+          "lot_item": "Rioja Alta",
+          "lot_type": [
+            "Wine & Spirits"
+          ],
+          "match_result": {
+            "matched_name": "La Rioja Alta, 874 Reserva, Rioja",
+            "matched_producer": null,
+            "matched_region": "Rioja",
+            "matched_sub_region": null
+          },
+          "is_right_match": true
+        }
+      ]
+    },
+    {
+      "lot": "Château Duhart-Milon",
+      "lot_items": [
+        {
+          "id": "948",
+          "lot_item": "Château Duhart-Milon",
+          "lot_type": [
+            "Wine & Spirits"
+          ],
+          "match_result": {
+            "matched_name": "Chateau Duhart-Milon 4eme Cru Classe, Pauillac",
+            "matched_producer": "Chateau",
+            "matched_region": "Bordeaux",
+            "matched_sub_region": "Pauillac"
+          },
+          "is_right_match": true
+        }
+      ]
+    },
+    {
+      "lot": "WHISKY Tasting Set",
+      "lot_items": [
+        {
+          "id": "33498",
+          "lot_item": "WHISKY Tasting Set",
+          "lot_type": [
+            "Wine & Spirits"
+          ],
+          "match_result": {
+            "matched_name": "Whisky",
+            "matched_producer": null,
+            "matched_region": null,
+            "matched_sub_region": null
+          },
+          "is_right_match": true
+        },
+        {
+          "id": "33498",
+          "lot_item": "WHISKY Tasting Set",
+          "lot_type": [
+            "Wine & Spirits"
+          ],
+          "match_result": {
+            "matched_name": "Whisky",
+            "matched_producer": null,
+            "matched_region": null,
+            "matched_sub_region": null
+          },
+          "is_right_match": true
+        },
+        {
+          "id": "33498",
+          "lot_item": "WHISKY Tasting Set",
+          "lot_type": [
+            "Wine & Spirits"
+          ],
+          "match_result": {
+            "matched_name": "Whisky",
+            "matched_producer": null,
+            "matched_region": null,
+            "matched_sub_region": null
+          },
+          "is_right_match": true
+        },
+        {
+          "id": "33498",
+          "lot_item": "WHISKY Tasting Set",
+          "lot_type": [
+            "Wine & Spirits"
+          ],
+          "match_result": {
+            "matched_name": "Whisky",
+            "matched_producer": null,
+            "matched_region": null,
+            "matched_sub_region": null
+          },
+          "is_right_match": true
+        },
+        {
+          "id": "33498",
+          "lot_item": "WHISKY Tasting Set",
+          "lot_type": [
+            "Wine & Spirits"
+          ],
+          "match_result": {
+            "matched_name": "Whisky",
+            "matched_producer": null,
+            "matched_region": null,
+            "matched_sub_region": null
+          },
+          "is_right_match": true
+        }
+      ]
+    },
+    {
+      "lot": "Château Mouton Rothschild",
+      "lot_items": [
+        {
+          "id": "1354",
+          "lot_item": "Château Mouton Rothschild",
+          "lot_type": [
+            "Wine & Spirits"
+          ],
+          "match_result": {
+            "matched_name": "Chateau Mouton Rothschild Premier Cru Classe, Pauillac",
+            "matched_producer": "Chateau",
+            "matched_region": "Bordeaux",
+            "matched_sub_region": "Pauillac"
+          },
+          "is_right_match": true
+        }
+      ]
+    },
+    {
+      "lot": "DOURO Prats & Symington",
+      "lot_items": [
+        {
+          "id": "10795",
+          "lot_item": "DOURO Prats & Symington",
+          "lot_type": [
+            "Wine & Spirits"
+          ],
+          "match_result": {
+            "matched_name": "Prats & Symington, Chryseia, Douro",
+            "matched_producer": null,
+            "matched_region": "Douro",
+            "matched_sub_region": null
+          },
+          "is_right_match": true
+        }
+      ]
+    },
+    {
+      "lot": "Château Pichon-Longueville Baron",
+      "lot_items": [
+        {
+          "id": "25183",
+          "lot_item": "Château Pichon Baron",
+          "lot_type": [
+            "Wine & Spirits"
+          ],
+          "match_result": {
+            "matched_name": "Chateau Briat (Baron de Pichon-Longueville), Vintage, Bas Armagnac",
+            "matched_producer": "Chateau",
+            "matched_region": "Armagnac",
+            "matched_sub_region": "Bas Armagnac"
+          },
+          "is_right_match": false
+        }
+      ]
+    },
+    {
+      "lot": "TENUTA SAN GUIDO",
+      "lot_items": [
+        {
+          "id": "10197",
+          "lot_item": "San Guido",
+          "lot_type": [
+            "Wine & Spirits"
+          ],
+          "match_result": {
+            "matched_name": "Sassicaia, Tenuta San Guido, Bolgheri",
+            "matched_producer": "Tenuta",
+            "matched_region": "Tuscany",
+            "matched_sub_region": "Bolgheri"
+          },
+          "is_right_match": true
+        }
+      ]
+    },
+    {
+      "lot": "Château Pape Clément",
+      "lot_items": [
+        {
+          "id": "1369",
+          "lot_item": "Château Pape Clément",
+          "lot_type": [
+            "Wine & Spirits"
+          ],
+          "match_result": {
+            "matched_name": "Chateau Pape Clement Cru Classe, Pessac-Leognan",
+            "matched_producer": "Chateau",
+            "matched_region": "Bordeaux",
+            "matched_sub_region": "Pessac-Leognan"
+          },
+          "is_right_match": true
+        }
+      ]
+    },
+    {
+      "lot": "FASSBIND",
+      "lot_items": [
+        {
+          "id": "71995",
+          "lot_item": "FASSBIND",
+          "lot_type": [
+            "Wine & Spirits"
+          ],
+          "match_result": {
+            "matched_name": "Fassbind, Pflumli",
+            "matched_producer": null,
+            "matched_region": null,
+            "matched_sub_region": null
+          },
+          "is_right_match": true
+        }
+      ]
+    },
+    {
+      "lot": "CHAMPAGNE LEGRAS NOËL",
+      "lot_items": [
+        {
+          "id": "45228",
+          "lot_item": "CHAMPAGNE LEGRAS NOËL",
+          "lot_type": [
+            "Wine & Spirits"
+          ],
+          "match_result": {
+            "matched_name": "R&L Legras, Cuvee Hommage Brut",
+            "matched_producer": null,
+            "matched_region": "Champagne",
+            "matched_sub_region": null
+          },
+          "is_right_match": false
+        }
+      ]
+    },
+    {
+      "lot": "LOIRE Domaine Baumard",
+      "lot_items": [
+        {
+          "id": "15094",
+          "lot_item": "LOIRE Domaine Baumard",
+          "lot_type": [
+            "Wine & Spirits"
+          ],
+          "match_result": {
+            "matched_name": "Domaine des Baumard, Anjou, Savennieres Papillon",
+            "matched_producer": "Domaine",
+            "matched_region": "Loire",
+            "matched_sub_region": "Anjou"
+          },
+          "is_right_match": true
+        },
+        {
+          "id": "15094",
+          "lot_item": "LOIRE Domaine Baumard",
+          "lot_type": [
+            "Wine & Spirits"
+          ],
+          "match_result": {
+            "matched_name": "Domaine des Baumard, Anjou, Savennieres Papillon",
+            "matched_producer": "Domaine",
+            "matched_region": "Loire",
+            "matched_sub_region": "Anjou"
+          },
+          "is_right_match": true
+        }
+      ]
+    },
+    {
+      "lot": "BOUCHARD P&F",
+      "lot_items": [
+        {
+          "id": "205988",
+          "lot_item": "Bouchard Pere et Fils",
+          "lot_type": [
+            "Wine & Spirits"
+          ],
+          "match_result": {
+            "matched_name": "Paul Bouchard, Richebourg",
+            "matched_producer": null,
+            "matched_region": "Burgundy",
+            "matched_sub_region": "Richebourg"
+          },
+          "is_right_match": false
+        }
+      ]
+    },
+    {
+      "lot": "CHAMPAGNE KRUG",
+      "lot_items": [
+        {
+          "id": "31343",
+          "lot_item": "Krug",
+          "lot_type": [
+            "Wine & Spirits"
+          ],
+          "match_result": {
+            "matched_name": "Krug, Vintage Brut",
+            "matched_producer": null,
+            "matched_region": "Champagne",
+            "matched_sub_region": null
+          },
+          "is_right_match": true
+        }
+      ]
+    },
+    {
+      "lot": "CHAMPAGNE CHARLES HEIDSIECK",
+      "lot_items": [
+        {
+          "id": "8188",
+          "lot_item": "Charles Heidsieck",
+          "lot_type": [
+            "Wine & Spirits"
+          ],
+          "match_result": {
+            "matched_name": "Charles Heidsieck, Champagne Charlie",
+            "matched_producer": null,
+            "matched_region": "Champagne",
+            "matched_sub_region": null
+          },
+          "is_right_match": true
+        }
+      ]
+    },
+    {
+      "lot": "RHEINHESSEN Wittmann",
+      "lot_items": [
+        {
+          "id": "77672",
+          "lot_item": "RHEINHESSEN Wittmann",
+          "lot_type": [
+            "Wine & Spirits"
+          ],
+          "match_result": {
+            "matched_name": "Wittmann, Spatburgunder Reserve, Rheinhessen",
+            "matched_producer": null,
+            "matched_region": "Rheinhessen",
+            "matched_sub_region": null
+          },
+          "is_right_match": true
+        }
+      ]
+    },
+    {
+      "lot": "BIBBIANI",
+      "lot_items": [
+        {
+          "id": "18185",
+          "lot_item": "BIBBIANI",
+          "lot_type": [
+            "Wine & Spirits"
+          ],
+          "match_result": {
+            "matched_name": "Bibbiani, Chianti, Vignoso",
+            "matched_producer": null,
+            "matched_region": "Tuscany",
+            "matched_sub_region": "Chianti"
+          },
+          "is_right_match": true
+        }
+      ]
+    },
+    {
+      "lot": "JEAN d'ARNEL",
+      "lot_items": [
+        {
+          "id": "199661",
+          "lot_item": "JEAN d'ARNEL",
+          "lot_type": [
+            "Wine & Spirits"
+          ],
+          "match_result": {
+            "matched_name": "Brut de Jean Merlaut, Cremant de Bordeaux",
+            "matched_producer": null,
+            "matched_region": "Bordeaux",
+            "matched_sub_region": "Cremant de Bordeaux"
+          },
+          "is_right_match": false
+        }
+      ]
+    },
+    {
+      "lot": "CHAPOUTIER",
+      "lot_items": [
+        {
+          "id": "185719",
+          "lot_item": "Chapoutier",
+          "lot_type": [
+            "Wine & Spirits"
+          ],
+          "match_result": {
+            "matched_name": "M. Chapoutier, Vacqueyras",
+            "matched_producer": null,
+            "matched_region": "Rhone",
+            "matched_sub_region": "Vacqueyras"
+          },
+          "is_right_match": true
+        }
+      ]
+    },
+    {
+      "lot": "WHISKY Islay Single Malt",
+      "lot_items": [
+        {
+          "id": "51738",
+          "lot_item": "WHISKY Islay Single Malt",
+          "lot_type": [
+            "Wine & Spirits"
+          ],
+          "match_result": {
+            "matched_name": "Ardbeg, Single Malt Whisky 1815, Islay",
+            "matched_producer": null,
+            "matched_region": "Scotland",
+            "matched_sub_region": "Islay"
+          },
+          "is_right_match": false
+        }
+      ]
+    },
+    {
+      "lot": "Ostschweiz",
+      "lot_items": [
+        {
+          "id": "15572",
+          "lot_item": "Ostschweiz",
+          "lot_type": [
+            "Wine & Spirits"
+          ],
+          "match_result": {
+            "matched_name": "Solitary, Shiraz, Beechworth",
+            "matched_producer": null,
+            "matched_region": "Victoria",
+            "matched_sub_region": "Beechworth"
+          },
+          "is_right_match": false
+        }
+      ]
+    },
+    {
+      "lot": "CACHEUX Jacques",
+      "lot_items": [
+        {
+          "id": "2309",
+          "lot_item": "CACHEUX Jacques",
+          "lot_type": [
+            "Wine & Spirits"
+          ],
+          "match_result": {
+            "matched_name": "Jacques Cacheux, Echezeaux Grand Cru",
+            "matched_producer": null,
+            "matched_region": "Burgundy",
+            "matched_sub_region": "Echezeaux"
+          },
+          "is_right_match": true
+        }
+      ]
+    },
+    {
+      "lot": "Château Pavie",
+      "lot_items": [
+        {
+          "id": "97619",
+          "lot_item": "Château Pavie",
+          "lot_type": [
+            "Wine & Spirits"
+          ],
+          "match_result": {
+            "matched_name": "Chateau Pavie, NV Assortment Case",
+            "matched_producer": "Chateau",
+            "matched_region": "Bordeaux",
+            "matched_sub_region": null
+          },
+          "is_right_match": true
+        }
+      ]
+    },
+    {
+      "lot": "Château Filhot",
+      "lot_items": [
+        {
+          "id": "1694",
+          "lot_item": "Château Filhot",
+          "lot_type": [
+            "Wine & Spirits"
+          ],
+          "match_result": {
+            "matched_name": "Chateau Filhot 2eme Cru Classe, Sauternes",
+            "matched_producer": "Chateau",
+            "matched_region": "Bordeaux",
+            "matched_sub_region": "Sauternes"
+          },
+          "is_right_match": true
+        }
+      ]
+    },
+    {
+      "lot": "DUBREUIL-FONTAINE",
+      "lot_items": [
+        {
+          "id": "44272",
+          "lot_item": "DUBREUIL-FONTAINE",
+          "lot_type": [
+            "Wine & Spirits"
+          ],
+          "match_result": {
+            "matched_name": "Dubreuil-Fontaine, Volnay",
+            "matched_producer": null,
+            "matched_region": "Burgundy",
+            "matched_sub_region": "Volnay"
+          },
+          "is_right_match": true
+        }
+      ]
+    },
+    {
+      "lot": "BLAAUWKLIPPEN",
+      "lot_items": [
+        {
+          "id": "106487",
+          "lot_item": "BLAAUWKLIPPEN",
+          "lot_type": [
+            "Wine & Spirits"
+          ],
+          "match_result": {
+            "matched_name": "Blaauwklippen, Cabernet Sauvignon, Stellenbosch",
+            "matched_producer": null,
+            "matched_region": "Coastal Region",
+            "matched_sub_region": "Stellenbosch"
+          },
+          "is_right_match": true
+        }
+      ]
+    },
+    {
+      "lot": "ANTINORI",
+      "lot_items": [
+        {
+          "id": "196506",
+          "lot_item": "Antinori",
+          "lot_type": [
+            "Wine & Spirits"
+          ],
+          "match_result": {
+            "matched_name": "Antinori, Villa Antinori, Toscana",
+            "matched_producer": null,
+            "matched_region": "Tuscany",
+            "matched_sub_region": "Toscana"
+          },
+          "is_right_match": true
+        }
+      ]
+    },
+    {
+      "lot": "WHISKY Islay Single Malt",
+      "lot_items": [
+        {
+          "id": "51738",
+          "lot_item": "WHISKY Islay Single Malt",
+          "lot_type": [
+            "Wine & Spirits"
+          ],
+          "match_result": {
+            "matched_name": "Ardbeg, Single Malt Whisky 1815, Islay",
+            "matched_producer": null,
+            "matched_region": "Scotland",
+            "matched_sub_region": "Islay"
+          },
+          "is_right_match": false
+        }
+      ]
+    },
+    {
+      "lot": "Château Lafite Rothschild",
+      "lot_items": [
+        {
+          "id": "1187",
+          "lot_item": "Château Lafite Rothschild",
+          "lot_type": [
+            "Wine & Spirits"
+          ],
+          "match_result": {
+            "matched_name": "Chateau Lafite Rothschild Premier Cru Classe, Pauillac",
+            "matched_producer": "Chateau",
+            "matched_region": "Bordeaux",
+            "matched_sub_region": "Pauillac"
+          },
+          "is_right_match": true
+        }
+      ]
+    },
+    {
+      "lot": "Muscat - Moscato - Moscatel",
+      "lot_items": [
+        {
+          "id": "179861",
+          "lot_item": "Muscat - Moscato - Moscatel",
+          "lot_type": [
+            "Wine & Spirits"
+          ],
+          "match_result": {
+            "matched_name": "Flat Creek Estate, Moscato Blanco Muscat Canelli, Texas",
+            "matched_producer": null,
+            "matched_region": "Texas",
+            "matched_sub_region": null
+          },
+          "is_right_match": false
+        }
+      ]
+    },
+    {
+      "lot": "CORNU Domaine",
+      "lot_items": [
+        {
+          "id": "68330",
+          "lot_item": "CORNU Domaine",
+          "lot_type": [
+            "Wine & Spirits"
+          ],
+          "match_result": {
+            "matched_name": "Domaine Cornu, Pernand-Vergelesses",
+            "matched_producer": "Domaine",
+            "matched_region": "Burgundy",
+            "matched_sub_region": "Pernand-Vergelesses"
+          },
+          "is_right_match": true
+        }
+      ]
+    },
+    {
+      "lot": "SAVOIE Bruno Lupin",
+      "lot_items": [
+        {
+          "id": "59987",
+          "lot_item": "SAVOIE Bruno Lupin",
+          "lot_type": [
+            "Wine & Spirits"
+          ],
+          "match_result": {
+            "matched_name": "Domaine Lupin, Frangy , Roussette de Savoie",
+            "matched_producer": "Domaine",
+            "matched_region": "Savoie",
+            "matched_sub_region": "Roussette de Savoie"
+          },
+          "is_right_match": false
+        }
+      ]
+    },
+    {
+      "lot": "Château Lynch-Bages",
+      "lot_items": [
+        {
+          "id": "1257",
+          "lot_item": "Château Lynch-Bages",
+          "lot_type": [
+            "Wine & Spirits"
+          ],
+          "match_result": {
+            "matched_name": "Chateau Lynch-Bages 5eme Cru Classe, Pauillac",
+            "matched_producer": "Chateau",
+            "matched_region": "Bordeaux",
+            "matched_sub_region": "Pauillac"
+          },
+          "is_right_match": true
+        }
+      ]
+    },
+    {
+      "lot": "TRAPICHE",
+      "lot_items": [
+        {
+          "id": "24800",
+          "lot_item": "TRAPICHE",
+          "lot_type": [
+            "Wine & Spirits"
+          ],
+          "match_result": {
+            "matched_name": "Trapiche, Cabernet Sauvignon Reserve, Mendoza",
+            "matched_producer": null,
+            "matched_region": "Mendoza",
+            "matched_sub_region": null
+          },
+          "is_right_match": true
+        }
+      ]
+    },
+    {
+      "lot": "TICINO Fratelli Corti",
+      "lot_items": [
+        {
+          "id": "16438",
+          "lot_item": "TICINO Fratelli Corti",
+          "lot_type": [
+            "Wine & Spirits"
+          ],
+          "match_result": {
+            "matched_name": "Fratelli, Barolo",
+            "matched_producer": null,
+            "matched_region": "Piedmont",
+            "matched_sub_region": "Barolo"
+          },
+          "is_right_match": false
+        }
+      ]
+    },
+    {
+      "lot": "Château Berliquet",
+      "lot_items": [
+        {
+          "id": "703",
+          "lot_item": "Château Berliquet",
+          "lot_type": [
+            "Wine & Spirits"
+          ],
+          "match_result": {
+            "matched_name": "Chateau Berliquet Grand Cru Classe, Saint-Emilion Grand Cru",
+            "matched_producer": "Chateau",
+            "matched_region": "Bordeaux",
+            "matched_sub_region": "Saint-Emilion Grand Cru"
+          },
+          "is_right_match": true
+        }
+      ]
+    },
+    {
+      "lot": "Château Léoville-Las Cases",
+      "lot_items": [
+        {
+          "id": "112425",
+          "lot_item": "Château Léoville Las Cases",
+          "lot_type": [
+            "Wine & Spirits"
+          ],
+          "match_result": {
+            "matched_name": "Chateau Leoville Las Cases, Assortment Case",
+            "matched_producer": "Chateau",
+            "matched_region": "Bordeaux",
+            "matched_sub_region": null
+          },
+          "is_right_match": true
+        }
+      ]
+    },
+    {
+      "lot": "SAUTERNES",
+      "lot_items": [
+        {
+          "id": "21690",
+          "lot_item": "SAUTERNES",
+          "lot_type": [
+            "Wine & Spirits"
+          ],
+          "match_result": {
+            "matched_name": "Barbier Sauterne, Sauternes",
+            "matched_producer": null,
+            "matched_region": "Bordeaux",
+            "matched_sub_region": "Sauternes"
+          },
+          "is_right_match": true
+        }
+      ]
+    },
+    {
+      "lot": "Feindestillerie Christoph KÖSSLER",
+      "lot_items": [
+        {
+          "id": "49971",
+          "lot_item": "Feindestillerie Christoph KÖSSLER",
+          "lot_type": [
+            "Wine & Spirits"
+          ],
+          "match_result": {
+            "matched_name": "Christophe Pacalet, Fleurie",
+            "matched_producer": null,
+            "matched_region": "Beaujolais",
+            "matched_sub_region": "Fleurie"
+          },
+          "is_right_match": false
+        },
+        {
+          "id": "49971",
+          "lot_item": "Feindestillerie Christoph KÖSSLER",
+          "lot_type": [
+            "Wine & Spirits"
+          ],
+          "match_result": {
+            "matched_name": "Christophe Pacalet, Fleurie",
+            "matched_producer": null,
+            "matched_region": "Beaujolais",
+            "matched_sub_region": "Fleurie"
+          },
+          "is_right_match": false
+        },
+        {
+          "id": "49971",
+          "lot_item": "Feindestillerie Christoph KÖSSLER",
+          "lot_type": [
+            "Wine & Spirits"
+          ],
+          "match_result": {
+            "matched_name": "Christophe Pacalet, Fleurie",
+            "matched_producer": null,
+            "matched_region": "Beaujolais",
+            "matched_sub_region": "Fleurie"
+          },
+          "is_right_match": false
+        },
+        {
+          "id": "49971",
+          "lot_item": "Feindestillerie Christoph KÖSSLER",
+          "lot_type": [
+            "Wine & Spirits"
+          ],
+          "match_result": {
+            "matched_name": "Christophe Pacalet, Fleurie",
+            "matched_producer": null,
+            "matched_region": "Beaujolais",
+            "matched_sub_region": "Fleurie"
+          },
+          "is_right_match": false
+        },
+        {
+          "id": "49971",
+          "lot_item": "Feindestillerie Christoph KÖSSLER",
+          "lot_type": [
+            "Wine & Spirits"
+          ],
+          "match_result": {
+            "matched_name": "Christophe Pacalet, Fleurie",
+            "matched_producer": null,
+            "matched_region": "Beaujolais",
+            "matched_sub_region": "Fleurie"
+          },
+          "is_right_match": false
+        }
+      ]
+    },
+    {
+      "lot": "LES PETITS-FILS DE CLAUDE RÉGNIER",
+      "lot_items": [
+        {
+          "id": "202635",
+          "lot_item": "LES PETITS-FILS DE CLAUDE RÉGNIER",
+          "lot_type": [
+            "Wine & Spirits"
+          ],
+          "match_result": {
+            "matched_name": "Les Petits Fils de Benoit Lafont, Moulin-a-Vent",
+            "matched_producer": null,
+            "matched_region": "Beaujolais",
+            "matched_sub_region": "Moulin-a-Vent"
+          },
+          "is_right_match": false
+        }
+      ]
+    },
+    {
+      "lot": "Château Montrose",
+      "lot_items": [
+        {
+          "id": "1329",
+          "lot_item": "Château Montrose",
+          "lot_type": [
+            "Wine & Spirits"
+          ],
+          "match_result": {
+            "matched_name": "Chateau Montrose 2eme Cru Classe, Saint-Estephe",
+            "matched_producer": "Chateau",
+            "matched_region": "Bordeaux",
+            "matched_sub_region": "Saint-Estephe"
+          },
+          "is_right_match": true
+        }
+      ]
+    },
+    {
+      "lot": "Château Lafite Rothschild",
+      "lot_items": [
+        {
+          "id": "1187",
+          "lot_item": "Château Lafite Rothschild",
+          "lot_type": [
+            "Wine & Spirits"
+          ],
+          "match_result": {
+            "matched_name": "Chateau Lafite Rothschild Premier Cru Classe, Pauillac",
+            "matched_producer": "Chateau",
+            "matched_region": "Bordeaux",
+            "matched_sub_region": "Pauillac"
+          },
+          "is_right_match": true
+        }
+      ]
+    },
+    {
+      "lot": "GRIVOT Jean",
+      "lot_items": [
+        {
+          "id": "3577",
+          "lot_item": "Jean Grivot",
+          "lot_type": [
+            "Wine & Spirits"
+          ],
+          "match_result": {
+            "matched_name": "Jean Grivot, Vosne-Romanee Premier Cru",
+            "matched_producer": null,
+            "matched_region": "Burgundy",
+            "matched_sub_region": "Vosne-Romanee"
+          },
+          "is_right_match": true
+        }
+      ]
+    },
+    {
+      "lot": "BOURGOGNE",
+      "lot_items": [
+        {
+          "id": "181864",
+          "lot_item": "Boisson Vadot",
+          "lot_type": [
+            "Wine & Spirits"
+          ],
+          "match_result": {
+            "matched_name": "Domaine Bourgogne Devaux, Pommard",
+            "matched_producer": "Domaine",
+            "matched_region": "Burgundy",
+            "matched_sub_region": "Pommard"
+          },
+          "is_right_match": false
+        }
+      ]
+    },
+    {
+      "lot": "Château Petit Village",
+      "lot_items": [
+        {
+          "id": "1401",
+          "lot_item": "Château Grand Village",
+          "lot_type": [
+            "Wine & Spirits"
+          ],
+          "match_result": {
+            "matched_name": "Chateau Petit-Village, Pomerol",
+            "matched_producer": "Chateau",
+            "matched_region": "Bordeaux",
+            "matched_sub_region": "Pomerol"
+          },
+          "is_right_match": false
+        }
+      ]
+    },
+    {
+      "lot": "CAMPANIA Az. Agr. Le Crete",
+      "lot_items": [
+        {
+          "id": "172203",
+          "lot_item": "CAMPANIA Az. Agr. Le Crete",
+          "lot_type": [
+            "Wine & Spirits"
+          ],
+          "match_result": {
+            "matched_name": "La Capranera, Aglianico, Campania",
+            "matched_producer": null,
+            "matched_region": "Campania",
+            "matched_sub_region": null
+          },
+          "is_right_match": false
+        }
+      ]
+    },
+    {
+      "lot": "Château Larose-Mascard",
+      "lot_items": [
+        {
+          "id": "184214",
+          "lot_item": "Château Larose-Mascard",
+          "lot_type": [
+            "Wine & Spirits"
+          ],
+          "match_result": {
+            "matched_name": "Chateau Larose-Mascard, Haut-Medoc",
+            "matched_producer": "Chateau",
+            "matched_region": "Bordeaux",
+            "matched_sub_region": "Haut-Medoc"
+          },
+          "is_right_match": true
+        }
+      ]
+    },
+    {
+      "lot": "BAYER Heribert",
+      "lot_items": [
+        {
+          "id": "185067",
+          "lot_item": "BAYER Heribert",
+          "lot_type": [
+            "Wine & Spirits"
+          ],
+          "match_result": {
+            "matched_name": "Heribert Bayer, Herzblut, Burgenland",
+            "matched_producer": null,
+            "matched_region": "Burgenland",
+            "matched_sub_region": null
+          },
+          "is_right_match": true
+        }
+      ]
+    },
+    {
+      "lot": "RHEINGAU Künstler",
+      "lot_items": [
+        {
+          "id": "134813",
+          "lot_item": "RHEINGAU Künstler",
+          "lot_type": [
+            "Wine & Spirits"
+          ],
+          "match_result": {
+            "matched_name": "Kunstler, Herzstuck, Rheingau",
+            "matched_producer": null,
+            "matched_region": "Rheingau",
+            "matched_sub_region": null
+          },
+          "is_right_match": true
+        }
+      ]
+    },
+    {
+      "lot": "RHEINGAU Peter Jakob Kühn",
+      "lot_items": [
+        {
+          "id": "8839",
+          "lot_item": "RHEINGAU Peter Jakob Kühn",
+          "lot_type": [
+            "Wine & Spirits"
+          ],
+          "match_result": {
+            "matched_name": "Peter Jakob Kuhn, Riesling BA, Rheingau",
+            "matched_producer": null,
+            "matched_region": "Rheingau",
+            "matched_sub_region": null
+          },
+          "is_right_match": true
+        }
+      ]
+    },
+    {
+      "lot": "DUGAT-PY",
+      "lot_items": [
+        {
+          "id": "33044",
+          "lot_item": "DUGAT-PY",
+          "lot_type": [
+            "Wine & Spirits"
+          ],
+          "match_result": {
+            "matched_name": "Dugat-Py, Corton-Charlemagne Grand Cru",
+            "matched_producer": null,
+            "matched_region": "Burgundy",
+            "matched_sub_region": "Corton-Charlemagne"
+          },
+          "is_right_match": true
+        }
+      ]
+    },
+    {
+      "lot": "CHAPOUTIER",
+      "lot_items": [
+        {
+          "id": "185719",
+          "lot_item": "Chapoutier",
+          "lot_type": [
+            "Wine & Spirits"
+          ],
+          "match_result": {
+            "matched_name": "M. Chapoutier, Vacqueyras",
+            "matched_producer": null,
+            "matched_region": "Rhone",
+            "matched_sub_region": "Vacqueyras"
+          },
+          "is_right_match": true
+        }
+      ]
+    },
+    {
+      "lot": "RIOJA Bodegas Roda",
+      "lot_items": [
+        {
+          "id": "113486",
+          "lot_item": "RIOJA Bodegas Roda",
+          "lot_type": [
+            "Wine & Spirits"
+          ],
+          "match_result": {
+            "matched_name": "Bodegas Rioja Santiago, Rioja Reserva",
+            "matched_producer": "Bodegas",
+            "matched_region": "Rioja",
+            "matched_sub_region": null
+          },
+          "is_right_match": false
+        }
+      ]
+    },
+    {
+      "lot": "WALLIS Hurlevent",
+      "lot_items": [
+        {
+          "id": "19510",
+          "lot_item": "WALLIS Hurlevent",
+          "lot_type": [
+            "Wine & Spirits"
+          ],
+          "match_result": {
+            "matched_name": "Fils de Charles Favre, Hurlevent Dessert, Valais",
+            "matched_producer": null,
+            "matched_region": "Valais",
+            "matched_sub_region": null
+          },
+          "is_right_match": false
+        }
+      ]
+    },
+    {
+      "lot": "Château Léoville-Las Cases",
+      "lot_items": [
+        {
+          "id": "112425",
+          "lot_item": "Château Léoville Las Cases",
+          "lot_type": [
+            "Wine & Spirits"
+          ],
+          "match_result": {
+            "matched_name": "Chateau Leoville Las Cases, Assortment Case",
+            "matched_producer": "Chateau",
+            "matched_region": "Bordeaux",
+            "matched_sub_region": null
+          },
+          "is_right_match": true
+        }
+      ]
+    },
+    {
+      "lot": "Château Gruaud-Larose",
+      "lot_items": [
+        {
+          "id": "47989",
+          "lot_item": "Château Gruaud Larose",
+          "lot_type": [
+            "Wine & Spirits"
+          ],
+          "match_result": {
+            "matched_name": "Larose de Gruaud, Chateau Gruaud Larose, Saint-Julien",
+            "matched_producer": "Chateau",
+            "matched_region": "Bordeaux",
+            "matched_sub_region": "Saint-Julien"
+          },
+          "is_right_match": true
+        }
+      ]
+    },
+    {
+      "lot": "Château Le Chevalier",
+      "lot_items": [
+        {
+          "id": "48384",
+          "lot_item": "Château Le Chevalier",
+          "lot_type": [
+            "Wine & Spirits"
+          ],
+          "match_result": {
+            "matched_name": "Chateau Falfas, Le Chevalier, Cotes de Bourg",
+            "matched_producer": "Chateau",
+            "matched_region": "Bordeaux",
+            "matched_sub_region": "Cotes de Bourg"
+          },
+          "is_right_match": false
+        }
+      ]
+    },
+    {
+      "lot": "CHANSON P&F",
+      "lot_items": [
+        {
+          "id": "75879",
+          "lot_item": "CHANSON P&F",
+          "lot_type": [
+            "Wine & Spirits"
+          ],
+          "match_result": {
+            "matched_name": "Oratoire Chanson, Corton Grand Cru",
+            "matched_producer": null,
+            "matched_region": "Burgundy",
+            "matched_sub_region": "Corton"
+          },
+          "is_right_match": false
+        }
+      ]
+    },
+    {
+      "lot": "Château de Rayne-Vigneau",
+      "lot_items": [
+        {
+          "id": "22089",
+          "lot_item": "Château de Rayne-Vigneau",
+          "lot_type": [
+            "Wine & Spirits"
+          ],
+          "match_result": {
+            "matched_name": "Le Sec de Rayne Vigneau, Chateau de Rayne Vigneau",
+            "matched_producer": "Chateau",
+            "matched_region": "Bordeaux",
+            "matched_sub_region": null
+          },
+          "is_right_match": true
+        }
+      ]
+    },
+    {
+      "lot": "MORIN Père & Fils",
+      "lot_items": [
+        {
+          "id": "74045",
+          "lot_item": "MORIN Père & Fils",
+          "lot_type": [
+            "Wine & Spirits"
+          ],
+          "match_result": {
+            "matched_name": "Morin Pere et Fils, Musigny Grand Cru",
+            "matched_producer": null,
+            "matched_region": "Burgundy",
+            "matched_sub_region": "Musigny"
+          },
+          "is_right_match": true
+        }
+      ]
+    },
+    {
+      "lot": "PORTO - MADEIRA",
+      "lot_items": [
+        {
+          "id": "184691",
+          "lot_item": "PORTO - MADEIRA",
+          "lot_type": [
+            "Wine & Spirits"
+          ],
+          "match_result": {
+            "matched_name": "Pastene, Madeira",
+            "matched_producer": null,
+            "matched_region": "California",
+            "matched_sub_region": null
+          },
+          "is_right_match": false
+        }
+      ]
+    },
+    {
+      "lot": "GERMAIN P&F",
+      "lot_items": [
+        {
+          "id": "189042",
+          "lot_item": "GERMAIN P&F",
+          "lot_type": [
+            "Wine & Spirits"
+          ],
+          "match_result": {
+            "matched_name": "H. Germain, Rilly-la-Montagne, Brut",
+            "matched_producer": null,
+            "matched_region": "Champagne",
+            "matched_sub_region": "Rilly-la-Montagne"
+          },
+          "is_right_match": false
+        }
+      ]
+    },
+    {
+      "lot": "Côtes de Castillon",
+      "lot_items": [
+        {
+          "id": "1600",
+          "lot_item": "Côtes de Castillon",
+          "lot_type": [
+            "Wine & Spirits"
+          ],
+          "match_result": {
+            "matched_name": "Castillon-Cotes de Bordeaux",
+            "matched_producer": null,
+            "matched_region": "Bordeaux",
+            "matched_sub_region": "Castillon-Cotes de Bordeaux"
+          },
+          "is_right_match": false
+        },
+        {
+          "id": "1600",
+          "lot_item": "Domaine de la Romanée-Conti",
+          "lot_type": [
+            "Wine & Spirits"
+          ],
+          "match_result": {
+            "matched_name": "Castillon-Cotes de Bordeaux",
+            "matched_producer": null,
+            "matched_region": "Bordeaux",
+            "matched_sub_region": "Castillon-Cotes de Bordeaux"
+          },
+          "is_right_match": false
+        }
+      ]
+    },
+    {
+      "lot": "ALTO ADIGE Sandbichler (H. Lun)",
+      "lot_items": [
+        {
+          "id": "28249",
+          "lot_item": "ALTO ADIGE Sandbichler (H. Lun)",
+          "lot_type": [
+            "Wine & Spirits"
+          ],
+          "match_result": {
+            "matched_name": "H. Lun, Sandbichler White Riserva, Alto Adige",
+            "matched_producer": null,
+            "matched_region": "Trentino Alto Adige",
+            "matched_sub_region": "Alto Adige"
+          },
+          "is_right_match": true
+        }
+      ]
+    },
+    {
+      "lot": "PAYS D'OC Grès Saint Paul",
+      "lot_items": [
+        {
+          "id": "188857",
+          "lot_item": "PAYS D'OC Grès Saint Paul",
+          "lot_type": [
+            "Wine & Spirits"
+          ],
+          "match_result": {
+            "matched_name": "Cuvee C, Merlot Reserve, Pays d'Oc",
+            "matched_producer": null,
+            "matched_region": "Pays d'Oc",
+            "matched_sub_region": null
+          },
+          "is_right_match": true
+        }
+      ]
+    },
+    {
+      "lot": "WALLIS Marie Thérèse Chappaz",
+      "lot_items": [
+        {
+          "id": "205356",
+          "lot_item": "WALLIS Marie Thérèse Chappaz",
+          "lot_type": [
+            "Wine & Spirits"
+          ],
+          "match_result": {
+            "matched_name": "Marie-Therese Chappaz, Grain Arvine, Fully",
+            "matched_producer": null,
+            "matched_region": "Valais",
+            "matched_sub_region": "Fully"
+          },
+          "is_right_match": true
+        }
+      ]
+    },
+    {
+      "lot": "ITALIA",
+      "lot_items": [
+        {
+          "id": "61937",
+          "lot_item": "ITALIA",
+          "lot_type": [
+            "Wine & Spirits"
+          ],
+          "match_result": {
+            "matched_name": "Barsol, Selecto Italia Pisco Brandy",
+            "matched_producer": null,
+            "matched_region": null,
+            "matched_sub_region": null
+          },
+          "is_right_match": false
+        }
+      ]
+    },
+    {
+      "lot": "SICILIA Simonetti",
+      "lot_items": [
+        {
+          "id": "200310",
+          "lot_item": "SICILIA Simonetti",
+          "lot_type": [
+            "Wine & Spirits"
+          ],
+          "match_result": {
+            "matched_name": "Simonetti, Montepulciano d'Abruzzo Abruzzo",
+            "matched_producer": null,
+            "matched_region": "Abruzzo",
+            "matched_sub_region": "Montepulciano d'Abruzzo"
+          },
+          "is_right_match": false
+        }
+      ]
+    },
+    {
+      "lot": "CHARTRON et TRÉBUCHET",
+      "lot_items": [
+        {
+          "id": "143253",
+          "lot_item": "CHARTRON et TRÉBUCHET",
+          "lot_type": [
+            "Wine & Spirits"
+          ],
+          "match_result": {
+            "matched_name": "Chartron Trebuchet, Chablis",
+            "matched_producer": null,
+            "matched_region": "Burgundy",
+            "matched_sub_region": "Chablis"
+          },
+          "is_right_match": true
+        }
+      ]
+    },
+    {
+      "lot": "Château Monbrison",
+      "lot_items": [
+        {
+          "id": "1319",
+          "lot_item": "Château Monbrison",
+          "lot_type": [
+            "Wine & Spirits"
+          ],
+          "match_result": {
+            "matched_name": "Chateau Monbrison, Margaux",
+            "matched_producer": "Chateau",
+            "matched_region": "Bordeaux",
+            "matched_sub_region": "Margaux"
+          },
+          "is_right_match": true
+        }
+      ]
+    },
+    {
+      "lot": "Château de Fage rouge",
+      "lot_items": [
+        {
+          "id": "119926",
+          "lot_item": "Château de Fage rouge",
+          "lot_type": [
+            "Wine & Spirits"
+          ],
+          "match_result": {
+            "matched_name": "Chateau Fage, Rouge, Graves de Vayres",
+            "matched_producer": "Chateau",
+            "matched_region": "Bordeaux",
+            "matched_sub_region": "Graves de Vayres"
+          },
+          "is_right_match": true
+        }
+      ]
+    },
+    {
+      "lot": "Château Grand-Puy Ducasse",
+      "lot_items": [
+        {
+          "id": "1077",
+          "lot_item": "Château Grand-Puy Ducasse",
+          "lot_type": [
+            "Wine & Spirits"
+          ],
+          "match_result": {
+            "matched_name": "Chateau Grand-Puy Ducasse 5eme Cru Classe, Pauillac",
+            "matched_producer": "Chateau",
+            "matched_region": "Bordeaux",
+            "matched_sub_region": "Pauillac"
+          },
+          "is_right_match": true
+        }
+      ]
+    },
+    {
+      "lot": "Weinboxen als Lagergestell",
+      "lot_items": [
+        {
+          "id": "90459",
+          "lot_item": "Weinboxen als Lagergestell",
+          "lot_type": [
+            "Wine & Spirits"
+          ],
+          "match_result": {
+            "matched_name": "Guado al Melo, Bolgheri Superiore Atis",
+            "matched_producer": null,
+            "matched_region": "Tuscany",
+            "matched_sub_region": "Bolgheri"
+          },
+          "is_right_match": false
+        }
+      ]
+    },
+    {
+      "lot": "DUGAT-PY",
+      "lot_items": [
+        {
+          "id": "33044",
+          "lot_item": "DUGAT-PY",
+          "lot_type": [
+            "Wine & Spirits"
+          ],
+          "match_result": {
+            "matched_name": "Dugat-Py, Corton-Charlemagne Grand Cru",
+            "matched_producer": null,
+            "matched_region": "Burgundy",
+            "matched_sub_region": "Corton-Charlemagne"
+          },
+          "is_right_match": true
+        },
+        {
+          "id": "33044",
+          "lot_item": "DUGAT-PY",
+          "lot_type": [
+            "Wine & Spirits"
+          ],
+          "match_result": {
+            "matched_name": "Dugat-Py, Corton-Charlemagne Grand Cru",
+            "matched_producer": null,
+            "matched_region": "Burgundy",
+            "matched_sub_region": "Corton-Charlemagne"
+          },
+          "is_right_match": true
+        }
+      ]
+    },
+    {
+      "lot": "CONTERNO Aldo",
+      "lot_items": [
+        {
+          "id": "9814",
+          "lot_item": "Aldo Conterno",
+          "lot_type": [
+            "Wine & Spirits"
+          ],
+          "match_result": {
+            "matched_name": "Poderi Aldo Conterno, Barolo",
+            "matched_producer": "Poderi",
+            "matched_region": "Piedmont",
+            "matched_sub_region": "Barolo"
+          },
+          "is_right_match": true
+        }
+      ]
+    },
+    {
+      "lot": "Château de Pez",
+      "lot_items": [
+        {
+          "id": "17199",
+          "lot_item": "Château Ormes de Pez",
+          "lot_type": [
+            "Wine & Spirits"
+          ],
+          "match_result": {
+            "matched_name": "Chateau Tour de Pez, Les Hauts de Pez, Saint-Estephe",
+            "matched_producer": "Chateau",
+            "matched_region": "Bordeaux",
+            "matched_sub_region": "Saint-Estephe"
+          },
+          "is_right_match": false
+        }
+      ]
+    },
+    {
+      "lot": "FETZER",
+      "lot_items": [
+        {
+          "id": "42295",
+          "lot_item": "FETZER",
+          "lot_type": [
+            "Wine & Spirits"
+          ],
+          "match_result": {
+            "matched_name": "Fetzer, Merlot, California",
+            "matched_producer": null,
+            "matched_region": "California",
+            "matched_sub_region": null
+          },
+          "is_right_match": true
+        }
+      ]
+    },
+    {
+      "lot": "WEINHOFMEISTEREI M.HIRTZBERGER",
+      "lot_items": [
+        {
+          "id": "94547",
+          "lot_item": "WEINHOFMEISTEREI M.HIRTZBERGER",
+          "lot_type": [
+            "Wine & Spirits"
+          ],
+          "match_result": {
+            "matched_name": "Weinhofmeisterei Mathias Hirtzberger, Pluris Riesling Selection, Wachau",
+            "matched_producer": null,
+            "matched_region": "Niederosterreich",
+            "matched_sub_region": "Wachau"
+          },
+          "is_right_match": false
+        }
+      ]
+    },
+    {
+      "lot": "ALTO ADIGE Glassierhof Stefan Vaja",
+      "lot_items": [
+        {
+          "id": "45331",
+          "lot_item": "ALTO ADIGE Glassierhof Stefan Vaja",
+          "lot_type": [
+            "Wine & Spirits"
+          ],
+          "match_result": {
+            "matched_name": "Andrian, Pinot Noir, Alto Adige",
+            "matched_producer": null,
+            "matched_region": "Trentino Alto Adige",
+            "matched_sub_region": "Alto Adige"
+          },
+          "is_right_match": false
+        }
+      ]
+    },
+    {
+      "lot": "LANGUEDOC-ROUSSILLON Domaine Lafage",
+      "lot_items": [
+        {
+          "id": "27515",
+          "lot_item": "LANGUEDOC-ROUSSILLON Domaine Lafage",
+          "lot_type": [
+            "Wine & Spirits"
+          ],
+          "match_result": {
+            "matched_name": "Domaine Rostaing, Languedoc",
+            "matched_producer": "Domaine",
+            "matched_region": "Languedoc",
+            "matched_sub_region": null
+          },
+          "is_right_match": false
+        }
+      ]
+    },
+    {
+      "lot": "Château Lilian Ladouys",
+      "lot_items": [
+        {
+          "id": "1245",
+          "lot_item": "Château Lilian Ladouys",
+          "lot_type": [
+            "Wine & Spirits"
+          ],
+          "match_result": {
+            "matched_name": "Chateau Lilian Ladouys, Saint-Estephe",
+            "matched_producer": "Chateau",
+            "matched_region": "Bordeaux",
+            "matched_sub_region": "Saint-Estephe"
+          },
+          "is_right_match": true
+        }
+      ]
+    },
+    {
+      "lot": "DOMAINE DE LA MORDORÉE",
+      "lot_items": [
+        {
+          "id": "68634",
+          "lot_item": "DOMAINE DE LA MORDORÉE",
+          "lot_type": [
+            "Wine & Spirits"
+          ],
+          "match_result": {
+            "matched_name": "Domaine de la Plaigne, Morgon",
+            "matched_producer": "Domaine",
+            "matched_region": "Beaujolais",
+            "matched_sub_region": "Morgon"
+          },
+          "is_right_match": false
+        }
+      ]
+    },
+    {
+      "lot": "Château Meyney",
+      "lot_items": [
+        {
+          "id": "1315",
+          "lot_item": "Château Meyney",
+          "lot_type": [
+            "Wine & Spirits"
+          ],
+          "match_result": {
+            "matched_name": "Chateau Meyney, Saint-Estephe",
+            "matched_producer": "Chateau",
+            "matched_region": "Bordeaux",
+            "matched_sub_region": "Saint-Estephe"
+          },
+          "is_right_match": true
+        }
+      ]
+    },
+    {
+      "lot": "WHISKY Blended Scotch Whisky",
+      "lot_items": [
+        {
+          "id": "36405",
+          "lot_item": "WHISKY Blended Scotch Whisky",
+          "lot_type": [
+            "Wine & Spirits"
+          ],
+          "match_result": {
+            "matched_name": "Bells, Blended Scotch Whisky 8YO",
+            "matched_producer": null,
+            "matched_region": "Scotland",
+            "matched_sub_region": null
+          },
+          "is_right_match": false
+        }
+      ]
+    },
+    {
+      "lot": "CHAMPAGNE HENRI GIRAUD",
+      "lot_items": [
+        {
+          "id": "44207",
+          "lot_item": "Henri Giraud",
+          "lot_type": [
+            "Wine & Spirits"
+          ],
+          "match_result": {
+            "matched_name": "Henri Giraud, Solera, Ratafia de Champagne",
+            "matched_producer": null,
+            "matched_region": "Champagne",
+            "matched_sub_region": "Ratafia de Champagne"
+          },
+          "is_right_match": false
+        }
+      ]
+    },
+    {
+      "lot": "Château Les Gauthiers",
+      "lot_items": [
+        {
+          "id": "38760",
+          "lot_item": "Château Les Gauthiers",
+          "lot_type": [
+            "Wine & Spirits"
+          ],
+          "match_result": {
+            "matched_name": "Chateau Les Gauthiers, Bordeaux",
+            "matched_producer": "Chateau",
+            "matched_region": "Bordeaux",
+            "matched_sub_region": null
+          },
+          "is_right_match": true
+        }
+      ]
+    },
+    {
+      "lot": "ABRUZZO Baroncelli",
+      "lot_items": [
+        {
+          "id": "155550",
+          "lot_item": "ABRUZZO Baroncelli",
+          "lot_type": [
+            "Wine & Spirits"
+          ],
+          "match_result": {
+            "matched_name": "Chiarieri, Brut, Abruzzo",
+            "matched_producer": null,
+            "matched_region": "Abruzzo",
+            "matched_sub_region": null
+          },
+          "is_right_match": false
+        }
+      ]
+    },
+    {
+      "lot": "Château La Vallée",
+      "lot_items": [
+        {
+          "id": "184546",
+          "lot_item": "Château La Vallée",
+          "lot_type": [
+            "Wine & Spirits"
+          ],
+          "match_result": {
+            "matched_name": "Chateau La Mouline, La Moulinette, VdF",
+            "matched_producer": "Chateau",
+            "matched_region": null,
+            "matched_sub_region": null
+          },
+          "is_right_match": false
+        }
+      ]
+    },
+    {
+      "lot": "DUCHANCEL",
+      "lot_items": [
+        {
+          "id": "15664",
+          "lot_item": "DUCHANCEL",
+          "lot_type": [
+            "Wine & Spirits"
+          ],
+          "match_result": {
+            "matched_name": "Ligeret, Gevrey-Chambertin Premier Cru",
+            "matched_producer": null,
+            "matched_region": "Burgundy",
+            "matched_sub_region": "Gevrey-Chambertin"
+          },
+          "is_right_match": false
+        }
+      ]
+    },
+    {
+      "lot": "Château Ausone",
+      "lot_items": [
+        {
+          "id": "620",
+          "lot_item": "Château Ausone",
+          "lot_type": [
+            "Wine & Spirits"
+          ],
+          "match_result": {
+            "matched_name": "Chateau Ausone, Saint-Emilion Grand Cru",
+            "matched_producer": "Chateau",
+            "matched_region": "Bordeaux",
+            "matched_sub_region": "Saint-Emilion Grand Cru"
+          },
+          "is_right_match": true
+        }
+      ]
+    },
+    {
+      "lot": "Château Carignan",
+      "lot_items": [
+        {
+          "id": "176907",
+          "lot_item": "Château Carignan",
+          "lot_type": [
+            "Wine & Spirits"
+          ],
+          "match_result": {
+            "matched_name": "Chateau Bybline, Carignan",
+            "matched_producer": "Chateau",
+            "matched_region": null,
+            "matched_sub_region": null
+          },
+          "is_right_match": false
+        }
+      ]
+    },
+    {
+      "lot": "Château Marquis d'Alesme Becker",
+      "lot_items": [
+        {
+          "id": "25705",
+          "lot_item": "Château Marquis d'Alesme Becker",
+          "lot_type": [
+            "Wine & Spirits"
+          ],
+          "match_result": {
+            "matched_name": "Chateau Marquis d'Alesme 3eme Cru Classe, Margaux",
+            "matched_producer": "Chateau",
+            "matched_region": "Bordeaux",
+            "matched_sub_region": "Margaux"
+          },
+          "is_right_match": true
+        }
+      ]
+    },
+    {
+      "lot": "Château Ducru-Beaucaillou",
+      "lot_items": [
+        {
+          "id": "947",
+          "lot_item": "Ducru Beaucaillou",
+          "lot_type": [
+            "Wine & Spirits"
+          ],
+          "match_result": {
+            "matched_name": "Ducru-Beaucaillou 2eme Cru Classe, Saint-Julien",
+            "matched_producer": null,
+            "matched_region": "Bordeaux",
+            "matched_sub_region": "Saint-Julien"
+          },
+          "is_right_match": true
+        }
+      ]
+    },
+    {
+      "lot": "RIOJA Viejo Corte Real",
+      "lot_items": [
+        {
+          "id": "10755",
+          "lot_item": "RIOJA Viejo Corte Real",
+          "lot_type": [
+            "Wine & Spirits"
+          ],
+          "match_result": {
+            "matched_name": "Corte, Corte",
+            "matched_producer": null,
+            "matched_region": "Porto",
+            "matched_sub_region": null
+          },
+          "is_right_match": false
+        }
+      ]
+    },
+    {
+      "lot": "Château Mouton d'Armailhac",
+      "lot_items": [
+        {
+          "id": "24097",
+          "lot_item": "Château d'Armailhac",
+          "lot_type": [
+            "Wine & Spirits"
+          ],
+          "match_result": {
+            "matched_name": "Mouton",
+            "matched_producer": null,
+            "matched_region": "Bordeaux",
+            "matched_sub_region": null
+          },
+          "is_right_match": false
+        }
+      ]
+    },
+    {
+      "lot": "Château Lynch-Bages",
+      "lot_items": [
+        {
+          "id": "1257",
+          "lot_item": "Château Lynch-Bages",
+          "lot_type": [
+            "Wine & Spirits"
+          ],
+          "match_result": {
+            "matched_name": "Chateau Lynch-Bages 5eme Cru Classe, Pauillac",
+            "matched_producer": "Chateau",
+            "matched_region": "Bordeaux",
+            "matched_sub_region": "Pauillac"
+          },
+          "is_right_match": true
+        }
+      ]
+    },
+    {
+      "lot": "Château Mouton Rothschild",
+      "lot_items": [
+        {
+          "id": "1354",
+          "lot_item": "Château Mouton Rothschild",
+          "lot_type": [
+            "Wine & Spirits"
+          ],
+          "match_result": {
+            "matched_name": "Chateau Mouton Rothschild Premier Cru Classe, Pauillac",
+            "matched_producer": "Chateau",
+            "matched_region": "Bordeaux",
+            "matched_sub_region": "Pauillac"
+          },
+          "is_right_match": true
+        }
+      ]
+    },
+    {
+      "lot": "LANGUEDOC Vin de Pays de l'Hérault",
+      "lot_items": [
+        {
+          "id": "35168",
+          "lot_item": "LANGUEDOC Vin de Pays de l'Hérault",
+          "lot_type": [
+            "Wine & Spirits"
+          ],
+          "match_result": {
+            "matched_name": "Pedreno, Vin de Pays Gard Roc d'Anglade, Languedoc",
+            "matched_producer": null,
+            "matched_region": "Languedoc",
+            "matched_sub_region": null
+          },
+          "is_right_match": false
+        }
+      ]
+    },
+    {
+      "lot": "WHISKY Islay Single Malt",
+      "lot_items": [
+        {
+          "id": "51738",
+          "lot_item": "WHISKY Islay Single Malt",
+          "lot_type": [
+            "Wine & Spirits"
+          ],
+          "match_result": {
+            "matched_name": "Ardbeg, Single Malt Whisky 1815, Islay",
+            "matched_producer": null,
+            "matched_region": "Scotland",
+            "matched_sub_region": "Islay"
+          },
+          "is_right_match": false
+        }
+      ]
+    }
+  ]
+}

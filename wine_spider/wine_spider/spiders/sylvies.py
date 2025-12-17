@@ -23,7 +23,7 @@ class SylviesSpider(scrapy.Spider):
     ]
 
     custom_settings = {
-        # "ROBOTSTXT_OBEY": False,
+        "ROBOTSTXT_OBEY": False,
         "LOG_FILE": "sylvies_log.txt",
         # "JOBDIR": "wine_spider/crawl_state/sylvies",
     }

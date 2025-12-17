@@ -3,9 +3,8 @@ import logging
 import asyncio
 import pandas as pd
 import numpy as np
-from flask import current_app
-from app.model import LwinMatchingParams
-from flask import Blueprint, request, Response
+from flask import current_app, Blueprint, request, Response
+from lwin_matcher.app.model import LwinMatchingParams
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
@@ -30,7 +29,7 @@ async def match():
 
     try:
         matched, lwin_code, match_score, match_item = await asyncio.to_thread(
-            current_app.lwin_matching_service.match, lwin_matching_params, topk=topk
+            current_app.lwin_matching_engine.match, lwin_matching_params, topk=topk
         )
 
         for item in match_item:

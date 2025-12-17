@@ -1,13 +1,13 @@
 from flask import Flask
-from .routes.match import match_blueprint
-from .routes.lot_query import lot_query_blueprint
-from .routes.lwin_query import lwin_query_blueprint
-# from .routes.fx_rates import fx_rates_blueprint
-from .routes.auction_query import auction_query_blueprint
+from lwin_matcher.app.routes.match import match_blueprint
+from lwin_matcher.app.routes.lot_query import lot_query_blueprint
+from lwin_matcher.app.routes.lwin_query import lwin_query_blueprint
+# from lwin_matcher.app.routes.fx_rates import fx_rates_blueprint
+from lwin_matcher.app.routes.auction_query import auction_query_blueprint
 from flask_cors import CORS
 from flask_sqlalchemy import SQLAlchemy
 
-from database import (
+from shared.database import (
     LotsClient,
     AuctionsClient,
     LotItemsClient,
@@ -16,7 +16,7 @@ from database import (
     LwinMatchingClient,
     LwinDatabaseClient,
 )
-from app.service.lwin_matching_service import LwinMatcherEngine
+from lwin_matcher.app.service.lwin_matching_engine import LwinMatcherEngine
 
 db = SQLAlchemy()
 
@@ -36,7 +36,7 @@ def create_app():
     lwin_database_client = LwinDatabaseClient(db_instance=db)
     app.lwin_database_client = lwin_database_client
     with app.app_context():
-        app.lwin_matching_service = LwinMatcherEngine(lwin_database_client.get_all())
+        app.lwin_matching_engine = LwinMatcherEngine(lwin_database_client.get_all())
 
     app.register_blueprint(match_blueprint)
     app.register_blueprint(lot_query_blueprint)

@@ -13,13 +13,14 @@ CONCURRENT_REQUESTS = 16
 FEED_EXPORT_ENCODING = "utf-8"
 LOG_LEVEL = "DEBUG"
 
-AUTOTHROTTLE_ENABLED = True
+AUTOTHROTTLE_ENABLED = False
 AUTOTHROTTLE_START_DELAY = 1.0   # Initial download delay
 AUTOTHROTTLE_MAX_DELAY = 5.0    # Maximum download delay in high latencies
 AUTOTHROTTLE_TARGET_CONCURRENCY = 1.0
 
 DOWNLOADER_MIDDLEWARES = {
    'wine_spider.middlewares.playwright_resource_blocker_middleware.PlaywrightResourceBlockerMiddleware': 200,
+   'wine_spider.middlewares.request_timing_middleware.RequestTimingMiddleware': 100,
 }
 
 DOWNLOAD_HANDLERS = {

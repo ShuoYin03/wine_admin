@@ -1,0 +1,4331 @@
+{
+  "summary": {
+    "total_lots": 200,
+    "total_items": 237,
+    "matched_correct": 159,
+    "matched_correct_percentage": 67.08860759493672,
+    "matched_wrong": 78,
+    "matched_wrong_percentage": 32.91139240506329,
+    "no_match_result": 0
+  },
+  "results": [
+    {
+      "lot": "Brunello di Montalcino Biondi Santi 1997",
+      "lot_items": [
+        {
+          "id": "15692",
+          "lot_item": "Biondi Santi",
+          "lot_type": [
+            "Wine & Spirits"
+          ],
+          "match_result": {
+            "matched_name": "Biondi-Santi, Brunello di Montalcino",
+            "matched_producer": null,
+            "matched_region": "Tuscany",
+            "matched_sub_region": "Brunello di Montalcino"
+          },
+          "is_right_match": true
+        }
+      ]
+    },
+    {
+      "lot": "Gevrey Chambertin Vieilles Vignes Jean Michel Guillon 2009",
+      "lot_items": [
+        {
+          "id": "22317",
+          "lot_item": "Jean Michel Guillon",
+          "lot_type": [
+            "Wine & Spirits"
+          ],
+          "match_result": {
+            "matched_name": "Jean Michel Guillon, Gevrey-Chambertin, Vieilles Vignes",
+            "matched_producer": null,
+            "matched_region": "Burgundy",
+            "matched_sub_region": "Gevrey-Chambertin"
+          },
+          "is_right_match": true
+        }
+      ]
+    },
+    {
+      "lot": "Blantons Original Single Barrel Bourbon NV",
+      "lot_items": [
+        {
+          "id": "39663",
+          "lot_item": "Blantons",
+          "lot_type": [
+            "Wine & Spirits"
+          ],
+          "match_result": {
+            "matched_name": "Blantons, Kentucky Straight Bourbon The Original Single Barrel",
+            "matched_producer": null,
+            "matched_region": "Kentucky",
+            "matched_sub_region": null
+          },
+          "is_right_match": true
+        }
+      ]
+    },
+    {
+      "lot": "Clarendon Hills Astralis 2006",
+      "lot_items": [
+        {
+          "id": "153",
+          "lot_item": "Clarendon Hills",
+          "lot_type": [
+            "Wine & Spirits"
+          ],
+          "match_result": {
+            "matched_name": "Clarendon Hills, Astralis, South Australia",
+            "matched_producer": null,
+            "matched_region": "South Australia",
+            "matched_sub_region": null
+          },
+          "is_right_match": true
+        }
+      ]
+    },
+    {
+      "lot": "Volnay Champans Marquis d'Angerville 2014",
+      "lot_items": [
+        {
+          "id": "1835",
+          "lot_item": "D'Angerville",
+          "lot_type": [
+            "Wine & Spirits"
+          ],
+          "match_result": {
+            "matched_name": "Domaine Marquis d'Angerville, Volnay Premier Cru, Champans",
+            "matched_producer": "Domaine",
+            "matched_region": "Burgundy",
+            "matched_sub_region": "Volnay"
+          },
+          "is_right_match": true
+        }
+      ]
+    },
+    {
+      "lot": "Corton Charlemagne Louis Latour 2018",
+      "lot_items": [
+        {
+          "id": "7269",
+          "lot_item": "Louis Latour",
+          "lot_type": [
+            "Wine & Spirits"
+          ],
+          "match_result": {
+            "matched_name": "Domaine Louis Latour, Corton-Charlemagne Grand Cru",
+            "matched_producer": "Domaine",
+            "matched_region": "Burgundy",
+            "matched_sub_region": "Corton-Charlemagne"
+          },
+          "is_right_match": true
+        }
+      ]
+    },
+    {
+      "lot": "Giusto di Notri Tua Rita 2013",
+      "lot_items": [
+        {
+          "id": "10574",
+          "lot_item": "Tua Rita",
+          "lot_type": [
+            "Wine & Spirits"
+          ],
+          "match_result": {
+            "matched_name": "Tua Rita, Giusto di Notri, Toscana",
+            "matched_producer": null,
+            "matched_region": "Tuscany",
+            "matched_sub_region": "Toscana"
+          },
+          "is_right_match": true
+        }
+      ]
+    },
+    {
+      "lot": "Chateauneuf du Pape Les Cedres Jaboulet 1961",
+      "lot_items": [
+        {
+          "id": "11337",
+          "lot_item": "Jaboulet",
+          "lot_type": [
+            "Wine & Spirits"
+          ],
+          "match_result": {
+            "matched_name": "Paul Jaboulet Aine, Chateauneuf-du-Pape, Les Cedres",
+            "matched_producer": null,
+            "matched_region": "Rhone",
+            "matched_sub_region": "Chateauneuf-du-Pape"
+          },
+          "is_right_match": true
+        }
+      ]
+    },
+    {
+      "lot": "Barolo Vigneto Cannubi Comm. G. B. Burlotto 2017",
+      "lot_items": [
+        {
+          "id": "35717",
+          "lot_item": "Comm. G. B. Burlotto",
+          "lot_type": [
+            "Wine & Spirits"
+          ],
+          "match_result": {
+            "matched_name": "Burlotto, Barolo, Vigneto Cannubi",
+            "matched_producer": null,
+            "matched_region": "Piedmont",
+            "matched_sub_region": "Barolo"
+          },
+          "is_right_match": true
+        }
+      ]
+    },
+    {
+      "lot": "Bartolomeo Toscana IGT Torciano 1993",
+      "lot_items": [
+        {
+          "id": "99041",
+          "lot_item": "Tenuta Torciano",
+          "lot_type": [
+            "Wine & Spirits"
+          ],
+          "match_result": {
+            "matched_name": "Torciano, Bartolomeo, Toscana",
+            "matched_producer": null,
+            "matched_region": "Tuscany",
+            "matched_sub_region": "Toscana"
+          },
+          "is_right_match": true
+        }
+      ]
+    },
+    {
+      "lot": "Mixed Napa Merlot",
+      "lot_items": [
+        {
+          "id": "65969",
+          "lot_item": "Mixed",
+          "lot_type": [
+            "Wine & Spirits"
+          ],
+          "match_result": {
+            "matched_name": "Buccella, Mixed Blacks, Napa Valley",
+            "matched_producer": null,
+            "matched_region": "California",
+            "matched_sub_region": "Napa Valley"
+          },
+          "is_right_match": false
+        },
+        {
+          "id": "65969",
+          "lot_item": "Mixed",
+          "lot_type": [
+            "Wine & Spirits"
+          ],
+          "match_result": {
+            "matched_name": "Buccella, Mixed Blacks, Napa Valley",
+            "matched_producer": null,
+            "matched_region": "California",
+            "matched_sub_region": "Napa Valley"
+          },
+          "is_right_match": false
+        },
+        {
+          "id": "65969",
+          "lot_item": "Mixed",
+          "lot_type": [
+            "Wine & Spirits"
+          ],
+          "match_result": {
+            "matched_name": "Buccella, Mixed Blacks, Napa Valley",
+            "matched_producer": null,
+            "matched_region": "California",
+            "matched_sub_region": "Napa Valley"
+          },
+          "is_right_match": false
+        },
+        {
+          "id": "65969",
+          "lot_item": "Mixed",
+          "lot_type": [
+            "Wine & Spirits"
+          ],
+          "match_result": {
+            "matched_name": "Buccella, Mixed Blacks, Napa Valley",
+            "matched_producer": null,
+            "matched_region": "California",
+            "matched_sub_region": "Napa Valley"
+          },
+          "is_right_match": false
+        }
+      ]
+    },
+    {
+      "lot": "Romanee Conti Domaine de la Romanee Conti 1985",
+      "lot_items": [
+        {
+          "id": "2867",
+          "lot_item": "Domaine De La Romanee Conti",
+          "lot_type": [
+            "Wine & Spirits"
+          ],
+          "match_result": {
+            "matched_name": "Domaine de la Romanee-Conti, Romanee-Conti Grand Cru",
+            "matched_producer": "Domaine",
+            "matched_region": "Burgundy",
+            "matched_sub_region": "Romanee-Conti"
+          },
+          "is_right_match": true
+        }
+      ]
+    },
+    {
+      "lot": "Chablis Les Clos Vincent Dauvissat 2005",
+      "lot_items": [
+        {
+          "id": "6654",
+          "lot_item": "Vincent Dauvissat",
+          "lot_type": [
+            "Wine & Spirits"
+          ],
+          "match_result": {
+            "matched_name": "Vincent Dauvissat, Chablis Grand Cru, Les Clos",
+            "matched_producer": null,
+            "matched_region": "Burgundy",
+            "matched_sub_region": "Chablis"
+          },
+          "is_right_match": true
+        }
+      ]
+    },
+    {
+      "lot": "Vin de Pays de l'Ardeche Les Iles Feray Pierre Gonon",
+      "lot_items": [
+        {
+          "id": "76373",
+          "lot_item": "Gonon",
+          "lot_type": [
+            "Wine & Spirits"
+          ],
+          "match_result": {
+            "matched_name": "Pierre Gonon, Iles Feray, Ardeche IGP",
+            "matched_producer": null,
+            "matched_region": "Rhone",
+            "matched_sub_region": "Ardeche"
+          },
+          "is_right_match": true
+        },
+        {
+          "id": "76373",
+          "lot_item": "Gonon",
+          "lot_type": [
+            "Wine & Spirits"
+          ],
+          "match_result": {
+            "matched_name": "Pierre Gonon, Iles Feray, Ardeche IGP",
+            "matched_producer": null,
+            "matched_region": "Rhone",
+            "matched_sub_region": "Ardeche"
+          },
+          "is_right_match": true
+        }
+      ]
+    },
+    {
+      "lot": "Cos d'Estournel 2019",
+      "lot_items": [
+        {
+          "id": "878",
+          "lot_item": "Cos D'Estournel",
+          "lot_type": [
+            "Wine & Spirits"
+          ],
+          "match_result": {
+            "matched_name": "Cos d'Estournel 2eme Cru Classe, Saint-Estephe",
+            "matched_producer": null,
+            "matched_region": "Bordeaux",
+            "matched_sub_region": "Saint-Estephe"
+          },
+          "is_right_match": true
+        }
+      ]
+    },
+    {
+      "lot": "Cos d'Estournel 1990",
+      "lot_items": [
+        {
+          "id": "878",
+          "lot_item": "Cos D'Estournel",
+          "lot_type": [
+            "Wine & Spirits"
+          ],
+          "match_result": {
+            "matched_name": "Cos d'Estournel 2eme Cru Classe, Saint-Estephe",
+            "matched_producer": null,
+            "matched_region": "Bordeaux",
+            "matched_sub_region": "Saint-Estephe"
+          },
+          "is_right_match": true
+        }
+      ]
+    },
+    {
+      "lot": "Santenay Blanc Les Bras Jean Michel Guillon 2016",
+      "lot_items": [
+        {
+          "id": "201267",
+          "lot_item": "Jean Michel Guillon",
+          "lot_type": [
+            "Wine & Spirits"
+          ],
+          "match_result": {
+            "matched_name": "Jean Michel Guillon, Fixin, Les Crais",
+            "matched_producer": null,
+            "matched_region": "Burgundy",
+            "matched_sub_region": "Fixin"
+          },
+          "is_right_match": false
+        }
+      ]
+    },
+    {
+      "lot": "Brunello di Montalcino Il Poggione 2006",
+      "lot_items": [
+        {
+          "id": "10312",
+          "lot_item": "Il Poggione",
+          "lot_type": [
+            "Wine & Spirits"
+          ],
+          "match_result": {
+            "matched_name": "Il Poggione, Brunello di Montalcino",
+            "matched_producer": null,
+            "matched_region": "Tuscany",
+            "matched_sub_region": "Brunello di Montalcino"
+          },
+          "is_right_match": true
+        }
+      ]
+    },
+    {
+      "lot": "d'Yquem 2001",
+      "lot_items": [
+        {
+          "id": "119308",
+          "lot_item": "Yquem",
+          "lot_type": [
+            "Wine & Spirits"
+          ],
+          "match_result": {
+            "matched_name": "Chateau d'Yquem, Sauternes, No. 4",
+            "matched_producer": "Chateau",
+            "matched_region": "Bordeaux",
+            "matched_sub_region": "Sauternes"
+          },
+          "is_right_match": true
+        }
+      ]
+    },
+    {
+      "lot": "Barolo Riserva Giacomo Borgogno 1958",
+      "lot_items": [
+        {
+          "id": "9603",
+          "lot_item": "Giacomo Borgogno",
+          "lot_type": [
+            "Wine & Spirits"
+          ],
+          "match_result": {
+            "matched_name": "Giacomo Borgogno & Figli, Barolo, Riserva",
+            "matched_producer": null,
+            "matched_region": "Piedmont",
+            "matched_sub_region": "Barolo"
+          },
+          "is_right_match": true
+        }
+      ]
+    },
+    {
+      "lot": "Lafite Rothschild 2000",
+      "lot_items": [
+        {
+          "id": "1187",
+          "lot_item": "Lafite Rothschild",
+          "lot_type": [
+            "Wine & Spirits"
+          ],
+          "match_result": {
+            "matched_name": "Chateau Lafite Rothschild Premier Cru Classe, Pauillac",
+            "matched_producer": "Chateau",
+            "matched_region": "Bordeaux",
+            "matched_sub_region": "Pauillac"
+          },
+          "is_right_match": true
+        }
+      ]
+    },
+    {
+      "lot": "Clos Vougeot Jean Michel Guillon 2011",
+      "lot_items": [
+        {
+          "id": "22594",
+          "lot_item": "Jean Michel Guillon",
+          "lot_type": [
+            "Wine & Spirits"
+          ],
+          "match_result": {
+            "matched_name": "Jean Michel Guillon, Clos de Vougeot Grand Cru",
+            "matched_producer": null,
+            "matched_region": "Burgundy",
+            "matched_sub_region": "Clos de Vougeot"
+          },
+          "is_right_match": true
+        }
+      ]
+    },
+    {
+      "lot": "Barolo 1968",
+      "lot_items": [
+        {
+          "id": "20128",
+          "lot_item": "Mixed",
+          "lot_type": [
+            "Wine & Spirits"
+          ],
+          "match_result": {
+            "matched_name": "Oddero, Barolo, Barolo",
+            "matched_producer": null,
+            "matched_region": "Piedmont",
+            "matched_sub_region": "Barolo"
+          },
+          "is_right_match": false
+        }
+      ]
+    },
+    {
+      "lot": "Barolo Franco Fiorina 1967",
+      "lot_items": [
+        {
+          "id": "16436",
+          "lot_item": "Franco Fiorina",
+          "lot_type": [
+            "Wine & Spirits"
+          ],
+          "match_result": {
+            "matched_name": "Franco Fiorina, Barolo",
+            "matched_producer": null,
+            "matched_region": "Piedmont",
+            "matched_sub_region": "Barolo"
+          },
+          "is_right_match": true
+        }
+      ]
+    },
+    {
+      "lot": "Pommery Brut 1966",
+      "lot_items": [
+        {
+          "id": "27966",
+          "lot_item": "Pommery",
+          "lot_type": [
+            "Wine & Spirits"
+          ],
+          "match_result": {
+            "matched_name": "Pommery, Brut Millesime",
+            "matched_producer": null,
+            "matched_region": "Champagne",
+            "matched_sub_region": null
+          },
+          "is_right_match": true
+        }
+      ]
+    },
+    {
+      "lot": "Dom Perignon 1988",
+      "lot_items": [
+        {
+          "id": "8260",
+          "lot_item": "Moet & Chandon",
+          "lot_type": [
+            "Wine & Spirits"
+          ],
+          "match_result": {
+            "matched_name": "Dom Perignon",
+            "matched_producer": null,
+            "matched_region": "Champagne",
+            "matched_sub_region": null
+          },
+          "is_right_match": true
+        }
+      ]
+    },
+    {
+      "lot": "Realm Cellars Hartwell XX Estate Cabernet Sauvignon 2019",
+      "lot_items": [
+        {
+          "id": "110402",
+          "lot_item": "Realm",
+          "lot_type": [
+            "Wine & Spirits"
+          ],
+          "match_result": {
+            "matched_name": "Realm Cellars, Hartwell XX Cabernet Sauvignon, Napa Valley",
+            "matched_producer": null,
+            "matched_region": "California",
+            "matched_sub_region": "Napa Valley"
+          },
+          "is_right_match": true
+        }
+      ]
+    },
+    {
+      "lot": "Silver Oak Cellars Alexander Valley Cabernet Sauvignon 1983",
+      "lot_items": [
+        {
+          "id": "12323",
+          "lot_item": "Silver Oak",
+          "lot_type": [
+            "Wine & Spirits"
+          ],
+          "match_result": {
+            "matched_name": "Silver Oak, Cabernet Sauvignon, Alexander Valley",
+            "matched_producer": null,
+            "matched_region": "California",
+            "matched_sub_region": "Alexander Valley"
+          },
+          "is_right_match": true
+        }
+      ]
+    },
+    {
+      "lot": "Nuits St Georges Robert Arnoux 2000",
+      "lot_items": [
+        {
+          "id": "1875",
+          "lot_item": "NaN",
+          "lot_type": [
+            "Wine & Spirits"
+          ],
+          "match_result": {
+            "matched_name": "Robert Arnoux, Nuits-Saint-Georges, Les Poisets",
+            "matched_producer": null,
+            "matched_region": "Burgundy",
+            "matched_sub_region": "Nuits-Saint-Georges"
+          },
+          "is_right_match": false
+        }
+      ]
+    },
+    {
+      "lot": "Racines Sanford & Benedict Chardonnay 2017",
+      "lot_items": [
+        {
+          "id": "87262",
+          "lot_item": "Racines",
+          "lot_type": [
+            "Wine & Spirits"
+          ],
+          "match_result": {
+            "matched_name": "Racines, Sanford & Benedict Vineyard Chardonnay, Sta. Rita Hills",
+            "matched_producer": null,
+            "matched_region": "California",
+            "matched_sub_region": "Sta. Rita Hills"
+          },
+          "is_right_match": true
+        }
+      ]
+    },
+    {
+      "lot": "Corton Charlemagne Louis Latour 1990",
+      "lot_items": [
+        {
+          "id": "7269",
+          "lot_item": "Louis Latour",
+          "lot_type": [
+            "Wine & Spirits"
+          ],
+          "match_result": {
+            "matched_name": "Domaine Louis Latour, Corton-Charlemagne Grand Cru",
+            "matched_producer": "Domaine",
+            "matched_region": "Burgundy",
+            "matched_sub_region": "Corton-Charlemagne"
+          },
+          "is_right_match": true
+        }
+      ]
+    },
+    {
+      "lot": "Vouvray Le Mont Demi-Sec Huet 1985",
+      "lot_items": [
+        {
+          "id": "10674",
+          "lot_item": "Huet",
+          "lot_type": [
+            "Wine & Spirits"
+          ],
+          "match_result": {
+            "matched_name": "Domaine Huet, Vouvray, Mont Demi Sec",
+            "matched_producer": "Domaine",
+            "matched_region": "Loire",
+            "matched_sub_region": "Vouvray"
+          },
+          "is_right_match": false
+        }
+      ]
+    },
+    {
+      "lot": "The Grade Cabernet Sauvignon 2013",
+      "lot_items": [
+        {
+          "id": "186787",
+          "lot_item": "California",
+          "lot_type": [
+            "Wine & Spirits"
+          ],
+          "match_result": {
+            "matched_name": "Ink Grade, Cabernet Sauvignon, Napa Valley",
+            "matched_producer": null,
+            "matched_region": "California",
+            "matched_sub_region": "Napa Valley"
+          },
+          "is_right_match": false
+        }
+      ]
+    },
+    {
+      "lot": "Meursault Les Narvaux Chavy-Chouet 2015",
+      "lot_items": [
+        {
+          "id": "20074",
+          "lot_item": "Chavy-Chouet",
+          "lot_type": [
+            "Wine & Spirits"
+          ],
+          "match_result": {
+            "matched_name": "Domaine Chavy-Chouet, Meursault, Les Narvaux",
+            "matched_producer": "Domaine",
+            "matched_region": "Burgundy",
+            "matched_sub_region": "Meursault"
+          },
+          "is_right_match": true
+        }
+      ]
+    },
+    {
+      "lot": "Batard Montrachet Domaine Jean-Claude Ramonet 2015",
+      "lot_items": [
+        {
+          "id": "7887",
+          "lot_item": "Jean-Claude Ramonet",
+          "lot_type": [
+            "Wine & Spirits"
+          ],
+          "match_result": {
+            "matched_name": "Jean-Claude Ramonet, Batard-Montrachet Grand Cru",
+            "matched_producer": null,
+            "matched_region": "Burgundy",
+            "matched_sub_region": "Batard-Montrachet"
+          },
+          "is_right_match": true
+        }
+      ]
+    },
+    {
+      "lot": "Louis Roederer Cristal 2007",
+      "lot_items": [
+        {
+          "id": "8249",
+          "lot_item": "Roederer",
+          "lot_type": [
+            "Wine & Spirits"
+          ],
+          "match_result": {
+            "matched_name": "Louis Roederer, Cristal",
+            "matched_producer": null,
+            "matched_region": "Champagne",
+            "matched_sub_region": null
+          },
+          "is_right_match": true
+        }
+      ]
+    },
+    {
+      "lot": "Pommard Clos des Epeneaux Comte Armand 2021",
+      "lot_items": [
+        {
+          "id": "2651",
+          "lot_item": "Armand",
+          "lot_type": [
+            "Wine & Spirits"
+          ],
+          "match_result": {
+            "matched_name": "Comte Armand, Pommard Premier Cru, Clos des Epeneaux",
+            "matched_producer": null,
+            "matched_region": "Burgundy",
+            "matched_sub_region": "Pommard"
+          },
+          "is_right_match": true
+        }
+      ]
+    },
+    {
+      "lot": "Faugeres",
+      "lot_items": [
+        {
+          "id": "17338",
+          "lot_item": "Faugeres",
+          "lot_type": [
+            "Wine & Spirits"
+          ],
+          "match_result": {
+            "matched_name": "Haut Faugeres, Chateau Faugeres, Saint-Emilion Grand Cru",
+            "matched_producer": "Chateau",
+            "matched_region": "Bordeaux",
+            "matched_sub_region": "Saint-Emilion Grand Cru"
+          },
+          "is_right_match": true
+        },
+        {
+          "id": "17338",
+          "lot_item": "Faugeres",
+          "lot_type": [
+            "Wine & Spirits"
+          ],
+          "match_result": {
+            "matched_name": "Haut Faugeres, Chateau Faugeres, Saint-Emilion Grand Cru",
+            "matched_producer": "Chateau",
+            "matched_region": "Bordeaux",
+            "matched_sub_region": "Saint-Emilion Grand Cru"
+          },
+          "is_right_match": true
+        }
+      ]
+    },
+    {
+      "lot": "Schrader CCS Beckstoffer To Kalon Vineyard Cabernet Sauvignon 2015",
+      "lot_items": [
+        {
+          "id": "26478",
+          "lot_item": "Schrader",
+          "lot_type": [
+            "Wine & Spirits"
+          ],
+          "match_result": {
+            "matched_name": "Schrader, CCS Beckstoffer To Kalon Vineyard Cabernet Sauvignon, Napa Valley",
+            "matched_producer": null,
+            "matched_region": "California",
+            "matched_sub_region": "Napa Valley"
+          },
+          "is_right_match": true
+        }
+      ]
+    },
+    {
+      "lot": "Scarecrow Cabernet Sauvignon 2014",
+      "lot_items": [
+        {
+          "id": "14101",
+          "lot_item": "Scarecrow",
+          "lot_type": [
+            "Wine & Spirits"
+          ],
+          "match_result": {
+            "matched_name": "Scarecrow, Cabernet Sauvignon, Rutherford",
+            "matched_producer": null,
+            "matched_region": "California",
+            "matched_sub_region": "Rutherford"
+          },
+          "is_right_match": true
+        }
+      ]
+    },
+    {
+      "lot": "Montrose 2010",
+      "lot_items": [
+        {
+          "id": "30529",
+          "lot_item": "Montrose",
+          "lot_type": [
+            "Wine & Spirits"
+          ],
+          "match_result": {
+            "matched_name": "Tertio de Montrose, Saint-Estephe",
+            "matched_producer": "Chateau",
+            "matched_region": "Bordeaux",
+            "matched_sub_region": "Saint-Estephe"
+          },
+          "is_right_match": false
+        }
+      ]
+    },
+    {
+      "lot": "Realm Cellars The Falstaff 2010",
+      "lot_items": [
+        {
+          "id": "36320",
+          "lot_item": "Realm",
+          "lot_type": [
+            "Wine & Spirits"
+          ],
+          "match_result": {
+            "matched_name": "Realm Cellars, Falstaff, Napa Valley",
+            "matched_producer": null,
+            "matched_region": "California",
+            "matched_sub_region": "Napa Valley"
+          },
+          "is_right_match": true
+        }
+      ]
+    },
+    {
+      "lot": "Furmint Mandolas Oremus 2020",
+      "lot_items": [
+        {
+          "id": "26364",
+          "lot_item": "Oremus",
+          "lot_type": [
+            "Wine & Spirits"
+          ],
+          "match_result": {
+            "matched_name": "Oremus, Mandolas Furmint Dry, Tokaj",
+            "matched_producer": null,
+            "matched_region": "Tokaj",
+            "matched_sub_region": null
+          },
+          "is_right_match": true
+        }
+      ]
+    },
+    {
+      "lot": "Beausejour Duffau Lagarrosse 2016",
+      "lot_items": [
+        {
+          "id": "130506",
+          "lot_item": "Beausejour Duffau Lagarosse",
+          "lot_type": [
+            "Wine & Spirits"
+          ],
+          "match_result": {
+            "matched_name": "Beausejour, Chinon",
+            "matched_producer": null,
+            "matched_region": "Loire",
+            "matched_sub_region": "Chinon"
+          },
+          "is_right_match": false
+        }
+      ]
+    },
+    {
+      "lot": "Meursault Poruzots Pierre-Yves Colin-Morey 2011",
+      "lot_items": [
+        {
+          "id": "98225",
+          "lot_item": "Pierre-Yves Colin-Morey",
+          "lot_type": [
+            "Wine & Spirits"
+          ],
+          "match_result": {
+            "matched_name": "Pierre-Yves Colin-Morey, Meursault",
+            "matched_producer": null,
+            "matched_region": "Burgundy",
+            "matched_sub_region": "Meursault"
+          },
+          "is_right_match": true
+        }
+      ]
+    },
+    {
+      "lot": "Heitz Wine Cellars Martha's Vineyard Cabernet Sauvignon 1980",
+      "lot_items": [
+        {
+          "id": "12220",
+          "lot_item": "Heitz",
+          "lot_type": [
+            "Wine & Spirits"
+          ],
+          "match_result": {
+            "matched_name": "Heitz Cellar, Martha's Vineyard Cabernet Sauvignon, Napa Valley",
+            "matched_producer": null,
+            "matched_region": "California",
+            "matched_sub_region": "Napa Valley"
+          },
+          "is_right_match": true
+        }
+      ]
+    },
+    {
+      "lot": "Harris Estate Treva's Vineyard  Cabernet Sauvignon 2005",
+      "lot_items": [
+        {
+          "id": "69222",
+          "lot_item": "Harris Estate",
+          "lot_type": [
+            "Wine & Spirits"
+          ],
+          "match_result": {
+            "matched_name": "Harris Estate Vineyards, Trevas Very special reserve Cabernet Sauvignon, Napa Valley",
+            "matched_producer": null,
+            "matched_region": "California",
+            "matched_sub_region": "Napa Valley"
+          },
+          "is_right_match": true
+        }
+      ]
+    },
+    {
+      "lot": "Sine Qua Non Pajarito del Amor Grenache 2016",
+      "lot_items": [
+        {
+          "id": "91480",
+          "lot_item": "Sine Qua Non",
+          "lot_type": [
+            "Wine & Spirits"
+          ],
+          "match_result": {
+            "matched_name": "Sine Qua Non, Pajarito Del Amor, Sta. Rita Hills",
+            "matched_producer": null,
+            "matched_region": "California",
+            "matched_sub_region": "Sta. Rita Hills"
+          },
+          "is_right_match": true
+        }
+      ]
+    },
+    {
+      "lot": "Echezeaux Jean Grivot 2021",
+      "lot_items": [
+        {
+          "id": "3558",
+          "lot_item": "Grivot",
+          "lot_type": [
+            "Wine & Spirits"
+          ],
+          "match_result": {
+            "matched_name": "Domaine Jean Grivot, Echezeaux Grand Cru",
+            "matched_producer": "Domaine",
+            "matched_region": "Burgundy",
+            "matched_sub_region": "Echezeaux"
+          },
+          "is_right_match": true
+        }
+      ]
+    },
+    {
+      "lot": "Richebourg Meo-Camuzet 2004",
+      "lot_items": [
+        {
+          "id": "4686",
+          "lot_item": "Domaine Meo-Camuzet",
+          "lot_type": [
+            "Wine & Spirits"
+          ],
+          "match_result": {
+            "matched_name": "Domaine Meo Camuzet, Richebourg Grand Cru",
+            "matched_producer": "Domaine",
+            "matched_region": "Burgundy",
+            "matched_sub_region": "Richebourg"
+          },
+          "is_right_match": true
+        }
+      ]
+    },
+    {
+      "lot": "Georges Laval Les Chênes Brut Nature 2016",
+      "lot_items": [
+        {
+          "id": "48610",
+          "lot_item": "Georges Laval",
+          "lot_type": [
+            "Wine & Spirits"
+          ],
+          "match_result": {
+            "matched_name": "Georges Laval, Les Chenes Brut Nature Premier Cru, Cumieres",
+            "matched_producer": null,
+            "matched_region": "Champagne",
+            "matched_sub_region": "Cumieres"
+          },
+          "is_right_match": true
+        }
+      ]
+    },
+    {
+      "lot": "Trebbiano d'Abruzzo Valentini 2014",
+      "lot_items": [
+        {
+          "id": "10594",
+          "lot_item": "Valentini",
+          "lot_type": [
+            "Wine & Spirits"
+          ],
+          "match_result": {
+            "matched_name": "Valentini, Trebbiano d'Abruzzo",
+            "matched_producer": null,
+            "matched_region": "Abruzzo",
+            "matched_sub_region": "Trebbiano d'Abruzzo"
+          },
+          "is_right_match": true
+        }
+      ]
+    },
+    {
+      "lot": "Fleur Cardinale 2009",
+      "lot_items": [
+        {
+          "id": "94968",
+          "lot_item": "Fleur Cardinale",
+          "lot_type": [
+            "Wine & Spirits"
+          ],
+          "match_result": {
+            "matched_name": "Intuition de Fleur Cardinale, Saint-Emilion Grand Cru",
+            "matched_producer": "Chateau",
+            "matched_region": "Bordeaux",
+            "matched_sub_region": "Saint-Emilion Grand Cru"
+          },
+          "is_right_match": false
+        }
+      ]
+    },
+    {
+      "lot": "Rioja Gran Reserva Tondonia Lopez de Heredia 1991",
+      "lot_items": [
+        {
+          "id": "34991",
+          "lot_item": "Lopez de Heredia",
+          "lot_type": [
+            "Wine & Spirits"
+          ],
+          "match_result": {
+            "matched_name": "Lopez Heredia, Tondonia Gran Reserva, Rioja",
+            "matched_producer": null,
+            "matched_region": "Rioja",
+            "matched_sub_region": null
+          },
+          "is_right_match": true
+        }
+      ]
+    },
+    {
+      "lot": "Chateauneuf du Pape Mon Aieul Pierre Usseglio 2007",
+      "lot_items": [
+        {
+          "id": "11760",
+          "lot_item": "Pierre Usseglio",
+          "lot_type": [
+            "Wine & Spirits"
+          ],
+          "match_result": {
+            "matched_name": "Domaine Pierre Usseglio, Chateauneuf-du-Pape, de Mon Aieul",
+            "matched_producer": "Domaine",
+            "matched_region": "Rhone",
+            "matched_sub_region": "Chateauneuf-du-Pape"
+          },
+          "is_right_match": true
+        }
+      ]
+    },
+    {
+      "lot": "Clos de la Roche Domaine Lucie et Auguste Lignier 2005",
+      "lot_items": [
+        {
+          "id": "13786",
+          "lot_item": "Lucie et Auguste Lignier",
+          "lot_type": [
+            "Wine & Spirits"
+          ],
+          "match_result": {
+            "matched_name": "Lucie & Auguste Lignier, Clos de la Roche Grand Cru",
+            "matched_producer": null,
+            "matched_region": "Burgundy",
+            "matched_sub_region": "Clos de la Roche"
+          },
+          "is_right_match": true
+        }
+      ]
+    },
+    {
+      "lot": "Chateauneuf du Pape Hommage a Jacques Perrin Chateau Beaucastel 2000",
+      "lot_items": [
+        {
+          "id": "10834",
+          "lot_item": "Beaucastel",
+          "lot_type": [
+            "Wine & Spirits"
+          ],
+          "match_result": {
+            "matched_name": "Chateau de Beaucastel Hommage a Jacques Perrin, Chateauneuf-du-Pape",
+            "matched_producer": null,
+            "matched_region": "Rhone",
+            "matched_sub_region": "Chateauneuf-du-Pape"
+          },
+          "is_right_match": true
+        }
+      ]
+    },
+    {
+      "lot": "Chevalier Montrachet Domaine Ramonet 2013",
+      "lot_items": [
+        {
+          "id": "68049",
+          "lot_item": "Domaine Ramonet",
+          "lot_type": [
+            "Wine & Spirits"
+          ],
+          "match_result": {
+            "matched_name": "Domaine Bachelet Ramonet, Puligny-Montrachet, Les Enseigneres",
+            "matched_producer": "Domaine",
+            "matched_region": "Burgundy",
+            "matched_sub_region": "Puligny-Montrachet"
+          },
+          "is_right_match": false
+        }
+      ]
+    },
+    {
+      "lot": "La Grande Rue Lamarche 2016",
+      "lot_items": [
+        {
+          "id": "4016",
+          "lot_item": "Lamarche",
+          "lot_type": [
+            "Wine & Spirits"
+          ],
+          "match_result": {
+            "matched_name": "Francois Lamarche, La Grande Rue Grand Cru",
+            "matched_producer": null,
+            "matched_region": "Burgundy",
+            "matched_sub_region": "La Grande Rue"
+          },
+          "is_right_match": true
+        }
+      ]
+    },
+    {
+      "lot": "Bonnes Mares Denis Mortet 2018",
+      "lot_items": [
+        {
+          "id": "35588",
+          "lot_item": "Denis Mortet",
+          "lot_type": [
+            "Wine & Spirits"
+          ],
+          "match_result": {
+            "matched_name": "Domaine Denis Mortet, Bonnes Mares Grand Cru",
+            "matched_producer": "Domaine",
+            "matched_region": "Burgundy",
+            "matched_sub_region": "Bonnes Mares"
+          },
+          "is_right_match": true
+        }
+      ]
+    },
+    {
+      "lot": "Savigny les Beaune Rouge Les Lavieres Chandon de Briailles 1997",
+      "lot_items": [
+        {
+          "id": "2409",
+          "lot_item": "Chandon de Briailles",
+          "lot_type": [
+            "Wine & Spirits"
+          ],
+          "match_result": {
+            "matched_name": "Domaine Chandon de Briailles, Savigny-les-Beaune Premier Cru, Les Lavieres",
+            "matched_producer": "Domaine",
+            "matched_region": "Burgundy",
+            "matched_sub_region": "Savigny-les-Beaune"
+          },
+          "is_right_match": true
+        }
+      ]
+    },
+    {
+      "lot": "Lokoya Spring Mountain District Cabernet Sauvignon 2018",
+      "lot_items": [
+        {
+          "id": "32923",
+          "lot_item": "Lokoya",
+          "lot_type": [
+            "Wine & Spirits"
+          ],
+          "match_result": {
+            "matched_name": "Lokoya, Cabernet Sauvignon, Spring Mountain District",
+            "matched_producer": null,
+            "matched_region": "California",
+            "matched_sub_region": "Spring Mountain District"
+          },
+          "is_right_match": true
+        }
+      ]
+    },
+    {
+      "lot": "Aloxe Corton Domaine Nicolas Faure 2015",
+      "lot_items": [
+        {
+          "id": "104413",
+          "lot_item": "Nicolas Faure",
+          "lot_type": [
+            "Wine & Spirits"
+          ],
+          "match_result": {
+            "matched_name": "Domaine Nicolas Faure, Aloxe-Corton",
+            "matched_producer": "Domaine",
+            "matched_region": "Burgundy",
+            "matched_sub_region": "Aloxe-Corton"
+          },
+          "is_right_match": true
+        }
+      ]
+    },
+    {
+      "lot": "Dom Perignon 2009",
+      "lot_items": [
+        {
+          "id": "8260",
+          "lot_item": "Moet & Chandon",
+          "lot_type": [
+            "Wine & Spirits"
+          ],
+          "match_result": {
+            "matched_name": "Dom Perignon",
+            "matched_producer": null,
+            "matched_region": "Champagne",
+            "matched_sub_region": null
+          },
+          "is_right_match": true
+        }
+      ]
+    },
+    {
+      "lot": "Torbreck The Steading Red 1998",
+      "lot_items": [
+        {
+          "id": "508",
+          "lot_item": "Torbreck",
+          "lot_type": [
+            "Wine & Spirits"
+          ],
+          "match_result": {
+            "matched_name": "Torbreck, The Steading, Barossa Valley",
+            "matched_producer": null,
+            "matched_region": "South Australia",
+            "matched_sub_region": "Barossa Valley"
+          },
+          "is_right_match": true
+        }
+      ]
+    },
+    {
+      "lot": "Chateauneuf du Pape Cuvee Vieilles Vignes Janasse 2003",
+      "lot_items": [
+        {
+          "id": "11391",
+          "lot_item": "Janasse",
+          "lot_type": [
+            "Wine & Spirits"
+          ],
+          "match_result": {
+            "matched_name": "Domaine de la Janasse, Chateauneuf-du-Pape, Vieilles Vignes",
+            "matched_producer": "Domaine",
+            "matched_region": "Rhone",
+            "matched_sub_region": "Chateauneuf-du-Pape"
+          },
+          "is_right_match": true
+        }
+      ]
+    },
+    {
+      "lot": "Mitolo Shiraz",
+      "lot_items": [
+        {
+          "id": "386",
+          "lot_item": "Mitolo",
+          "lot_type": [
+            "Wine & Spirits"
+          ],
+          "match_result": {
+            "matched_name": "Mitolo, G.A.M. Shiraz, McLaren Vale",
+            "matched_producer": null,
+            "matched_region": "South Australia",
+            "matched_sub_region": "McLaren Vale"
+          },
+          "is_right_match": true
+        },
+        {
+          "id": "386",
+          "lot_item": "Mitolo",
+          "lot_type": [
+            "Wine & Spirits"
+          ],
+          "match_result": {
+            "matched_name": "Mitolo, G.A.M. Shiraz, McLaren Vale",
+            "matched_producer": null,
+            "matched_region": "South Australia",
+            "matched_sub_region": "McLaren Vale"
+          },
+          "is_right_match": true
+        },
+        {
+          "id": "386",
+          "lot_item": "Mitolo",
+          "lot_type": [
+            "Wine & Spirits"
+          ],
+          "match_result": {
+            "matched_name": "Mitolo, G.A.M. Shiraz, McLaren Vale",
+            "matched_producer": null,
+            "matched_region": "South Australia",
+            "matched_sub_region": "McLaren Vale"
+          },
+          "is_right_match": true
+        }
+      ]
+    },
+    {
+      "lot": "Paloma Napa Valley Merlot 2011",
+      "lot_items": [
+        {
+          "id": "12281",
+          "lot_item": "Paloma",
+          "lot_type": [
+            "Wine & Spirits"
+          ],
+          "match_result": {
+            "matched_name": "Paloma, Merlot, Napa Valley",
+            "matched_producer": null,
+            "matched_region": "California",
+            "matched_sub_region": "Napa Valley"
+          },
+          "is_right_match": true
+        }
+      ]
+    },
+    {
+      "lot": "Fixin Rouge Maison Leroy 2014",
+      "lot_items": [
+        {
+          "id": "22660",
+          "lot_item": "Maison Leroy",
+          "lot_type": [
+            "Wine & Spirits"
+          ],
+          "match_result": {
+            "matched_name": "Maison Leroy, Fixin, Rouge",
+            "matched_producer": "Maison",
+            "matched_region": "Burgundy",
+            "matched_sub_region": "Fixin"
+          },
+          "is_right_match": true
+        }
+      ]
+    },
+    {
+      "lot": "Barolo Bartolo Mascarello 2013",
+      "lot_items": [
+        {
+          "id": "10119",
+          "lot_item": "Bartolo Mascarello",
+          "lot_type": [
+            "Wine & Spirits"
+          ],
+          "match_result": {
+            "matched_name": "Bartolo Mascarello, Barolo",
+            "matched_producer": null,
+            "matched_region": "Piedmont",
+            "matched_sub_region": "Barolo"
+          },
+          "is_right_match": true
+        }
+      ]
+    },
+    {
+      "lot": "Morey St Denis Les Loups Domaine des Lambrays 2019",
+      "lot_items": [
+        {
+          "id": "4029",
+          "lot_item": "Domaine des Lambrays",
+          "lot_type": [
+            "Wine & Spirits"
+          ],
+          "match_result": {
+            "matched_name": "Domaine des Lambrays, Morey-Saint-Denis",
+            "matched_producer": "Domaine",
+            "matched_region": "Burgundy",
+            "matched_sub_region": "Morey-Saint-Denis"
+          },
+          "is_right_match": true
+        }
+      ]
+    },
+    {
+      "lot": "Barolo Riserva Rocche dell'Annunziata Scavino 1996",
+      "lot_items": [
+        {
+          "id": "10499",
+          "lot_item": "Paolo Scavino",
+          "lot_type": [
+            "Wine & Spirits"
+          ],
+          "match_result": {
+            "matched_name": "Paolo Scavino, Barolo, Rocche dell'Annunziata Riserva",
+            "matched_producer": null,
+            "matched_region": "Piedmont",
+            "matched_sub_region": "Barolo"
+          },
+          "is_right_match": true
+        }
+      ]
+    },
+    {
+      "lot": "Quilceda Creek CVR Columbia Valley Red Wine 2016",
+      "lot_items": [
+        {
+          "id": "31881",
+          "lot_item": "Quilceda Creek",
+          "lot_type": [
+            "Wine & Spirits"
+          ],
+          "match_result": {
+            "matched_name": "Quilceda Creek, CVR Red Wine, Columbia Valley",
+            "matched_producer": null,
+            "matched_region": "Washington",
+            "matched_sub_region": "Columbia Valley"
+          },
+          "is_right_match": true
+        }
+      ]
+    },
+    {
+      "lot": "Vega Sicilia Unico 2004",
+      "lot_items": [
+        {
+          "id": "12129",
+          "lot_item": "Vega Sicilia",
+          "lot_type": [
+            "Wine & Spirits"
+          ],
+          "match_result": {
+            "matched_name": "Vega Sicilia, Unico, Ribera del Duero",
+            "matched_producer": null,
+            "matched_region": "Castilla y Leon",
+            "matched_sub_region": "Ribera del Duero"
+          },
+          "is_right_match": true
+        }
+      ]
+    },
+    {
+      "lot": "Cote de Nuits Villages Le Vaucrain Jean Marc Millot 2020",
+      "lot_items": [
+        {
+          "id": "136457",
+          "lot_item": "Millot (Jean-Marc)",
+          "lot_type": [
+            "Wine & Spirits"
+          ],
+          "match_result": {
+            "matched_name": "Jean-Marc Millot, Cote de Nuits-Villages, Le Vaucrain",
+            "matched_producer": null,
+            "matched_region": "Burgundy",
+            "matched_sub_region": "Cote de Nuits-Villages"
+          },
+          "is_right_match": true
+        }
+      ]
+    },
+    {
+      "lot": "Littorai B.A. Thieirot Vineyard Pinot Noir 2013",
+      "lot_items": [
+        {
+          "id": "21044",
+          "lot_item": "Littorai",
+          "lot_type": [
+            "Wine & Spirits"
+          ],
+          "match_result": {
+            "matched_name": "Littorai, B.A. Thieriot Vineyard Pinot Noir, California",
+            "matched_producer": null,
+            "matched_region": "California",
+            "matched_sub_region": null
+          },
+          "is_right_match": true
+        }
+      ]
+    },
+    {
+      "lot": "Bellevue Mondotte 2005",
+      "lot_items": [
+        {
+          "id": "1322",
+          "lot_item": "Bellevue Mondotte",
+          "lot_type": [
+            "Wine & Spirits"
+          ],
+          "match_result": {
+            "matched_name": "La Mondotte Premier Grand Cru Classe B, Saint-Emilion Grand Cru",
+            "matched_producer": null,
+            "matched_region": "Bordeaux",
+            "matched_sub_region": "Saint-Emilion Grand Cru"
+          },
+          "is_right_match": false
+        }
+      ]
+    },
+    {
+      "lot": "Pichon Longueville Comtesse de Lalande 1995",
+      "lot_items": [
+        {
+          "id": "1417",
+          "lot_item": "Pichon Lalande",
+          "lot_type": [
+            "Wine & Spirits"
+          ],
+          "match_result": {
+            "matched_name": "Chateau Pichon Longueville Comtesse de Lalande 2eme Cru Classe, Pauillac",
+            "matched_producer": "Chateau",
+            "matched_region": "Bordeaux",
+            "matched_sub_region": "Pauillac"
+          },
+          "is_right_match": true
+        }
+      ]
+    },
+    {
+      "lot": "Switchback Ridge Peterson Family Vineyard Petite Sirah 2012",
+      "lot_items": [
+        {
+          "id": "18521",
+          "lot_item": "Switchback Ridge",
+          "lot_type": [
+            "Wine & Spirits"
+          ],
+          "match_result": {
+            "matched_name": "Switchback Ridge, Peterson Family Vineyard Cabernet Sauvignon, Napa Valley",
+            "matched_producer": null,
+            "matched_region": "California",
+            "matched_sub_region": "Napa Valley"
+          },
+          "is_right_match": false
+        }
+      ]
+    },
+    {
+      "lot": "Vosne Romanee Aux Reignots Chateau de Vosne Romanee Bouchard Pere et Fils 1999",
+      "lot_items": [
+        {
+          "id": "32334",
+          "lot_item": "Bouchard Pere et Fils",
+          "lot_type": [
+            "Wine & Spirits"
+          ],
+          "match_result": {
+            "matched_name": "Chateau Vosne Romanee, Vosne-Romanee, Reignots",
+            "matched_producer": "Chateau",
+            "matched_region": "Burgundy",
+            "matched_sub_region": "Vosne-Romanee"
+          },
+          "is_right_match": true
+        }
+      ]
+    },
+    {
+      "lot": "Chassagne Montrachet Rouge Domaine Jean-Claude Ramonet 2015",
+      "lot_items": [
+        {
+          "id": "5395",
+          "lot_item": "Jean-Claude Ramonet",
+          "lot_type": [
+            "Wine & Spirits"
+          ],
+          "match_result": {
+            "matched_name": "Jean-Claude Ramonet, Chassagne-Montrachet, Rouge",
+            "matched_producer": null,
+            "matched_region": "Burgundy",
+            "matched_sub_region": "Chassagne-Montrachet"
+          },
+          "is_right_match": true
+        }
+      ]
+    },
+    {
+      "lot": "Volnay Carelle Sous la Chapelle Pernot 2017",
+      "lot_items": [
+        {
+          "id": "5070",
+          "lot_item": "Paul Pernot",
+          "lot_type": [
+            "Wine & Spirits"
+          ],
+          "match_result": {
+            "matched_name": "Paul Pernot, Volnay Premier Cru, Carelle sous la Chapelle",
+            "matched_producer": null,
+            "matched_region": "Burgundy",
+            "matched_sub_region": "Volnay"
+          },
+          "is_right_match": true
+        }
+      ]
+    },
+    {
+      "lot": "Latour 1995",
+      "lot_items": [
+        {
+          "id": "45391",
+          "lot_item": "Latour",
+          "lot_type": [
+            "Wine & Spirits"
+          ],
+          "match_result": {
+            "matched_name": "Louis Latour, Mercurey",
+            "matched_producer": null,
+            "matched_region": "Burgundy",
+            "matched_sub_region": "Mercurey"
+          },
+          "is_right_match": false
+        }
+      ]
+    },
+    {
+      "lot": "Giscours 2000",
+      "lot_items": [
+        {
+          "id": "1056",
+          "lot_item": "Giscours",
+          "lot_type": [
+            "Wine & Spirits"
+          ],
+          "match_result": {
+            "matched_name": "Chateau Giscours 3eme Cru Classe, Margaux",
+            "matched_producer": "Chateau",
+            "matched_region": "Bordeaux",
+            "matched_sub_region": "Margaux"
+          },
+          "is_right_match": true
+        }
+      ]
+    },
+    {
+      "lot": "Pahlmeyer Piece de Resistance Napa Valley Cabernet Sauvignon 2013",
+      "lot_items": [
+        {
+          "id": "59906",
+          "lot_item": "Pahlmeyer",
+          "lot_type": [
+            "Wine & Spirits"
+          ],
+          "match_result": {
+            "matched_name": "Pahlmeyer, Piece de Resistance, Napa Valley",
+            "matched_producer": null,
+            "matched_region": "California",
+            "matched_sub_region": "Napa Valley"
+          },
+          "is_right_match": true
+        }
+      ]
+    },
+    {
+      "lot": "Chambertin Clos de Beze Bouchard Pere et Fils 2009",
+      "lot_items": [
+        {
+          "id": "2161",
+          "lot_item": "Bouchard Pere et Fils",
+          "lot_type": [
+            "Wine & Spirits"
+          ],
+          "match_result": {
+            "matched_name": "Bouchard Pere et Fils, Chambertin-Clos de Beze Grand Cru",
+            "matched_producer": null,
+            "matched_region": "Burgundy",
+            "matched_sub_region": "Chambertin-Clos de Beze"
+          },
+          "is_right_match": true
+        }
+      ]
+    },
+    {
+      "lot": "Taylor Fladgate 1970",
+      "lot_items": [
+        {
+          "id": "51977",
+          "lot_item": "Taylor Fladgate",
+          "lot_type": [
+            "Wine & Spirits"
+          ],
+          "match_result": {
+            "matched_name": "Taylor Fladgate, Vintage",
+            "matched_producer": null,
+            "matched_region": "Porto",
+            "matched_sub_region": null
+          },
+          "is_right_match": true
+        }
+      ]
+    },
+    {
+      "lot": "Brunello di Montalcino Valdicava 2010",
+      "lot_items": [
+        {
+          "id": "10588",
+          "lot_item": "Valdicava",
+          "lot_type": [
+            "Wine & Spirits"
+          ],
+          "match_result": {
+            "matched_name": "Valdicava, Brunello di Montalcino",
+            "matched_producer": null,
+            "matched_region": "Tuscany",
+            "matched_sub_region": "Brunello di Montalcino"
+          },
+          "is_right_match": true
+        }
+      ]
+    },
+    {
+      "lot": "Beausejour Duffau Lagarrosse 2014",
+      "lot_items": [
+        {
+          "id": "130506",
+          "lot_item": "Beausejour Duffau Lagarosse",
+          "lot_type": [
+            "Wine & Spirits"
+          ],
+          "match_result": {
+            "matched_name": "Beausejour, Chinon",
+            "matched_producer": null,
+            "matched_region": "Loire",
+            "matched_sub_region": "Chinon"
+          },
+          "is_right_match": false
+        }
+      ]
+    },
+    {
+      "lot": "Mixed St. Emilion",
+      "lot_items": [
+        {
+          "id": "80039",
+          "lot_item": "Mixed",
+          "lot_type": [
+            "Wine & Spirits"
+          ],
+          "match_result": {
+            "matched_name": "Girard, Mixed Blacks, Napa Valley",
+            "matched_producer": null,
+            "matched_region": "California",
+            "matched_sub_region": "Napa Valley"
+          },
+          "is_right_match": false
+        },
+        {
+          "id": "80039",
+          "lot_item": "Mixed",
+          "lot_type": [
+            "Wine & Spirits"
+          ],
+          "match_result": {
+            "matched_name": "Girard, Mixed Blacks, Napa Valley",
+            "matched_producer": null,
+            "matched_region": "California",
+            "matched_sub_region": "Napa Valley"
+          },
+          "is_right_match": false
+        },
+        {
+          "id": "80039",
+          "lot_item": "Mixed",
+          "lot_type": [
+            "Wine & Spirits"
+          ],
+          "match_result": {
+            "matched_name": "Girard, Mixed Blacks, Napa Valley",
+            "matched_producer": null,
+            "matched_region": "California",
+            "matched_sub_region": "Napa Valley"
+          },
+          "is_right_match": false
+        },
+        {
+          "id": "80039",
+          "lot_item": "Mixed",
+          "lot_type": [
+            "Wine & Spirits"
+          ],
+          "match_result": {
+            "matched_name": "Girard, Mixed Blacks, Napa Valley",
+            "matched_producer": null,
+            "matched_region": "California",
+            "matched_sub_region": "Napa Valley"
+          },
+          "is_right_match": false
+        },
+        {
+          "id": "80039",
+          "lot_item": "Mixed",
+          "lot_type": [
+            "Wine & Spirits"
+          ],
+          "match_result": {
+            "matched_name": "Girard, Mixed Blacks, Napa Valley",
+            "matched_producer": null,
+            "matched_region": "California",
+            "matched_sub_region": "Napa Valley"
+          },
+          "is_right_match": false
+        },
+        {
+          "id": "80039",
+          "lot_item": "Mixed",
+          "lot_type": [
+            "Wine & Spirits"
+          ],
+          "match_result": {
+            "matched_name": "Girard, Mixed Blacks, Napa Valley",
+            "matched_producer": null,
+            "matched_region": "California",
+            "matched_sub_region": "Napa Valley"
+          },
+          "is_right_match": false
+        },
+        {
+          "id": "80039",
+          "lot_item": "Mixed",
+          "lot_type": [
+            "Wine & Spirits"
+          ],
+          "match_result": {
+            "matched_name": "Girard, Mixed Blacks, Napa Valley",
+            "matched_producer": null,
+            "matched_region": "California",
+            "matched_sub_region": "Napa Valley"
+          },
+          "is_right_match": false
+        }
+      ]
+    },
+    {
+      "lot": "Chateau Musar 1997",
+      "lot_items": [
+        {
+          "id": "10661",
+          "lot_item": "Chateau Musar",
+          "lot_type": [
+            "Wine & Spirits"
+          ],
+          "match_result": {
+            "matched_name": "Chateau Musar, Red",
+            "matched_producer": "Chateau",
+            "matched_region": "Bekaa Valley",
+            "matched_sub_region": null
+          },
+          "is_right_match": true
+        }
+      ]
+    },
+    {
+      "lot": "Ridge Vineyards Monte Bello Cabernet Sauvignon 1993",
+      "lot_items": [
+        {
+          "id": "126287",
+          "lot_item": "Ridge",
+          "lot_type": [
+            "Wine & Spirits"
+          ],
+          "match_result": {
+            "matched_name": "I. Brand & Family, Monte Bello Road Cabernet Sauvignon, Santa Cruz Mountains",
+            "matched_producer": null,
+            "matched_region": "California",
+            "matched_sub_region": "Santa Cruz Mountains"
+          },
+          "is_right_match": false
+        }
+      ]
+    },
+    {
+      "lot": "Lokoya Mount Veeder Cabernet Sauvignon 2012",
+      "lot_items": [
+        {
+          "id": "14093",
+          "lot_item": "Lokoya",
+          "lot_type": [
+            "Wine & Spirits"
+          ],
+          "match_result": {
+            "matched_name": "Lokoya, Cabernet Sauvignon, Mt. Veeder",
+            "matched_producer": null,
+            "matched_region": "California",
+            "matched_sub_region": "Mt. Veeder"
+          },
+          "is_right_match": true
+        }
+      ]
+    },
+    {
+      "lot": "Lafite Rothschild 1986",
+      "lot_items": [
+        {
+          "id": "1187",
+          "lot_item": "Lafite Rothschild",
+          "lot_type": [
+            "Wine & Spirits"
+          ],
+          "match_result": {
+            "matched_name": "Chateau Lafite Rothschild Premier Cru Classe, Pauillac",
+            "matched_producer": "Chateau",
+            "matched_region": "Bordeaux",
+            "matched_sub_region": "Pauillac"
+          },
+          "is_right_match": true
+        }
+      ]
+    },
+    {
+      "lot": "Pichon Baron 1998",
+      "lot_items": [
+        {
+          "id": "1416",
+          "lot_item": "Pichon Baron",
+          "lot_type": [
+            "Wine & Spirits"
+          ],
+          "match_result": {
+            "matched_name": "Chateau Pichon Baron 2eme Cru Classe, Pauillac",
+            "matched_producer": "Chateau",
+            "matched_region": "Bordeaux",
+            "matched_sub_region": "Pauillac"
+          },
+          "is_right_match": true
+        }
+      ]
+    },
+    {
+      "lot": "La Mission Haut Brion 1994",
+      "lot_items": [
+        {
+          "id": "800",
+          "lot_item": "La Mission Haut Brion",
+          "lot_type": [
+            "Wine & Spirits"
+          ],
+          "match_result": {
+            "matched_name": "La Chapelle de la Mission Haut-Brion, Pessac-Leognan",
+            "matched_producer": "Chateau",
+            "matched_region": "Bordeaux",
+            "matched_sub_region": "Pessac-Leognan"
+          },
+          "is_right_match": false
+        }
+      ]
+    },
+    {
+      "lot": "Rioja Blanco Crianza Gravonia Lopez de Heredia 1995",
+      "lot_items": [
+        {
+          "id": "30747",
+          "lot_item": "Lopez de Heredia",
+          "lot_type": [
+            "Wine & Spirits"
+          ],
+          "match_result": {
+            "matched_name": "R. Lopez de Heredia, Gravonia Crianza Blanco, Rioja",
+            "matched_producer": null,
+            "matched_region": "Rioja",
+            "matched_sub_region": null
+          },
+          "is_right_match": true
+        }
+      ]
+    },
+    {
+      "lot": "Montrose 2008",
+      "lot_items": [
+        {
+          "id": "30529",
+          "lot_item": "Montrose",
+          "lot_type": [
+            "Wine & Spirits"
+          ],
+          "match_result": {
+            "matched_name": "Tertio de Montrose, Saint-Estephe",
+            "matched_producer": "Chateau",
+            "matched_region": "Bordeaux",
+            "matched_sub_region": "Saint-Estephe"
+          },
+          "is_right_match": false
+        }
+      ]
+    },
+    {
+      "lot": "Pichon Longueville Comtesse de Lalande 2000",
+      "lot_items": [
+        {
+          "id": "1417",
+          "lot_item": "Pichon Lalande",
+          "lot_type": [
+            "Wine & Spirits"
+          ],
+          "match_result": {
+            "matched_name": "Chateau Pichon Longueville Comtesse de Lalande 2eme Cru Classe, Pauillac",
+            "matched_producer": "Chateau",
+            "matched_region": "Bordeaux",
+            "matched_sub_region": "Pauillac"
+          },
+          "is_right_match": true
+        }
+      ]
+    },
+    {
+      "lot": "Marcassin Marcassin Vineyard Pinot Noir 2009",
+      "lot_items": [
+        {
+          "id": "17547",
+          "lot_item": "Marcassin",
+          "lot_type": [
+            "Wine & Spirits"
+          ],
+          "match_result": {
+            "matched_name": "Marcassin, Marcassin Vineyard Pinot Noir, Sonoma Coast",
+            "matched_producer": null,
+            "matched_region": "California",
+            "matched_sub_region": "Sonoma Coast"
+          },
+          "is_right_match": true
+        }
+      ]
+    },
+    {
+      "lot": "Vin de France Blanc L'Esprit Libre Thomas Batardiere 2021",
+      "lot_items": [
+        {
+          "id": "76378",
+          "lot_item": "Thomas Batardiere",
+          "lot_type": [
+            "Wine & Spirits"
+          ],
+          "match_result": {
+            "matched_name": "Thomas Batardiere, Anjou, Esprit Libre",
+            "matched_producer": null,
+            "matched_region": "Loire",
+            "matched_sub_region": "Anjou"
+          },
+          "is_right_match": false
+        }
+      ]
+    },
+    {
+      "lot": "Brunello di Montalcino Cerretalto Casanova di Neri 1997",
+      "lot_items": [
+        {
+          "id": "9704",
+          "lot_item": "Casanova Di Neri",
+          "lot_type": [
+            "Wine & Spirits"
+          ],
+          "match_result": {
+            "matched_name": "Casanova di Neri, Brunello di Montalcino, Cerretalto",
+            "matched_producer": null,
+            "matched_region": "Tuscany",
+            "matched_sub_region": "Brunello di Montalcino"
+          },
+          "is_right_match": true
+        }
+      ]
+    },
+    {
+      "lot": "Dunn Vineyards Howell Mountain Cabernet Sauvignon 1999",
+      "lot_items": [
+        {
+          "id": "12189",
+          "lot_item": "Dunn",
+          "lot_type": [
+            "Wine & Spirits"
+          ],
+          "match_result": {
+            "matched_name": "Dunn, Cabernet Sauvignon, Howell Mountain",
+            "matched_producer": null,
+            "matched_region": "California",
+            "matched_sub_region": "Howell Mountain"
+          },
+          "is_right_match": true
+        }
+      ]
+    },
+    {
+      "lot": "La Mission Haut Brion 1989",
+      "lot_items": [
+        {
+          "id": "800",
+          "lot_item": "La Mission Haut Brion",
+          "lot_type": [
+            "Wine & Spirits"
+          ],
+          "match_result": {
+            "matched_name": "La Chapelle de la Mission Haut-Brion, Pessac-Leognan",
+            "matched_producer": "Chateau",
+            "matched_region": "Bordeaux",
+            "matched_sub_region": "Pessac-Leognan"
+          },
+          "is_right_match": false
+        }
+      ]
+    },
+    {
+      "lot": "Montrachet Lucien Le Moine 2004",
+      "lot_items": [
+        {
+          "id": "7309",
+          "lot_item": "Lucien Le Moine",
+          "lot_type": [
+            "Wine & Spirits"
+          ],
+          "match_result": {
+            "matched_name": "Lucien Le Moine, Chassagne-Montrachet",
+            "matched_producer": null,
+            "matched_region": "Burgundy",
+            "matched_sub_region": "Chassagne-Montrachet"
+          },
+          "is_right_match": false
+        }
+      ]
+    },
+    {
+      "lot": "Musigny Vieilles Vignes Comte Georges de Vogue 2012",
+      "lot_items": [
+        {
+          "id": "2686",
+          "lot_item": "Comte De Vogue",
+          "lot_type": [
+            "Wine & Spirits"
+          ],
+          "match_result": {
+            "matched_name": "Domaine Comte Georges de Vogue, Musigny Grand Cru, Cuvee Vieilles Vignes",
+            "matched_producer": "Domaine",
+            "matched_region": "Burgundy",
+            "matched_sub_region": "Musigny"
+          },
+          "is_right_match": true
+        }
+      ]
+    },
+    {
+      "lot": "Anakota Helena Dakota Knights Valley Cabernet Sauvignon 2018",
+      "lot_items": [
+        {
+          "id": "36567",
+          "lot_item": "Anakota",
+          "lot_type": [
+            "Wine & Spirits"
+          ],
+          "match_result": {
+            "matched_name": "Anakota, Helena Dakota Vineyard Cabernet Sauvignon, Knights Valley",
+            "matched_producer": null,
+            "matched_region": "California",
+            "matched_sub_region": "Knights Valley"
+          },
+          "is_right_match": true
+        }
+      ]
+    },
+    {
+      "lot": "Hirsch Selection 25 Year Old Kentucky Straight Rye",
+      "lot_items": [
+        {
+          "id": "82843",
+          "lot_item": "Hirsch Selected Whiskies",
+          "lot_type": [
+            "Wine & Spirits"
+          ],
+          "match_result": {
+            "matched_name": "Hirsch, Kentucky Straight Rye Hirsch Selection 22YO",
+            "matched_producer": null,
+            "matched_region": "Kentucky",
+            "matched_sub_region": null
+          },
+          "is_right_match": false
+        }
+      ]
+    },
+    {
+      "lot": "Dominique Laurent",
+      "lot_items": [
+        {
+          "id": "4228",
+          "lot_item": "Dominique Laurent",
+          "lot_type": [
+            "Wine & Spirits"
+          ],
+          "match_result": {
+            "matched_name": "Dominique Laurent, Volnay",
+            "matched_producer": null,
+            "matched_region": "Burgundy",
+            "matched_sub_region": "Volnay"
+          },
+          "is_right_match": false
+        },
+        {
+          "id": "4228",
+          "lot_item": "Dominique Laurent",
+          "lot_type": [
+            "Wine & Spirits"
+          ],
+          "match_result": {
+            "matched_name": "Dominique Laurent, Volnay",
+            "matched_producer": null,
+            "matched_region": "Burgundy",
+            "matched_sub_region": "Volnay"
+          },
+          "is_right_match": false
+        },
+        {
+          "id": "4228",
+          "lot_item": "Dominique Laurent",
+          "lot_type": [
+            "Wine & Spirits"
+          ],
+          "match_result": {
+            "matched_name": "Dominique Laurent, Volnay",
+            "matched_producer": null,
+            "matched_region": "Burgundy",
+            "matched_sub_region": "Volnay"
+          },
+          "is_right_match": false
+        }
+      ]
+    },
+    {
+      "lot": "Amarone della Valpolicella Classico Allegrini 1999",
+      "lot_items": [
+        {
+          "id": "9501",
+          "lot_item": "Allegrini",
+          "lot_type": [
+            "Wine & Spirits"
+          ],
+          "match_result": {
+            "matched_name": "Allegrini, Amarone della Valpolicella, Classico",
+            "matched_producer": null,
+            "matched_region": "Veneto",
+            "matched_sub_region": "Amarone della Valpolicella"
+          },
+          "is_right_match": true
+        }
+      ]
+    },
+    {
+      "lot": "Mixed Port 1995",
+      "lot_items": [
+        {
+          "id": "73462",
+          "lot_item": "Mixed",
+          "lot_type": [
+            "Wine & Spirits"
+          ],
+          "match_result": {
+            "matched_name": "Duemani, Mixed Case, IGT",
+            "matched_producer": null,
+            "matched_region": "Tuscany",
+            "matched_sub_region": null
+          },
+          "is_right_match": false
+        }
+      ]
+    },
+    {
+      "lot": "Calon Segur 2009",
+      "lot_items": [
+        {
+          "id": "747",
+          "lot_item": "Calon Segur",
+          "lot_type": [
+            "Wine & Spirits"
+          ],
+          "match_result": {
+            "matched_name": "Chateau Calon Segur 3eme Cru Classe, Saint-Estephe",
+            "matched_producer": "Chateau",
+            "matched_region": "Bordeaux",
+            "matched_sub_region": "Saint-Estephe"
+          },
+          "is_right_match": true
+        }
+      ]
+    },
+    {
+      "lot": "George T Stagg Kentucky Straight Bourbon [2014 Release]",
+      "lot_items": [
+        {
+          "id": "45399",
+          "lot_item": "Buffalo Trace",
+          "lot_type": [
+            "Wine & Spirits"
+          ],
+          "match_result": {
+            "matched_name": "George T Stagg, Kentucky Straight Bourbon",
+            "matched_producer": null,
+            "matched_region": "Kentucky",
+            "matched_sub_region": null
+          },
+          "is_right_match": false
+        }
+      ]
+    },
+    {
+      "lot": "Chateauneuf du Pape Clos des Papes 2003",
+      "lot_items": [
+        {
+          "id": "11043",
+          "lot_item": "Clos des Papes",
+          "lot_type": [
+            "Wine & Spirits"
+          ],
+          "match_result": {
+            "matched_name": "Clos des Papes, Chateauneuf-du-Pape, Blanc",
+            "matched_producer": null,
+            "matched_region": "Rhone",
+            "matched_sub_region": "Chateauneuf-du-Pape"
+          },
+          "is_right_match": false
+        }
+      ]
+    },
+    {
+      "lot": "Barolo Aleste Sandrone 2016",
+      "lot_items": [
+        {
+          "id": "47287",
+          "lot_item": "Sandrone",
+          "lot_type": [
+            "Wine & Spirits"
+          ],
+          "match_result": {
+            "matched_name": "Luciano Sandrone, Barolo, Aleste",
+            "matched_producer": null,
+            "matched_region": "Piedmont",
+            "matched_sub_region": "Barolo"
+          },
+          "is_right_match": true
+        }
+      ]
+    },
+    {
+      "lot": "Mixed California Merlot",
+      "lot_items": [
+        {
+          "id": "171313",
+          "lot_item": "Mixed",
+          "lot_type": [
+            "Wine & Spirits"
+          ],
+          "match_result": {
+            "matched_name": "T-Vine, Vyborny Mixed Blacks, California",
+            "matched_producer": null,
+            "matched_region": "California",
+            "matched_sub_region": null
+          },
+          "is_right_match": false
+        },
+        {
+          "id": "171313",
+          "lot_item": "Mixed",
+          "lot_type": [
+            "Wine & Spirits"
+          ],
+          "match_result": {
+            "matched_name": "T-Vine, Vyborny Mixed Blacks, California",
+            "matched_producer": null,
+            "matched_region": "California",
+            "matched_sub_region": null
+          },
+          "is_right_match": false
+        },
+        {
+          "id": "171313",
+          "lot_item": "Mixed",
+          "lot_type": [
+            "Wine & Spirits"
+          ],
+          "match_result": {
+            "matched_name": "T-Vine, Vyborny Mixed Blacks, California",
+            "matched_producer": null,
+            "matched_region": "California",
+            "matched_sub_region": null
+          },
+          "is_right_match": false
+        },
+        {
+          "id": "171313",
+          "lot_item": "Mixed",
+          "lot_type": [
+            "Wine & Spirits"
+          ],
+          "match_result": {
+            "matched_name": "T-Vine, Vyborny Mixed Blacks, California",
+            "matched_producer": null,
+            "matched_region": "California",
+            "matched_sub_region": null
+          },
+          "is_right_match": false
+        },
+        {
+          "id": "171313",
+          "lot_item": "Mixed",
+          "lot_type": [
+            "Wine & Spirits"
+          ],
+          "match_result": {
+            "matched_name": "T-Vine, Vyborny Mixed Blacks, California",
+            "matched_producer": null,
+            "matched_region": "California",
+            "matched_sub_region": null
+          },
+          "is_right_match": false
+        },
+        {
+          "id": "171313",
+          "lot_item": "Mixed",
+          "lot_type": [
+            "Wine & Spirits"
+          ],
+          "match_result": {
+            "matched_name": "T-Vine, Vyborny Mixed Blacks, California",
+            "matched_producer": null,
+            "matched_region": "California",
+            "matched_sub_region": null
+          },
+          "is_right_match": false
+        },
+        {
+          "id": "171313",
+          "lot_item": "Mixed",
+          "lot_type": [
+            "Wine & Spirits"
+          ],
+          "match_result": {
+            "matched_name": "T-Vine, Vyborny Mixed Blacks, California",
+            "matched_producer": null,
+            "matched_region": "California",
+            "matched_sub_region": null
+          },
+          "is_right_match": false
+        },
+        {
+          "id": "171313",
+          "lot_item": "Mixed",
+          "lot_type": [
+            "Wine & Spirits"
+          ],
+          "match_result": {
+            "matched_name": "T-Vine, Vyborny Mixed Blacks, California",
+            "matched_producer": null,
+            "matched_region": "California",
+            "matched_sub_region": null
+          },
+          "is_right_match": false
+        },
+        {
+          "id": "171313",
+          "lot_item": "Mixed",
+          "lot_type": [
+            "Wine & Spirits"
+          ],
+          "match_result": {
+            "matched_name": "T-Vine, Vyborny Mixed Blacks, California",
+            "matched_producer": null,
+            "matched_region": "California",
+            "matched_sub_region": null
+          },
+          "is_right_match": false
+        }
+      ]
+    },
+    {
+      "lot": "Pappy Van Winkle Family Reserve 15 Year Old Kentucky Straight Bourbon",
+      "lot_items": [
+        {
+          "id": "36124",
+          "lot_item": "Pappy Van Winkle",
+          "lot_type": [
+            "Wine & Spirits"
+          ],
+          "match_result": {
+            "matched_name": "Pappy Van Winkle's, Kentucky Straight Bourbon Family Reserve 15YO",
+            "matched_producer": null,
+            "matched_region": "Kentucky",
+            "matched_sub_region": null
+          },
+          "is_right_match": true
+        }
+      ]
+    },
+    {
+      "lot": "Rioja Gran Reserva Imperial Cune [CVNE] 2010",
+      "lot_items": [
+        {
+          "id": "76700",
+          "lot_item": "Cune",
+          "lot_type": [
+            "Wine & Spirits"
+          ],
+          "match_result": {
+            "matched_name": "CVNE, Cune Gran Reserva, Rioja",
+            "matched_producer": null,
+            "matched_region": "Rioja",
+            "matched_sub_region": null
+          },
+          "is_right_match": false
+        }
+      ]
+    },
+    {
+      "lot": "Lafleur 1993",
+      "lot_items": [
+        {
+          "id": "1393",
+          "lot_item": "Lafleur",
+          "lot_type": [
+            "Wine & Spirits"
+          ],
+          "match_result": {
+            "matched_name": "Pensees de Lafleur, Pomerol",
+            "matched_producer": "Chateau",
+            "matched_region": "Bordeaux",
+            "matched_sub_region": "Pomerol"
+          },
+          "is_right_match": false
+        }
+      ]
+    },
+    {
+      "lot": "Santenay Blanc Les Bras Jean Michel Guillon 2009",
+      "lot_items": [
+        {
+          "id": "201267",
+          "lot_item": "Jean Michel Guillon",
+          "lot_type": [
+            "Wine & Spirits"
+          ],
+          "match_result": {
+            "matched_name": "Jean Michel Guillon, Fixin, Les Crais",
+            "matched_producer": null,
+            "matched_region": "Burgundy",
+            "matched_sub_region": "Fixin"
+          },
+          "is_right_match": false
+        }
+      ]
+    },
+    {
+      "lot": "Beringer Vineyards Private Reserve Cabernet Sauvignon 2012",
+      "lot_items": [
+        {
+          "id": "12154",
+          "lot_item": "Beringer",
+          "lot_type": [
+            "Wine & Spirits"
+          ],
+          "match_result": {
+            "matched_name": "Beringer, Private Reserve Cabernet Sauvignon, Napa Valley",
+            "matched_producer": null,
+            "matched_region": "California",
+            "matched_sub_region": "Napa Valley"
+          },
+          "is_right_match": true
+        }
+      ]
+    },
+    {
+      "lot": "Caymus Vineyards Cabernet Sauvignon Napa Valley 2014",
+      "lot_items": [
+        {
+          "id": "12166",
+          "lot_item": "Caymus",
+          "lot_type": [
+            "Wine & Spirits"
+          ],
+          "match_result": {
+            "matched_name": "Caymus, Cabernet Sauvignon, Napa Valley",
+            "matched_producer": null,
+            "matched_region": "California",
+            "matched_sub_region": "Napa Valley"
+          },
+          "is_right_match": true
+        }
+      ]
+    },
+    {
+      "lot": "Certan de May 1961",
+      "lot_items": [
+        {
+          "id": "790",
+          "lot_item": "Certan De May",
+          "lot_type": [
+            "Wine & Spirits"
+          ],
+          "match_result": {
+            "matched_name": "Chateau Certan de May, Pomerol",
+            "matched_producer": "Chateau",
+            "matched_region": "Bordeaux",
+            "matched_sub_region": "Pomerol"
+          },
+          "is_right_match": true
+        }
+      ]
+    },
+    {
+      "lot": "Caymus Vineyards Special Selection Cabernet Sauvignon 2007",
+      "lot_items": [
+        {
+          "id": "12167",
+          "lot_item": "Caymus",
+          "lot_type": [
+            "Wine & Spirits"
+          ],
+          "match_result": {
+            "matched_name": "Caymus, Special Selection Cabernet Sauvignon, Napa Valley",
+            "matched_producer": null,
+            "matched_region": "California",
+            "matched_sub_region": "Napa Valley"
+          },
+          "is_right_match": true
+        }
+      ]
+    },
+    {
+      "lot": "Puligny Montrachet Clos de la Truffiere Benoit Ente 2018",
+      "lot_items": [
+        {
+          "id": "46341",
+          "lot_item": "Benoit Ente",
+          "lot_type": [
+            "Wine & Spirits"
+          ],
+          "match_result": {
+            "matched_name": "Benoit Ente, Puligny-Montrachet Premier Cru, La Truffiere",
+            "matched_producer": null,
+            "matched_region": "Burgundy",
+            "matched_sub_region": "Puligny-Montrachet"
+          },
+          "is_right_match": true
+        }
+      ]
+    },
+    {
+      "lot": "Leoville Las Cases 1975",
+      "lot_items": [
+        {
+          "id": "1237",
+          "lot_item": "Leoville Las Cases",
+          "lot_type": [
+            "Wine & Spirits"
+          ],
+          "match_result": {
+            "matched_name": "Chateau Leoville Las Cases 2eme Cru Classe, Saint-Julien",
+            "matched_producer": "Chateau",
+            "matched_region": "Bordeaux",
+            "matched_sub_region": "Saint-Julien"
+          },
+          "is_right_match": true
+        }
+      ]
+    },
+    {
+      "lot": "Vin de France Statera Pinot Noir Jerome Bretaudeau 2021",
+      "lot_items": [
+        {
+          "id": "113278",
+          "lot_item": "Jerome Bretaudeau",
+          "lot_type": [
+            "Wine & Spirits"
+          ],
+          "match_result": {
+            "matched_name": "Domaine de Bellevue (Jerome Bretaudeau), Muscadet, Gabbro Clos des Bouquinardieres",
+            "matched_producer": "Domaine",
+            "matched_region": "Loire",
+            "matched_sub_region": "Muscadet"
+          },
+          "is_right_match": false
+        }
+      ]
+    },
+    {
+      "lot": "Volnay Vendanges Selectionnees Michel Lafarge 1999",
+      "lot_items": [
+        {
+          "id": "3999",
+          "lot_item": "Lafarge",
+          "lot_type": [
+            "Wine & Spirits"
+          ],
+          "match_result": {
+            "matched_name": "Domaine Michel Lafarge, Volnay, Vendanges Selectionnees",
+            "matched_producer": "Domaine",
+            "matched_region": "Burgundy",
+            "matched_sub_region": "Volnay"
+          },
+          "is_right_match": true
+        }
+      ]
+    },
+    {
+      "lot": "Rieussec 2005",
+      "lot_items": [
+        {
+          "id": "1748",
+          "lot_item": "Rieussec",
+          "lot_type": [
+            "Wine & Spirits"
+          ],
+          "match_result": {
+            "matched_name": "Chateau Rieussec Premier Cru Classe, Sauternes",
+            "matched_producer": "Chateau",
+            "matched_region": "Bordeaux",
+            "matched_sub_region": "Sauternes"
+          },
+          "is_right_match": true
+        }
+      ]
+    },
+    {
+      "lot": "Bonnes Mares Drouhin-Laroze 2005",
+      "lot_items": [
+        {
+          "id": "2948",
+          "lot_item": "Drouhin Laroze",
+          "lot_type": [
+            "Wine & Spirits"
+          ],
+          "match_result": {
+            "matched_name": "Domaine Drouhin Laroze, Bonnes Mares Grand Cru",
+            "matched_producer": "Domaine",
+            "matched_region": "Burgundy",
+            "matched_sub_region": "Bonnes Mares"
+          },
+          "is_right_match": true
+        }
+      ]
+    },
+    {
+      "lot": "Madeira Bual Reserva d'Oliveiras 1968",
+      "lot_items": [
+        {
+          "id": "17626",
+          "lot_item": "D'Oliveras",
+          "lot_type": [
+            "Wine & Spirits"
+          ],
+          "match_result": {
+            "matched_name": "D'Oliveiras, Bual, Madeira",
+            "matched_producer": null,
+            "matched_region": "Madeira",
+            "matched_sub_region": null
+          },
+          "is_right_match": true
+        }
+      ]
+    },
+    {
+      "lot": "Plince 2003",
+      "lot_items": [
+        {
+          "id": "1426",
+          "lot_item": "Plince",
+          "lot_type": [
+            "Wine & Spirits"
+          ],
+          "match_result": {
+            "matched_name": "Chateau Plince, Pomerol",
+            "matched_producer": "Chateau",
+            "matched_region": "Bordeaux",
+            "matched_sub_region": "Pomerol"
+          },
+          "is_right_match": true
+        }
+      ]
+    },
+    {
+      "lot": "Stag's Leap Wine Cellars Fay Cabernet Sauvignon 1990",
+      "lot_items": [
+        {
+          "id": "111089",
+          "lot_item": "Stag's Leap Wine Cellars",
+          "lot_type": [
+            "Wine & Spirits"
+          ],
+          "match_result": {
+            "matched_name": "Stag's Leap Wine Cellars, Fay Block 2 Cabernet Sauvignon, Napa Valley",
+            "matched_producer": null,
+            "matched_region": "California",
+            "matched_sub_region": "Napa Valley"
+          },
+          "is_right_match": true
+        }
+      ]
+    },
+    {
+      "lot": "Pontet Canet 2000",
+      "lot_items": [
+        {
+          "id": "1430",
+          "lot_item": "Pontet Canet",
+          "lot_type": [
+            "Wine & Spirits"
+          ],
+          "match_result": {
+            "matched_name": "Chateau Pontet-Canet 5eme Cru Classe, Pauillac",
+            "matched_producer": "Chateau",
+            "matched_region": "Bordeaux",
+            "matched_sub_region": "Pauillac"
+          },
+          "is_right_match": true
+        }
+      ]
+    },
+    {
+      "lot": "Barolo Gran Bussia Riserva Aldo Conterno 1999",
+      "lot_items": [
+        {
+          "id": "50785",
+          "lot_item": "Aldo Conterno",
+          "lot_type": [
+            "Wine & Spirits"
+          ],
+          "match_result": {
+            "matched_name": "Poderi Aldo Conterno, Barolo, Bussia Granbussia Riserva",
+            "matched_producer": "Poderi",
+            "matched_region": "Piedmont",
+            "matched_sub_region": "Barolo"
+          },
+          "is_right_match": true
+        }
+      ]
+    },
+    {
+      "lot": "Peter Michael Les Pavots 2017",
+      "lot_items": [
+        {
+          "id": "12288",
+          "lot_item": "Peter Michael",
+          "lot_type": [
+            "Wine & Spirits"
+          ],
+          "match_result": {
+            "matched_name": "Peter Michael, Les Pavots, Knights Valley",
+            "matched_producer": null,
+            "matched_region": "California",
+            "matched_sub_region": "Knights Valley"
+          },
+          "is_right_match": true
+        }
+      ]
+    },
+    {
+      "lot": "Sea Smoke Ten Santa Rita Hills Pinot Noir 2012",
+      "lot_items": [
+        {
+          "id": "19806",
+          "lot_item": "Sea Smoke",
+          "lot_type": [
+            "Wine & Spirits"
+          ],
+          "match_result": {
+            "matched_name": "Sea Smoke, Pinot Noir Ten, Sta. Rita Hills",
+            "matched_producer": null,
+            "matched_region": "California",
+            "matched_sub_region": "Sta. Rita Hills"
+          },
+          "is_right_match": true
+        }
+      ]
+    },
+    {
+      "lot": "Vega Sicilia Unico 1994",
+      "lot_items": [
+        {
+          "id": "12129",
+          "lot_item": "Vega Sicilia",
+          "lot_type": [
+            "Wine & Spirits"
+          ],
+          "match_result": {
+            "matched_name": "Vega Sicilia, Unico, Ribera del Duero",
+            "matched_producer": null,
+            "matched_region": "Castilla y Leon",
+            "matched_sub_region": "Ribera del Duero"
+          },
+          "is_right_match": true
+        }
+      ]
+    },
+    {
+      "lot": "Stag's Leap Wine Cellars Cask 23 Napa Valley 1991",
+      "lot_items": [
+        {
+          "id": "12334",
+          "lot_item": "Stag's Leap Wine Cellars",
+          "lot_type": [
+            "Wine & Spirits"
+          ],
+          "match_result": {
+            "matched_name": "Stag's Leap Wine Cellars, Cask 23, Napa Valley",
+            "matched_producer": null,
+            "matched_region": "California",
+            "matched_sub_region": "Napa Valley"
+          },
+          "is_right_match": true
+        }
+      ]
+    },
+    {
+      "lot": "Trotanoy 1982",
+      "lot_items": [
+        {
+          "id": "17033",
+          "lot_item": "Trotanoy",
+          "lot_type": [
+            "Wine & Spirits"
+          ],
+          "match_result": {
+            "matched_name": "L'Esperance de Trotanoy, Pomerol",
+            "matched_producer": "Chateau",
+            "matched_region": "Bordeaux",
+            "matched_sub_region": "Pomerol"
+          },
+          "is_right_match": false
+        }
+      ]
+    },
+    {
+      "lot": "Inniskillin VQA Vidal IceWine 2002",
+      "lot_items": [
+        {
+          "id": "27311",
+          "lot_item": "Inniskillin",
+          "lot_type": [
+            "Wine & Spirits"
+          ],
+          "match_result": {
+            "matched_name": "Inniskillin, Vidal Icewine, Niagara Peninsula",
+            "matched_producer": null,
+            "matched_region": "Ontario",
+            "matched_sub_region": "Niagara Peninsula"
+          },
+          "is_right_match": true
+        }
+      ]
+    },
+    {
+      "lot": "Armagnac Comte de Goyon",
+      "lot_items": [
+        {
+          "id": "75335",
+          "lot_item": "NaN",
+          "lot_type": [
+            "Wine & Spirits"
+          ],
+          "match_result": {
+            "matched_name": "Comte de Guyon, Vintage, Bas Armagnac",
+            "matched_producer": null,
+            "matched_region": "Armagnac",
+            "matched_sub_region": "Bas Armagnac"
+          },
+          "is_right_match": false
+        }
+      ]
+    },
+    {
+      "lot": "Kistler Vineyards Cuvee Cathleen Chardonnay 2020",
+      "lot_items": [
+        {
+          "id": "14091",
+          "lot_item": "Kistler",
+          "lot_type": [
+            "Wine & Spirits"
+          ],
+          "match_result": {
+            "matched_name": "Kistler, Vine Hill Vineyard Chardonnay, Russian River Valley",
+            "matched_producer": null,
+            "matched_region": "California",
+            "matched_sub_region": "Russian River Valley"
+          },
+          "is_right_match": false
+        }
+      ]
+    },
+    {
+      "lot": "Marsannay Blanc Champs Perdrix Jean Michel Guillon 2017",
+      "lot_items": [
+        {
+          "id": "23508",
+          "lot_item": "Jean Michel Guillon",
+          "lot_type": [
+            "Wine & Spirits"
+          ],
+          "match_result": {
+            "matched_name": "Huguenot, Marsannay, Champs Perdrix",
+            "matched_producer": null,
+            "matched_region": "Burgundy",
+            "matched_sub_region": "Marsannay"
+          },
+          "is_right_match": false
+        }
+      ]
+    },
+    {
+      "lot": "Vineyard 29 Aida Estate Cabernet Sauvignon 2013",
+      "lot_items": [
+        {
+          "id": "36208",
+          "lot_item": "Vineyard 29",
+          "lot_type": [
+            "Wine & Spirits"
+          ],
+          "match_result": {
+            "matched_name": "Vineyard 29, Aida Estate Cabernet Sauvignon, St. Helena",
+            "matched_producer": null,
+            "matched_region": "California",
+            "matched_sub_region": "St. Helena"
+          },
+          "is_right_match": true
+        }
+      ]
+    },
+    {
+      "lot": "Madrid La Brena Comando G 2016",
+      "lot_items": [
+        {
+          "id": "86263",
+          "lot_item": "Comando G",
+          "lot_type": [
+            "Wine & Spirits"
+          ],
+          "match_result": {
+            "matched_name": "Comando G, Vinos de Madrid, La Brena",
+            "matched_producer": null,
+            "matched_region": "Madrid",
+            "matched_sub_region": "Vinos de Madrid"
+          },
+          "is_right_match": true
+        }
+      ]
+    },
+    {
+      "lot": "Brunello di Montalcino Riserva Biondi Santi 1964",
+      "lot_items": [
+        {
+          "id": "17347",
+          "lot_item": "Biondi Santi",
+          "lot_type": [
+            "Wine & Spirits"
+          ],
+          "match_result": {
+            "matched_name": "Biondi-Santi, Brunello di Montalcino, Riserva",
+            "matched_producer": null,
+            "matched_region": "Tuscany",
+            "matched_sub_region": "Brunello di Montalcino"
+          },
+          "is_right_match": true
+        }
+      ]
+    },
+    {
+      "lot": "Latricieres Chambertin Drouhin-Laroze 2003",
+      "lot_items": [
+        {
+          "id": "2958",
+          "lot_item": "Drouhin Laroze",
+          "lot_type": [
+            "Wine & Spirits"
+          ],
+          "match_result": {
+            "matched_name": "Domaine Drouhin Laroze, Latricieres-Chambertin Grand Cru",
+            "matched_producer": "Domaine",
+            "matched_region": "Burgundy",
+            "matched_sub_region": "Latricieres-Chambertin"
+          },
+          "is_right_match": true
+        }
+      ]
+    },
+    {
+      "lot": "Lagrange 2000",
+      "lot_items": [
+        {
+          "id": "1201",
+          "lot_item": "Lagrange",
+          "lot_type": [
+            "Wine & Spirits"
+          ],
+          "match_result": {
+            "matched_name": "Chateau Lagrange 3eme Cru Classe, Saint-Julien",
+            "matched_producer": "Chateau",
+            "matched_region": "Bordeaux",
+            "matched_sub_region": "Saint-Julien"
+          },
+          "is_right_match": true
+        }
+      ]
+    },
+    {
+      "lot": "Taylor Fladgate 1977",
+      "lot_items": [
+        {
+          "id": "51977",
+          "lot_item": "Taylor Fladgate",
+          "lot_type": [
+            "Wine & Spirits"
+          ],
+          "match_result": {
+            "matched_name": "Taylor Fladgate, Vintage",
+            "matched_producer": null,
+            "matched_region": "Porto",
+            "matched_sub_region": null
+          },
+          "is_right_match": true
+        }
+      ]
+    },
+    {
+      "lot": "Dom Perignon 1990",
+      "lot_items": [
+        {
+          "id": "8260",
+          "lot_item": "Moet & Chandon",
+          "lot_type": [
+            "Wine & Spirits"
+          ],
+          "match_result": {
+            "matched_name": "Dom Perignon",
+            "matched_producer": null,
+            "matched_region": "Champagne",
+            "matched_sub_region": null
+          },
+          "is_right_match": true
+        }
+      ]
+    },
+    {
+      "lot": "L'Etoile Vin Jaune Domaine de Montbourgeau 2009",
+      "lot_items": [
+        {
+          "id": "44655",
+          "lot_item": "Domaine de Montbourgeau",
+          "lot_type": [
+            "Wine & Spirits"
+          ],
+          "match_result": {
+            "matched_name": "Domaine de Montbourgeau, Vin Jaune, L'Etoile",
+            "matched_producer": "Domaine",
+            "matched_region": "Jura",
+            "matched_sub_region": "L'Etoile"
+          },
+          "is_right_match": true
+        }
+      ]
+    },
+    {
+      "lot": "St Aubin Les Murgers des Dents de Chien Hubert Lamy 2014",
+      "lot_items": [
+        {
+          "id": "7205",
+          "lot_item": "Hubert Lamy",
+          "lot_type": [
+            "Wine & Spirits"
+          ],
+          "match_result": {
+            "matched_name": "Hubert Lamy, Saint-Aubin Premier Cru, Les Murgers des Dents de Chien",
+            "matched_producer": null,
+            "matched_region": "Burgundy",
+            "matched_sub_region": "Saint-Aubin"
+          },
+          "is_right_match": true
+        }
+      ]
+    },
+    {
+      "lot": "California Cabernet Sauvignon",
+      "lot_items": [
+        {
+          "id": "63434",
+          "lot_item": "Mixed",
+          "lot_type": [
+            "Wine & Spirits"
+          ],
+          "match_result": {
+            "matched_name": "Bakestone, Cabernet Sauvignon, California",
+            "matched_producer": null,
+            "matched_region": "California",
+            "matched_sub_region": null
+          },
+          "is_right_match": false
+        },
+        {
+          "id": "63434",
+          "lot_item": "Mixed",
+          "lot_type": [
+            "Wine & Spirits"
+          ],
+          "match_result": {
+            "matched_name": "Bakestone, Cabernet Sauvignon, California",
+            "matched_producer": null,
+            "matched_region": "California",
+            "matched_sub_region": null
+          },
+          "is_right_match": false
+        },
+        {
+          "id": "63434",
+          "lot_item": "Mixed",
+          "lot_type": [
+            "Wine & Spirits"
+          ],
+          "match_result": {
+            "matched_name": "Bakestone, Cabernet Sauvignon, California",
+            "matched_producer": null,
+            "matched_region": "California",
+            "matched_sub_region": null
+          },
+          "is_right_match": false
+        },
+        {
+          "id": "63434",
+          "lot_item": "Mixed",
+          "lot_type": [
+            "Wine & Spirits"
+          ],
+          "match_result": {
+            "matched_name": "Bakestone, Cabernet Sauvignon, California",
+            "matched_producer": null,
+            "matched_region": "California",
+            "matched_sub_region": null
+          },
+          "is_right_match": false
+        },
+        {
+          "id": "63434",
+          "lot_item": "Mixed",
+          "lot_type": [
+            "Wine & Spirits"
+          ],
+          "match_result": {
+            "matched_name": "Bakestone, Cabernet Sauvignon, California",
+            "matched_producer": null,
+            "matched_region": "California",
+            "matched_sub_region": null
+          },
+          "is_right_match": false
+        }
+      ]
+    },
+    {
+      "lot": "Mixed Sonoma Chardonnay",
+      "lot_items": [
+        {
+          "id": "58232",
+          "lot_item": "Mixed",
+          "lot_type": [
+            "Wine & Spirits"
+          ],
+          "match_result": {
+            "matched_name": "Bedrock Wine Co., Weill a Way Vineyard Mixed Blacks, Sonoma County",
+            "matched_producer": null,
+            "matched_region": "California",
+            "matched_sub_region": "Sonoma County"
+          },
+          "is_right_match": false
+        },
+        {
+          "id": "58232",
+          "lot_item": "Mixed",
+          "lot_type": [
+            "Wine & Spirits"
+          ],
+          "match_result": {
+            "matched_name": "Bedrock Wine Co., Weill a Way Vineyard Mixed Blacks, Sonoma County",
+            "matched_producer": null,
+            "matched_region": "California",
+            "matched_sub_region": "Sonoma County"
+          },
+          "is_right_match": false
+        },
+        {
+          "id": "58232",
+          "lot_item": "Mixed",
+          "lot_type": [
+            "Wine & Spirits"
+          ],
+          "match_result": {
+            "matched_name": "Bedrock Wine Co., Weill a Way Vineyard Mixed Blacks, Sonoma County",
+            "matched_producer": null,
+            "matched_region": "California",
+            "matched_sub_region": "Sonoma County"
+          },
+          "is_right_match": false
+        },
+        {
+          "id": "58232",
+          "lot_item": "Mixed",
+          "lot_type": [
+            "Wine & Spirits"
+          ],
+          "match_result": {
+            "matched_name": "Bedrock Wine Co., Weill a Way Vineyard Mixed Blacks, Sonoma County",
+            "matched_producer": null,
+            "matched_region": "California",
+            "matched_sub_region": "Sonoma County"
+          },
+          "is_right_match": false
+        },
+        {
+          "id": "58232",
+          "lot_item": "Mixed",
+          "lot_type": [
+            "Wine & Spirits"
+          ],
+          "match_result": {
+            "matched_name": "Bedrock Wine Co., Weill a Way Vineyard Mixed Blacks, Sonoma County",
+            "matched_producer": null,
+            "matched_region": "California",
+            "matched_sub_region": "Sonoma County"
+          },
+          "is_right_match": false
+        }
+      ]
+    },
+    {
+      "lot": "Batard Montrachet Pernot 2014",
+      "lot_items": [
+        {
+          "id": "117696",
+          "lot_item": "Paul Pernot",
+          "lot_type": [
+            "Wine & Spirits"
+          ],
+          "match_result": {
+            "matched_name": "Alvina Pernot, Batard-Montrachet Grand Cru",
+            "matched_producer": null,
+            "matched_region": "Burgundy",
+            "matched_sub_region": "Batard-Montrachet"
+          },
+          "is_right_match": false
+        }
+      ]
+    },
+    {
+      "lot": "Peter Michael Ma Danseuse Pinot Noir 2013",
+      "lot_items": [
+        {
+          "id": "31958",
+          "lot_item": "Peter Michael",
+          "lot_type": [
+            "Wine & Spirits"
+          ],
+          "match_result": {
+            "matched_name": "Peter Michael, Clos du Ciel Pinot Noir, Fort Ross-Seaview",
+            "matched_producer": null,
+            "matched_region": "California",
+            "matched_sub_region": "Fort Ross-Seaview"
+          },
+          "is_right_match": false
+        }
+      ]
+    },
+    {
+      "lot": "Harlan Estate The Maiden 2013",
+      "lot_items": [
+        {
+          "id": "12215",
+          "lot_item": "Harlan",
+          "lot_type": [
+            "Wine & Spirits"
+          ],
+          "match_result": {
+            "matched_name": "Harlan Estate, The Maiden, Napa Valley",
+            "matched_producer": null,
+            "matched_region": "California",
+            "matched_sub_region": "Napa Valley"
+          },
+          "is_right_match": true
+        }
+      ]
+    },
+    {
+      "lot": "Pommery Cuvee Louise 2002",
+      "lot_items": [
+        {
+          "id": "8284",
+          "lot_item": "Pommery",
+          "lot_type": [
+            "Wine & Spirits"
+          ],
+          "match_result": {
+            "matched_name": "Pommery, Cuvee Louise",
+            "matched_producer": null,
+            "matched_region": "Champagne",
+            "matched_sub_region": null
+          },
+          "is_right_match": true
+        }
+      ]
+    },
+    {
+      "lot": "Rochioli Chardonnay 2008",
+      "lot_items": [
+        {
+          "id": "19835",
+          "lot_item": "Rochioli",
+          "lot_type": [
+            "Wine & Spirits"
+          ],
+          "match_result": {
+            "matched_name": "Rochioli, Chardonnay, Russian River Valley",
+            "matched_producer": null,
+            "matched_region": "California",
+            "matched_sub_region": "Russian River Valley"
+          },
+          "is_right_match": true
+        }
+      ]
+    },
+    {
+      "lot": "Santenay Blanc Les Bras Jean Michel Guillon 2007",
+      "lot_items": [
+        {
+          "id": "201267",
+          "lot_item": "Jean Michel Guillon",
+          "lot_type": [
+            "Wine & Spirits"
+          ],
+          "match_result": {
+            "matched_name": "Jean Michel Guillon, Fixin, Les Crais",
+            "matched_producer": null,
+            "matched_region": "Burgundy",
+            "matched_sub_region": "Fixin"
+          },
+          "is_right_match": false
+        }
+      ]
+    },
+    {
+      "lot": "Lafleur 1962",
+      "lot_items": [
+        {
+          "id": "1393",
+          "lot_item": "Lafleur",
+          "lot_type": [
+            "Wine & Spirits"
+          ],
+          "match_result": {
+            "matched_name": "Pensees de Lafleur, Pomerol",
+            "matched_producer": "Chateau",
+            "matched_region": "Bordeaux",
+            "matched_sub_region": "Pomerol"
+          },
+          "is_right_match": false
+        }
+      ]
+    },
+    {
+      "lot": "Barbaresco Gaja 1994",
+      "lot_items": [
+        {
+          "id": "9955",
+          "lot_item": "Gaja",
+          "lot_type": [
+            "Wine & Spirits"
+          ],
+          "match_result": {
+            "matched_name": "Gaja, Barbaresco",
+            "matched_producer": null,
+            "matched_region": "Piedmont",
+            "matched_sub_region": "Barbaresco"
+          },
+          "is_right_match": true
+        }
+      ]
+    },
+    {
+      "lot": "Gevrey Chambertin Cuvee Pere Galland Jean Michel Guillon 2016",
+      "lot_items": [
+        {
+          "id": "33534",
+          "lot_item": "Jean Michel Guillon",
+          "lot_type": [
+            "Wine & Spirits"
+          ],
+          "match_result": {
+            "matched_name": "Jean-Michel Guillon, Gevrey-Chambertin, Pere Galland",
+            "matched_producer": null,
+            "matched_region": "Burgundy",
+            "matched_sub_region": "Gevrey-Chambertin"
+          },
+          "is_right_match": true
+        }
+      ]
+    },
+    {
+      "lot": "Constant Diamond Mountain Syrah 2005",
+      "lot_items": [
+        {
+          "id": "74689",
+          "lot_item": "Constant",
+          "lot_type": [
+            "Wine & Spirits"
+          ],
+          "match_result": {
+            "matched_name": "Constant, Merlot, Diamond Mountain District",
+            "matched_producer": null,
+            "matched_region": "California",
+            "matched_sub_region": "Diamond Mountain District"
+          },
+          "is_right_match": false
+        }
+      ]
+    },
+    {
+      "lot": "Pichon Longueville Comtesse de Lalande 1990",
+      "lot_items": [
+        {
+          "id": "1417",
+          "lot_item": "Pichon Lalande",
+          "lot_type": [
+            "Wine & Spirits"
+          ],
+          "match_result": {
+            "matched_name": "Chateau Pichon Longueville Comtesse de Lalande 2eme Cru Classe, Pauillac",
+            "matched_producer": "Chateau",
+            "matched_region": "Bordeaux",
+            "matched_sub_region": "Pauillac"
+          },
+          "is_right_match": true
+        }
+      ]
+    },
+    {
+      "lot": "Silverado Limited Reserve Merlot 1997",
+      "lot_items": [
+        {
+          "id": "50185",
+          "lot_item": "Silverado",
+          "lot_type": [
+            "Wine & Spirits"
+          ],
+          "match_result": {
+            "matched_name": "Silverado Vineyards, Merlot Limited Reserve, Napa Valley",
+            "matched_producer": null,
+            "matched_region": "California",
+            "matched_sub_region": "Napa Valley"
+          },
+          "is_right_match": true
+        }
+      ]
+    },
+    {
+      "lot": "Vosne Romanee Les Suchots Liger-Belair 2012",
+      "lot_items": [
+        {
+          "id": "68140",
+          "lot_item": "Liger Belair",
+          "lot_type": [
+            "Wine & Spirits"
+          ],
+          "match_result": {
+            "matched_name": "Thibault Liger-Belair, Vosne-Romanee Premier Cru, Aux Raignots",
+            "matched_producer": null,
+            "matched_region": "Burgundy",
+            "matched_sub_region": "Vosne-Romanee"
+          },
+          "is_right_match": false
+        }
+      ]
+    },
+    {
+      "lot": "Corton Charlemagne Simon Bize et Fils 1999",
+      "lot_items": [
+        {
+          "id": "6074",
+          "lot_item": "Simon Bize",
+          "lot_type": [
+            "Wine & Spirits"
+          ],
+          "match_result": {
+            "matched_name": "Simon Bize, Corton-Charlemagne Grand Cru",
+            "matched_producer": null,
+            "matched_region": "Burgundy",
+            "matched_sub_region": "Corton-Charlemagne"
+          },
+          "is_right_match": true
+        }
+      ]
+    },
+    {
+      "lot": "Calon Segur 2009",
+      "lot_items": [
+        {
+          "id": "747",
+          "lot_item": "Calon Segur",
+          "lot_type": [
+            "Wine & Spirits"
+          ],
+          "match_result": {
+            "matched_name": "Chateau Calon Segur 3eme Cru Classe, Saint-Estephe",
+            "matched_producer": "Chateau",
+            "matched_region": "Bordeaux",
+            "matched_sub_region": "Saint-Estephe"
+          },
+          "is_right_match": true
+        }
+      ]
+    },
+    {
+      "lot": "Pauillac de Lynch Bages 2012",
+      "lot_items": [
+        {
+          "id": "953",
+          "lot_item": "Pauillac",
+          "lot_type": [
+            "Wine & Spirits"
+          ],
+          "match_result": {
+            "matched_name": "Echo de Lynch-Bages, Pauillac",
+            "matched_producer": "Chateau",
+            "matched_region": "Bordeaux",
+            "matched_sub_region": "Pauillac"
+          },
+          "is_right_match": false
+        }
+      ]
+    },
+    {
+      "lot": "Gevrey Chambertin Lavaux St Jacques Armand Rousseau 2015",
+      "lot_items": [
+        {
+          "id": "5710",
+          "lot_item": "Armand Rousseau",
+          "lot_type": [
+            "Wine & Spirits"
+          ],
+          "match_result": {
+            "matched_name": "Domaine Armand Rousseau, Gevrey-Chambertin Premier Cru, Lavaux Saint-Jacques",
+            "matched_producer": "Domaine",
+            "matched_region": "Burgundy",
+            "matched_sub_region": "Gevrey-Chambertin"
+          },
+          "is_right_match": true
+        }
+      ]
+    },
+    {
+      "lot": "Puligny Montrachet Les Demoiselles Amiot Guy et Fils 1996",
+      "lot_items": [
+        {
+          "id": "5981",
+          "lot_item": "Amiot",
+          "lot_type": [
+            "Wine & Spirits"
+          ],
+          "match_result": {
+            "matched_name": "Guy Amiot, Puligny-Montrachet Premier Cru, Les Demoiselles",
+            "matched_producer": null,
+            "matched_region": "Burgundy",
+            "matched_sub_region": "Puligny-Montrachet"
+          },
+          "is_right_match": true
+        }
+      ]
+    },
+    {
+      "lot": "Compoveda Extra Anejo Tequila",
+      "lot_items": [
+        {
+          "id": "57838",
+          "lot_item": "Compoveda",
+          "lot_type": [
+            "Wine & Spirits"
+          ],
+          "match_result": {
+            "matched_name": "Kah, Extra Anejo Tequila",
+            "matched_producer": null,
+            "matched_region": "Jalisco",
+            "matched_sub_region": null
+          },
+          "is_right_match": false
+        }
+      ]
+    },
+    {
+      "lot": "Salon Blanc de Blancs Le Mesnil 1996",
+      "lot_items": [
+        {
+          "id": "33068",
+          "lot_item": "Salon",
+          "lot_type": [
+            "Wine & Spirits"
+          ],
+          "match_result": {
+            "matched_name": "Salon, Le Mesnil-sur-Oger, Blanc de Blancs",
+            "matched_producer": null,
+            "matched_region": "Champagne",
+            "matched_sub_region": "Le Mesnil-sur-Oger"
+          },
+          "is_right_match": true
+        }
+      ]
+    },
+    {
+      "lot": "Meursault Genevrieres Latour Giraud 2002",
+      "lot_items": [
+        {
+          "id": "7241",
+          "lot_item": "Latour Giraud",
+          "lot_type": [
+            "Wine & Spirits"
+          ],
+          "match_result": {
+            "matched_name": "Domaine Latour Giraud, Meursault Premier Cru, Genevrieres",
+            "matched_producer": "Domaine",
+            "matched_region": "Burgundy",
+            "matched_sub_region": "Meursault"
+          },
+          "is_right_match": true
+        }
+      ]
+    },
+    {
+      "lot": "Vosne Romanee Les Malconsorts de Montille 2010",
+      "lot_items": [
+        {
+          "id": "4824",
+          "lot_item": "De Montille",
+          "lot_type": [
+            "Wine & Spirits"
+          ],
+          "match_result": {
+            "matched_name": "Domaine de Montille, Vosne-Romanee Premier Cru, Aux Malconsorts",
+            "matched_producer": "Domaine",
+            "matched_region": "Burgundy",
+            "matched_sub_region": "Vosne-Romanee"
+          },
+          "is_right_match": true
+        }
+      ]
+    },
+    {
+      "lot": "Vineyard 29 Estate Cabernet Sauvignon 2013",
+      "lot_items": [
+        {
+          "id": "79977",
+          "lot_item": "Vineyard 29",
+          "lot_type": [
+            "Wine & Spirits"
+          ],
+          "match_result": {
+            "matched_name": "Vineyard 29, 29 Estate Cabernet Sauvignon, Napa Valley",
+            "matched_producer": null,
+            "matched_region": "California",
+            "matched_sub_region": "Napa Valley"
+          },
+          "is_right_match": true
+        }
+      ]
+    },
+    {
+      "lot": "Toro Numanthia 2005",
+      "lot_items": [
+        {
+          "id": "12070",
+          "lot_item": "Numanthia",
+          "lot_type": [
+            "Wine & Spirits"
+          ],
+          "match_result": {
+            "matched_name": "Numanthia, Toro",
+            "matched_producer": null,
+            "matched_region": "Castilla y Leon",
+            "matched_sub_region": "Toro"
+          },
+          "is_right_match": true
+        }
+      ]
+    },
+    {
+      "lot": "Clos de la Roche Domaine Dujac 2019",
+      "lot_items": [
+        {
+          "id": "3053",
+          "lot_item": "Domaine Dujac",
+          "lot_type": [
+            "Wine & Spirits"
+          ],
+          "match_result": {
+            "matched_name": "Domaine Dujac, Clos de la Roche Grand Cru",
+            "matched_producer": "Domaine",
+            "matched_region": "Burgundy",
+            "matched_sub_region": "Clos de la Roche"
+          },
+          "is_right_match": true
+        }
+      ]
+    },
+    {
+      "lot": "Cotes du Jura Cuvee de Garde Domaine Ganevat 2007",
+      "lot_items": [
+        {
+          "id": "43723",
+          "lot_item": "Ganevat",
+          "lot_type": [
+            "Wine & Spirits"
+          ],
+          "match_result": {
+            "matched_name": "Jean-Francois Ganevat, Cuvee de Garde, Cotes du Jura",
+            "matched_producer": null,
+            "matched_region": "Jura",
+            "matched_sub_region": "Cotes du Jura"
+          },
+          "is_right_match": true
+        }
+      ]
+    },
+    {
+      "lot": "Barolo Arione Giacomo Conterno 2018",
+      "lot_items": [
+        {
+          "id": "82316",
+          "lot_item": "Giacomo Conterno",
+          "lot_type": [
+            "Wine & Spirits"
+          ],
+          "match_result": {
+            "matched_name": "Giacomo Conterno, Barolo, Arione",
+            "matched_producer": null,
+            "matched_region": "Piedmont",
+            "matched_sub_region": "Barolo"
+          },
+          "is_right_match": true
+        }
+      ]
+    },
+    {
+      "lot": "Gevrey Chambertin Cuvee Pere Galland Jean Michel Guillon 2014",
+      "lot_items": [
+        {
+          "id": "33534",
+          "lot_item": "Jean Michel Guillon",
+          "lot_type": [
+            "Wine & Spirits"
+          ],
+          "match_result": {
+            "matched_name": "Jean-Michel Guillon, Gevrey-Chambertin, Pere Galland",
+            "matched_producer": null,
+            "matched_region": "Burgundy",
+            "matched_sub_region": "Gevrey-Chambertin"
+          },
+          "is_right_match": true
+        }
+      ]
+    },
+    {
+      "lot": "Haut Bailly 1999",
+      "lot_items": [
+        {
+          "id": "67374",
+          "lot_item": "Haut Bailly",
+          "lot_type": [
+            "Wine & Spirits"
+          ],
+          "match_result": {
+            "matched_name": "HB Haut-Bailly, Chateau Haut-Bailly, Pessac-Leognan",
+            "matched_producer": "Chateau",
+            "matched_region": "Bordeaux",
+            "matched_sub_region": "Pessac-Leognan"
+          },
+          "is_right_match": true
+        }
+      ]
+    },
+    {
+      "lot": "Ovid 2013",
+      "lot_items": [
+        {
+          "id": "56265",
+          "lot_item": "Ovid",
+          "lot_type": [
+            "Wine & Spirits"
+          ],
+          "match_result": {
+            "matched_name": "Ovid, Napa Valley",
+            "matched_producer": null,
+            "matched_region": "California",
+            "matched_sub_region": "Napa Valley"
+          },
+          "is_right_match": true
+        }
+      ]
+    },
+    {
+      "lot": "Cannonau Dettori Rosso 2005",
+      "lot_items": [
+        {
+          "id": "55785",
+          "lot_item": "Dettori",
+          "lot_type": [
+            "Wine & Spirits"
+          ],
+          "match_result": {
+            "matched_name": "Tenute Dettori, Rosso, Romangia IGT",
+            "matched_producer": "Tenute",
+            "matched_region": "Sardinia",
+            "matched_sub_region": "Romangia"
+          },
+          "is_right_match": false
+        }
+      ]
+    },
+    {
+      "lot": "Terrestre Torciano 1997",
+      "lot_items": [
+        {
+          "id": "102756",
+          "lot_item": "Tenuta Torciano",
+          "lot_type": [
+            "Wine & Spirits"
+          ],
+          "match_result": {
+            "matched_name": "Torciano, Brunello di Montalcino",
+            "matched_producer": null,
+            "matched_region": "Tuscany",
+            "matched_sub_region": "Brunello di Montalcino"
+          },
+          "is_right_match": false
+        }
+      ]
+    },
+    {
+      "lot": "Barolo Ca'Mia Brovia 2006",
+      "lot_items": [
+        {
+          "id": "12884",
+          "lot_item": "Brovia",
+          "lot_type": [
+            "Wine & Spirits"
+          ],
+          "match_result": {
+            "matched_name": "Brovia, Barolo, Ca Mia",
+            "matched_producer": null,
+            "matched_region": "Piedmont",
+            "matched_sub_region": "Barolo"
+          },
+          "is_right_match": true
+        }
+      ]
+    },
+    {
+      "lot": "Savigny les Beaune Rouge Clos des Guettes Louis Jadot 1996",
+      "lot_items": [
+        {
+          "id": "3874",
+          "lot_item": "Jadot",
+          "lot_type": [
+            "Wine & Spirits"
+          ],
+          "match_result": {
+            "matched_name": "Maison Louis Jadot, Savigny-les-Beaune, Rouge",
+            "matched_producer": "Maison",
+            "matched_region": "Burgundy",
+            "matched_sub_region": "Savigny-les-Beaune"
+          },
+          "is_right_match": true
+        }
+      ]
+    },
+    {
+      "lot": "Barbaresco Santo Stefano di Neive Bruno Giacosa 2004",
+      "lot_items": [
+        {
+          "id": "33551",
+          "lot_item": "Bruno Giacosa",
+          "lot_type": [
+            "Wine & Spirits"
+          ],
+          "match_result": {
+            "matched_name": "Bruno Giacosa, Barbaresco, Santo Stefano di Neive Riserva",
+            "matched_producer": null,
+            "matched_region": "Piedmont",
+            "matched_sub_region": "Barbaresco"
+          },
+          "is_right_match": true
+        }
+      ]
+    },
+    {
+      "lot": "Cos d'Estournel 1982",
+      "lot_items": [
+        {
+          "id": "878",
+          "lot_item": "Cos D'Estournel",
+          "lot_type": [
+            "Wine & Spirits"
+          ],
+          "match_result": {
+            "matched_name": "Cos d'Estournel 2eme Cru Classe, Saint-Estephe",
+            "matched_producer": null,
+            "matched_region": "Bordeaux",
+            "matched_sub_region": "Saint-Estephe"
+          },
+          "is_right_match": true
+        }
+      ]
+    },
+    {
+      "lot": "Turley Wine Cellars Zinfandel",
+      "lot_items": [
+        {
+          "id": "58546",
+          "lot_item": "Turley",
+          "lot_type": [
+            "Wine & Spirits"
+          ],
+          "match_result": {
+            "matched_name": "Turley, White Zinfandel, Napa Valley",
+            "matched_producer": null,
+            "matched_region": "California",
+            "matched_sub_region": "Napa Valley"
+          },
+          "is_right_match": false
+        },
+        {
+          "id": "58546",
+          "lot_item": "Turley",
+          "lot_type": [
+            "Wine & Spirits"
+          ],
+          "match_result": {
+            "matched_name": "Turley, White Zinfandel, Napa Valley",
+            "matched_producer": null,
+            "matched_region": "California",
+            "matched_sub_region": "Napa Valley"
+          },
+          "is_right_match": false
+        },
+        {
+          "id": "58546",
+          "lot_item": "Turley",
+          "lot_type": [
+            "Wine & Spirits"
+          ],
+          "match_result": {
+            "matched_name": "Turley, White Zinfandel, Napa Valley",
+            "matched_producer": null,
+            "matched_region": "California",
+            "matched_sub_region": "Napa Valley"
+          },
+          "is_right_match": false
+        },
+        {
+          "id": "58546",
+          "lot_item": "Turley",
+          "lot_type": [
+            "Wine & Spirits"
+          ],
+          "match_result": {
+            "matched_name": "Turley, White Zinfandel, Napa Valley",
+            "matched_producer": null,
+            "matched_region": "California",
+            "matched_sub_region": "Napa Valley"
+          },
+          "is_right_match": false
+        }
+      ]
+    },
+    {
+      "lot": "Chambolle Musigny Les Amoureuses Comte Georges de Vogue 2000",
+      "lot_items": [
+        {
+          "id": "2680",
+          "lot_item": "Comte De Vogue",
+          "lot_type": [
+            "Wine & Spirits"
+          ],
+          "match_result": {
+            "matched_name": "Domaine Comte Georges de Vogue, Chambolle-Musigny Premier Cru, Les Amoureuses",
+            "matched_producer": "Domaine",
+            "matched_region": "Burgundy",
+            "matched_sub_region": "Chambolle-Musigny"
+          },
+          "is_right_match": true
+        }
+      ]
+    },
+    {
+      "lot": "Accendo Laurea Red 2018",
+      "lot_items": [
+        {
+          "id": "131216",
+          "lot_item": "Accendo",
+          "lot_type": [
+            "Wine & Spirits"
+          ],
+          "match_result": {
+            "matched_name": "Accendo Cellars, Laurea, Napa Valley",
+            "matched_producer": null,
+            "matched_region": "California",
+            "matched_sub_region": "Napa Valley"
+          },
+          "is_right_match": true
+        }
+      ]
+    },
+    {
+      "lot": "Pedesclaux 2005",
+      "lot_items": [
+        {
+          "id": "1391",
+          "lot_item": "Pedesclaux",
+          "lot_type": [
+            "Wine & Spirits"
+          ],
+          "match_result": {
+            "matched_name": "Chateau Pedesclaux 5eme Cru Classe, Pauillac",
+            "matched_producer": "Chateau",
+            "matched_region": "Bordeaux",
+            "matched_sub_region": "Pauillac"
+          },
+          "is_right_match": true
+        }
+      ]
+    },
+    {
+      "lot": "Staglin Family Vineyard Rutherford Salus Cabernet Sauvignon 2009",
+      "lot_items": [
+        {
+          "id": "58522",
+          "lot_item": "Staglin",
+          "lot_type": [
+            "Wine & Spirits"
+          ],
+          "match_result": {
+            "matched_name": "Staglin, Salus Cabernet Sauvignon, Rutherford",
+            "matched_producer": null,
+            "matched_region": "California",
+            "matched_sub_region": "Rutherford"
+          },
+          "is_right_match": true
+        }
+      ]
+    },
+    {
+      "lot": "Lynch Bages 1994",
+      "lot_items": [
+        {
+          "id": "1257",
+          "lot_item": "Lynch Bages",
+          "lot_type": [
+            "Wine & Spirits"
+          ],
+          "match_result": {
+            "matched_name": "Chateau Lynch-Bages 5eme Cru Classe, Pauillac",
+            "matched_producer": "Chateau",
+            "matched_region": "Bordeaux",
+            "matched_sub_region": "Pauillac"
+          },
+          "is_right_match": true
+        }
+      ]
+    },
+    {
+      "lot": "Pichon Baron 2015",
+      "lot_items": [
+        {
+          "id": "1416",
+          "lot_item": "Pichon Baron",
+          "lot_type": [
+            "Wine & Spirits"
+          ],
+          "match_result": {
+            "matched_name": "Chateau Pichon Baron 2eme Cru Classe, Pauillac",
+            "matched_producer": "Chateau",
+            "matched_region": "Bordeaux",
+            "matched_sub_region": "Pauillac"
+          },
+          "is_right_match": true
+        }
+      ]
+    },
+    {
+      "lot": "Chappellet Signature Cabernet Sauvignon",
+      "lot_items": [
+        {
+          "id": "76997",
+          "lot_item": "Chappellet",
+          "lot_type": [
+            "Wine & Spirits"
+          ],
+          "match_result": {
+            "matched_name": "Chappellet, Signature Cabernet Sauvignon, Napa Valley",
+            "matched_producer": null,
+            "matched_region": "California",
+            "matched_sub_region": "Napa Valley"
+          },
+          "is_right_match": true
+        },
+        {
+          "id": "76997",
+          "lot_item": "Chappellet",
+          "lot_type": [
+            "Wine & Spirits"
+          ],
+          "match_result": {
+            "matched_name": "Chappellet, Signature Cabernet Sauvignon, Napa Valley",
+            "matched_producer": null,
+            "matched_region": "California",
+            "matched_sub_region": "Napa Valley"
+          },
+          "is_right_match": true
+        },
+        {
+          "id": "76997",
+          "lot_item": "Chappellet",
+          "lot_type": [
+            "Wine & Spirits"
+          ],
+          "match_result": {
+            "matched_name": "Chappellet, Signature Cabernet Sauvignon, Napa Valley",
+            "matched_producer": null,
+            "matched_region": "California",
+            "matched_sub_region": "Napa Valley"
+          },
+          "is_right_match": true
+        }
+      ]
+    },
+    {
+      "lot": "Riesling Kabinett Graacher Willi Schaefer",
+      "lot_items": [
+        {
+          "id": "9135",
+          "lot_item": "Willi Schaefer",
+          "lot_type": [
+            "Wine & Spirits"
+          ],
+          "match_result": {
+            "matched_name": "Willi Schaefer, Graacher Domprobst Riesling Kabinett, Mosel",
+            "matched_producer": null,
+            "matched_region": "Mosel",
+            "matched_sub_region": null
+          },
+          "is_right_match": true
+        },
+        {
+          "id": "9135",
+          "lot_item": "Willi Schaefer",
+          "lot_type": [
+            "Wine & Spirits"
+          ],
+          "match_result": {
+            "matched_name": "Willi Schaefer, Graacher Domprobst Riesling Kabinett, Mosel",
+            "matched_producer": null,
+            "matched_region": "Mosel",
+            "matched_sub_region": null
+          },
+          "is_right_match": true
+        }
+      ]
+    }
+  ]
+}

@@ -1,6 +1,9 @@
 import csv
 import argparse
 from database import DataExportClient
+from dotenv import load_dotenv
+
+load_dotenv()
 
 lots_export_client = DataExportClient()
 

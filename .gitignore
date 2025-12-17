@@ -1,4 +1,5 @@
 *.env
+.vscode/
 files/
 logs/
 crawl_state/
@@ -8,6 +9,7 @@ __pycache__/
 *.pyo
 *.pyd
 
+*.egg-info/
 *.xls
 *.csv
 test.py

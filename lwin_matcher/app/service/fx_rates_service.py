@@ -1,6 +1,5 @@
 import sys
 import requests
-sys.path.append('../..')
 from datetime import datetime, timedelta
 from lwin_matcher.app.exception.rates_not_found_exception import RatesNotFoundException
 

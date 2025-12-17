@@ -3,7 +3,7 @@ import asyncio
 import unicodedata
 from bs4 import BeautifulSoup
 from playwright.async_api import async_playwright
-from wine_spider.wine_spider.spiders.reports.auction_scraping_report_generator import AuctionScrapingReportGenerator
+from wine_spider.spiders.reports.auction_scraping_report_generator import AuctionScrapingReportGenerator
 
 SEM_LIMIT = 10
 

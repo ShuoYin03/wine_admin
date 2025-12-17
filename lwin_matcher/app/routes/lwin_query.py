@@ -1,8 +1,6 @@
-import sys
 import json
-sys.path.append('../..')
 from flask import Blueprint, request, Response, current_app
-from app.utils import serialize_for_json, justify_ops
+from lwin_matcher.app.utils import serialize_for_json, justify_ops
 
 lwin_query_blueprint = Blueprint('lwin_query', __name__)
 

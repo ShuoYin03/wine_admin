@@ -31,7 +31,6 @@ VOLUME_IDENTIFIER = {
     'double-magnums': 3000,
     'double magnums': 3000,
     'dm': 3000,
-    
     'cl': 10,
     'pint': 568.3,
     'pints': 568.3,

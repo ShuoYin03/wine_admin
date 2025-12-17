@@ -1,7 +1,7 @@
 import io
 import csv
 import json
-from app.utils import serialize_for_json, justify_ops
+from lwin_matcher.app.utils import serialize_for_json, justify_ops
 from flask import Blueprint, request, Response, current_app
 
 lot_query_blueprint = Blueprint('lot_query', __name__)
@@ -35,7 +35,6 @@ async def query():
 
     except Exception as e:
         return Response(json.dumps({"error": str(e)}), mimetype='application/json', status=500)
-    
 
 @lot_query_blueprint.route('/lot_export_csv', methods=['POST'])
 async def lot_export_csv():
