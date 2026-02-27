@@ -1,5 +1,5 @@
 from .continent_parser import find_continent, region_to_country, producer_to_country
-from .date_parser import parse_quarter, extract_date, month_to_quarter, extract_year
+from .date_parser import parse_quarter, extract_date, month_to_quarter, extract_year, get_current_timestamp
 from .lot_detail_item_filler import expand_to_lot_items
 from .price_helper import currency_to_symbol, symbol_to_currency, remove_commas, extract_price_range
 from .json_serializer import make_serializable
@@ -7,7 +7,6 @@ from .environment_helper import EnvironmentHelper
 from .volume_parser import unit_format_to_volume
 
 from .sothebys.title_parser import parse_volume_and_unit_from_title, parse_year_from_title, match_lot_info
-from .sothebys.captcha_parser import CaptchaParser
 
 from .christies.filter_parser import is_filter_exists, map_filter_to_field
 from .christies.year_parser import extract_years_from_json
@@ -77,4 +76,5 @@ __all__ = [
     'extract_all_volume_units',
     'split_title_by_valid_brackets',
     'parse_description',
+    'get_current_timestamp',
 ]

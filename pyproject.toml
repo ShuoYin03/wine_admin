@@ -1,0 +1,11 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "wine-admin"
+version = "0.1.0"
+description = "Utilities and services for WineAdmin"
+authors = [ { name = "shuoyin", email = "shuoyin03@gmail.com" } ]
+readme = "README.md"
+license = { text = "MIT" }

@@ -1,0 +1,3943 @@
+{
+  "summary": {
+    "total_lots": 200,
+    "total_items": 226,
+    "matched_correct": 163,
+    "matched_correct_percentage": 72.12389380530973,
+    "matched_wrong": 37,
+    "matched_wrong_percentage": 16.371681415929203,
+    "no_match_result": 26
+  },
+  "results": [
+    {
+      "lot": "Solaia Vertical (7 BT)",
+      "lot_items": [
+        {
+          "id": "25970",
+          "lot_item": null,
+          "lot_type": [
+            "Wine"
+          ],
+          "match_result": {
+            "matched_name": "Antinori, Solaia Annata diversa, IGT",
+            "matched_producer": null,
+            "matched_region": "Tuscany",
+            "matched_sub_region": null
+          },
+          "is_right_match": true
+        }
+      ]
+    },
+    {
+      "lot": "La Tâche 2009 Domaine de la Romanée-Conti (6 BT)",
+      "lot_items": [
+        {
+          "id": "2869",
+          "lot_item": "Domaine de la Romanée-Conti",
+          "lot_type": [
+            "Wine"
+          ],
+          "match_result": {
+            "matched_name": "Domaine de la Romanee-Conti, La Tache Grand Cru",
+            "matched_producer": "Domaine",
+            "matched_region": "Burgundy",
+            "matched_sub_region": "La Tache"
+          },
+          "is_right_match": true
+        }
+      ]
+    },
+    {
+      "lot": "Bollinger Vieilles Vignes Françaises, Blanc de Noirs 2004  (6 BT)",
+      "lot_items": [
+        {
+          "id": "8177",
+          "lot_item": "Bollinger",
+          "lot_type": [
+            "Wine"
+          ],
+          "match_result": {
+            "matched_name": "Bollinger, Vieilles Vignes Francaises",
+            "matched_producer": null,
+            "matched_region": "Champagne",
+            "matched_sub_region": null
+          },
+          "is_right_match": true
+        }
+      ]
+    },
+    {
+      "lot": "Dom Pérignon, P2 1999 (3 BT)",
+      "lot_items": [
+        {
+          "id": "27442",
+          "lot_item": "Dom Perignon",
+          "lot_type": [
+            "Wine"
+          ],
+          "match_result": {
+            "matched_name": "Dom Perignon, P2",
+            "matched_producer": null,
+            "matched_region": "Champagne",
+            "matched_sub_region": null
+          },
+          "is_right_match": true
+        }
+      ]
+    },
+    {
+      "lot": "Gevrey Chambertin, Vieilles Vignes 2014 Domaine Bachelet (12 BT)",
+      "lot_items": [
+        {
+          "id": "140135",
+          "lot_item": "Denis Bachelet",
+          "lot_type": [
+            "Wine"
+          ],
+          "match_result": {
+            "matched_name": "Domaine Bachelet, Gevrey-Chambertin, Vieilles Vignes",
+            "matched_producer": "Domaine",
+            "matched_region": "Burgundy",
+            "matched_sub_region": "Gevrey-Chambertin"
+          },
+          "is_right_match": true
+        }
+      ]
+    },
+    {
+      "lot": "Flaccianello della Pieve \"Vertical\" (5 BT)",
+      "lot_items": [
+        {
+          "id": "9920",
+          "lot_item": null,
+          "lot_type": [
+            "Wine"
+          ],
+          "match_result": {
+            "matched_name": "Fontodi, Flaccianello delle Pieve, Colli della Toscana Centrale",
+            "matched_producer": null,
+            "matched_region": "Tuscany",
+            "matched_sub_region": "Colli della Toscana Centrale"
+          },
+          "is_right_match": true
+        }
+      ]
+    },
+    {
+      "lot": "CHAMBOLLE MUSIGNY, LES GRUENCHERS 2000 Domaine Dujac ",
+      "lot_items": [
+        {
+          "id": "3051",
+          "lot_item": "Domaine Dujac",
+          "lot_type": [
+            "Wine"
+          ],
+          "match_result": {
+            "matched_name": "Domaine Dujac, Chambolle-Musigny Premier Cru, Les Gruenchers",
+            "matched_producer": "Domaine",
+            "matched_region": "Burgundy",
+            "matched_sub_region": "Chambolle-Musigny"
+          },
+          "is_right_match": true
+        }
+      ]
+    },
+    {
+      "lot": "Clos de Vougeot 2017 Philippe Pacalet (12 BT)",
+      "lot_items": [
+        {
+          "id": "38147",
+          "lot_item": "Philippe Pacalet",
+          "lot_type": [
+            "Wine"
+          ],
+          "match_result": {
+            "matched_name": "Philippe Pacalet, Clos de Vougeot Grand Cru",
+            "matched_producer": null,
+            "matched_region": "Burgundy",
+            "matched_sub_region": "Clos de Vougeot"
+          },
+          "is_right_match": true
+        }
+      ]
+    },
+    {
+      "lot": "Musigny 1993 Joseph Drouhin (12 BT)",
+      "lot_items": [
+        {
+          "id": "2886",
+          "lot_item": "Joseph Drouhin",
+          "lot_type": [
+            "Wine"
+          ],
+          "match_result": {
+            "matched_name": "Joseph Drouhin, Chambolle-Musigny",
+            "matched_producer": null,
+            "matched_region": "Burgundy",
+            "matched_sub_region": "Chambolle-Musigny"
+          },
+          "is_right_match": false
+        }
+      ]
+    },
+    {
+      "lot": "Romanée Conti 1978 Domaine de la Romanée-Conti (2 BT)",
+      "lot_items": [
+        {
+          "id": "2867",
+          "lot_item": "Domaine de la Romanée-Conti",
+          "lot_type": [
+            "Wine"
+          ],
+          "match_result": {
+            "matched_name": "Domaine de la Romanee-Conti, Romanee-Conti Grand Cru",
+            "matched_producer": "Domaine",
+            "matched_region": "Burgundy",
+            "matched_sub_region": "Romanee-Conti"
+          },
+          "is_right_match": true
+        }
+      ]
+    },
+    {
+      "lot": "Krug 2006  (6 BT)",
+      "lot_items": [
+        {
+          "id": "31343",
+          "lot_item": "Krug",
+          "lot_type": [
+            "Wine"
+          ],
+          "match_result": {
+            "matched_name": "Krug, Vintage Brut",
+            "matched_producer": null,
+            "matched_region": "Champagne",
+            "matched_sub_region": null
+          },
+          "is_right_match": false
+        }
+      ]
+    },
+    {
+      "lot": "Barbaresco, Santo Stefano Albesani di Neive 2008 Bruno Giacosa (12 BT)\t\t",
+      "lot_items": [
+        {
+          "id": "28415",
+          "lot_item": "Bruno Giacosa",
+          "lot_type": [
+            "Wine"
+          ],
+          "match_result": {
+            "matched_name": "Bruno Giacosa, Barbaresco, Santo Stefano Albesani",
+            "matched_producer": null,
+            "matched_region": "Piedmont",
+            "matched_sub_region": "Barbaresco"
+          },
+          "is_right_match": true
+        }
+      ]
+    },
+    {
+      "lot": "Aubert Chardonnay, Reuling 2008 (2 MAG) Aubert Chardonnay, Lauren Vineyard 2008 (4 MAG)",
+      "lot_items": [
+        {
+          "id": "20883",
+          "lot_item": "Aubert",
+          "lot_type": [
+            "Wine"
+          ],
+          "match_result": {
+            "matched_name": "Mark Aubert, Aubert Chardonnay Reuling",
+            "matched_producer": null,
+            "matched_region": "California",
+            "matched_sub_region": null
+          },
+          "is_right_match": false
+        }
+      ]
+    },
+    {
+      "lot": "Clos de Vougeot 2002 Domaine Prieuré Roch (6 BT)",
+      "lot_items": [
+        {
+          "lot_item": "Domaine Tortochot",
+          "match_result": null,
+          "is_right_match": false
+        }
+      ]
+    },
+    {
+      "lot": "Puligny Montrachet, Les Pucelles 2012 Domaine Leflaive (6 BT)",
+      "lot_items": [
+        {
+          "id": "7346",
+          "lot_item": "Leflaive",
+          "lot_type": [
+            "Wine"
+          ],
+          "match_result": {
+            "matched_name": "Domaine Leflaive, Puligny-Montrachet Premier Cru, Les Pucelles",
+            "matched_producer": "Domaine",
+            "matched_region": "Burgundy",
+            "matched_sub_region": "Puligny-Montrachet"
+          },
+          "is_right_match": true
+        }
+      ]
+    },
+    {
+      "lot": "Cornas 2008 Auguste Clape (12 BT)",
+      "lot_items": [
+        {
+          "id": "11014",
+          "lot_item": null,
+          "lot_type": [
+            "Wine"
+          ],
+          "match_result": {
+            "matched_name": "Auguste Clape, Cornas",
+            "matched_producer": null,
+            "matched_region": "Rhone",
+            "matched_sub_region": "Cornas"
+          },
+          "is_right_match": true
+        }
+      ]
+    },
+    {
+      "lot": "La Tâche 1982 Domaine de la Romanée-Conti (2 BT)",
+      "lot_items": [
+        {
+          "id": "2869",
+          "lot_item": "Domaine de la Romanée-Conti",
+          "lot_type": [
+            "Wine"
+          ],
+          "match_result": {
+            "matched_name": "Domaine de la Romanee-Conti, La Tache Grand Cru",
+            "matched_producer": "Domaine",
+            "matched_region": "Burgundy",
+            "matched_sub_region": "La Tache"
+          },
+          "is_right_match": true
+        }
+      ]
+    },
+    {
+      "lot": "Château Canon La Gaffelière 1975 (12 BT)",
+      "lot_items": [
+        {
+          "id": "758",
+          "lot_item": "Canon la Gaffeliere",
+          "lot_type": [
+            "Wine"
+          ],
+          "match_result": {
+            "matched_name": "Chateau Canon la Gaffeliere Premier Grand Cru Classe B, Saint-Emilion Grand Cru",
+            "matched_producer": "Chateau",
+            "matched_region": "Bordeaux",
+            "matched_sub_region": "Saint-Emilion Grand Cru"
+          },
+          "is_right_match": true
+        }
+      ]
+    },
+    {
+      "lot": "Château Rauzan-Ségla 2012  (6 MAG)",
+      "lot_items": [
+        {
+          "id": "1460",
+          "lot_item": "Rauzan-Segla",
+          "lot_type": [
+            "Wine"
+          ],
+          "match_result": {
+            "matched_name": "Chateau Rauzan-Segla 2eme Cru Classe, Margaux",
+            "matched_producer": "Chateau",
+            "matched_region": "Bordeaux",
+            "matched_sub_region": "Margaux"
+          },
+          "is_right_match": true
+        }
+      ]
+    },
+    {
+      "lot": "Vosne Romanée, Aux Malconsorts 2017 Sylvain Cathiard (3 BT)",
+      "lot_items": [
+        {
+          "id": "2363",
+          "lot_item": "Sylvain Cathiard",
+          "lot_type": [
+            "Wine"
+          ],
+          "match_result": {
+            "matched_name": "Domaine Sylvain Cathiard, Vosne-Romanee Premier Cru, Aux Malconsorts",
+            "matched_producer": "Domaine",
+            "matched_region": "Burgundy",
+            "matched_sub_region": "Vosne-Romanee"
+          },
+          "is_right_match": true
+        }
+      ]
+    },
+    {
+      "lot": " Mixed Kistler Pinot Noir (12 BT)",
+      "lot_items": [
+        {
+          "id": "21035",
+          "lot_item": "Kistler",
+          "lot_type": [
+            "Wine"
+          ],
+          "match_result": {
+            "matched_name": "Kistler, Kistler Pinot Noir, Sonoma Coast",
+            "matched_producer": null,
+            "matched_region": "California",
+            "matched_sub_region": "Sonoma Coast"
+          },
+          "is_right_match": true
+        }
+      ]
+    },
+    {
+      "lot": "Bienvenues Bâtard Montrachet 2014 Domaine Leflaive (3 BT)",
+      "lot_items": [
+        {
+          "id": "13224",
+          "lot_item": "Leflaive",
+          "lot_type": [
+            "Wine"
+          ],
+          "match_result": {
+            "matched_name": "Domaine Leflaive, Bienvenues-Batard-Montrachet Grand Cru",
+            "matched_producer": "Domaine",
+            "matched_region": "Burgundy",
+            "matched_sub_region": "Bienvenues-Batard-Montrachet"
+          },
+          "is_right_match": true
+        }
+      ]
+    },
+    {
+      "lot": "Château Talbot 2014  (12 BT)",
+      "lot_items": [
+        {
+          "id": "1536",
+          "lot_item": "Talbot",
+          "lot_type": [
+            "Wine"
+          ],
+          "match_result": {
+            "matched_name": "Chateau Talbot 4eme Cru Classe, Saint-Julien",
+            "matched_producer": "Chateau",
+            "matched_region": "Bordeaux",
+            "matched_sub_region": "Saint-Julien"
+          },
+          "is_right_match": true
+        }
+      ]
+    },
+    {
+      "lot": "Château Latour 1961 (4 BT)",
+      "lot_items": [
+        {
+          "id": "1231",
+          "lot_item": "Latour",
+          "lot_type": [
+            "Wine"
+          ],
+          "match_result": {
+            "matched_name": "Chateau Latour Premier Cru Classe, Pauillac",
+            "matched_producer": "Chateau",
+            "matched_region": "Bordeaux",
+            "matched_sub_region": "Pauillac"
+          },
+          "is_right_match": true
+        }
+      ]
+    },
+    {
+      "lot": "Richebourg Anne Gros \"Vertical\" (2 BT)",
+      "lot_items": [
+        {
+          "lot_item": "Anne Gros",
+          "match_result": null,
+          "is_right_match": false
+        },
+        {
+          "lot_item": "Anne Gros",
+          "match_result": null,
+          "is_right_match": false
+        }
+      ]
+    },
+    {
+      "lot": "Krug Collection 1990  (2 BT)",
+      "lot_items": [
+        {
+          "id": "8235",
+          "lot_item": "Krug",
+          "lot_type": [
+            "Wine"
+          ],
+          "match_result": {
+            "matched_name": "Krug, Collection",
+            "matched_producer": null,
+            "matched_region": "Champagne",
+            "matched_sub_region": null
+          },
+          "is_right_match": false
+        }
+      ]
+    },
+    {
+      "lot": "Romanée St. Vivant 2016 Alain Hudelot-Noëllat (6 BT)",
+      "lot_items": [
+        {
+          "id": "3738",
+          "lot_item": "Alain Hudelot-Noellat",
+          "lot_type": [
+            "Wine"
+          ],
+          "match_result": {
+            "matched_name": "Alain Hudelot-Noellat, Romanee-Saint-Vivant Grand Cru",
+            "matched_producer": null,
+            "matched_region": "Burgundy",
+            "matched_sub_region": "Romanee-Saint-Vivant"
+          },
+          "is_right_match": true
+        }
+      ]
+    },
+    {
+      "lot": "Richebourg 2005 Domaine de la Romanée-Conti (3 BT)",
+      "lot_items": [
+        {
+          "id": "2866",
+          "lot_item": "Domaine de la Romanée-Conti",
+          "lot_type": [
+            "Wine"
+          ],
+          "match_result": {
+            "matched_name": "Domaine de la Romanee-Conti, Richebourg Grand Cru",
+            "matched_producer": "Domaine",
+            "matched_region": "Burgundy",
+            "matched_sub_region": "Richebourg"
+          },
+          "is_right_match": true
+        }
+      ]
+    },
+    {
+      "lot": "Château Suduiraut 1967  (9 BT)",
+      "lot_items": [
+        {
+          "id": "1765",
+          "lot_item": "Suduiraut",
+          "lot_type": [
+            "Wine"
+          ],
+          "match_result": {
+            "matched_name": "Chateau Suduiraut Premier Cru Classe, Sauternes",
+            "matched_producer": "Chateau",
+            "matched_region": "Bordeaux",
+            "matched_sub_region": "Sauternes"
+          },
+          "is_right_match": true
+        }
+      ]
+    },
+    {
+      "lot": "Château Lafite 2005 (6 BT)",
+      "lot_items": [
+        {
+          "id": "1187",
+          "lot_item": "Lafite Rothschild",
+          "lot_type": [
+            "Wine"
+          ],
+          "match_result": {
+            "matched_name": "Chateau Lafite Rothschild Premier Cru Classe, Pauillac",
+            "matched_producer": "Chateau",
+            "matched_region": "Bordeaux",
+            "matched_sub_region": "Pauillac"
+          },
+          "is_right_match": true
+        }
+      ]
+    },
+    {
+      "lot": "Corton-Renardes 1998 Domaine Leroy (1 BT)",
+      "lot_items": [
+        {
+          "id": "4393",
+          "lot_item": "Leroy",
+          "lot_type": [
+            "Wine"
+          ],
+          "match_result": {
+            "matched_name": "Domaine Leroy, Corton Grand Cru, Les Renardes",
+            "matched_producer": "Domaine",
+            "matched_region": "Burgundy",
+            "matched_sub_region": "Corton"
+          },
+          "is_right_match": true
+        }
+      ]
+    },
+    {
+      "lot": "Romanée Conti 2000 Domaine de la Romanée-Conti (1 MAG)",
+      "lot_items": [
+        {
+          "id": "2867",
+          "lot_item": "Domaine de la Romanée-Conti",
+          "lot_type": [
+            "Wine"
+          ],
+          "match_result": {
+            "matched_name": "Domaine de la Romanee-Conti, Romanee-Conti Grand Cru",
+            "matched_producer": "Domaine",
+            "matched_region": "Burgundy",
+            "matched_sub_region": "Romanee-Conti"
+          },
+          "is_right_match": true
+        }
+      ]
+    },
+    {
+      "lot": "Meursault, Perrières 2020 Bouchard Père et Fils (12 BT)",
+      "lot_items": [
+        {
+          "id": "6210",
+          "lot_item": "Bouchard Pere et Fils",
+          "lot_type": [
+            "Wine"
+          ],
+          "match_result": {
+            "matched_name": "Bouchard Pere et Fils, Meursault Premier Cru, Perrieres",
+            "matched_producer": null,
+            "matched_region": "Burgundy",
+            "matched_sub_region": "Meursault"
+          },
+          "is_right_match": true
+        }
+      ]
+    },
+    {
+      "lot": "Puligny Montrachet, Les Combettes 2004 Domaine Leflaive (12 BT)",
+      "lot_items": [
+        {
+          "lot_item": "La Mission Haut-Brion",
+          "match_result": null,
+          "is_right_match": false
+        }
+      ]
+    },
+    {
+      "lot": "Salon Le Mesnil, Blanc de Blancs 2002 (1 MAG)",
+      "lot_items": [
+        {
+          "id": "33068",
+          "lot_item": "Salon",
+          "lot_type": [
+            "Wine"
+          ],
+          "match_result": {
+            "matched_name": "Salon, Le Mesnil-sur-Oger, Blanc de Blancs",
+            "matched_producer": null,
+            "matched_region": "Champagne",
+            "matched_sub_region": "Le Mesnil-sur-Oger"
+          },
+          "is_right_match": true
+        }
+      ]
+    },
+    {
+      "lot": "Musigny 2006 Jacques-Frédéric Mugnier (2 BT)",
+      "lot_items": [
+        {
+          "id": "4962",
+          "lot_item": "Jacques-Frederic Mugnier",
+          "lot_type": [
+            "Wine"
+          ],
+          "match_result": {
+            "matched_name": "Jacques-Frederic Mugnier, Chambolle-Musigny",
+            "matched_producer": null,
+            "matched_region": "Burgundy",
+            "matched_sub_region": "Chambolle-Musigny"
+          },
+          "is_right_match": false
+        }
+      ]
+    },
+    {
+      "lot": "Château Montrose 1990 (3 BT)",
+      "lot_items": [
+        {
+          "id": "1329",
+          "lot_item": "Montrose",
+          "lot_type": [
+            "Wine"
+          ],
+          "match_result": {
+            "matched_name": "Chateau Montrose 2eme Cru Classe, Saint-Estephe",
+            "matched_producer": "Chateau",
+            "matched_region": "Bordeaux",
+            "matched_sub_region": "Saint-Estephe"
+          },
+          "is_right_match": true
+        }
+      ]
+    },
+    {
+      "lot": "Château Canon 2007 (6 MAG)",
+      "lot_items": [
+        {
+          "id": "757",
+          "lot_item": "Canon",
+          "lot_type": [
+            "Wine"
+          ],
+          "match_result": {
+            "matched_name": "Chateau Canon, Canon-Fronsac",
+            "matched_producer": "Chateau",
+            "matched_region": "Bordeaux",
+            "matched_sub_region": "Canon-Fronsac"
+          },
+          "is_right_match": true
+        }
+      ]
+    },
+    {
+      "lot": "THE SPINOLA COLLECTION NO. 1 ",
+      "lot_items": [
+        {
+          "lot_item": "Port Ellen",
+          "match_result": null,
+          "is_right_match": false
+        },
+        {
+          "lot_item": "Tomatin",
+          "match_result": null,
+          "is_right_match": false
+        },
+        {
+          "lot_item": "Milton Duff",
+          "match_result": null,
+          "is_right_match": false
+        },
+        {
+          "lot_item": "Glen Gordon",
+          "match_result": null,
+          "is_right_match": false
+        },
+        {
+          "lot_item": "Glenlossie",
+          "match_result": null,
+          "is_right_match": false
+        }
+      ]
+    },
+    {
+      "lot": "Château Lynch-Bages 2000 (3 DM)",
+      "lot_items": [
+        {
+          "id": "1257",
+          "lot_item": "Lynch-Bages",
+          "lot_type": [
+            "Wine"
+          ],
+          "match_result": {
+            "matched_name": "Chateau Lynch-Bages 5eme Cru Classe, Pauillac",
+            "matched_producer": "Chateau",
+            "matched_region": "Bordeaux",
+            "matched_sub_region": "Pauillac"
+          },
+          "is_right_match": true
+        }
+      ]
+    },
+    {
+      "lot": "Château Beychevelle 2014  (12 MAG)",
+      "lot_items": [
+        {
+          "id": "710",
+          "lot_item": "Beychevelle",
+          "lot_type": [
+            "Wine"
+          ],
+          "match_result": {
+            "matched_name": "Chateau Beychevelle 4eme Cru Classe, Saint-Julien",
+            "matched_producer": "Chateau",
+            "matched_region": "Bordeaux",
+            "matched_sub_region": "Saint-Julien"
+          },
+          "is_right_match": true
+        }
+      ]
+    },
+    {
+      "lot": " Château Haut Brion Blanc 2007  (7 BT)          ",
+      "lot_items": [
+        {
+          "id": "1731",
+          "lot_item": "Haut-Brion",
+          "lot_type": [
+            "Wine"
+          ],
+          "match_result": {
+            "matched_name": "Chateau La Mission Haut Brion, Blanc, Pessac-Leognan",
+            "matched_producer": "Chateau",
+            "matched_region": "Bordeaux",
+            "matched_sub_region": "Pessac-Leognan"
+          },
+          "is_right_match": false
+        }
+      ]
+    },
+    {
+      "lot": "Meursault, Les Poruzots 1999 Maison Leroy (2 BT)",
+      "lot_items": [
+        {
+          "lot_item": "Maison DEux Montille",
+          "match_result": null,
+          "is_right_match": false
+        }
+      ]
+    },
+    {
+      "lot": "Matarocchio 2016  (3 BT)",
+      "lot_items": [
+        {
+          "lot_item": "Matarocchio",
+          "match_result": null,
+          "is_right_match": false
+        }
+      ]
+    },
+    {
+      "lot": "Louis Roederer, Cristal Brut 2000 (6 BT)",
+      "lot_items": [
+        {
+          "id": "8249",
+          "lot_item": "Louis Roederer",
+          "lot_type": [
+            "Wine"
+          ],
+          "match_result": {
+            "matched_name": "Louis Roederer, Cristal",
+            "matched_producer": null,
+            "matched_region": "Champagne",
+            "matched_sub_region": null
+          },
+          "is_right_match": true
+        }
+      ]
+    },
+    {
+      "lot": "Château Haut Brion 1975  (1 BT)",
+      "lot_items": [
+        {
+          "id": "1124",
+          "lot_item": "Haut-Brion",
+          "lot_type": [
+            "Wine"
+          ],
+          "match_result": {
+            "matched_name": "Chateau Haut-Brion Premier Cru Classe, Pessac-Leognan",
+            "matched_producer": "Chateau",
+            "matched_region": "Bordeaux",
+            "matched_sub_region": "Pessac-Leognan"
+          },
+          "is_right_match": true
+        }
+      ]
+    },
+    {
+      "lot": "Gevrey Chambertin, Lavaux St. Jacques 1998 Claude Dugat (2 BT)",
+      "lot_items": [
+        {
+          "id": "3002",
+          "lot_item": "Claude Dugat",
+          "lot_type": [
+            "Wine"
+          ],
+          "match_result": {
+            "matched_name": "Claude Dugat, Gevrey-Chambertin Premier Cru, Clos Saint-Jacques",
+            "matched_producer": null,
+            "matched_region": "Burgundy",
+            "matched_sub_region": "Gevrey-Chambertin"
+          },
+          "is_right_match": false
+        }
+      ]
+    },
+    {
+      "lot": "Grands Echézeaux 1999 Georges Noellat (12 BT)",
+      "lot_items": [
+        {
+          "id": "21198",
+          "lot_item": "Georges Noellat",
+          "lot_type": [
+            "Wine"
+          ],
+          "match_result": {
+            "matched_name": "Georges Noellat, Grands Echezeaux Grand Cru",
+            "matched_producer": null,
+            "matched_region": "Burgundy",
+            "matched_sub_region": "Grands Echezeaux"
+          },
+          "is_right_match": true
+        }
+      ]
+    },
+    {
+      "lot": "Moet & Chandon Grand Vintage 2002  (3 MAG)",
+      "lot_items": [
+        {
+          "lot_item": "Moet & Chandon",
+          "match_result": null,
+          "is_right_match": false
+        }
+      ]
+    },
+    {
+      "lot": "Carruades de Lafite 2009 (12 BT)",
+      "lot_items": [
+        {
+          "id": "784",
+          "lot_item": "Lafite Rothschild",
+          "lot_type": [
+            "Wine"
+          ],
+          "match_result": {
+            "matched_name": "Carruades de Lafite, Pauillac",
+            "matched_producer": "Chateau",
+            "matched_region": "Bordeaux",
+            "matched_sub_region": "Pauillac"
+          },
+          "is_right_match": true
+        }
+      ]
+    },
+    {
+      "lot": "Beaune Premier Cru, Cuvée Rousseau Deslandes 2023 (1 PCE)",
+      "lot_items": [
+        {
+          "id": "17713",
+          "lot_item": "Hospices de Beaune",
+          "lot_type": [
+            "Wine"
+          ],
+          "match_result": {
+            "matched_name": "Hospices de Beaune, Beaune Premier Cru, Cuvee Rousseau-Deslandes",
+            "matched_producer": null,
+            "matched_region": "Burgundy",
+            "matched_sub_region": "Beaune"
+          },
+          "is_right_match": true
+        }
+      ]
+    },
+    {
+      "lot": "Nuits St. Georges, Aux Vignerondes 2011 Domaine Leroy (3 BT)",
+      "lot_items": [
+        {
+          "id": "4432",
+          "lot_item": "Leroy",
+          "lot_type": [
+            "Wine"
+          ],
+          "match_result": {
+            "matched_name": "Domaine Leroy, Nuits-Saint-Georges Premier Cru, Aux Vignerondes",
+            "matched_producer": "Domaine",
+            "matched_region": "Burgundy",
+            "matched_sub_region": "Nuits-Saint-Georges"
+          },
+          "is_right_match": true
+        }
+      ]
+    },
+    {
+      "lot": "Hermitage, Les Bessards 2010 Delas Frères (3 BT)",
+      "lot_items": [
+        {
+          "id": "11143",
+          "lot_item": "Delas",
+          "lot_type": [
+            "Wine"
+          ],
+          "match_result": {
+            "matched_name": "Delas, Hermitage, Les Bessards",
+            "matched_producer": null,
+            "matched_region": "Rhone",
+            "matched_sub_region": "Hermitage"
+          },
+          "is_right_match": true
+        }
+      ]
+    },
+    {
+      "lot": "Echézeaux 2015 Domaine de la Romanée-Conti (6 BT)",
+      "lot_items": [
+        {
+          "id": "2864",
+          "lot_item": "Domaine de la Romanée-Conti",
+          "lot_type": [
+            "Wine"
+          ],
+          "match_result": {
+            "matched_name": "Domaine de la Romanee-Conti, Echezeaux Grand Cru",
+            "matched_producer": "Domaine",
+            "matched_region": "Burgundy",
+            "matched_sub_region": "Echezeaux"
+          },
+          "is_right_match": true
+        }
+      ]
+    },
+    {
+      "lot": "Ermitage Ex Voto, Guigal Mixed Lot (4 BT)",
+      "lot_items": [
+        {
+          "id": "11320",
+          "lot_item": "E. Guigal",
+          "lot_type": [
+            "Wine"
+          ],
+          "match_result": {
+            "matched_name": "E. Guigal, Gigondas",
+            "matched_producer": null,
+            "matched_region": "Rhone",
+            "matched_sub_region": "Gigondas"
+          },
+          "is_right_match": false
+        },
+        {
+          "id": "11320",
+          "lot_item": "E. Guigal",
+          "lot_type": [
+            "Wine"
+          ],
+          "match_result": {
+            "matched_name": "E. Guigal, Gigondas",
+            "matched_producer": null,
+            "matched_region": "Rhone",
+            "matched_sub_region": "Gigondas"
+          },
+          "is_right_match": false
+        },
+        {
+          "id": "11320",
+          "lot_item": "E. Guigal",
+          "lot_type": [
+            "Wine"
+          ],
+          "match_result": {
+            "matched_name": "E. Guigal, Gigondas",
+            "matched_producer": null,
+            "matched_region": "Rhone",
+            "matched_sub_region": "Gigondas"
+          },
+          "is_right_match": false
+        },
+        {
+          "id": "11320",
+          "lot_item": "E. Guigal",
+          "lot_type": [
+            "Wine"
+          ],
+          "match_result": {
+            "matched_name": "E. Guigal, Gigondas",
+            "matched_producer": null,
+            "matched_region": "Rhone",
+            "matched_sub_region": "Gigondas"
+          },
+          "is_right_match": false
+        }
+      ]
+    },
+    {
+      "lot": "Château Haut Brion 1969  (6 BT)",
+      "lot_items": [
+        {
+          "id": "1124",
+          "lot_item": "Haut-Brion",
+          "lot_type": [
+            "Wine"
+          ],
+          "match_result": {
+            "matched_name": "Chateau Haut-Brion Premier Cru Classe, Pessac-Leognan",
+            "matched_producer": "Chateau",
+            "matched_region": "Bordeaux",
+            "matched_sub_region": "Pessac-Leognan"
+          },
+          "is_right_match": true
+        }
+      ]
+    },
+    {
+      "lot": "Taylor Scion 1855 (1 BT)",
+      "lot_items": [
+        {
+          "id": "10797",
+          "lot_item": "Taylor's",
+          "lot_type": [
+            "Wine"
+          ],
+          "match_result": {
+            "matched_name": "Taylor's, Scion Port",
+            "matched_producer": null,
+            "matched_region": "Porto",
+            "matched_sub_region": null
+          },
+          "is_right_match": true
+        }
+      ]
+    },
+    {
+      "lot": "Vosne Romanée, Les Petits Monts 2004 Joseph Drouhin (3 BT)",
+      "lot_items": [
+        {
+          "id": "2946",
+          "lot_item": "Joseph Drouhin",
+          "lot_type": [
+            "Wine"
+          ],
+          "match_result": {
+            "matched_name": "Joseph Drouhin, Vosne-Romanee Premier Cru, Les Petits Monts",
+            "matched_producer": null,
+            "matched_region": "Burgundy",
+            "matched_sub_region": "Vosne-Romanee"
+          },
+          "is_right_match": true
+        }
+      ]
+    },
+    {
+      "lot": "Château Pichon Longueville, Lalande 1979 (10 BT)",
+      "lot_items": [
+        {
+          "id": "1417",
+          "lot_item": "Pichon Longueville Comtesse de Lalande",
+          "lot_type": [
+            "Wine"
+          ],
+          "match_result": {
+            "matched_name": "Chateau Pichon Longueville Comtesse de Lalande 2eme Cru Classe, Pauillac",
+            "matched_producer": "Chateau",
+            "matched_region": "Bordeaux",
+            "matched_sub_region": "Pauillac"
+          },
+          "is_right_match": true
+        }
+      ]
+    },
+    {
+      "lot": " Krug, Clos d'Ambonnay 2002  (3 BT)",
+      "lot_items": [
+        {
+          "id": "8233",
+          "lot_item": "Krug",
+          "lot_type": [
+            "Wine"
+          ],
+          "match_result": {
+            "matched_name": "Krug, Clos d'Ambonnay",
+            "matched_producer": null,
+            "matched_region": "Champagne",
+            "matched_sub_region": null
+          },
+          "is_right_match": true
+        }
+      ]
+    },
+    {
+      "lot": "Chambertin 2019 Domaine Armand Rousseau (6 BT)",
+      "lot_items": [
+        {
+          "id": "5705",
+          "lot_item": "Armand Rousseau",
+          "lot_type": [
+            "Wine"
+          ],
+          "match_result": {
+            "matched_name": "Domaine Armand Rousseau, Gevrey-Chambertin",
+            "matched_producer": "Domaine",
+            "matched_region": "Burgundy",
+            "matched_sub_region": "Gevrey-Chambertin"
+          },
+          "is_right_match": true
+        }
+      ]
+    },
+    {
+      "lot": "Château Palmer 1966 (2 BT)",
+      "lot_items": [
+        {
+          "id": "1365",
+          "lot_item": "Palmer",
+          "lot_type": [
+            "Wine"
+          ],
+          "match_result": {
+            "matched_name": "Chateau Palmer 3eme Cru Classe, Margaux",
+            "matched_producer": "Chateau",
+            "matched_region": "Bordeaux",
+            "matched_sub_region": "Margaux"
+          },
+          "is_right_match": true
+        }
+      ]
+    },
+    {
+      "lot": "Petrus 2010 (3 MAG)",
+      "lot_items": [
+        {
+          "id": "1403",
+          "lot_item": "Petrus",
+          "lot_type": [
+            "Wine"
+          ],
+          "match_result": {
+            "matched_name": "Petrus, Pomerol",
+            "matched_producer": null,
+            "matched_region": "Bordeaux",
+            "matched_sub_region": "Pomerol"
+          },
+          "is_right_match": true
+        }
+      ]
+    },
+    {
+      "lot": "Mixed Ghislaine Barthod 2019 (6 BT)",
+      "lot_items": [
+        {
+          "id": "1944",
+          "lot_item": "Ghislaine Barthod",
+          "lot_type": [
+            "Wine"
+          ],
+          "match_result": {
+            "matched_name": "Ghislaine Barthod, Chambolle-Musigny",
+            "matched_producer": null,
+            "matched_region": "Burgundy",
+            "matched_sub_region": "Chambolle-Musigny"
+          },
+          "is_right_match": false
+        },
+        {
+          "id": "1944",
+          "lot_item": "Ghislaine Barthod",
+          "lot_type": [
+            "Wine"
+          ],
+          "match_result": {
+            "matched_name": "Ghislaine Barthod, Chambolle-Musigny",
+            "matched_producer": null,
+            "matched_region": "Burgundy",
+            "matched_sub_region": "Chambolle-Musigny"
+          },
+          "is_right_match": false
+        }
+      ]
+    },
+    {
+      "lot": "Soldera, Case Basse 2017 Soldera (5 BT)",
+      "lot_items": [
+        {
+          "id": "10532",
+          "lot_item": "Soldera Casse Basse",
+          "lot_type": [
+            "Wine"
+          ],
+          "match_result": {
+            "matched_name": "Soldera, Rosso di Montalcino, Case Basse",
+            "matched_producer": null,
+            "matched_region": "Tuscany",
+            "matched_sub_region": "Rosso di Montalcino"
+          },
+          "is_right_match": false
+        }
+      ]
+    },
+    {
+      "lot": "Château Cos d'Estournel 2013  (1 IMP)",
+      "lot_items": [
+        {
+          "id": "878",
+          "lot_item": "Cos d'Estournel",
+          "lot_type": [
+            "Wine"
+          ],
+          "match_result": {
+            "matched_name": "Cos d'Estournel 2eme Cru Classe, Saint-Estephe",
+            "matched_producer": null,
+            "matched_region": "Bordeaux",
+            "matched_sub_region": "Saint-Estephe"
+          },
+          "is_right_match": true
+        }
+      ]
+    },
+    {
+      "lot": "Château Lafleur 1983  (5 MAG)",
+      "lot_items": [
+        {
+          "id": "1190",
+          "lot_item": "Lafleur",
+          "lot_type": [
+            "Wine"
+          ],
+          "match_result": {
+            "matched_name": "Chateau Lafleur, Pomerol",
+            "matched_producer": "Chateau",
+            "matched_region": "Bordeaux",
+            "matched_sub_region": "Pomerol"
+          },
+          "is_right_match": true
+        }
+      ]
+    },
+    {
+      "lot": "Clos Vougeot 2017 Domaine Arnoux-Lachaux (2 BT)",
+      "lot_items": [
+        {
+          "id": "33192",
+          "lot_item": "Arnoux-Lachaux",
+          "lot_type": [
+            "Wine"
+          ],
+          "match_result": {
+            "matched_name": "Domaine Arnoux-Lachaux, Chambertin-Clos de Beze Grand Cru",
+            "matched_producer": "Domaine",
+            "matched_region": "Burgundy",
+            "matched_sub_region": "Chambertin-Clos de Beze"
+          },
+          "is_right_match": false
+        }
+      ]
+    },
+    {
+      "lot": "Châteauneuf du Pape, Réserve des Deux Frères 2010 Pierre Usseglio (10 BT)",
+      "lot_items": [
+        {
+          "id": "11759",
+          "lot_item": "Pierre Usseglio",
+          "lot_type": [
+            "Wine"
+          ],
+          "match_result": {
+            "matched_name": "Domaine Pierre Usseglio, Chateauneuf-du-Pape, Reserve des 2 Freres",
+            "matched_producer": "Domaine",
+            "matched_region": "Rhone",
+            "matched_sub_region": "Chateauneuf-du-Pape"
+          },
+          "is_right_match": false
+        }
+      ]
+    },
+    {
+      "lot": "Château Lynch-Bages 1983 (3 JM50)",
+      "lot_items": [
+        {
+          "id": "1257",
+          "lot_item": "Lynch-Bages",
+          "lot_type": [
+            "Wine"
+          ],
+          "match_result": {
+            "matched_name": "Chateau Lynch-Bages 5eme Cru Classe, Pauillac",
+            "matched_producer": "Chateau",
+            "matched_region": "Bordeaux",
+            "matched_sub_region": "Pauillac"
+          },
+          "is_right_match": true
+        },
+        {
+          "id": "1257",
+          "lot_item": "Lynch-Bages",
+          "lot_type": [
+            "Wine"
+          ],
+          "match_result": {
+            "matched_name": "Chateau Lynch-Bages 5eme Cru Classe, Pauillac",
+            "matched_producer": "Chateau",
+            "matched_region": "Bordeaux",
+            "matched_sub_region": "Pauillac"
+          },
+          "is_right_match": true
+        },
+        {
+          "id": "1257",
+          "lot_item": "Lynch-Bages",
+          "lot_type": [
+            "Wine"
+          ],
+          "match_result": {
+            "matched_name": "Chateau Lynch-Bages 5eme Cru Classe, Pauillac",
+            "matched_producer": "Chateau",
+            "matched_region": "Bordeaux",
+            "matched_sub_region": "Pauillac"
+          },
+          "is_right_match": true
+        }
+      ]
+    },
+    {
+      "lot": "Château Ausone 1993 (12 BT)",
+      "lot_items": [
+        {
+          "id": "620",
+          "lot_item": "Château Ausone",
+          "lot_type": [
+            "Wine"
+          ],
+          "match_result": {
+            "matched_name": "Chateau Ausone, Saint-Emilion Grand Cru",
+            "matched_producer": "Chateau",
+            "matched_region": "Bordeaux",
+            "matched_sub_region": "Saint-Emilion Grand Cru"
+          },
+          "is_right_match": false
+        }
+      ]
+    },
+    {
+      "lot": "Barolo Riserva, Vini Pregiati Giacomo Conterno \"Vertical\" (4 BT)",
+      "lot_items": [
+        {
+          "id": "63382",
+          "lot_item": "Giacomo Conterno",
+          "lot_type": [
+            "Wine"
+          ],
+          "match_result": {
+            "matched_name": "Giacomo Conterno, Barolo, Riserva Vini Pregiati",
+            "matched_producer": null,
+            "matched_region": "Piedmont",
+            "matched_sub_region": "Barolo"
+          },
+          "is_right_match": false
+        },
+        {
+          "id": "63382",
+          "lot_item": "Giacomo Conterno",
+          "lot_type": [
+            "Wine"
+          ],
+          "match_result": {
+            "matched_name": "Giacomo Conterno, Barolo, Riserva Vini Pregiati",
+            "matched_producer": null,
+            "matched_region": "Piedmont",
+            "matched_sub_region": "Barolo"
+          },
+          "is_right_match": false
+        }
+      ]
+    },
+    {
+      "lot": "Angelus 2018  (3 DM)",
+      "lot_items": [
+        {
+          "id": "104798",
+          "lot_item": "Angelus",
+          "lot_type": [
+            "Wine"
+          ],
+          "match_result": {
+            "matched_name": "Tempo d'Angelus",
+            "matched_producer": "Chateau",
+            "matched_region": "Bordeaux",
+            "matched_sub_region": null
+          },
+          "is_right_match": false
+        }
+      ]
+    },
+    {
+      "lot": "Château Haut Brion 2000  (12 BT)",
+      "lot_items": [
+        {
+          "id": "1124",
+          "lot_item": "Haut-Brion",
+          "lot_type": [
+            "Wine"
+          ],
+          "match_result": {
+            "matched_name": "Chateau Haut-Brion Premier Cru Classe, Pessac-Leognan",
+            "matched_producer": "Chateau",
+            "matched_region": "Bordeaux",
+            "matched_sub_region": "Pessac-Leognan"
+          },
+          "is_right_match": true
+        }
+      ]
+    },
+    {
+      "lot": "Château Haut Brion 1989  (10 BT)",
+      "lot_items": [
+        {
+          "id": "1124",
+          "lot_item": "Haut-Brion",
+          "lot_type": [
+            "Wine"
+          ],
+          "match_result": {
+            "matched_name": "Chateau Haut-Brion Premier Cru Classe, Pessac-Leognan",
+            "matched_producer": "Chateau",
+            "matched_region": "Bordeaux",
+            "matched_sub_region": "Pessac-Leognan"
+          },
+          "is_right_match": true
+        }
+      ]
+    },
+    {
+      "lot": "Vega Sicilia, 'Valbuena No. 5' 1997  (6 BT)",
+      "lot_items": [
+        {
+          "id": "23810",
+          "lot_item": "Vega Sicilia",
+          "lot_type": [
+            "Wine"
+          ],
+          "match_result": {
+            "matched_name": "Vega Sicilia, Valbuena 5.°, Ribera del Duero",
+            "matched_producer": null,
+            "matched_region": "Castilla y Leon",
+            "matched_sub_region": "Ribera del Duero"
+          },
+          "is_right_match": true
+        }
+      ]
+    },
+    {
+      "lot": "Niepoort 2011  (5 BT)",
+      "lot_items": [
+        {
+          "id": "10769",
+          "lot_item": null,
+          "lot_type": [
+            "Wine"
+          ],
+          "match_result": {
+            "matched_name": "Niepoort, Niepoort",
+            "matched_producer": null,
+            "matched_region": "Porto",
+            "matched_sub_region": null
+          },
+          "is_right_match": true
+        }
+      ]
+    },
+    {
+      "lot": "Marc de Bourgogne 1978 Domaine de la Romanée-Conti (6 BT) ",
+      "lot_items": [
+        {
+          "id": "20921",
+          "lot_item": "Domaine de la Romanée-Conti",
+          "lot_type": [
+            "Wine"
+          ],
+          "match_result": {
+            "matched_name": "Domaine de la Romanee-Conti, Marc de Bourgogne",
+            "matched_producer": "Domaine",
+            "matched_region": "Burgundy",
+            "matched_sub_region": "Marc de Bourgogne"
+          },
+          "is_right_match": true
+        }
+      ]
+    },
+    {
+      "lot": "Château Lafleur 1993 (6 MAG)",
+      "lot_items": [
+        {
+          "id": "1190",
+          "lot_item": "Lafleur",
+          "lot_type": [
+            "Wine"
+          ],
+          "match_result": {
+            "matched_name": "Chateau Lafleur, Pomerol",
+            "matched_producer": "Chateau",
+            "matched_region": "Bordeaux",
+            "matched_sub_region": "Pomerol"
+          },
+          "is_right_match": true
+        }
+      ]
+    },
+    {
+      "lot": " Château Haut Brion 1982  (10 BT)",
+      "lot_items": [
+        {
+          "id": "1124",
+          "lot_item": "Haut-Brion",
+          "lot_type": [
+            "Wine"
+          ],
+          "match_result": {
+            "matched_name": "Chateau Haut-Brion Premier Cru Classe, Pessac-Leognan",
+            "matched_producer": "Chateau",
+            "matched_region": "Bordeaux",
+            "matched_sub_region": "Pessac-Leognan"
+          },
+          "is_right_match": true
+        }
+      ]
+    },
+    {
+      "lot": "Meursault, Goutte d'Or 2007 Domaine d'Auvenay (3 BT)",
+      "lot_items": [
+        {
+          "id": "6004",
+          "lot_item": "d'Auvenay",
+          "lot_type": [
+            "Wine"
+          ],
+          "match_result": {
+            "matched_name": "Domaine d'Auvenay, Meursault",
+            "matched_producer": "Domaine",
+            "matched_region": "Burgundy",
+            "matched_sub_region": "Meursault"
+          },
+          "is_right_match": true
+        }
+      ]
+    },
+    {
+      "lot": "Château Larcis Ducasse 2005  (12 BT)",
+      "lot_items": [
+        {
+          "id": "1218",
+          "lot_item": "Larcis Ducasse",
+          "lot_type": [
+            "Wine"
+          ],
+          "match_result": {
+            "matched_name": "Chateau Larcis Ducasse Premier Grand Cru Classe B, Saint-Emilion Grand Cru",
+            "matched_producer": "Chateau",
+            "matched_region": "Bordeaux",
+            "matched_sub_region": "Saint-Emilion Grand Cru"
+          },
+          "is_right_match": true
+        }
+      ]
+    },
+    {
+      "lot": "Pommard, Cuvée Suzanne Chaudron 2022 (1 PCE)",
+      "lot_items": [
+        {
+          "id": "167902",
+          "lot_item": null,
+          "lot_type": [
+            "Wine"
+          ],
+          "match_result": {
+            "matched_name": "Hospices de Beaune (MGC), Pommard, Cuvee Suzanne Chaudron",
+            "matched_producer": null,
+            "matched_region": "Burgundy",
+            "matched_sub_region": "Pommard"
+          },
+          "is_right_match": true
+        }
+      ]
+    },
+    {
+      "lot": "Corton Charlemagne Grand Cru, Cuvée Roi Soleil 2023  (1 PCE)",
+      "lot_items": [
+        {
+          "id": "23603",
+          "lot_item": "Hospices de Beaune",
+          "lot_type": [
+            "Wine"
+          ],
+          "match_result": {
+            "matched_name": "Hospices de Beaune, Corton-Charlemagne Grand Cru, Cuvee du Roi Soleil",
+            "matched_producer": null,
+            "matched_region": "Burgundy",
+            "matched_sub_region": "Corton-Charlemagne"
+          },
+          "is_right_match": true
+        }
+      ]
+    },
+    {
+      "lot": "Philipponnat, Clos des Goisses 1997 (4 BT)",
+      "lot_items": [
+        {
+          "id": "30827",
+          "lot_item": "Philipponnat",
+          "lot_type": [
+            "Wine"
+          ],
+          "match_result": {
+            "matched_name": "Philipponnat, Clos des Goisses",
+            "matched_producer": null,
+            "matched_region": "Champagne",
+            "matched_sub_region": null
+          },
+          "is_right_match": true
+        }
+      ]
+    },
+    {
+      "lot": " Griotte Chambertin Vieille Vigne 2012 Domaine Fourrier (1 BT)",
+      "lot_items": [
+        {
+          "id": "31353",
+          "lot_item": "Fourrier",
+          "lot_type": [
+            "Wine"
+          ],
+          "match_result": {
+            "matched_name": "Domaine Fourrier, Griotte-Chambertin Grand Cru, Vieille Vigne",
+            "matched_producer": "Domaine",
+            "matched_region": "Burgundy",
+            "matched_sub_region": "Griotte-Chambertin"
+          },
+          "is_right_match": true
+        }
+      ]
+    },
+    {
+      "lot": "Petrus 1978 (12 BT)",
+      "lot_items": [
+        {
+          "id": "1403",
+          "lot_item": "Petrus",
+          "lot_type": [
+            "Wine"
+          ],
+          "match_result": {
+            "matched_name": "Petrus, Pomerol",
+            "matched_producer": null,
+            "matched_region": "Bordeaux",
+            "matched_sub_region": "Pomerol"
+          },
+          "is_right_match": true
+        }
+      ]
+    },
+    {
+      "lot": "Vosne Romanée, Cros Parantoux 1987 Henri Jayer (1 MAG)",
+      "lot_items": [
+        {
+          "id": "3924",
+          "lot_item": "Henri Jayer",
+          "lot_type": [
+            "Wine"
+          ],
+          "match_result": {
+            "matched_name": "Henri Jayer, Vosne-Romanee Premier Cru, Cros Parantoux",
+            "matched_producer": null,
+            "matched_region": "Burgundy",
+            "matched_sub_region": "Vosne-Romanee"
+          },
+          "is_right_match": true
+        }
+      ]
+    },
+    {
+      "lot": "Peter Michael, Cabernet Sauvignon, Les Pavots 2012  (12 BT)",
+      "lot_items": [
+        {
+          "id": "12288",
+          "lot_item": "Peter Michael",
+          "lot_type": [
+            "Wine"
+          ],
+          "match_result": {
+            "matched_name": "Peter Michael, Les Pavots, Knights Valley",
+            "matched_producer": null,
+            "matched_region": "California",
+            "matched_sub_region": "Knights Valley"
+          },
+          "is_right_match": true
+        }
+      ]
+    },
+    {
+      "lot": "Dom Pérignon Rosé, P2 1996  (3 BT)",
+      "lot_items": [
+        {
+          "id": "37441",
+          "lot_item": "Dom Perignon",
+          "lot_type": [
+            "Wine"
+          ],
+          "match_result": {
+            "matched_name": "Dom Perignon, P2 Rose",
+            "matched_producer": null,
+            "matched_region": "Champagne",
+            "matched_sub_region": null
+          },
+          "is_right_match": true
+        }
+      ]
+    },
+    {
+      "lot": "Dom Pérignon 2009 (6 MAG)",
+      "lot_items": [
+        {
+          "id": "8260",
+          "lot_item": "Dom Perignon",
+          "lot_type": [
+            "Wine"
+          ],
+          "match_result": {
+            "matched_name": "Dom Perignon",
+            "matched_producer": null,
+            "matched_region": "Champagne",
+            "matched_sub_region": null
+          },
+          "is_right_match": true
+        }
+      ]
+    },
+    {
+      "lot": "Echézeaux 2019 Emmanuel Rouget (6 BT)",
+      "lot_items": [
+        {
+          "id": "5661",
+          "lot_item": "Emmanuel Rouget",
+          "lot_type": [
+            "Wine"
+          ],
+          "match_result": {
+            "matched_name": "Emmanuel Rouget, Echezeaux Grand Cru",
+            "matched_producer": null,
+            "matched_region": "Burgundy",
+            "matched_sub_region": "Echezeaux"
+          },
+          "is_right_match": true
+        }
+      ]
+    },
+    {
+      "lot": "Château Hosanna 2016  (18 BT)",
+      "lot_items": [
+        {
+          "id": "1159",
+          "lot_item": "Château Hosanna",
+          "lot_type": [
+            "Wine"
+          ],
+          "match_result": {
+            "matched_name": "Chateau Hosanna, Pomerol",
+            "matched_producer": "Chateau",
+            "matched_region": "Bordeaux",
+            "matched_sub_region": "Pomerol"
+          },
+          "is_right_match": true
+        }
+      ]
+    },
+    {
+      "lot": "Echézeaux 1999 Domaine Bizot (1 BT)",
+      "lot_items": [
+        {
+          "id": "2046",
+          "lot_item": null,
+          "lot_type": [
+            "Wine"
+          ],
+          "match_result": {
+            "matched_name": "Domaine Bizot, Echezeaux Grand Cru",
+            "matched_producer": "Domaine",
+            "matched_region": "Burgundy",
+            "matched_sub_region": "Echezeaux"
+          },
+          "is_right_match": true
+        }
+      ]
+    },
+    {
+      "lot": "Châteauneuf du Pape Rouge, Réserve des Célestins 1995 Henri Bonneau (12 BT)",
+      "lot_items": [
+        {
+          "id": "42254",
+          "lot_item": null,
+          "lot_type": [
+            "Wine"
+          ],
+          "match_result": {
+            "matched_name": "Henri Bonneau, Chateauneuf-du-Pape, Reserve Celestins",
+            "matched_producer": null,
+            "matched_region": "Rhone",
+            "matched_sub_region": "Chateauneuf-du-Pape"
+          },
+          "is_right_match": true
+        }
+      ]
+    },
+    {
+      "lot": "Richebourg 1990 Domaine Leroy (8 BT)",
+      "lot_items": [
+        {
+          "id": "4441",
+          "lot_item": "Leroy",
+          "lot_type": [
+            "Wine"
+          ],
+          "match_result": {
+            "matched_name": "Domaine Leroy, Richebourg Grand Cru",
+            "matched_producer": "Domaine",
+            "matched_region": "Burgundy",
+            "matched_sub_region": "Richebourg"
+          },
+          "is_right_match": true
+        }
+      ]
+    },
+    {
+      "lot": "Château Lafite 2001 (10 BT)",
+      "lot_items": [
+        {
+          "id": "1187",
+          "lot_item": "Lafite Rothschild",
+          "lot_type": [
+            "Wine"
+          ],
+          "match_result": {
+            "matched_name": "Chateau Lafite Rothschild Premier Cru Classe, Pauillac",
+            "matched_producer": "Chateau",
+            "matched_region": "Bordeaux",
+            "matched_sub_region": "Pauillac"
+          },
+          "is_right_match": true
+        }
+      ]
+    },
+    {
+      "lot": "Quinta do Noval Colheita 1937 (1 BT)",
+      "lot_items": [
+        {
+          "id": "10791",
+          "lot_item": "do Noval",
+          "lot_type": [
+            "Wine"
+          ],
+          "match_result": {
+            "matched_name": "Quinta do Noval, Colheita Port",
+            "matched_producer": "Quinta",
+            "matched_region": "Porto",
+            "matched_sub_region": null
+          },
+          "is_right_match": true
+        }
+      ]
+    },
+    {
+      "lot": "Veeder House, Cabernet Sauvignon, Mt. Veeder, Napa Valley 2016 (36 BT)",
+      "lot_items": [
+        {
+          "lot_item": "Robert Mondavi Winery",
+          "match_result": null,
+          "is_right_match": false
+        }
+      ]
+    },
+    {
+      "lot": "Chambertin, Clos de Bèze 'Les Ouvrées Rodin' 2010 Faiveley (3 BT)",
+      "lot_items": [
+        {
+          "id": "21641",
+          "lot_item": "Faiveley",
+          "lot_type": [
+            "Wine"
+          ],
+          "match_result": {
+            "matched_name": "Domaine Faiveley, Chambertin-Clos de Beze Grand Cru, Les Ouvrees Rodin",
+            "matched_producer": "Domaine",
+            "matched_region": "Burgundy",
+            "matched_sub_region": "Chambertin-Clos de Beze"
+          },
+          "is_right_match": true
+        }
+      ]
+    },
+    {
+      "lot": "Château Pichon Longueville, Lalande 2010 (12 BT)",
+      "lot_items": [
+        {
+          "id": "1417",
+          "lot_item": "Pichon Longueville Comtesse de Lalande",
+          "lot_type": [
+            "Wine"
+          ],
+          "match_result": {
+            "matched_name": "Chateau Pichon Longueville Comtesse de Lalande 2eme Cru Classe, Pauillac",
+            "matched_producer": "Chateau",
+            "matched_region": "Bordeaux",
+            "matched_sub_region": "Pauillac"
+          },
+          "is_right_match": true
+        }
+      ]
+    },
+    {
+      "lot": "Château Haut Brion 1961  (6 BT)",
+      "lot_items": [
+        {
+          "id": "1124",
+          "lot_item": "Haut-Brion",
+          "lot_type": [
+            "Wine"
+          ],
+          "match_result": {
+            "matched_name": "Chateau Haut-Brion Premier Cru Classe, Pessac-Leognan",
+            "matched_producer": "Chateau",
+            "matched_region": "Bordeaux",
+            "matched_sub_region": "Pessac-Leognan"
+          },
+          "is_right_match": true
+        }
+      ]
+    },
+    {
+      "lot": "Romanée St. Vivant 2015 Alain Hudelot-Noëllat (3 MAG)",
+      "lot_items": [
+        {
+          "id": "3738",
+          "lot_item": "Alain Hudelot-Noellat",
+          "lot_type": [
+            "Wine"
+          ],
+          "match_result": {
+            "matched_name": "Alain Hudelot-Noellat, Romanee-Saint-Vivant Grand Cru",
+            "matched_producer": null,
+            "matched_region": "Burgundy",
+            "matched_sub_region": "Romanee-Saint-Vivant"
+          },
+          "is_right_match": true
+        }
+      ]
+    },
+    {
+      "lot": "Meursault, Les Charmes 2007 Domaine Roulot (1 JM30)",
+      "lot_items": [
+        {
+          "id": "7995",
+          "lot_item": "Domaine Roulot",
+          "lot_type": [
+            "Wine"
+          ],
+          "match_result": {
+            "matched_name": "Domaine Roulot, Meursault Premier Cru, Charmes",
+            "matched_producer": "Domaine",
+            "matched_region": "Burgundy",
+            "matched_sub_region": "Meursault"
+          },
+          "is_right_match": true
+        }
+      ]
+    },
+    {
+      "lot": "Beaune Premier Cru, Cuvée des Dames Hospitalières 2022  (1 PCE)",
+      "lot_items": [
+        {
+          "id": "33212",
+          "lot_item": null,
+          "lot_type": [
+            "Wine"
+          ],
+          "match_result": {
+            "matched_name": "Hospices de Beaune, Beaune Premier Cru, Cuvee Dames Hospitalieres",
+            "matched_producer": null,
+            "matched_region": "Burgundy",
+            "matched_sub_region": "Beaune"
+          },
+          "is_right_match": true
+        }
+      ]
+    },
+    {
+      "lot": "Barolo, Piè Rupestris 2010 Cappellano (2 BT)",
+      "lot_items": [
+        {
+          "id": "31396",
+          "lot_item": "Cappellano",
+          "lot_type": [
+            "Wine"
+          ],
+          "match_result": {
+            "matched_name": "Cappellano, Barolo, Pie Rupestris",
+            "matched_producer": null,
+            "matched_region": "Piedmont",
+            "matched_sub_region": "Barolo"
+          },
+          "is_right_match": true
+        }
+      ]
+    },
+    {
+      "lot": "Richebourg 1999 Domaine de la Romanée-Conti (1 BT)",
+      "lot_items": [
+        {
+          "id": "2866",
+          "lot_item": "Domaine de la Romanée-Conti",
+          "lot_type": [
+            "Wine"
+          ],
+          "match_result": {
+            "matched_name": "Domaine de la Romanee-Conti, Richebourg Grand Cru",
+            "matched_producer": "Domaine",
+            "matched_region": "Burgundy",
+            "matched_sub_region": "Richebourg"
+          },
+          "is_right_match": true
+        }
+      ]
+    },
+    {
+      "lot": "Château Mouton Rothschild 1986 (2 BT)",
+      "lot_items": [
+        {
+          "id": "1354",
+          "lot_item": "Mouton Rothschild",
+          "lot_type": [
+            "Wine"
+          ],
+          "match_result": {
+            "matched_name": "Chateau Mouton Rothschild Premier Cru Classe, Pauillac",
+            "matched_producer": "Chateau",
+            "matched_region": "Bordeaux",
+            "matched_sub_region": "Pauillac"
+          },
+          "is_right_match": true
+        }
+      ]
+    },
+    {
+      "lot": "Château Lynch Bages 1989 (12 BT)",
+      "lot_items": [
+        {
+          "id": "1257",
+          "lot_item": "Lynch-Bages",
+          "lot_type": [
+            "Wine"
+          ],
+          "match_result": {
+            "matched_name": "Chateau Lynch-Bages 5eme Cru Classe, Pauillac",
+            "matched_producer": "Chateau",
+            "matched_region": "Bordeaux",
+            "matched_sub_region": "Pauillac"
+          },
+          "is_right_match": true
+        }
+      ]
+    },
+    {
+      "lot": "Inglenook Rubicon 2019  (12 BT)",
+      "lot_items": [
+        {
+          "id": "14239",
+          "lot_item": "Inglenook",
+          "lot_type": [
+            "Wine"
+          ],
+          "match_result": {
+            "matched_name": "Inglenook, Rubicon, Napa Valley",
+            "matched_producer": null,
+            "matched_region": "California",
+            "matched_sub_region": "Napa Valley"
+          },
+          "is_right_match": true
+        }
+      ]
+    },
+    {
+      "lot": "Meursault, Les Narvaux 2007 Domaine d'Auvenay (3 BT)\t",
+      "lot_items": [
+        {
+          "id": "59261",
+          "lot_item": "d'Auvenay",
+          "lot_type": [
+            "Wine"
+          ],
+          "match_result": {
+            "matched_name": "Domaine d'Auvenay, Meursault, Les Narvaux",
+            "matched_producer": null,
+            "matched_region": "Burgundy",
+            "matched_sub_region": "Meursault"
+          },
+          "is_right_match": true
+        },
+        {
+          "id": "59261",
+          "lot_item": "d'Auvenay",
+          "lot_type": [
+            "Wine"
+          ],
+          "match_result": {
+            "matched_name": "Domaine d'Auvenay, Meursault, Les Narvaux",
+            "matched_producer": null,
+            "matched_region": "Burgundy",
+            "matched_sub_region": "Meursault"
+          },
+          "is_right_match": true
+        }
+      ]
+    },
+    {
+      "lot": "Ornellaia 2009  (12 BT)",
+      "lot_items": [
+        {
+          "id": "44345",
+          "lot_item": "Ornellaia",
+          "lot_type": [
+            "Wine"
+          ],
+          "match_result": {
+            "matched_name": "Ornellaia, Brandy",
+            "matched_producer": null,
+            "matched_region": null,
+            "matched_sub_region": null
+          },
+          "is_right_match": false
+        }
+      ]
+    },
+    {
+      "lot": "Barolo Riserva 1961 G Borgogno (7 BT)",
+      "lot_items": [
+        {
+          "id": "9603",
+          "lot_item": "Giacomo Borgogno",
+          "lot_type": [
+            "Wine"
+          ],
+          "match_result": {
+            "matched_name": "Giacomo Borgogno & Figli, Barolo, Riserva",
+            "matched_producer": null,
+            "matched_region": "Piedmont",
+            "matched_sub_region": "Barolo"
+          },
+          "is_right_match": true
+        }
+      ]
+    },
+    {
+      "lot": "Château Mouton Rothschild 2003  (12 BT)",
+      "lot_items": [
+        {
+          "id": "1354",
+          "lot_item": "Mouton Rothschild",
+          "lot_type": [
+            "Wine"
+          ],
+          "match_result": {
+            "matched_name": "Chateau Mouton Rothschild Premier Cru Classe, Pauillac",
+            "matched_producer": "Chateau",
+            "matched_region": "Bordeaux",
+            "matched_sub_region": "Pauillac"
+          },
+          "is_right_match": true
+        }
+      ]
+    },
+    {
+      "lot": "Richebourg 1999 Domaine de la Romanée-Conti (1 BT)",
+      "lot_items": [
+        {
+          "id": "2866",
+          "lot_item": "Domaine de la Romanée-Conti",
+          "lot_type": [
+            "Wine"
+          ],
+          "match_result": {
+            "matched_name": "Domaine de la Romanee-Conti, Richebourg Grand Cru",
+            "matched_producer": "Domaine",
+            "matched_region": "Burgundy",
+            "matched_sub_region": "Richebourg"
+          },
+          "is_right_match": true
+        }
+      ]
+    },
+    {
+      "lot": "Pascal Doquet Grand Cru Le Mesnil-Sur-Oger Blanc de Blancs Brut 1995 (6 BT)",
+      "lot_items": [
+        {
+          "lot_item": "Yamazaki",
+          "match_result": null,
+          "is_right_match": false
+        }
+      ]
+    },
+    {
+      "lot": "Cos d'Estournel 2001  (12 BT)",
+      "lot_items": [
+        {
+          "id": "878",
+          "lot_item": "Cos d'Estournel",
+          "lot_type": [
+            "Wine"
+          ],
+          "match_result": {
+            "matched_name": "Cos d'Estournel 2eme Cru Classe, Saint-Estephe",
+            "matched_producer": null,
+            "matched_region": "Bordeaux",
+            "matched_sub_region": "Saint-Estephe"
+          },
+          "is_right_match": true
+        }
+      ]
+    },
+    {
+      "lot": "Château l'Evangile 1990  (12 BT)",
+      "lot_items": [
+        {
+          "id": "964",
+          "lot_item": "L'Evangile",
+          "lot_type": [
+            "Wine"
+          ],
+          "match_result": {
+            "matched_name": "Chateau L'Evangile, Pomerol",
+            "matched_producer": "Chateau",
+            "matched_region": "Bordeaux",
+            "matched_sub_region": "Pomerol"
+          },
+          "is_right_match": true
+        }
+      ]
+    },
+    {
+      "lot": "Château Beychevelle 1982 (10 BT)",
+      "lot_items": [
+        {
+          "id": "710",
+          "lot_item": "Beychevelle",
+          "lot_type": [
+            "Wine"
+          ],
+          "match_result": {
+            "matched_name": "Chateau Beychevelle 4eme Cru Classe, Saint-Julien",
+            "matched_producer": "Chateau",
+            "matched_region": "Bordeaux",
+            "matched_sub_region": "Saint-Julien"
+          },
+          "is_right_match": true
+        }
+      ]
+    },
+    {
+      "lot": "Criots Bâtard Montrachet 2008 Blain-Gagnard (6 BT)",
+      "lot_items": [
+        {
+          "id": "6086",
+          "lot_item": "Jean-Marc Blain-Gagnard",
+          "lot_type": [
+            "Wine"
+          ],
+          "match_result": {
+            "matched_name": "Jean-Marc Blain-Gagnard, Criots-Batard-Montrachet Grand Cru",
+            "matched_producer": null,
+            "matched_region": "Burgundy",
+            "matched_sub_region": "Criots-Batard-Montrachet"
+          },
+          "is_right_match": true
+        }
+      ]
+    },
+    {
+      "lot": "Romanée St. Vivant 2015 Domaine de la Romanée-Conti (1 BT)",
+      "lot_items": [
+        {
+          "id": "2868",
+          "lot_item": "Domaine de la Romanée-Conti",
+          "lot_type": [
+            "Wine"
+          ],
+          "match_result": {
+            "matched_name": "Domaine de la Romanee-Conti, Romanee-Saint-Vivant Grand Cru, Marey-Monge",
+            "matched_producer": "Domaine",
+            "matched_region": "Burgundy",
+            "matched_sub_region": "Romanee-Saint-Vivant"
+          },
+          "is_right_match": true
+        }
+      ]
+    },
+    {
+      "lot": "Eaux-de-vie Marc de Bourgogne 2023  (1 PCE)",
+      "lot_items": [
+        {
+          "id": "106858",
+          "lot_item": "Hospices de Beaune",
+          "lot_type": [
+            "Wine"
+          ],
+          "match_result": {
+            "matched_name": "Hospices de Beaune (Vedrenne Pere & Fils), Eau De Vie De, Marc de Bourgogne",
+            "matched_producer": null,
+            "matched_region": "Burgundy",
+            "matched_sub_region": "Marc de Bourgogne"
+          },
+          "is_right_match": true
+        }
+      ]
+    },
+    {
+      "lot": "Scarecrow M. Etain \"Vertical\" (9 BT)",
+      "lot_items": [
+        {
+          "id": "83326",
+          "lot_item": "Scarecrow",
+          "lot_type": [
+            "Wine"
+          ],
+          "match_result": {
+            "matched_name": "Scarecrow, M Etain Cabernet Sauvignon, Rutherford",
+            "matched_producer": null,
+            "matched_region": "California",
+            "matched_sub_region": "Rutherford"
+          },
+          "is_right_match": true
+        },
+        {
+          "id": "83326",
+          "lot_item": "Scarecrow",
+          "lot_type": [
+            "Wine"
+          ],
+          "match_result": {
+            "matched_name": "Scarecrow, M Etain Cabernet Sauvignon, Rutherford",
+            "matched_producer": null,
+            "matched_region": "California",
+            "matched_sub_region": "Rutherford"
+          },
+          "is_right_match": true
+        }
+      ]
+    },
+    {
+      "lot": "Grands Echézeaux 2010 Domaine de la Romanée-Conti (1 BT)",
+      "lot_items": [
+        {
+          "id": "2865",
+          "lot_item": "Domaine de la Romanée-Conti",
+          "lot_type": [
+            "Wine"
+          ],
+          "match_result": {
+            "matched_name": "Domaine de la Romanee-Conti, Grands Echezeaux Grand Cru",
+            "matched_producer": "Domaine",
+            "matched_region": "Burgundy",
+            "matched_sub_region": "Grands Echezeaux"
+          },
+          "is_right_match": true
+        }
+      ]
+    },
+    {
+      "lot": "Champagne Jacquesson Cuvée 740 2012  (1 MAG)",
+      "lot_items": [
+        {
+          "id": "125145",
+          "lot_item": "Jacquesson",
+          "lot_type": [
+            "Wine"
+          ],
+          "match_result": {
+            "matched_name": "Jacquesson, Cuvee 745, Champagne",
+            "matched_producer": null,
+            "matched_region": "Champagne",
+            "matched_sub_region": null
+          },
+          "is_right_match": false
+        }
+      ]
+    },
+    {
+      "lot": "Meursault 1999 J.-F. Coche-Dury (1 BT)",
+      "lot_items": [
+        {
+          "id": "6470",
+          "lot_item": "Coche-Dury",
+          "lot_type": [
+            "Wine"
+          ],
+          "match_result": {
+            "matched_name": "Coche-Dury, Meursault",
+            "matched_producer": null,
+            "matched_region": "Burgundy",
+            "matched_sub_region": "Meursault"
+          },
+          "is_right_match": true
+        }
+      ]
+    },
+    {
+      "lot": "Bâtard Montrachet 1992 Michel Niellon (10 BT)",
+      "lot_items": [
+        {
+          "id": "7741",
+          "lot_item": "Michel Niellon",
+          "lot_type": [
+            "Wine"
+          ],
+          "match_result": {
+            "matched_name": "Domaine Michel Niellon, Batard-Montrachet Grand Cru",
+            "matched_producer": "Domaine",
+            "matched_region": "Burgundy",
+            "matched_sub_region": "Batard-Montrachet"
+          },
+          "is_right_match": true
+        }
+      ]
+    },
+    {
+      "lot": "Harlan Estate, Cabernet Sauvignon, Oakville, Napa Valley 1995 (3 BT)",
+      "lot_items": [
+        {
+          "id": "14085",
+          "lot_item": "Harlan Estate",
+          "lot_type": [
+            "Wine"
+          ],
+          "match_result": {
+            "matched_name": "Harlan, Cabernet Sauvignon, Napa Valley",
+            "matched_producer": null,
+            "matched_region": "California",
+            "matched_sub_region": "Napa Valley"
+          },
+          "is_right_match": true
+        }
+      ]
+    },
+    {
+      "lot": "Château Canon La Gaffelière 2000  (12 BT)",
+      "lot_items": [
+        {
+          "id": "758",
+          "lot_item": "Canon la Gaffeliere",
+          "lot_type": [
+            "Wine"
+          ],
+          "match_result": {
+            "matched_name": "Chateau Canon la Gaffeliere Premier Grand Cru Classe B, Saint-Emilion Grand Cru",
+            "matched_producer": "Chateau",
+            "matched_region": "Bordeaux",
+            "matched_sub_region": "Saint-Emilion Grand Cru"
+          },
+          "is_right_match": true
+        }
+      ]
+    },
+    {
+      "lot": "Bordeaux Left Bank Mixed lot (7 BT)",
+      "lot_items": [
+        {
+          "lot_item": "Margaux",
+          "match_result": null,
+          "is_right_match": false
+        },
+        {
+          "lot_item": "Cos d'Estournel",
+          "match_result": null,
+          "is_right_match": false
+        },
+        {
+          "lot_item": "Gruaud Larose",
+          "match_result": null,
+          "is_right_match": false
+        },
+        {
+          "lot_item": "Lynch-Bages",
+          "match_result": null,
+          "is_right_match": false
+        }
+      ]
+    },
+    {
+      "lot": " Vega Sicilia 'Unico' 1970  (3 BT)",
+      "lot_items": [
+        {
+          "id": "12129",
+          "lot_item": "Vega Sicilia",
+          "lot_type": [
+            "Wine"
+          ],
+          "match_result": {
+            "matched_name": "Vega Sicilia, Unico, Ribera del Duero",
+            "matched_producer": null,
+            "matched_region": "Castilla y Leon",
+            "matched_sub_region": "Ribera del Duero"
+          },
+          "is_right_match": true
+        }
+      ]
+    },
+    {
+      "lot": "Ridge, Lytton Springs 2012 (12 BT)",
+      "lot_items": [
+        {
+          "id": "13551",
+          "lot_item": "Ridge",
+          "lot_type": [
+            "Wine"
+          ],
+          "match_result": {
+            "matched_name": "Ridge, Lytton Springs, Dry Creek Valley",
+            "matched_producer": null,
+            "matched_region": "California",
+            "matched_sub_region": "Dry Creek Valley"
+          },
+          "is_right_match": true
+        }
+      ]
+    },
+    {
+      "lot": "Quinta do Noval 1987 and 1997 (6 BT)",
+      "lot_items": [
+        {
+          "id": "155464",
+          "lot_item": "do Noval",
+          "lot_type": [
+            "Wine"
+          ],
+          "match_result": {
+            "matched_name": "Quinta do Noval, Cedro do Noval Branco, Douro",
+            "matched_producer": "Quinta",
+            "matched_region": "Douro",
+            "matched_sub_region": null
+          },
+          "is_right_match": false
+        },
+        {
+          "id": "155464",
+          "lot_item": "do Noval",
+          "lot_type": [
+            "Wine"
+          ],
+          "match_result": {
+            "matched_name": "Quinta do Noval, Cedro do Noval Branco, Douro",
+            "matched_producer": "Quinta",
+            "matched_region": "Douro",
+            "matched_sub_region": null
+          },
+          "is_right_match": false
+        }
+      ]
+    },
+    {
+      "lot": "Dom Pérignon 1964  (4 BT)",
+      "lot_items": [
+        {
+          "id": "8260",
+          "lot_item": "Dom Perignon",
+          "lot_type": [
+            "Wine"
+          ],
+          "match_result": {
+            "matched_name": "Dom Perignon",
+            "matched_producer": null,
+            "matched_region": "Champagne",
+            "matched_sub_region": null
+          },
+          "is_right_match": true
+        }
+      ]
+    },
+    {
+      "lot": "Bollinger Vieilles Vignes Françaises, Blanc de Noirs 2005  (3 BT)",
+      "lot_items": [
+        {
+          "id": "8177",
+          "lot_item": "Bollinger",
+          "lot_type": [
+            "Wine"
+          ],
+          "match_result": {
+            "matched_name": "Bollinger, Vieilles Vignes Francaises",
+            "matched_producer": null,
+            "matched_region": "Champagne",
+            "matched_sub_region": null
+          },
+          "is_right_match": true
+        }
+      ]
+    },
+    {
+      "lot": "MIXED LOT 4 bts",
+      "lot_items": [
+        {
+          "id": "73462",
+          "lot_item": null,
+          "lot_type": [
+            "Wine"
+          ],
+          "match_result": {
+            "matched_name": "Duemani, Mixed Case, IGT",
+            "matched_producer": null,
+            "matched_region": "Tuscany",
+            "matched_sub_region": null
+          },
+          "is_right_match": false
+        }
+      ]
+    },
+    {
+      "lot": "Bienvenues Bâtard Montrachet 2008 Etienne Sauzet (6 BT)",
+      "lot_items": [
+        {
+          "id": "8011",
+          "lot_item": "Etienne Sauzet",
+          "lot_type": [
+            "Wine"
+          ],
+          "match_result": {
+            "matched_name": "Etienne Sauzet, Bienvenues-Batard-Montrachet Grand Cru",
+            "matched_producer": null,
+            "matched_region": "Burgundy",
+            "matched_sub_region": "Bienvenues-Batard-Montrachet"
+          },
+          "is_right_match": true
+        }
+      ]
+    },
+    {
+      "lot": "Vosne Romanée 2009 Domaine du Comte Liger-Belair (12 BT)",
+      "lot_items": [
+        {
+          "id": "2657",
+          "lot_item": "Comte Liger Belair",
+          "lot_type": [
+            "Wine"
+          ],
+          "match_result": {
+            "matched_name": "Domaine du Comte Liger Belair, Vosne-Romanee",
+            "matched_producer": "Domaine",
+            "matched_region": "Burgundy",
+            "matched_sub_region": "Vosne-Romanee"
+          },
+          "is_right_match": true
+        }
+      ]
+    },
+    {
+      "lot": "Sine Qua Non, Poker Face, Syrah 2004  (5 BT)",
+      "lot_items": [
+        {
+          "id": "90125",
+          "lot_item": "Sine Qua Non",
+          "lot_type": [
+            "Wine"
+          ],
+          "match_result": {
+            "matched_name": "Sine Qua Non, Ziehharmonika Syrah, Central Coast",
+            "matched_producer": null,
+            "matched_region": "California",
+            "matched_sub_region": "Central Coast"
+          },
+          "is_right_match": false
+        }
+      ]
+    },
+    {
+      "lot": "Château Haut Brion Blanc 2004  (6 MAG)",
+      "lot_items": [
+        {
+          "id": "1709",
+          "lot_item": "Château Haut-Brion",
+          "lot_type": [
+            "Wine"
+          ],
+          "match_result": {
+            "matched_name": "Chateau Haut-Brion, Blanc, Pessac-Leognan",
+            "matched_producer": "Chateau",
+            "matched_region": "Bordeaux",
+            "matched_sub_region": "Pessac-Leognan"
+          },
+          "is_right_match": true
+        }
+      ]
+    },
+    {
+      "lot": "Château Magdelaine 1990  (12 BT)",
+      "lot_items": [
+        {
+          "id": "1263",
+          "lot_item": "Magdelaine",
+          "lot_type": [
+            "Wine"
+          ],
+          "match_result": {
+            "matched_name": "Chateau Magdelaine Premier Grand Cru Classe B, Saint-Emilion Grand Cru",
+            "matched_producer": "Chateau",
+            "matched_region": "Bordeaux",
+            "matched_sub_region": "Saint-Emilion Grand Cru"
+          },
+          "is_right_match": true
+        }
+      ]
+    },
+    {
+      "lot": "Musigny 2007 Domaine de la Vougeraie (6 BT)",
+      "lot_items": [
+        {
+          "lot_item": "Jacques Frederic Mugnier",
+          "match_result": null,
+          "is_right_match": false
+        }
+      ]
+    },
+    {
+      "lot": "Pommard, Clos de La Commaraine 2021, Domaine de la Commaraine (1 MAG), with experience",
+      "lot_items": [
+        {
+          "lot_item": "Verite",
+          "match_result": null,
+          "is_right_match": false
+        },
+        {
+          "id": "87381",
+          "lot_item": "De la Commaraine ",
+          "lot_type": [
+            "Wine"
+          ],
+          "match_result": {
+            "matched_name": "Domaine de la Commaraine, Pommard Premier Cru, Clos de la Commaraine",
+            "matched_producer": "Domaine",
+            "matched_region": "Burgundy",
+            "matched_sub_region": "Pommard"
+          },
+          "is_right_match": false
+        }
+      ]
+    },
+    {
+      "lot": "Château Duhart Milon 2009 (12 BT)",
+      "lot_items": [
+        {
+          "id": "948",
+          "lot_item": "Duhart-Milon",
+          "lot_type": [
+            "Wine"
+          ],
+          "match_result": {
+            "matched_name": "Chateau Duhart-Milon 4eme Cru Classe, Pauillac",
+            "matched_producer": "Chateau",
+            "matched_region": "Bordeaux",
+            "matched_sub_region": "Pauillac"
+          },
+          "is_right_match": false
+        }
+      ]
+    },
+    {
+      "lot": "Vosne Romanée, Les Beaux Monts 2009 Domaine Leroy (6 BT)",
+      "lot_items": [
+        {
+          "id": "4466",
+          "lot_item": "Leroy",
+          "lot_type": [
+            "Wine"
+          ],
+          "match_result": {
+            "matched_name": "Domaine Leroy, Vosne-Romanee Premier Cru, Les Beaux Monts",
+            "matched_producer": "Domaine",
+            "matched_region": "Burgundy",
+            "matched_sub_region": "Vosne-Romanee"
+          },
+          "is_right_match": false
+        },
+        {
+          "id": "4466",
+          "lot_item": "Leroy",
+          "lot_type": [
+            "Wine"
+          ],
+          "match_result": {
+            "matched_name": "Domaine Leroy, Vosne-Romanee Premier Cru, Les Beaux Monts",
+            "matched_producer": "Domaine",
+            "matched_region": "Burgundy",
+            "matched_sub_region": "Vosne-Romanee"
+          },
+          "is_right_match": false
+        }
+      ]
+    },
+    {
+      "lot": "Dom Pérignon 1964 (6 BT)",
+      "lot_items": [
+        {
+          "id": "8260",
+          "lot_item": "Dom Perignon",
+          "lot_type": [
+            "Wine"
+          ],
+          "match_result": {
+            "matched_name": "Dom Perignon",
+            "matched_producer": null,
+            "matched_region": "Champagne",
+            "matched_sub_region": null
+          },
+          "is_right_match": true
+        }
+      ]
+    },
+    {
+      "lot": "Musigny, Cuvée Vieilles Vignes 2008 Comte Georges de Vogüé (1 MAG)",
+      "lot_items": [
+        {
+          "id": "2686",
+          "lot_item": "Comte Georges de Vogue",
+          "lot_type": [
+            "Wine"
+          ],
+          "match_result": {
+            "matched_name": "Domaine Comte Georges de Vogue, Musigny Grand Cru, Cuvee Vieilles Vignes",
+            "matched_producer": "Domaine",
+            "matched_region": "Burgundy",
+            "matched_sub_region": "Musigny"
+          },
+          "is_right_match": false
+        }
+      ]
+    },
+    {
+      "lot": "Château Cheval Blanc 1998 (1 IMP)",
+      "lot_items": [
+        {
+          "id": "40229",
+          "lot_item": "Cheval Blanc",
+          "lot_type": [
+            "Wine"
+          ],
+          "match_result": {
+            "matched_name": "Chateau Cheval Blanc, Le Petit Cheval Blanc, Bordeaux",
+            "matched_producer": "Chateau",
+            "matched_region": "Bordeaux",
+            "matched_sub_region": null
+          },
+          "is_right_match": false
+        }
+      ]
+    },
+    {
+      "lot": "Colgin Cabernet Sauvignon, Tychson Hill  \"Vertical\" (6 BT)",
+      "lot_items": [
+        {
+          "id": "12170",
+          "lot_item": "Colgin",
+          "lot_type": [
+            "Wine"
+          ],
+          "match_result": {
+            "matched_name": "Colgin, Tychson Hill, Napa Valley",
+            "matched_producer": null,
+            "matched_region": "California",
+            "matched_sub_region": "Napa Valley"
+          },
+          "is_right_match": false
+        }
+      ]
+    },
+    {
+      "lot": "Romanée St. Vivant 2009 Domaine de la Romanée-Conti (1 BT)",
+      "lot_items": [
+        {
+          "id": "2868",
+          "lot_item": "Domaine de la Romanée-Conti",
+          "lot_type": [
+            "Wine"
+          ],
+          "match_result": {
+            "matched_name": "Domaine de la Romanee-Conti, Romanee-Saint-Vivant Grand Cru, Marey-Monge",
+            "matched_producer": "Domaine",
+            "matched_region": "Burgundy",
+            "matched_sub_region": "Romanee-Saint-Vivant"
+          },
+          "is_right_match": true
+        }
+      ]
+    },
+    {
+      "lot": "Clos de Vougeot 2012 Albert Bichot (3 MAG)",
+      "lot_items": [
+        {
+          "id": "12695",
+          "lot_item": "Albert Bichot",
+          "lot_type": [
+            "Wine"
+          ],
+          "match_result": {
+            "matched_name": "Albert Bichot, Clos de Vougeot Grand Cru",
+            "matched_producer": null,
+            "matched_region": "Burgundy",
+            "matched_sub_region": "Clos de Vougeot"
+          },
+          "is_right_match": false
+        }
+      ]
+    },
+    {
+      "lot": "Château Ducru Beaucaillou 1993 (6 BT)",
+      "lot_items": [
+        {
+          "id": "947",
+          "lot_item": "Ducru-Beaucaillou",
+          "lot_type": [
+            "Wine"
+          ],
+          "match_result": {
+            "matched_name": "Ducru-Beaucaillou 2eme Cru Classe, Saint-Julien",
+            "matched_producer": null,
+            "matched_region": "Bordeaux",
+            "matched_sub_region": "Saint-Julien"
+          },
+          "is_right_match": true
+        }
+      ]
+    },
+    {
+      "lot": "Château Pichon Longueville, Lalande 2007  (6 MAG)",
+      "lot_items": [
+        {
+          "id": "1417",
+          "lot_item": "Pichon Longueville Comtesse de Lalande",
+          "lot_type": [
+            "Wine"
+          ],
+          "match_result": {
+            "matched_name": "Chateau Pichon Longueville Comtesse de Lalande 2eme Cru Classe, Pauillac",
+            "matched_producer": "Chateau",
+            "matched_region": "Bordeaux",
+            "matched_sub_region": "Pauillac"
+          },
+          "is_right_match": true
+        }
+      ]
+    },
+    {
+      "lot": "Romanée St. Vivant 2007 Domaine Leroy (1 BT)",
+      "lot_items": [
+        {
+          "id": "4442",
+          "lot_item": "Leroy",
+          "lot_type": [
+            "Wine"
+          ],
+          "match_result": {
+            "matched_name": "Domaine Leroy, Romanee-Saint-Vivant Grand Cru",
+            "matched_producer": "Domaine",
+            "matched_region": "Burgundy",
+            "matched_sub_region": "Romanee-Saint-Vivant"
+          },
+          "is_right_match": true
+        }
+      ]
+    },
+    {
+      "lot": "Château Haut Brion 2013  (6 MAG)",
+      "lot_items": [
+        {
+          "id": "1124",
+          "lot_item": "Château Haut-Brion",
+          "lot_type": [
+            "Wine"
+          ],
+          "match_result": {
+            "matched_name": "Chateau Haut-Brion Premier Cru Classe, Pessac-Leognan",
+            "matched_producer": "Chateau",
+            "matched_region": "Bordeaux",
+            "matched_sub_region": "Pessac-Leognan"
+          },
+          "is_right_match": true
+        }
+      ]
+    },
+    {
+      "lot": "La Tâche 1998 Domaine de la Romanée-Conti (1 BT)",
+      "lot_items": [
+        {
+          "id": "2869",
+          "lot_item": "Domaine de la Romanée-Conti",
+          "lot_type": [
+            "Wine"
+          ],
+          "match_result": {
+            "matched_name": "Domaine de la Romanee-Conti, La Tache Grand Cru",
+            "matched_producer": "Domaine",
+            "matched_region": "Burgundy",
+            "matched_sub_region": "La Tache"
+          },
+          "is_right_match": true
+        }
+      ]
+    },
+    {
+      "lot": "Red Thread Wines and Summit Lake Vineyards & Winery, Cabernet Sauvignon, Howell Mountain 2019 (120 BT)",
+      "lot_items": [
+        {
+          "id": "80298",
+          "lot_item": "Red Thread Wines",
+          "lot_type": [
+            "Wine"
+          ],
+          "match_result": {
+            "matched_name": "Red Thread, Red Blend, Howell Mountain",
+            "matched_producer": null,
+            "matched_region": "California",
+            "matched_sub_region": "Howell Mountain"
+          },
+          "is_right_match": false
+        }
+      ]
+    },
+    {
+      "lot": "Château de Fieuzal, Rouge 1989 (12 BT)",
+      "lot_items": [
+        {
+          "id": "975",
+          "lot_item": "de Fieuzal",
+          "lot_type": [
+            "Wine"
+          ],
+          "match_result": {
+            "matched_name": "Chateau de Fieuzal, Rouge Cru Classe, Pessac-Leognan",
+            "matched_producer": "Chateau",
+            "matched_region": "Bordeaux",
+            "matched_sub_region": "Pessac-Leognan"
+          },
+          "is_right_match": true
+        }
+      ]
+    },
+    {
+      "lot": "Veeder House, Cabernet Sauvignon, Mt. Veeder, Napa Valley 2009 (12 BT)",
+      "lot_items": [
+        {
+          "lot_item": "Robert Mondavi Winery",
+          "match_result": null,
+          "is_right_match": false
+        }
+      ]
+    },
+    {
+      "lot": "Carruades de Lafite 1961  (12 HB)",
+      "lot_items": [
+        {
+          "id": "784",
+          "lot_item": null,
+          "lot_type": [
+            "Wine"
+          ],
+          "match_result": {
+            "matched_name": "Carruades de Lafite, Pauillac",
+            "matched_producer": "Chateau",
+            "matched_region": "Bordeaux",
+            "matched_sub_region": "Pauillac"
+          },
+          "is_right_match": true
+        }
+      ]
+    },
+    {
+      "lot": "Château Mouton Rothschild 2000  (12 BT)",
+      "lot_items": [
+        {
+          "id": "1354",
+          "lot_item": "Mouton Rothschild",
+          "lot_type": [
+            "Wine"
+          ],
+          "match_result": {
+            "matched_name": "Chateau Mouton Rothschild Premier Cru Classe, Pauillac",
+            "matched_producer": "Chateau",
+            "matched_region": "Bordeaux",
+            "matched_sub_region": "Pauillac"
+          },
+          "is_right_match": true
+        }
+      ]
+    },
+    {
+      "lot": "Bordeaux Right Bank Mixed Lot (3 BT)",
+      "lot_items": [
+        {
+          "lot_item": "Troplong Mondot",
+          "match_result": null,
+          "is_right_match": false
+        },
+        {
+          "lot_item": "L'Evangile",
+          "match_result": null,
+          "is_right_match": false
+        }
+      ]
+    },
+    {
+      "lot": "Sassicaia 2001 Tenuta San Guido (12 BT)",
+      "lot_items": [
+        {
+          "id": "10197",
+          "lot_item": "San Guido",
+          "lot_type": [
+            "Wine"
+          ],
+          "match_result": {
+            "matched_name": "Sassicaia, Tenuta San Guido, Bolgheri",
+            "matched_producer": "Tenuta",
+            "matched_region": "Tuscany",
+            "matched_sub_region": "Bolgheri"
+          },
+          "is_right_match": true
+        }
+      ]
+    },
+    {
+      "lot": "Beaune Grèves, Vigne de l'Enfant Jésus 1999 Bouchard Père et Fils (6 MAG)",
+      "lot_items": [
+        {
+          "id": "2154",
+          "lot_item": "Bouchard Pere et Fils",
+          "lot_type": [
+            "Wine"
+          ],
+          "match_result": {
+            "matched_name": "Bouchard Pere et Fils, Beaune Premier Cru, Les Greves L'Enfant Jesus",
+            "matched_producer": null,
+            "matched_region": "Burgundy",
+            "matched_sub_region": "Beaune"
+          },
+          "is_right_match": true
+        }
+      ]
+    },
+    {
+      "lot": "A Mixed lot of left and right bank Bordeaux from 1988-1998",
+      "lot_items": [
+        {
+          "id": "101516",
+          "lot_item": null,
+          "lot_type": [
+            "Wine"
+          ],
+          "match_result": {
+            "matched_name": "Repris, Left Bank, Sonoma County",
+            "matched_producer": null,
+            "matched_region": "California",
+            "matched_sub_region": "Sonoma County"
+          },
+          "is_right_match": false
+        }
+      ]
+    },
+    {
+      "lot": "Charmes Chambertin 2008 Domaine Arlaud Père et Fils (12 BT)",
+      "lot_items": [
+        {
+          "id": "1845",
+          "lot_item": "Arlaud",
+          "lot_type": [
+            "Wine"
+          ],
+          "match_result": {
+            "matched_name": "Domaine Arlaud, Charmes-Chambertin Grand Cru",
+            "matched_producer": "Domaine",
+            "matched_region": "Burgundy",
+            "matched_sub_region": "Charmes-Chambertin"
+          },
+          "is_right_match": true
+        }
+      ]
+    },
+    {
+      "lot": "Chablis, Valmur 2010 Domaine Raveneau (12 BT)",
+      "lot_items": [
+        {
+          "lot_item": "Thibault Liger-Belair",
+          "match_result": null,
+          "is_right_match": false
+        },
+        {
+          "lot_item": "Thibault Liger-Belair",
+          "match_result": null,
+          "is_right_match": false
+        }
+      ]
+    },
+    {
+      "lot": "Château Lynch-Bages 2009 (3 DM)",
+      "lot_items": [
+        {
+          "id": "1257",
+          "lot_item": "Lynch-Bages",
+          "lot_type": [
+            "Wine"
+          ],
+          "match_result": {
+            "matched_name": "Chateau Lynch-Bages 5eme Cru Classe, Pauillac",
+            "matched_producer": "Chateau",
+            "matched_region": "Bordeaux",
+            "matched_sub_region": "Pauillac"
+          },
+          "is_right_match": true
+        }
+      ]
+    },
+    {
+      "lot": "Barolo, Rocche dell'Annunziata, Riserva Paolo Scavino \"Vertical\" (1 MAG, 4 BT)",
+      "lot_items": [
+        {
+          "id": "10499",
+          "lot_item": "Paolo Scavino",
+          "lot_type": [
+            "Wine"
+          ],
+          "match_result": {
+            "matched_name": "Paolo Scavino, Barolo, Rocche dell'Annunziata Riserva",
+            "matched_producer": null,
+            "matched_region": "Piedmont",
+            "matched_sub_region": "Barolo"
+          },
+          "is_right_match": true
+        },
+        {
+          "id": "10499",
+          "lot_item": "Paolo Scavino",
+          "lot_type": [
+            "Wine"
+          ],
+          "match_result": {
+            "matched_name": "Paolo Scavino, Barolo, Rocche dell'Annunziata Riserva",
+            "matched_producer": null,
+            "matched_region": "Piedmont",
+            "matched_sub_region": "Barolo"
+          },
+          "is_right_match": true
+        },
+        {
+          "id": "10499",
+          "lot_item": "Paolo Scavino",
+          "lot_type": [
+            "Wine"
+          ],
+          "match_result": {
+            "matched_name": "Paolo Scavino, Barolo, Rocche dell'Annunziata Riserva",
+            "matched_producer": null,
+            "matched_region": "Piedmont",
+            "matched_sub_region": "Barolo"
+          },
+          "is_right_match": true
+        },
+        {
+          "id": "10499",
+          "lot_item": "Paolo Scavino",
+          "lot_type": [
+            "Wine"
+          ],
+          "match_result": {
+            "matched_name": "Paolo Scavino, Barolo, Rocche dell'Annunziata Riserva",
+            "matched_producer": null,
+            "matched_region": "Piedmont",
+            "matched_sub_region": "Barolo"
+          },
+          "is_right_match": true
+        }
+      ]
+    },
+    {
+      "lot": "Volnay Caillerets, Ancienne Cuvée Carnot 2003 Bouchard Père et Fils (6 MAG)",
+      "lot_items": [
+        {
+          "id": "19675",
+          "lot_item": "Bouchard Pere et Fils",
+          "lot_type": [
+            "Wine"
+          ],
+          "match_result": {
+            "matched_name": "Bouchard Pere et Fils, Volnay Premier Cru, Les Caillerets Ancienne Cuvee Carnot",
+            "matched_producer": null,
+            "matched_region": "Burgundy",
+            "matched_sub_region": "Volnay"
+          },
+          "is_right_match": true
+        }
+      ]
+    },
+    {
+      "lot": "Musigny 2005 Jacques Prieur (4 BT)",
+      "lot_items": [
+        {
+          "id": "5328",
+          "lot_item": "Jacques Prieur",
+          "lot_type": [
+            "Wine"
+          ],
+          "match_result": {
+            "matched_name": "Domaine Jacques Prieur, Musigny Grand Cru",
+            "matched_producer": "Domaine",
+            "matched_region": "Burgundy",
+            "matched_sub_region": "Musigny"
+          },
+          "is_right_match": true
+        }
+      ]
+    },
+    {
+      "lot": "Marsannay, Clos du Roy 2020 Domaine Bizot (3 BT)",
+      "lot_items": [
+        {
+          "id": "38500",
+          "lot_item": "Bizot",
+          "lot_type": [
+            "Wine"
+          ],
+          "match_result": {
+            "matched_name": "Domaine Bizot, Marsannay, Clos du Roy Rouge",
+            "matched_producer": "Domaine",
+            "matched_region": "Burgundy",
+            "matched_sub_region": "Marsannay"
+          },
+          "is_right_match": true
+        }
+      ]
+    },
+    {
+      "lot": "Richebourg 1990 Domaine Leroy (12 BT)",
+      "lot_items": [
+        {
+          "id": "4441",
+          "lot_item": "Leroy",
+          "lot_type": [
+            "Wine"
+          ],
+          "match_result": {
+            "matched_name": "Domaine Leroy, Richebourg Grand Cru",
+            "matched_producer": "Domaine",
+            "matched_region": "Burgundy",
+            "matched_sub_region": "Richebourg"
+          },
+          "is_right_match": true
+        }
+      ]
+    },
+    {
+      "lot": "Château Margaux 1999 (12 BT)",
+      "lot_items": [
+        {
+          "id": "1278",
+          "lot_item": "Margaux",
+          "lot_type": [
+            "Wine"
+          ],
+          "match_result": {
+            "matched_name": "Chateau Margaux Premier Cru Classe, Margaux",
+            "matched_producer": "Chateau",
+            "matched_region": "Bordeaux",
+            "matched_sub_region": "Margaux"
+          },
+          "is_right_match": true
+        }
+      ]
+    },
+    {
+      "lot": "Château Cos d'Estournel 2005 (12 BT)",
+      "lot_items": [
+        {
+          "id": "878",
+          "lot_item": "Cos d'Estournel",
+          "lot_type": [
+            "Wine"
+          ],
+          "match_result": {
+            "matched_name": "Cos d'Estournel 2eme Cru Classe, Saint-Estephe",
+            "matched_producer": null,
+            "matched_region": "Bordeaux",
+            "matched_sub_region": "Saint-Estephe"
+          },
+          "is_right_match": true
+        }
+      ]
+    },
+    {
+      "lot": "Romanée St. Vivant 2011 Domaine de la Romanée-Conti (2 BT)",
+      "lot_items": [
+        {
+          "id": "2868",
+          "lot_item": "Domaine de la Romanée-Conti",
+          "lot_type": [
+            "Wine"
+          ],
+          "match_result": {
+            "matched_name": "Domaine de la Romanee-Conti, Romanee-Saint-Vivant Grand Cru, Marey-Monge",
+            "matched_producer": "Domaine",
+            "matched_region": "Burgundy",
+            "matched_sub_region": "Romanee-Saint-Vivant"
+          },
+          "is_right_match": true
+        }
+      ]
+    },
+    {
+      "lot": "Château Pichon Longueville, Lalande 1990 (12 BT)",
+      "lot_items": [
+        {
+          "id": "1417",
+          "lot_item": "Pichon Longueville Comtesse de Lalande",
+          "lot_type": [
+            "Wine"
+          ],
+          "match_result": {
+            "matched_name": "Chateau Pichon Longueville Comtesse de Lalande 2eme Cru Classe, Pauillac",
+            "matched_producer": "Chateau",
+            "matched_region": "Bordeaux",
+            "matched_sub_region": "Pauillac"
+          },
+          "is_right_match": true
+        }
+      ]
+    },
+    {
+      "lot": "La Tâche 1995 Domaine de la Romanée-Conti (2 BT)",
+      "lot_items": [
+        {
+          "id": "2869",
+          "lot_item": "Domaine de la Romanée-Conti",
+          "lot_type": [
+            "Wine"
+          ],
+          "match_result": {
+            "matched_name": "Domaine de la Romanee-Conti, La Tache Grand Cru",
+            "matched_producer": "Domaine",
+            "matched_region": "Burgundy",
+            "matched_sub_region": "La Tache"
+          },
+          "is_right_match": true
+        }
+      ]
+    },
+    {
+      "lot": "  La Rioja Alta, Gran Riserva 890 2004  (12 BT)",
+      "lot_items": [
+        {
+          "id": "31994",
+          "lot_item": "La Rioja Alta",
+          "lot_type": [
+            "Wine"
+          ],
+          "match_result": {
+            "matched_name": "La Rioja Alta, Gran Reserva 890, Rioja",
+            "matched_producer": null,
+            "matched_region": "Rioja",
+            "matched_sub_region": null
+          },
+          "is_right_match": true
+        }
+      ]
+    },
+    {
+      "lot": "Château Léoville Las Cases 2019  (12 BT)",
+      "lot_items": [
+        {
+          "id": "1237",
+          "lot_item": "Leoville Las Cases",
+          "lot_type": [
+            "Wine"
+          ],
+          "match_result": {
+            "matched_name": "Chateau Leoville Las Cases 2eme Cru Classe, Saint-Julien",
+            "matched_producer": "Chateau",
+            "matched_region": "Bordeaux",
+            "matched_sub_region": "Saint-Julien"
+          },
+          "is_right_match": true
+        }
+      ]
+    },
+    {
+      "lot": "Puligny Montrachet, Les Enseignères 2015 Domaine d'Auvenay (1 BT)",
+      "lot_items": [
+        {
+          "id": "41801",
+          "lot_item": "d'Auvenay",
+          "lot_type": [
+            "Wine"
+          ],
+          "match_result": {
+            "matched_name": "Domaine d'Auvenay, Puligny-Montrachet, Les Enseigneres",
+            "matched_producer": "Domaine",
+            "matched_region": "Burgundy",
+            "matched_sub_region": "Puligny-Montrachet"
+          },
+          "is_right_match": true
+        }
+      ]
+    },
+    {
+      "lot": "Pommard Premier Cru, Hospices de Beaune Cuvée Dames de la Charité 2007 Faiveley (6 MAG)",
+      "lot_items": [
+        {
+          "id": "45358",
+          "lot_item": "Faiveley",
+          "lot_type": [
+            "Wine"
+          ],
+          "match_result": {
+            "matched_name": "Hospices de Beaune (Faiveley), Pommard Premier Cru, Cuvee Dames de la Charite",
+            "matched_producer": null,
+            "matched_region": "Burgundy",
+            "matched_sub_region": "Pommard"
+          },
+          "is_right_match": true
+        }
+      ]
+    },
+    {
+      "lot": "Château Lafite 2000 (3 DM)",
+      "lot_items": [
+        {
+          "id": "1187",
+          "lot_item": "Château Lafite Rothschild",
+          "lot_type": [
+            "Wine"
+          ],
+          "match_result": {
+            "matched_name": "Chateau Lafite Rothschild Premier Cru Classe, Pauillac",
+            "matched_producer": "Chateau",
+            "matched_region": "Bordeaux",
+            "matched_sub_region": "Pauillac"
+          },
+          "is_right_match": true
+        }
+      ]
+    },
+    {
+      "lot": "Château Mouton Rothschild Vertical (3 BT)",
+      "lot_items": [
+        {
+          "id": "1354",
+          "lot_item": "Mouton Rothschild",
+          "lot_type": [
+            "Wine"
+          ],
+          "match_result": {
+            "matched_name": "Chateau Mouton Rothschild Premier Cru Classe, Pauillac",
+            "matched_producer": "Chateau",
+            "matched_region": "Bordeaux",
+            "matched_sub_region": "Pauillac"
+          },
+          "is_right_match": true
+        },
+        {
+          "id": "1354",
+          "lot_item": "Mouton Rothschild",
+          "lot_type": [
+            "Wine"
+          ],
+          "match_result": {
+            "matched_name": "Chateau Mouton Rothschild Premier Cru Classe, Pauillac",
+            "matched_producer": "Chateau",
+            "matched_region": "Bordeaux",
+            "matched_sub_region": "Pauillac"
+          },
+          "is_right_match": true
+        }
+      ]
+    },
+    {
+      "lot": "Château Montrose 2003  (12 BT)",
+      "lot_items": [
+        {
+          "id": "1329",
+          "lot_item": "Montrose",
+          "lot_type": [
+            "Wine"
+          ],
+          "match_result": {
+            "matched_name": "Chateau Montrose 2eme Cru Classe, Saint-Estephe",
+            "matched_producer": "Chateau",
+            "matched_region": "Bordeaux",
+            "matched_sub_region": "Saint-Estephe"
+          },
+          "is_right_match": true
+        }
+      ]
+    },
+    {
+      "lot": "Chambertin 2011 Domaine Armand Rousseau (1 MAG)",
+      "lot_items": [
+        {
+          "id": "5705",
+          "lot_item": "Armand Rousseau",
+          "lot_type": [
+            "Wine"
+          ],
+          "match_result": {
+            "matched_name": "Domaine Armand Rousseau, Gevrey-Chambertin",
+            "matched_producer": "Domaine",
+            "matched_region": "Burgundy",
+            "matched_sub_region": "Gevrey-Chambertin"
+          },
+          "is_right_match": true
+        }
+      ]
+    },
+    {
+      "lot": "Veeder House, Cabernet Sauvignon, Mt. Veeder, Napa Valley 2019 (60 BT)",
+      "lot_items": [
+        {
+          "lot_item": "Robert Mondavi Winery",
+          "match_result": null,
+          "is_right_match": false
+        }
+      ]
+    },
+    {
+      "lot": "Château d'Yquem 1998  (6 BT)",
+      "lot_items": [
+        {
+          "id": "119310",
+          "lot_item": "d'Yquem",
+          "lot_type": [
+            "Wine"
+          ],
+          "match_result": {
+            "matched_name": "Chateau d'Yquem, Sauternes, No. 6",
+            "matched_producer": "Chateau",
+            "matched_region": "Bordeaux",
+            "matched_sub_region": "Sauternes"
+          },
+          "is_right_match": true
+        }
+      ]
+    },
+    {
+      "lot": "Romanée Conti 2001 Domaine de la Romanée-Conti (2 BT)",
+      "lot_items": [
+        {
+          "id": "2867",
+          "lot_item": "Domaine de la Romanée-Conti",
+          "lot_type": [
+            "Wine"
+          ],
+          "match_result": {
+            "matched_name": "Domaine de la Romanee-Conti, Romanee-Conti Grand Cru",
+            "matched_producer": "Domaine",
+            "matched_region": "Burgundy",
+            "matched_sub_region": "Romanee-Conti"
+          },
+          "is_right_match": true
+        }
+      ]
+    },
+    {
+      "lot": "Château Canon 1976 (6 MAG)",
+      "lot_items": [
+        {
+          "id": "757",
+          "lot_item": "Canon",
+          "lot_type": [
+            "Wine"
+          ],
+          "match_result": {
+            "matched_name": "Chateau Canon, Canon-Fronsac",
+            "matched_producer": "Chateau",
+            "matched_region": "Bordeaux",
+            "matched_sub_region": "Canon-Fronsac"
+          },
+          "is_right_match": true
+        }
+      ]
+    },
+    {
+      "lot": "Beaune, Les Sizies 2017 Domaine de Montille (12 BT)",
+      "lot_items": [
+        {
+          "id": "4799",
+          "lot_item": "Domaine de Montille",
+          "lot_type": [
+            "Wine"
+          ],
+          "match_result": {
+            "matched_name": "Domaine de Montille, Beaune Premier Cru, Les Sizies",
+            "matched_producer": "Domaine",
+            "matched_region": "Burgundy",
+            "matched_sub_region": "Beaune"
+          },
+          "is_right_match": true
+        }
+      ]
+    },
+    {
+      "lot": "Dom Pérignon, P3 1985  (1 BT)",
+      "lot_items": [
+        {
+          "id": "31559",
+          "lot_item": "Dom Perignon",
+          "lot_type": [
+            "Wine"
+          ],
+          "match_result": {
+            "matched_name": "Dom Perignon, P3",
+            "matched_producer": null,
+            "matched_region": "Champagne",
+            "matched_sub_region": null
+          },
+          "is_right_match": true
+        }
+      ]
+    },
+    {
+      "lot": "Château Lascombes 2002  (12 BT)",
+      "lot_items": [
+        {
+          "id": "1229",
+          "lot_item": "Lascombes",
+          "lot_type": [
+            "Wine"
+          ],
+          "match_result": {
+            "matched_name": "Chateau Lascombes 2eme Cru Classe, Margaux",
+            "matched_producer": "Chateau",
+            "matched_region": "Bordeaux",
+            "matched_sub_region": "Margaux"
+          },
+          "is_right_match": true
+        }
+      ]
+    },
+    {
+      "lot": "Château Mouton Rothschild 1986 (3 BT)",
+      "lot_items": [
+        {
+          "id": "1354",
+          "lot_item": "Mouton Rothschild",
+          "lot_type": [
+            "Wine"
+          ],
+          "match_result": {
+            "matched_name": "Chateau Mouton Rothschild Premier Cru Classe, Pauillac",
+            "matched_producer": "Chateau",
+            "matched_region": "Bordeaux",
+            "matched_sub_region": "Pauillac"
+          },
+          "is_right_match": true
+        }
+      ]
+    },
+    {
+      "lot": "Ornellaia 2004 Tenuta Dell'Ornellaia (12 BT)",
+      "lot_items": [
+        {
+          "id": "10196",
+          "lot_item": "Ornellaia",
+          "lot_type": [
+            "Wine"
+          ],
+          "match_result": {
+            "matched_name": "Ornellaia, Bolgheri",
+            "matched_producer": null,
+            "matched_region": "Tuscany",
+            "matched_sub_region": "Bolgheri"
+          },
+          "is_right_match": true
+        }
+      ]
+    },
+    {
+      "lot": "Château Ducru Beaucaillou 1993 (12 BT)",
+      "lot_items": [
+        {
+          "id": "947",
+          "lot_item": "Ducru Beaucaillou",
+          "lot_type": [
+            "Wine"
+          ],
+          "match_result": {
+            "matched_name": "Ducru-Beaucaillou 2eme Cru Classe, Saint-Julien",
+            "matched_producer": null,
+            "matched_region": "Bordeaux",
+            "matched_sub_region": "Saint-Julien"
+          },
+          "is_right_match": true
+        }
+      ]
+    },
+    {
+      "lot": "Bonnes Mares 2009 Comte Georges de Vogüé (6 BT)",
+      "lot_items": [
+        {
+          "id": "2676",
+          "lot_item": "Comte Georges de Vogue",
+          "lot_type": [
+            "Wine"
+          ],
+          "match_result": {
+            "matched_name": "Domaine Comte Georges de Vogue, Bonnes Mares Grand Cru",
+            "matched_producer": "Domaine",
+            "matched_region": "Burgundy",
+            "matched_sub_region": "Bonnes Mares"
+          },
+          "is_right_match": true
+        }
+      ]
+    },
+    {
+      "lot": "Pingus 1996 (4 BT)",
+      "lot_items": [
+        {
+          "id": "53640",
+          "lot_item": "Dominio de Pingus",
+          "lot_type": [
+            "Wine"
+          ],
+          "match_result": {
+            "matched_name": "Pingus, Flor Pingus, Ribera del Duero DO",
+            "matched_producer": null,
+            "matched_region": "Castilla y Leon",
+            "matched_sub_region": "Ribera del Duero"
+          },
+          "is_right_match": true
+        }
+      ]
+    },
+    {
+      "lot": "Eisele Vineyard, Cabernet Sauvignon 2017 (6 BT)",
+      "lot_items": [
+        {
+          "id": "12137",
+          "lot_item": "Eisele Vineyard",
+          "lot_type": [
+            "Wine"
+          ],
+          "match_result": {
+            "matched_name": "Eisele Vineyard, Cabernet Sauvignon, Napa Valley",
+            "matched_producer": null,
+            "matched_region": "California",
+            "matched_sub_region": "Napa Valley"
+          },
+          "is_right_match": true
+        }
+      ]
+    },
+    {
+      "lot": "Musigny 2006 Faiveley (2 BT)",
+      "lot_items": [
+        {
+          "id": "3125",
+          "lot_item": "Faiveley",
+          "lot_type": [
+            "Wine"
+          ],
+          "match_result": {
+            "matched_name": "Joseph Faiveley, Chambolle-Musigny",
+            "matched_producer": null,
+            "matched_region": "Burgundy",
+            "matched_sub_region": "Chambolle-Musigny"
+          },
+          "is_right_match": false
+        }
+      ]
+    }
+  ]
+}

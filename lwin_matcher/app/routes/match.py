@@ -1,11 +1,10 @@
 import json
 import logging
 import asyncio
-import pandas as pd
 import numpy as np
-from flask import current_app
-from app.model import LwinMatchingParams
-from flask import Blueprint, request, Response
+import pandas as pd
+from flask import current_app, Blueprint, request, Response
+from app.models.lwin_matching_params import LwinMatchingParams
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
@@ -30,7 +29,7 @@ async def match():
 
     try:
         matched, lwin_code, match_score, match_item = await asyncio.to_thread(
-            current_app.lwin_matching_service.match, lwin_matching_params, topk=topk
+            current_app.lwin_matching_engine.match, lwin_matching_params, topk=topk
         )
 
         for item in match_item:
@@ -63,8 +62,8 @@ async def match():
 
 @match_blueprint.route('/match_target', methods=['POST'])
 async def match_target():
-    payload = request.get_json()
-    target_idx = payload.get('target_idx', None)
+    payload = request.get_json() or {}
+    target_name = payload.get('target_name', '')
 
     lwin_matching_params = LwinMatchingParams(
         wine_name=payload.get('wine_name', ''),
@@ -77,12 +76,37 @@ async def match_target():
     )
 
     try:
+        if not target_name:
+            return Response(
+                json.dumps({"error": "target_name is required"}),
+                mimetype='application/json',
+                status=400
+            )
+
+        candidates = current_app.lwin_database_client.get_by_display_name(target_name)
+        if not candidates:
+            return Response(
+                json.dumps({"error": f"No record found in lwin_database for target_name='{target_name}'"}),
+                mimetype='application/json',
+                status=400
+            )
+
+        if len(candidates) > 1:
+            return Response(
+                json.dumps({"error": f"Multiple records found for target_name='{target_name}', please make display_name unique"}),
+                mimetype='application/json',
+                status=400
+            )
+
+        target_idx = int(candidates[0]['id'])
+
         match_score = await asyncio.to_thread(
-            current_app.lwin_matching_service.match_target_by_id, lwin_matching_params, target_idx
+            current_app.lwin_matching_engine.match_target_by_id, lwin_matching_params, target_idx
         )
 
         result = {
             "match_score": float(match_score),
+            "target_idx": target_idx,
         }
 
         return Response(json.dumps(result), mimetype='application/json')

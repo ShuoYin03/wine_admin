@@ -1,8 +1,6 @@
-import logging
-import random
 import time
-import json
-import os
+import random
+import logging
 from typing import Optional, Dict, Any
 from scrapy import signals
 from scrapy_playwright.page import PageMethod

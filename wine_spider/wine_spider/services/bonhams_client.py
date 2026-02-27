@@ -20,10 +20,27 @@ from collections import Counter
 class BonhamsClient:
     def __init__(self):
         self.base_url = "https://www.bonhams.com"
-        self.api_url = "https://api01.bonhams.com/search/multi_search?use_cache=true&enable_lazy_filter=true"
+        self.api_url = "https://api01.bonhams.com/search-proxy/multi_search?use_cache=true&enable_lazy_filter=true"
         self.lot_information_finder = LotInformationFinder()
         self.logger = logging.getLogger(__name__)
-
+        self.headers = {
+            "accept": "application/json, text/plain, */*",
+            # "accept-encoding": "gzip, deflate, br, zstd",
+            "accept-language": "en,zh-CN;q=0.9,zh;q=0.8,it;q=0.7",
+            "content-type": "application/json",
+            "origin": "https://www.bonhams.com",
+            "priority": "u=1, i",
+            "referer": "https://www.bonhams.com/",
+            "sec-ch-ua": "\"Not(A:Brand\";v=\"8\", \"Chromium\";v=\"144\", \"Google Chrome\";v=\"144\"",
+            "sec-ch-ua-mobile": "?0",
+            "sec-ch-ua-platform": "\"Windows\"",
+            "sec-fetch-dest": "empty",
+            "sec-fetch-mode": "cors",
+            "sec-fetch-site": "same-site",
+            "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/144.0.0.0 Safari/537.36",
+            "x-typesense-api-key": "7YZqOyG0twgst4ACc2VuCyZxpGAYzM0weFTLCC20FQY"
+        }
+    
     def get_auction_search_payload(self, page: int = 1, per_page: int = 250) -> dict:
         return {
             "searches": [
@@ -60,7 +77,7 @@ class BonhamsClient:
             ]
         }
     
-    def parse_auction_api_response(self, response: dict) -> list:
+    def parse_auction_api_response(self, response: dict) -> list[AuctionItem]:
         auctions = []
         documents = response['results'][0]['hits']
 

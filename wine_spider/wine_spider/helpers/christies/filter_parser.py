@@ -14,7 +14,8 @@ invalid_filters = [
   'Design', 'Duty Status', 'Function / Movement', 'Grape Varietal', 'Item Category', 
   'Large Format', 'Material / Technique', 'Object', 'Style / Period','Stylistic Period',
   'Subject Matter / Theme', 'Varietal', 'Variety', 
-  "Vintage", "Date", "Price", "Estimate", "Estimates", "Low Estimate"
+  "Vintage", "Date", "Price", "Estimate", "Estimates", "Low Estimate", "Appellation",
+  "Decanter World Wine Awards", "In Bond"
 ]
 
 def is_filter_exists(filter):
@@ -26,6 +27,9 @@ def is_filter_exists(filter):
 
 filter_map = {
   "Producer": "lot_producer",
+  "Producers": "lot_producer",
+  "Artist": "lot_producer",
+  "Artists": "lot_producer",
   "Artist / Maker": "lot_producer",
   "Artist, Maker, Author": "lot_producer",
   "Winery": "lot_producer",
@@ -33,24 +37,39 @@ filter_map = {
   "Region/Sub-Region": "region",
   "Origin / Ethnicity": "region",
   "Origin": "region",
+  "Origins": "region",
   "Region": "region",
+  "Regions": "region",
   "Region/Type": "region",
 
   "Country": "country",
+  "Countries": "country",
   "Country/State": "country",
 
   "Type": "wine_colour",
+  "Types": "wine_colour",
   "Color": "wine_colour",
   "Colour": "wine_colour",
+  "Colors": "wine_colour",
+  "Colours": "wine_colour",
 
   "Size": "unit_format", 
+  "Sizes": "unit_format", 
   "Bottle Size": "unit_format", 
-  "Format": "unit_format"
+  "Bottle Sizes": "unit_format",
+  "Format": "unit_format",
+  "Formats": "unit_format"
 }
 
 def map_filter_to_field(filter):
     if filter in filter_map:
         return filter_map[filter]
+    elif standardize_filter_name(filter) in filter_map:
+        return filter_map[standardize_filter_name(filter)]
     elif filter not in invalid_filters:
         raise ChristiesFilterNotFoundException(filter)
     return
+
+def standardize_filter_name(filter):
+    if "Coa" in filter:
+        return filter.replace("Coa", "")

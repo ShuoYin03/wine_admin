@@ -6,7 +6,7 @@ NEWSPIDER_MODULE = "wine_spider.spiders"
 
 USER_AGENT = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/132.0.0.0 Safari/537.36"
 
-ROBOTSTXT_OBEY = True
+ROBOTSTXT_OBEY = False
 
 CONCURRENT_REQUESTS = 16
 
@@ -20,6 +20,7 @@ AUTOTHROTTLE_TARGET_CONCURRENCY = 1.0
 
 DOWNLOADER_MIDDLEWARES = {
    'wine_spider.middlewares.playwright_resource_blocker_middleware.PlaywrightResourceBlockerMiddleware': 200,
+   'wine_spider.middlewares.request_timing_middleware.RequestTimingMiddleware': 100,
 }
 
 DOWNLOAD_HANDLERS = {
@@ -37,7 +38,7 @@ ITEM_PIPELINES = {
    "wine_spider.pipelines.LotDetailStoragePipeline": 300,
    "wine_spider.pipelines.LwinMatchingPipeline": 400,
    "wine_spider.pipelines.AuctionSalesPipeline": 500,
-   # "wine_spider.pipelines.FxRatesStoragePipeline": 500,
+    "wine_spider.pipelines.FxRatesStoragePipeline": 600,
 }
 
 PLAYWRIGHT_PROCESS_RESPONSE = True

@@ -6,6 +6,7 @@ from .services.database import (
     auction_sales_client,
     lwin_matching_client
 )
+from shared.database.fx_rates_client import FxRatesClient
 from .items import (
     AuctionItem, 
     AuctionSalesItem,
@@ -13,6 +14,7 @@ from .items import (
     LotDetailItem,
     LwinMatchingItem, 
     FxRateItem,
+    FxRateItemList,
 )
 from collections import defaultdict
 from sqlalchemy.exc import IntegrityError
@@ -80,38 +82,6 @@ class AuctionStoragePipeline:
         if isinstance(item, AuctionItem):
             auctions_client.upsert_by_external_id(ItemAdapter(item).asdict())
         return item
-    
-# class LotStoragePipeline:
-#     def __init__(self):
-#         self.to_retry = []
-    
-#     def process_item(self, item, spider):
-#         if isinstance(item, LotItem):
-#             data = ItemAdapter(item).asdict()
-#             try:
-#                 lots_client.upsert_by_external_id(data)
-#                 lot_items_client.delete_by_external_id(item['external_id'])
-#             except IntegrityError as e:
-#                 orig = getattr(e, "orig", None)
-#                 if isinstance(orig, ForeignKeyViolation):
-#                     spider.logger.warning(f"FK violation inserting lot {item['external_id']}, retrying later...")
-#                     self.to_retry.append((data, item['external_id'], item['auction_id']))
-#                     return item
-#                 raise
-
-#         return item
-    
-#     def close_spider(self, spider):
-#         if not self.to_retry:
-#             return
-        
-#         spider.logger.info(f"Retrying {len(self.to_retry)} failed Lot insertions...")
-#         for data, lot_id, auction_id in self.to_retry:
-#             try:
-#                 lots_client.upsert_by_external_id(data)
-#                 spider.logger.info(f"Successfully retried Lot {lot_id} for Auction {auction_id}")
-#             except IntegrityError as e:
-#                 spider.logger.warning(f"Failed to retry Lot {lot_id} for Auction {auction_id}: {e}")
 
 class LotStoragePipeline:
     def __init__(self):
@@ -181,7 +151,6 @@ class LotDetailStoragePipeline:
             data = ItemAdapter(item).asdict()
             lot_id = item['lot_id']
             
-            # 检查对应的lot是否已处理
             if coordinator.is_lot_processed(lot_id):
                 try:
                     lot_items_client.upsert(data)
@@ -193,7 +162,6 @@ class LotDetailStoragePipeline:
                         return item
                     raise
             else:
-                # lot还未处理，加入等待队列
                 coordinator.add_pending_lot_detail(lot_id, data)
                 spider.logger.debug(f"Lot detail for lot {lot_id} added to pending queue")
                 
@@ -214,7 +182,6 @@ class LotDetailStoragePipeline:
             except IntegrityError as e:
                 spider.logger.warning(f"Failed to retry LotDetail for lot {lot_id}: {e}")
 
-
 class AuctionSalesPipeline:
     def open_spider(self, spider):
         self.auction_sales = defaultdict(lambda: {
@@ -232,6 +199,7 @@ class AuctionSalesPipeline:
             "currency": None
         })
         self.lots_id_to_auction_id = {}
+        print("🔧 [DEBUG] AuctionSalesPipeline is active.")
 
     def process_item(self, item, spider):
         data = ItemAdapter(item).asdict()
@@ -270,6 +238,9 @@ class AuctionSalesPipeline:
         return item
 
     def close_spider(self, spider):
+        print("🚨 [DEBUG] close_spider() triggered for AuctionSalesPipeline")
+        print(f"📊 auction_sales collected: {len(self.auction_sales)} auctions")
+
         for auction_id, stats in self.auction_sales.items():
             as_item = AuctionSalesItem()
             as_item['auction_id']           = auction_id
@@ -288,20 +259,28 @@ class AuctionSalesPipeline:
 
             auction_sales_client.upsert_by_external_id(ItemAdapter(as_item).asdict())
 
+class FxRatesStoragePipeline:
+    def open_spider(self, spider):
+        self.db_client = FxRatesClient()
 
+    def process_item(self, item, spider):
+        if isinstance(item, FxRateItemList):
+            item_data = ItemAdapter(item).asdict()
+            rows = item_data.get("rows") or []
+            self.db_client.bulk_upsert(
+                rows,
+                index_elements=["rates_from", "rates_to", "date"],
+            )
+            return item
 
-# class FxRatesStoragePipeline:
-#     def open_spider(self, spider):
-#         self.db_client = DatabaseClient()
+        if not isinstance(item, FxRateItem):
+            return item
 
-#     def process_item(self, item, spider):
-#         if type(item) != FxRateItem:
-#             return item
-        
-#         item_data = ItemAdapter(item).asdict()
-#         self.db_client.insert_item("fx_rates_cache", item_data)
+        item_data = ItemAdapter(item).asdict()
 
-#         return item
+        self.db_client.upsert(
+            item_data,
+            index_elements=["rates_from", "rates_to", "date"],
+        )
 
-#     def close_spider(self, spider):
-#         self.db_client.close()
+        return item

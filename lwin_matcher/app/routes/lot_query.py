@@ -35,7 +35,6 @@ async def query():
 
     except Exception as e:
         return Response(json.dumps({"error": str(e)}), mimetype='application/json', status=500)
-    
 
 @lot_query_blueprint.route('/lot_export_csv', methods=['POST'])
 async def lot_export_csv():

@@ -18,9 +18,10 @@ from wine_spider.helpers import region_to_country
 from wine_spider.services import PDFParser
 from wine_spider.helpers import expand_to_lot_items
 from wine_spider.helpers import extract_lot_part
+from shared.database.auctions_client import AuctionsClient
 
 dotenv.load_dotenv()
-FULL_FETCH = os.getenv("FULL_FETCH")
+FULL_FETCH = os.getenv("FULL_FETCH").lower() == "true"
 
 class BagheraSpider(scrapy.Spider):
     name = "baghera_spider"
@@ -41,6 +42,7 @@ class BagheraSpider(scrapy.Spider):
         super(BagheraSpider, self).__init__(*args, **kwargs)
         self.baghera_client = BagheraClient()
         self.pdf_parser = PDFParser()
+        self.auction_client = AuctionsClient()
 
     def parse(self, response):
         auction_links = response.css("div.col-8 a::attr(href)").getall()
@@ -57,7 +59,14 @@ class BagheraSpider(scrapy.Spider):
     def parse_auction_page(self, response):
         original_url = response.meta.get("original_url")
         auction_info = response.css("ul.infos.text-uppercase")
+        auction_id_text_split = auction_info.css("li:nth-child(4)::text").get().strip().split(" ")
+        auction_id = "".join(auction_id_text_split[1:])
+        if not FULL_FETCH and self.auction_client.query_single_auction(auction_id) is not None:
+            self.logger.info(f"Auction {auction_id} already exists in database. Skipping.")
+            return
+        
         yield from self.parse_auction(auction_info, response.css("h1::text").get().strip(), response.url)
+
         pdf_url = response.xpath('//a[@class="lien-noir" and @target="_blank" and contains(text(), "Sale results")]/@href').get()
 
         lots = defaultdict(
@@ -95,7 +104,7 @@ class BagheraSpider(scrapy.Spider):
             sequence_external_id = lot_html.css("p.numero.mb0::text").get().strip()
             lot_item = LotItem(
                 external_id = lot_html.css("a.lien-lot::attr(href)").get().split("/")[-1],
-                auction_id = auction_info.css("li:nth-child(4)::text").get().strip().split(" ")[1],
+                auction_id = "".join(auction_info.css("li:nth-child(4)::text").get().strip().split(" ")[1:]),
                 lot_name = lot_html.css("h3 span::text").get().strip(),
                 unit = lot_unit,
                 original_currency = currency,
@@ -204,7 +213,7 @@ class BagheraSpider(scrapy.Spider):
                 break
 
         if not trigered:
-            pdf_url = response.xpath('//a[@class="lien-noir" and @target="_blank" and contains(text(), "Sale results")]/@href').get()
+            pdf_url = response.xpath('//a[@class="lien-noir" and @target="_blank" and (contains(text(), "Sale results") or contains(text(), "Sale result"))]/@href').get()
             if pdf_url:
                 yield scrapy.Request(
                     url=pdf_url,

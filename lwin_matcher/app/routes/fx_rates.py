@@ -3,7 +3,7 @@
 # sys.path.append('../..')
 # from flask import Blueprint, request, Response
 # from database.base_database_client import DatabaseClient
-# from lwin_matcher.app.service.fx_rates_service import FxRatesService
+# from app.service.fx_rates_service import FxRatesService
 
 # fx_rates_blueprint = Blueprint('fx_rates', __name__)
 # fx_rates_service = FxRatesService()

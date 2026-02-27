@@ -4,7 +4,7 @@ from wine_spider.helpers import (
     extract_year,
     parse_description
 )
-from wine_spider.services import LotInformationFinder
+from wine_spider.services.lot_information_finder import LotInformationFinder
 from collections import Counter
 import logging
 
@@ -22,11 +22,11 @@ class SteinfelsClient:
         return f"https://auktionen.steinfelsweine.ch/en-us/auctions/lots/{lot_id}?$page=1&$maxpagesize=20&$sortby=lot_number&$sortdir=asc&cat_id={auction_catalog_id}&$goto={lot_id}"
 
     def get_lot_api_url(self, auction_catalog_id: str, page: int = 1) -> str:
-        return f"https://auktionen.steinfelsweine.ch/api/lots?cat_id={auction_catalog_id}&my=false&s=&consignments_only=false&%24sortby=lot_number&%24sortdir=asc&%24page={page}&%24maxpagesize=1000"
+        return f"https://auktionen.steinfelsweine.ch/api/lots?cat_id={auction_catalog_id}&my=false&s=&consignments_only=false&%24sortby=lot_number&%24sortdir=asc&%24page={page}&%24maxpagesize=100"
     
     def parse_auction_api_response(self, response: dict) -> dict:
         auctions = []
-        auction_catalog_id = []
+        auction_catalog_ids = []
 
         for auction in response:
             catalog = auction.get("catalogs")[0]
@@ -42,10 +42,10 @@ class SteinfelsClient:
             auction_item['url'] = self.get_auction_page_url(catalog.get("id"))
 
             auctions.append(auction_item)
-            auction_catalog_id.append(catalog.get("id"))
+            auction_catalog_ids.append(catalog.get("id"))
 
-        return auctions, catalog.get("id")
-    
+        return auctions, auction_catalog_ids
+
     def parse_lot_api_response(self, response: dict, auction_catalog_id: str, url: str) -> dict:
         lots = []
         try:
