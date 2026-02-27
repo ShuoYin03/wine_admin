@@ -1,5 +1,6 @@
 from .base_database_client import BaseDatabaseClient
-from .model import LwinMatchingModel, LotModel
+from shared.database.models.lwin_matching_db import LwinMatchingModel
+from shared.database.models.lot_db import LotModel
 from sqlalchemy import func
 from sqlalchemy.dialects.postgresql import insert
 

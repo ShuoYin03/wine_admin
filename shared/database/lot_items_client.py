@@ -1,5 +1,7 @@
 from .base_database_client import BaseDatabaseClient
-from .model import LotItemModel, AuctionModel, LotModel
+from shared.database.models.auction_db import AuctionModel
+from shared.database.models.lot_db import LotModel
+from shared.database.models.lot_item_db import LotItemModel
 
 class LotItemsClient(BaseDatabaseClient):
     def __init__(self, db_instance=None):

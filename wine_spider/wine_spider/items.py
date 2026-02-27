@@ -80,7 +80,11 @@ class LwinMatchingItem(scrapy.Item):
 class FxRateItem(scrapy.Item):
     rates_from = scrapy.Field()
     rates_to = scrapy.Field()
+    date = scrapy.Field()
     rates = scrapy.Field()
+
+class FxRateItemList(scrapy.Item):
+    rows = scrapy.Field()
 
 class CombinedLotItem(scrapy.Item):
     lot = scrapy.Field()

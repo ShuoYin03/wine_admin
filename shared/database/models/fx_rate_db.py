@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, String, Float
+from sqlalchemy import Column, Integer, String, Float, Date
 from shared.database.models.base_db import Base
 
 class FxRatesModel(Base):
@@ -6,4 +6,5 @@ class FxRatesModel(Base):
     id = Column(Integer, primary_key=True)
     rates_from = Column(String(10))
     rates_to = Column(String(10))
+    date = Column(Date)
     rates = Column(Float)

@@ -2,7 +2,6 @@ from sqlalchemy.orm import relationship
 from sqlalchemy import Column, Integer, String, Text, Date
 from shared.database.models.base_db import Base
 
-
 class AuctionModel(Base):
     __tablename__ = 'auctions'
     id = Column(Integer, primary_key=True)

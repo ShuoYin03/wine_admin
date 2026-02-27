@@ -1,5 +1,5 @@
 import json
-from lwin_matcher.app.utils import serialize_for_json, justify_ops
+from app.utils import serialize_for_json, justify_ops
 from flask import Blueprint, request, Response, current_app
 
 auction_query_blueprint = Blueprint('auction_query', __name__)

@@ -1,5 +1,9 @@
 *.env
+.env
+.env.*
+!.env.example
 .vscode/
+.idea/
 files/
 logs/
 crawl_state/
@@ -8,13 +12,27 @@ __pycache__/
 *.pyc
 *.pyo
 *.pyd
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.ipynb_checkpoints/
 
 *.egg-info/
+build/
+dist/
+.venv/
+venv/
+env/
 *.xls
 *.csv
 test.py
 login_state/
 overall.py
+*.log
+*.tmp
+*.bak
+.DS_Store
+Thumbs.db
 scrapy_log.txt
 christies_log.txt
 wineauctioneer_log.txt
@@ -24,3 +42,4 @@ baghera_log.txt
 bonhams_log.txt
 steinfels_log.txt
 zachys_log.txt
+.bm25_cache/

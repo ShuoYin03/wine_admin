@@ -1,5 +1,7 @@
 from .base_database_client import BaseDatabaseClient
-from .model import LotModel, AuctionModel, LotItemModel
+from shared.database.models.lot_db import LotModel
+from shared.database.models.lot_item_db import LotItemModel
+from shared.database.models.auction_db import AuctionModel
 from sqlalchemy import func
 from sqlalchemy.orm import joinedload, selectinload
 

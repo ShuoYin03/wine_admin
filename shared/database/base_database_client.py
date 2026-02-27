@@ -1,28 +1,26 @@
-import os
 from flask import current_app
 from contextlib import contextmanager
 from sqlalchemy.orm.attributes import InstrumentedAttribute
-from sqlalchemy import create_engine, and_, or_, func, text
-from sqlalchemy.orm import sessionmaker, scoped_session
-from sqlalchemy.dialects.postgresql import ARRAY
+from sqlalchemy import and_, or_, func, text
+from sqlalchemy.dialects.postgresql import insert
+from shared.database.session_factory import get_shared_session_factory, dispose_shared_engine
 
 class BaseDatabaseClient:
     def __init__(self, orm_model, db_instance):
         self.model = orm_model
         if db_instance:
             self.db = db_instance
+            self.SessionFactory = None
         else:
-            db_url = os.getenv("DB_URL")
-            engine = create_engine(db_url)
             self.db = None
-            self.Session = scoped_session(sessionmaker(bind=engine))
+            self.SessionFactory = get_shared_session_factory()
 
     @contextmanager
     def session_scope(self):
         if self.db:
             session = self.db.session()
         else:
-            session = self.Session()
+            session = self.SessionFactory()
         
         try:
             yield session
@@ -47,15 +45,54 @@ class BaseDatabaseClient:
         with self.session_scope() as session:
             return session.query(self.model).filter_by(external_id=external_id).first()
     
-    def upsert(self, data_dict):
+    def bulk_insert(self, data_list, chunk_size=1000):
+        if not data_list:
+            return
+        
         with self.session_scope() as session:
-            instance = session.get(self.model, data_dict.get("id"))
-            if instance:
-                for key, value in data_dict.items():
-                    setattr(instance, key, value)
-            else:
-                instance = self.model(**data_dict)
-                session.add(instance)
+            for start in range(0, len(data_list), chunk_size):
+                chunk = data_list[start:start + chunk_size]
+                session.bulk_insert_mappings(self.model, chunk)
+                
+    def upsert(self, data_dict, index_elements):
+        with self.session_scope() as session:
+            stmt = insert(self.model).values(**data_dict)
+
+            update_dict = {
+                c.name: getattr(stmt.excluded, c.name)
+                for c in self.model.__table__.columns
+                if c.name != "id"
+            }
+
+            stmt = stmt.on_conflict_do_update(
+                index_elements=index_elements,
+                set_=update_dict
+            )
+
+            session.execute(stmt)
+    
+    def bulk_upsert(self, data_list, index_elements, chunk_size=1000):
+        if not data_list:
+            return
+
+        with self.session_scope() as session:
+            for start in range(0, len(data_list), chunk_size):
+                chunk = data_list[start:start + chunk_size]
+
+                stmt = insert(self.model).values(chunk)
+
+                update_dict = {
+                    c.name: getattr(stmt.excluded, c.name)
+                    for c in self.model.__table__.columns
+                    if c.name != "id"
+                }
+
+                stmt = stmt.on_conflict_do_update(
+                    index_elements=index_elements,
+                    set_=update_dict
+                )
+
+                session.execute(stmt)
 
     def upsert_by_external_id(self, data_dict):
         with self.session_scope() as session:
@@ -205,4 +242,5 @@ class BaseDatabaseClient:
             return [dict(row._mapping) for row in results]
         
     def close(self):
-        self.engine.dispose()
+        if not self.db:
+            dispose_shared_engine()

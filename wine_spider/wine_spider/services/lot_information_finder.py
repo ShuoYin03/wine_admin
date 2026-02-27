@@ -48,8 +48,8 @@ class LotInformationFinder:
         sub_region_scores = self.df[sub_region_column].apply(lambda x: self.fuzzy_score(cleaned_title, x))
         
         self.df['combined_score'] = (
-            wine_sim_scores * 0.4 +   # 40% weight for wine name similarity
-            fuzzy_scores * 0.2 +      # 20% weight for fuzzy match
+            wine_sim_scores * 0.3 +   # 30% weight for wine name similarity
+            fuzzy_scores * 0.3 +      # 30% weight for fuzzy match
             producer_scores * 0.2 +     # 20% weight for producer name match
             sub_region_scores * 0.2     # 20% weight for sub region match
         )
@@ -77,14 +77,5 @@ class LotInformationFinder:
 
     def fuzzy_score(self, title, target):
         if isinstance(target, str):
-            return fuzz.token_set_ratio(self.clean_title(title), self.clean_title(target))
+            return fuzz.WRatio(self.clean_title(title), self.clean_title(target))
         return 0
-
-if __name__ == "__main__":
-    lot_information_finder = LotInformationFinder()
-    title = "Château Lafite-Rothschild 2003 (6 Bottles)"
-    try:
-        producer, region, sub_region, country = lot_information_finder.find_lot_information(title)
-        print(f"Producer: {producer}, Region: {region}, Sub-region: {sub_region}, Country: {country}")
-    except (AmbiguousRegionAndCountryMatchException, NoMatchedRegionAndCountryException) as e:
-        print(e)

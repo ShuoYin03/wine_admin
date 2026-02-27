@@ -1,7 +1,8 @@
 import csv
 from sqlalchemy import func, desc
-from database.model import AuctionModel, LotModel
-from database import AuctionsClient
+from shared.database.models.auction_db import AuctionModel 
+from shared.database.models.lot_db import LotModel
+from shared.database.auctions_client import AuctionsClient
 
 class AuctionScrapingReportGenerator:
     def __init__(self, auction_house: str):

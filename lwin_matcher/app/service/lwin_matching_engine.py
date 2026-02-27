@@ -1,16 +1,30 @@
 import re
 import os
 import math
+import json
 import bm25s
 import pickle
 import Stemmer
 import numpy as np
-import pandas as pd
 import unicodedata
+import pandas as pd
 from rapidfuzz import fuzz
 from collections import OrderedDict
-from lwin_matcher.app.model import MatchResult
-from shared.database.model import LwinDatabaseModel
+from app.utils.map_wine_name import map_wine_name
+from app.utils.standardize_text import standardize_text
+from shared.database.models.lwin_database_db import LwinDatabaseModel
+from app.models.match_result import MatchResult
+from app.models.lwin_matching_params import LwinMatchingParams
+from app.service.matching_rules.matching_context import MatchingContext
+from app.service.matching_rules.bordeaux_rule import BordeauxRule
+from app.service.matching_rules.burgundy_rule import BurgundyRule
+from app.service.matching_rules.colour_should_match_rule import ColourShouldMatchRule
+from app.service.matching_rules.not_assortment_case_rule import NotAssortmentCaseRule
+from app.service.matching_rules.fuzzy_score_should_above_threshold_rule import FuzzyScoreShouldAboveThresholdRule
+from app.service.matching_rules.mixed_lots_should_not_match_rule import MixedLotsShouldNotMatchRule
+from app.service.matching_rules.wine_category_should_exist_in_name_rule import WineCategoryShouldExistInNameRule
+from app.service.matching_rules.site_should_exist_in_name_rule import SiteShouldExistInNameRule
+from app.service.matching_rules.miss_producer_should_not_match_rule import MissProducerShouldNotMatchRule
     
 class LwinMatcherEngine:
     def __init__(self, table_items, cache_dir="./.bm25_cache"):
@@ -39,8 +53,9 @@ class LwinMatcherEngine:
                 pickle.dump(self.retriever, f)
 
     # -------------- Public Interface ----------------
-    def match(self, lwinMatchingParams, limit=10, topk=1):
+    def match(self, lwinMatchingParams: LwinMatchingParams, limit=50, topk=1):
         query_cleaned = self._clean_title(lwinMatchingParams.wine_name)
+        lwinMatchingParams.wine_name = query_cleaned
         producer_cleaned = self._clean_title(lwinMatchingParams.lot_producer)
         matches = self._bm25_candidates(query_cleaned, limit)
 
@@ -53,17 +68,18 @@ class LwinMatcherEngine:
         scored_matches.sort(key=lambda x: x[1], reverse=True)
         # with open("debug_scores.txt", "w", encoding="utf-8") as f:
         #     for row, score in scored_matches:
+
         #         dump = {
         #             "id": row['id'],
         #             "score": score,
         #             **row.to_dict(),
         #         }
-        #         dump = to_native(dump)
+        #         dump = self._to_native(dump)
         #         json.dump(dump, f, ensure_ascii=False)
         #         f.write("\n")
-        scored_matches = scored_matches[:topk]
-
         filtered_matches = self._filter_matches(scored_matches, lwinMatchingParams)
+        filtered_matches = filtered_matches[:topk]
+
         match_result = self._classify(filtered_matches)
 
         columns = [col.name for col in LwinDatabaseModel.__table__.columns]
@@ -91,7 +107,6 @@ class LwinMatcherEngine:
 
         return 0.7 * (bm25_score / (bm25_score + 1e-5)) + 0.3 * (fuzz_score / 100)
 
-    # -------------- 内部 BM25 检索 ----------------
     def _bm25_candidates(self, title, limit):
         if not title:
             return []
@@ -99,13 +114,19 @@ class LwinMatcherEngine:
         results, scores = self.retriever.retrieve(query_tokens, k=limit)
         return [(self.table_items.iloc[idx], score) for idx, score in zip(results[0], scores[0])]
 
-    # -------------- 内部匹配评分逻辑 ----------------
     def _score(self, row, query_cleaned, bm25_score):
         wine_cleaned = self._clean_title(row['display_name'])
-        
-        fuzz_score = fuzz.WRatio(query_cleaned, wine_cleaned)
+        mapped_wine_cleaned = map_wine_name(wine_cleaned)
 
-        return 0.7 * (bm25_score / (bm25_score + 1e-5)) + 0.3 * (fuzz_score / 100)
+        fuzz_score = fuzz.WRatio(query_cleaned, wine_cleaned)
+        mapped_wine_fuzz_score = fuzz.WRatio(query_cleaned, mapped_wine_cleaned)
+
+        bm25_norm = math.log1p(bm25_score) / (math.log1p(bm25_score) + 1.0)
+
+        weighted_fuzz_score = 0.7 * bm25_norm + 0.3 * (fuzz_score / 100)
+        weighted_mapped_wine_fuzzy_score = 0.7 * bm25_norm + 0.3 * (mapped_wine_fuzz_score / 100)
+
+        return max(weighted_fuzz_score, weighted_mapped_wine_fuzzy_score)
 
     def _filter_matches(self, matches, params):
         filtered = []
@@ -116,65 +137,69 @@ class LwinMatcherEngine:
 
     def _rerank_main_label_priority(self, scored_matches, lot_name_cleaned, producer_cleaned):
         sub_keywords = [
-            "pavillon", "rouge", "blanc", " du ", "assortment", "trilogie", "confidence", "second vin", "dna",
-            "grapillons", "petit", "carruades", "les fort", "anaperenna"
+            "carruades", "les forts", "pavillon", "petit mouton", "petit cheval", "clarence", "carillon", 
+            "alter ego", "clos du marquis", "la dame", "les pagodes", "les griffons", "les tourelles", 
+            "echo", "le marquis", "second vin", "second wine", "2nd wine", "l'ame de"
         ]
 
-        has_sub_kw = any(k in lot_name_cleaned for k in sub_keywords)
+        lot_has_sub_kw = any(k in lot_name_cleaned for k in sub_keywords)
 
         reranked = []
         for row, score in scored_matches:
-            label = (row.get('classification') or '').lower()
-            wine_name = (row.get('wine') or '').lower()
-            producer = (row.get('producer_name') or '').lower()
+            row_label = (row.get('classification') or '').lower()
+            row_wine_name = (row.get('wine') or '').lower()
+            row_producer = (row.get('producer_name') or '').lower()
 
             lot_producer = producer_cleaned.lower()
             if lot_producer:
-                producer_score = fuzz.partial_ratio(producer, lot_producer) / 100
+                producer_score = fuzz.WRatio(row_producer, lot_producer) / 100
                 if producer_score >= 0.95:
                     score += 0.02
                 elif producer_score < 0.80:
                     score -= 0.05
 
-            is_main_label = (
-                "premier grand cru" in label or
-                "premier cru classe" in label or
-                re.search(r"\d+eme cru classe", label)
+            row_is_main_label = (
+                "premier grand cru" in row_label or
+                "premier cru classe" in row_label or
+                "premier cru" in row_label or
+                re.search(r"\d+eme cru classe", row_label)
             )
-            is_sub_label = any(k in wine_name for k in sub_keywords) or any(k in (row.get("display_name") or "").lower() for k in sub_keywords)
+            row_is_sub_label = any(k in row_wine_name for k in sub_keywords) or any(k in (row.get("display_name") or "").lower() for k in sub_keywords)
             
-            if not has_sub_kw:
-                if is_main_label:
+            if not lot_has_sub_kw:
+                if row_is_main_label:
                     score += 0.02
-                elif is_sub_label:
+                elif row_is_sub_label:
                     score -= 0.02
+
+            row_sub_region = standardize_text(row.get('sub_region') or '') if row.get('sub_region') else ''
+            if row_sub_region and fuzz.WRatio(lot_name_cleaned, row_sub_region) >= 90:
+                score += 0.04
+
+            row_site = standardize_text(row.get('site') or '') if row.get('site') else ''
+            if row_site and fuzz.WRatio(lot_name_cleaned, row_site) >= 80:
+                score += 0.02
 
             score = max(0, score)
             reranked.append((row, score))
         return reranked
 
-    def _passes_filters(self, row, params):
-        fuzzy_filters = [
-            (params.lot_producer, row.get('producer_name')),
-            (params.country, row.get('country')),
-            (params.region, row.get('region')),
-            (params.sub_region, row.get('sub_region')),
-        ]
+    def _passes_filters(self, row, params: LwinMatchingParams):
+        rule = ColourShouldMatchRule() & \
+                NotAssortmentCaseRule() & \
+                MixedLotsShouldNotMatchRule() & \
+                MissProducerShouldNotMatchRule() & \
+                BordeauxRule() & \
+                BurgundyRule()
+                # (WineCategoryShouldExistInNameRule() or \
+                # SiteShouldExistInNameRule())
+        # else:
+            # rule &= FuzzyScoreShouldAboveThresholdRule()
 
-        for param_val, row_val in fuzzy_filters:
-            if param_val and row_val:
-                if fuzz.partial_ratio(param_val.lower(), row_val.lower()) < 90:
-                    return False
+        ctx = MatchingContext(row=row, params=params)
+        if not rule.is_satisfied_by(ctx):
+            return False
         
-        exact_filters = [
-            (params.colour, row.get('colour')),
-        ]
-                
-        for param_val, row_val in exact_filters:
-            if param_val and row_val:
-                if (param_val.lower() == "red" or param_val.lower() == "white") and param_val.lower() != row_val.lower():
-                    return False
-                
         return True
 
     def _classify(self, matches):
@@ -186,7 +211,7 @@ class LwinMatcherEngine:
 
     # -------------- 清洗预处理逻辑 ----------------
     def _clean_title(self, title: str) -> str:
-        if not title:
+        if not title or not isinstance(title, str):
             return ''
         # Normalise unicode and strip accents
         norm = unicodedata.normalize('NFKD', title)
@@ -200,9 +225,16 @@ class LwinMatcherEngine:
         title = title.lower()
         # Expand common abbreviations
         abbreviations = {
-            'st.': 'saint', 'st ': 'saint ', 'ste.': 'sainte',
-            'ch.': 'chateau', "d'": 'de ', 'd’': 'de ',
+            'st.': 'saint', 
+            'st ': 'saint ', 
+            'ste.': 'sainte',
+            'ste ': 'sainte ',
+            'ch.': 'chateau',
+            'ch ': 'chateau ',
+            "d'": 'de ', 
+            "d’": 'de ',
         }
+
         for abbr, full in abbreviations.items():
             title = title.replace(abbr, full)
         # Remove common noise words (quality descriptors, packaging, etc.)
@@ -237,20 +269,20 @@ class LwinMatcherEngine:
                 obj[i] = int(obj[i])
         return obj
     
-    # def _to_native(self, obj):
-    #     if isinstance(obj, dict):
-    #         return {k: self._to_native(v) for k, v in obj.items()}
-    #     elif isinstance(obj, list):
-    #         return [self._to_native(v) for v in obj]
-    #     elif isinstance(obj, (np.integer, np.int32, np.int64)):
-    #         return int(obj)
-    #     elif isinstance(obj, (np.floating, np.float32, np.float64)):
-    #         return float(obj)
-    #     elif isinstance(obj, (np.ndarray,)):
-    #         return obj.tolist()
-    #     elif obj is np.nan:
-    #         return None
-    #     elif isinstance(obj, pd.Timestamp):
-    #         return obj.isoformat()
-    #     else:
-    #         return obj
+    def _to_native(self, obj):
+        if isinstance(obj, dict):
+            return {k: self._to_native(v) for k, v in obj.items()}
+        elif isinstance(obj, list):
+            return [self._to_native(v) for v in obj]
+        elif isinstance(obj, (np.integer, np.int32, np.int64)):
+            return int(obj)
+        elif isinstance(obj, (np.floating, np.float32, np.float64)):
+            return float(obj)
+        elif isinstance(obj, (np.ndarray,)):
+            return obj.tolist()
+        elif obj is np.nan:
+            return None
+        elif isinstance(obj, pd.Timestamp):
+            return obj.isoformat()
+        else:
+            return obj

@@ -1,7 +1,7 @@
 import io
 import csv
 import json
-from lwin_matcher.app.utils import serialize_for_json, justify_ops
+from app.utils import serialize_for_json, justify_ops
 from flask import Blueprint, request, Response, current_app
 
 lot_query_blueprint = Blueprint('lot_query', __name__)

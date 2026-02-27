@@ -6,6 +6,7 @@ from .services.database import (
     auction_sales_client,
     lwin_matching_client
 )
+from shared.database.fx_rates_client import FxRatesClient
 from .items import (
     AuctionItem, 
     AuctionSalesItem,
@@ -13,6 +14,7 @@ from .items import (
     LotDetailItem,
     LwinMatchingItem, 
     FxRateItem,
+    FxRateItemList,
 )
 from collections import defaultdict
 from sqlalchemy.exc import IntegrityError
@@ -257,18 +259,28 @@ class AuctionSalesPipeline:
 
             auction_sales_client.upsert_by_external_id(ItemAdapter(as_item).asdict())
 
-# class FxRatesStoragePipeline:
-#     def open_spider(self, spider):
-#         self.db_client = DatabaseClient()
+class FxRatesStoragePipeline:
+    def open_spider(self, spider):
+        self.db_client = FxRatesClient()
 
-#     def process_item(self, item, spider):
-#         if type(item) != FxRateItem:
-#             return item
-        
-#         item_data = ItemAdapter(item).asdict()
-#         self.db_client.insert_item("fx_rates_cache", item_data)
+    def process_item(self, item, spider):
+        if isinstance(item, FxRateItemList):
+            item_data = ItemAdapter(item).asdict()
+            rows = item_data.get("rows") or []
+            self.db_client.bulk_upsert(
+                rows,
+                index_elements=["rates_from", "rates_to", "date"],
+            )
+            return item
 
-#         return item
+        if not isinstance(item, FxRateItem):
+            return item
 
-#     def close_spider(self, spider):
-#         self.db_client.close()
+        item_data = ItemAdapter(item).asdict()
+
+        self.db_client.upsert(
+            item_data,
+            index_elements=["rates_from", "rates_to", "date"],
+        )
+
+        return item

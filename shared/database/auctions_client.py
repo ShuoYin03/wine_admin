@@ -1,5 +1,7 @@
 from .base_database_client import BaseDatabaseClient
-from .model import AuctionModel, AuctionSalesModel, LotModel
+from shared.database.models.auction_db import AuctionModel
+from shared.database.models.auction_sales_db import AuctionSalesModel
+from shared.database.models.lot_db import LotModel
 
 class AuctionsClient(BaseDatabaseClient):
     def __init__(self, db_instance=None):

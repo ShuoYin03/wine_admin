@@ -7,7 +7,6 @@ from .environment_helper import EnvironmentHelper
 from .volume_parser import unit_format_to_volume
 
 from .sothebys.title_parser import parse_volume_and_unit_from_title, parse_year_from_title, match_lot_info
-from .sothebys.captcha_parser import CaptchaParser
 
 from .christies.filter_parser import is_filter_exists, map_filter_to_field
 from .christies.year_parser import extract_years_from_json

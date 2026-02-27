@@ -27,7 +27,7 @@ from wine_spider.exceptions import (
 from wine_spider.helpers import find_continent, region_to_country, parse_quarter, parse_volume_and_unit_from_title, parse_year_from_title, match_lot_info
 
 dotenv.load_dotenv()
-FULL_FETCH = os.getenv("FULL_FETCH", "False").lower() in ('true', '1', 't')
+FULL_FETCH = os.getenv("FULL_FETCH", "False").lower() == "true"
 BASE_URL = os.getenv("BASE_URL")
 environmentHelper = EnvironmentHelper()
 

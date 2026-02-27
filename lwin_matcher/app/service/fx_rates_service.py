@@ -1,7 +1,7 @@
 import sys
 import requests
 from datetime import datetime, timedelta
-from lwin_matcher.app.exception.rates_not_found_exception import RatesNotFoundException
+from app.exception.rates_not_found_exception import RatesNotFoundException
 
 class FxRatesService:
     def __init__(self):

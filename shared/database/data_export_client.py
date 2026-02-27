@@ -1,12 +1,16 @@
 import csv
-from .model import AuctionModel, AuctionSalesModel, LotModel, LotItemModel, LwinMatchingModel
+from shared.database.models.auction_db import AuctionModel
+from shared.database.models.auction_sales_db import AuctionSalesModel
+from shared.database.models.lot_db import LotModel
+from shared.database.models.lot_item_db import LotItemModel
+from shared.database.models.lwin_matching_db import LwinMatchingModel
 from .base_database_client import BaseDatabaseClient
 
 class DataExportClient(BaseDatabaseClient):
     def __init__(self, db_instance=None):
         super().__init__(LotModel, db_instance=db_instance)
 
-    def export_lots_with_items_by_house(self, auction_house: str):
+    def export_lots_with_items_by_house(self, auction_house: str, start_date=None, end_date=None):
         with self.session_scope() as session:
             query = (
                 session.query(LotModel, LotItemModel, AuctionModel, LwinMatchingModel)
@@ -15,6 +19,11 @@ class DataExportClient(BaseDatabaseClient):
                 .outerjoin(LwinMatchingModel, LotItemModel.id == LwinMatchingModel.lot_id)
                 .filter(AuctionModel.auction_house == auction_house)
             )
+
+            if start_date:
+                query = query.filter(AuctionModel.start_date >= start_date)
+            if end_date:
+                query = query.filter(AuctionModel.end_date <= end_date)
 
             rows = query.all()
 
@@ -57,13 +66,18 @@ class DataExportClient(BaseDatabaseClient):
 
             return data
 
-    def export_auctions_by_house(self, auction_house: str):
+    def export_auctions_by_house(self, auction_house: str, start_date=None, end_date=None):
         with self.session_scope() as session:
             query = (
                 session.query(AuctionModel, AuctionSalesModel)
                 .outerjoin(AuctionSalesModel, AuctionModel.external_id == AuctionSalesModel.auction_id)
                 .filter(AuctionModel.auction_house == auction_house)
             )
+
+            if start_date:
+                query = query.filter(AuctionModel.start_date >= start_date)
+            if end_date:
+                query = query.filter(AuctionModel.end_date <= end_date)
 
             rows = query.all()
 
