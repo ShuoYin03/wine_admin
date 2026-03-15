@@ -16,6 +16,7 @@ import {
 import { AuctionType } from '@/types/auctionApi';
 import getCurrencySymbol from '@/utils/getCurrencySymbol';
 import formatAmount from '@/utils/amountFormat';
+import dayjs from 'dayjs';
 
 type AuctionCardProps = {
     auction: AuctionType;
@@ -39,7 +40,7 @@ const AuctionCard: React.FC<AuctionCardProps> = ({
 
         <InfoRow>
             <CalendarIcon />
-            <span>{auction.start_date?.toLocaleString()}</span>
+            <span>{auction.start_date ? dayjs(auction.start_date).format('MMMM D, YYYY') : '-'}</span>
             <span>{auction.city}</span>
         </InfoRow>
 

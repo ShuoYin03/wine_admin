@@ -33,7 +33,6 @@ class AuctionSalesFiller:
                 "total_high_estimate": 0,
                 "total_sales": 0,
                 "volume_sold": 0,
-                "value_sold": 0,
                 "top_lot": None,
                 "top_lot_price": 0,
                 "single_cellar_check": None,
@@ -42,24 +41,26 @@ class AuctionSalesFiller:
             }
 
             for lot in lots:
+                if lot.get('original_currency') and initial_data['currency'] is None:
+                    initial_data['currency'] = lot.get('original_currency')
+                initial_data['lots'] += 1
+                initial_data['total_low_estimate'] += lot.get('low_estimate') if 'low_estimate' in lot and lot['low_estimate'] else 0
+                initial_data['total_high_estimate'] += lot.get('high_estimate') if 'high_estimate' in lot and lot['high_estimate'] else 0
                 if lot['sold']:
                     initial_data['sold'] += 1
                     initial_data['total_sales'] += lot['end_price'] if lot['end_price'] else 0
                     initial_data['volume_sold'] += lot['volume'] if 'volume' in lot and lot['volume'] else 0
-                    initial_data['value_sold'] += lot['end_price'] if lot['end_price'] else 0
                     if lot['end_price'] > initial_data['top_lot_price']:
                         initial_data['top_lot_price'] = lot['end_price']
                         initial_data['top_lot'] = lot['external_id']
-                initial_data['lots'] += 1
-                initial_data['total_low_estimate'] += lot.get('low_estimate') if 'low_estimate' in lot and lot['low_estimate'] else 0
-                initial_data['total_high_estimate'] += lot.get('high_estimate') if 'high_estimate' in lot and lot['high_estimate'] else 0
-                if not initial_data['currency']:
-                    initial_data['currency'] = lot.get('original_currency')
             
             for lot_item in lot_items:
-                if not initial_data.get('single_cellar_check'):
-                    initial_data['single_cellar_check'] = lot_item.get('lot_producer', None)
-                elif initial_data['single_cellar_check'] != lot_item.get('lot_producer', None):
+                producer = lot_item.get('lot_producer', None)
+                if producer is None:
+                    continue
+                if initial_data['single_cellar_check'] is None:
+                    initial_data['single_cellar_check'] = producer
+                elif initial_data['single_cellar_check'] != producer:
                     initial_data['single_cellar'] = False
 
             auction_sales_item = AuctionSalesItem(
@@ -71,7 +72,6 @@ class AuctionSalesFiller:
                 total_high_estimate=initial_data['total_high_estimate'],
                 total_sales=initial_data['total_sales'],
                 volume_sold=initial_data['volume_sold'],
-                value_sold=initial_data['value_sold'],
                 top_lot=initial_data['top_lot'],
                 single_cellar=initial_data['single_cellar'],
                 ex_ch=False

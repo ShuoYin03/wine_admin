@@ -62,7 +62,6 @@ class AuctionSalesItem(scrapy.Item):
     total_high_estimate = scrapy.Field()
     total_sales = scrapy.Field()
     volume_sold = scrapy.Field()
-    value_sold = scrapy.Field()
     top_lot = scrapy.Field()
     sale_type = scrapy.Field()
     single_cellar = scrapy.Field()

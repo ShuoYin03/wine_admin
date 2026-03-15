@@ -1,5 +1,5 @@
 'use client';
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import dayjs, { Dayjs } from 'dayjs';
 
@@ -52,7 +52,10 @@ const CustomYearSelector: React.FC<CustomYearSelectorProps> = ({
   callback,
 }) => {
   const [selectedYears, setSelectedYears] = useState<Set<string>>(new Set(selected));
-  const [years, setYears] = useState<string[]>([]);
+  
+  // Compute years synchronously to avoid hydration mismatch and empty initial render
+  const currentYear = new Date().getFullYear();
+  const years = Array.from({ length: currentYear - 1900 + 1 }, (_, i) => (1900 + i).toString());
 
   const toggleYear = (year: string) => {
     const newSelected = new Set(selectedYears);
@@ -65,17 +68,8 @@ const CustomYearSelector: React.FC<CustomYearSelectorProps> = ({
     callback(dayjs(year, 'YYYY'));
   };
 
-  useEffect(() => {
-    const currentYear = dayjs().year();
-    const generatedYears = [];
-    for (let y = 1900; y <= currentYear; y++) {
-      generatedYears.push(y.toString());
-    }
-    setYears(generatedYears);
-  }, []);
-
   return (
-    <Container top={position.top} left={position.left}>
+    <Container top={position.top} left={position.left} suppressHydrationWarning>
       {years.map((year) => (
         <YearButton
           key={year}

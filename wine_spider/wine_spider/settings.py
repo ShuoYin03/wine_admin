@@ -34,10 +34,9 @@ PLAYWRIGHT_LAUNCH_OPTIONS = {
 
 ITEM_PIPELINES = {
    "wine_spider.pipelines.AuctionStoragePipeline": 100,
-   "wine_spider.pipelines.LotStoragePipeline": 200,
-   "wine_spider.pipelines.LotDetailStoragePipeline": 300,
+   "wine_spider.pipelines.LotPipeline": 200,
    "wine_spider.pipelines.LwinMatchingPipeline": 400,
-   "wine_spider.pipelines.AuctionSalesPipeline": 500,
+   "wine_spider.pipelines.AuctionSalesAggregatorPipeline": 500,
     "wine_spider.pipelines.FxRatesStoragePipeline": 600,
 }
 

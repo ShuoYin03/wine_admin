@@ -13,7 +13,7 @@ import { keyMap } from "@/utils/staticData";
 import FullCalendar from "../Calendar/FullCalendar";
 import CustomYearCalendar from "../Calendar/CustomYearCalendar";
 import PriceRange from "../PriceRange/PriceRange";
-import { useFilterContext } from "@/contexts/FilterContext";
+import { useFilterContext, FilterTuple } from "@/contexts/FilterContext";
 import flexibleContext from "@/contexts/FlexibleContext";
 
 const FilterWindowContainer = styled.div<{ top: number; left: number; numberfilters: number; }>`
@@ -129,7 +129,7 @@ const ClearFilterButton = styled.button`
 type FilterWindowProps = {
     position: { top: number, left: number }
     callback: (
-        filters: Array<[string, string, string]>,
+        filters: FilterTuple[],
         count: Record<string, number>
       ) => void;
     onClose: () => void;
@@ -151,11 +151,15 @@ const FilterWindow = ({ position, callback, onClose, type }: FilterWindowProps) 
     const { maxPrice, minPrice } = useDataContext();
     const [activeFilter, setActiveFilter] = useState<string | null>(null);
     const [filterPosition, setFilterPosition] = useState<{ top: number, left: number }>({ top: 0, left: 0 });
-    const now = typeof window !== 'undefined' ? dayjs() : null;
-    const [auctionBeforeDate, setAuctionBeforeDate] = useState<Dayjs | null>(now);
-    const [auctionAfterDate, setAuctionAfterDate] = useState<Dayjs | null>(now);
+    const [auctionBeforeDate, setAuctionBeforeDate] = useState<Dayjs | null>(null);
+    const [auctionAfterDate, setAuctionAfterDate] = useState<Dayjs | null>(null);
     const containerRef = useRef<HTMLDivElement>(null);
     const optionsRef = useRef<HTMLDivElement>(null);
+
+    useEffect(() => {
+        setAuctionBeforeDate(dayjs());
+        setAuctionAfterDate(dayjs());
+    }, []);
 
     useEffect(() => {
         const handleClickOutside = (event: MouseEvent) => {

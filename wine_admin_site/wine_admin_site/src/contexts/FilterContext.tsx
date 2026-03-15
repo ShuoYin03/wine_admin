@@ -1,7 +1,8 @@
 'use client';
 import React, { createContext, useContext, useState } from 'react';
 
-export type FilterTuple = [string, string, string];
+export type FilterValue = string | number | boolean | number[];
+export type FilterTuple = [string, string, FilterValue];
 
 interface FilterContextType {
     filters: FilterTuple[];
@@ -10,8 +11,8 @@ interface FilterContextType {
     setOrderBy: React.Dispatch<React.SetStateAction<string>>;
     filterCount: Record<string, number>;
     setFilterCount: React.Dispatch<React.SetStateAction<Record<string, number>>>;
-    selectedOptions: Record<string, Set<any>>;
-    setSelectedOptions: React.Dispatch<React.SetStateAction<Record<string, Set<any>>>>;
+    selectedOptions: Record<string, Set<string>>;
+    setSelectedOptions: React.Dispatch<React.SetStateAction<Record<string, Set<string>>>>;
     filterOptions: string[];
     orderByOptions: Record<string, string>;
 }
@@ -22,16 +23,18 @@ type FilterProviderProps = {
     children: React.ReactNode;
     filterOptions: string[];
     orderByOptions: Record<string, string>;
+    initialFilters?: FilterTuple[];
+    initialOrderBy?: string;
 };
 
-export const FilterProvider: React.FC<FilterProviderProps> = ({ children, filterOptions, orderByOptions }) => {
-    const [filters, setFilters] = useState<FilterTuple[]>([]);
-    const [orderBy, setOrderBy] = useState<string>("");
+export const FilterProvider: React.FC<FilterProviderProps> = ({ children, filterOptions, orderByOptions, initialFilters = [], initialOrderBy = "" }) => {
+    const [filters, setFilters] = useState<FilterTuple[]>(initialFilters);
+    const [orderBy, setOrderBy] = useState<string>(initialOrderBy);
     const [filterCount, setFilterCount] = useState<Record<string, number>>(
         filterOptions.map((filter) => [filter, 0]).reduce((acc, [key, value]) => ({ ...acc, [key]: value }), {})
     );
 
-    const [selectedOptions, setSelectedOptions] = useState<Record<string, Set<any>>>({});
+    const [selectedOptions, setSelectedOptions] = useState<Record<string, Set<string>>>({});
 
     return (
         <FilterContext.Provider

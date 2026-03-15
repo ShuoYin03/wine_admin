@@ -13,7 +13,6 @@ class AuctionSalesModel(Base):
     total_high_estimate = Column(Integer)
     total_sales = Column(Integer)
     volume_sold = Column(Float)
-    value_sold = Column(Float)
     top_lot = Column(Text)
     sale_type = Column(String(50))
     single_cellar = Column(Boolean)

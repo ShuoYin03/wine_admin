@@ -1,141 +1,89 @@
-'use client'
-import React, { useState, useEffect} from "react"
-import styled from "styled-components"
-import MainTitle from "@/components/MainTitle/MainTitle"
-import SearchBar from "@/components/SearchBar/SearchBar"
-import DataTable from "@/components/DataTable/DataTable"
-import { LwinDisplayType } from "@/types/lwinApi"
-import { LwinMatchingColumns } from "@/types/lwinApi"
-import DataTableBottom from "@/components/DataTable/DataTableBottom"
-import SwitchFilter from "@/components/SwitchFilter/SwitchFilter"
-import LwinInfo from "@/components/LwinInfo/LwinInfo"
-import {
-    FilterProvider,
-    useFilterContext,
-} from "@/contexts/FilterContext"
-import {
-    lwinMatchingFilterOptions,
-    lwinMatchingOrderByOptions,
-} from "./lwinMatching.utils"
+import React from 'react';
+import LwinMatchingClient from './LwinMatchingClient';
+import { filterData } from '../api/lwin/lwin.utils';
 
+export const metadata = {
+  title: 'Lwin Matching - Wine Admin Site'
+};
 
-const LwinMatchingContainer = styled.div`
-    display: flex;
-    flex-direction: column;
-    background-color: #FDF8F5;
-    padding: 0px 200px;
-    padding-bottom: 90px;
-    min-height: 82vh;
-`;
+export default async function LwinMatchingPage(props: { searchParams: Promise<{ [key: string]: string | string[] | undefined }> }) {
+    const searchParams = await props.searchParams;
+    let rawFilters = [];
+    if (searchParams.filters) {
+        try {
+            rawFilters = JSON.parse(searchParams.filters as string);
+        } catch (e) {
+            console.error("Failed to parse filters", e);
+        }
+    } else {
+        rawFilters = [["matched", "eq", "exact_match"]];
+    }
+    
+    const orderBy = (searchParams.orderBy as string) || '';
+    const page = parseInt((searchParams.page as string) || '1', 10);
+    const pageSize = parseInt((searchParams.pageSize as string) || '10', 10);
 
-const LwinMatchingContent = () => {
-    const [filters, setFilters] = useState<[string, string, string][]>([["matched", "eq", "exact_match"]]);
-    const [order_by, setOrderBy] = useState<string>("");
-    const [page, setPage] = useState<number>(1);
-    const [page_size, setPageSize] = useState<number>(10);
-    const [data, setData] = useState<LwinDisplayType[]>([]);
-    const [count, setCount] = useState<number>(0);
-    const [exactCount, setExactCount] = useState<number>(0);
-    const [multiCount, setMultiCount] = useState<number>(0);
-    const [NotCount, setNotCount] = useState<number>(0);
-    const [selectedOption, setSelectedOption] = useState<string>("All Results");
+    const payload = {
+        filters: rawFilters,
+        order_by: orderBy,
+        page: page,
+        page_size: pageSize,
+        return_count: true
+    };
 
-    useEffect(() => {
-        const fetchData = async () => {
-            const payload = {
-                filters: filters,
-                order_by: order_by,
-                page: page,
-                page_size: page_size,
-                return_count: true,
-            };
+    let data: import('@/types/lwinApi').LwinDisplayType[] = [];
+    let count = 0;
+    let counts = {
+        exactCount: 0,
+        multiCount: 0,
+        notCount: 0
+    };
 
-            const response = await fetch('/api/lwin', {
+    try {
+        const [dataResponse, countResponse] = await Promise.all([
+            fetch(`http://localhost:5000/lwin_query`, {
                 method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
+                headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(payload),
-            });
-            
-            const data = await response.json();
-            const { result, count } = data;
-            setData(result);
-            setCount(count);
-        };
-
-        const fetchCount = async () => {
-            const response = await fetch('/api/lwin/count', {
+                cache: 'no-store'
+            }),
+            fetch(`http://localhost:5000/lwin_count`, {
                 method: 'GET',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-            });
-            
-            const data = await response.json();
-            const { result } = data;
-            
-            setExactCount(result.data.exact_match_count);
-            setMultiCount(result.data.multi_match_count);
-            setNotCount(result.data.not_match_count);
+                headers: { 'Content-Type': 'application/json' },
+                cache: 'no-store'
+            })
+        ]);
+        
+        if (dataResponse.ok) {
+            const rawData = await dataResponse.json();
+            const lwins = rawData.data || [];
+            data = filterData(lwins);
+            count = rawData.count || 0;
         }
-        fetchData();
-        fetchCount();
-    }, [filters, order_by, page, page_size]);
 
-    const handlePageChange = (direction: boolean) => {
-        if (direction && page < Math.ceil(count / page_size)) {
-            setPage(page + 1);
-        } else if (!direction && page > 1) {
-            setPage(page - 1);
+        if (countResponse.ok) {
+            const rawCount = await countResponse.json();
+            const countData = rawCount.result?.data || rawCount.data || rawCount;
+            counts = {
+                exactCount: countData.exact_match_count || 0,
+                multiCount: countData.multi_match_count || 0,
+                notCount: countData.not_match_count || 0
+            };
         }
+    } catch (e) {
+        console.error("Failed to fetch lwin data", e);
     }
 
-    const handlePageSizeChange = (size: number) => {
-        setPageSize(size);
-        setPage(1);
-    };
-
-    const handleSelectChange = (selectedOption: string) => {
-        setFilters((prevFilters) => {
-            const clearedFilters = prevFilters.filter((filter) => filter[0] !== "matched");
-            
-            switch (selectedOption) {
-                case "Exact Match":
-                    return [...clearedFilters, ["matched", "eq", "exact_match"]];
-                case "Multi Match":
-                    return [...clearedFilters, ["matched", "eq", "multi_match"]];
-                case "Not Match":
-                    return [...clearedFilters, ["matched", "eq", "not_match"]];
-                case "All Results":
-                default:
-                    return clearedFilters;
-            }
-        });
-    
-        setSelectedOption(selectedOption);
-        setPage(1);
-    };
-
     return (
-        <LwinMatchingContainer>
-            <MainTitle title={"Lwin Matching"} subtitle={"Browse, Search, and Manage Lwin Matching Results"}></MainTitle>
-            <LwinInfo totalLwinCount={exactCount + multiCount + NotCount} exactMatchCount={exactCount} multiMatchCount={multiCount} notMatchCount={NotCount}/>
-            <SwitchFilter options={["All Results", "Exact Match", "Multi Match", "Not Match"]} selectedOption={selectedOption} onSelect={handleSelectChange}></SwitchFilter>
-            <SearchBar type='lwin'/>
-            <DataTable<LwinDisplayType> columns={LwinMatchingColumns} data={data} />
-            <DataTableBottom page={page} setPage={setPage} pageSize={page_size} setPageSize={setPageSize} handlePageChange={handlePageChange} handlePageSizeChange={handlePageSizeChange} count={count}/>
-        </LwinMatchingContainer>
+        <LwinMatchingClient 
+            initialData={data} 
+            initialCount={count}
+            initialPage={page}
+            initialPageSize={pageSize}
+            initialFilters={rawFilters}
+            initialOrderBy={orderBy}
+            counts={counts}
+        />
     );
 }
 
-const LwinMatching = () => {
-    return (
-        <FilterProvider filterOptions={lwinMatchingFilterOptions} orderByOptions={lwinMatchingOrderByOptions}>
-            <LwinMatchingContent />
-        </FilterProvider>
-    );
-};
-
-
-export default LwinMatching;

@@ -8,6 +8,7 @@ from datetime import datetime
 from collections import defaultdict
 from urllib.parse import urlparse, parse_qs
 from wine_spider.items import AuctionItem, LotItem
+from wine_spider.spiders.logging_utils import build_spider_log_file
 from wine_spider.helpers import (
     find_continent, 
     is_filter_exists,
@@ -32,7 +33,7 @@ class ChristiesSpider(scrapy.Spider):
 
     custom_settings = {
         "ROBOTSTXT_OBEY": False,
-        "LOG_FILE": "christies_log.txt",
+        "LOG_FILE": build_spider_log_file("christies.log"),
         # "JOBDIR": "wine_spider/crawl_state/christies",
     }
 

@@ -3,6 +3,7 @@ import scrapy
 import dotenv
 from datetime import datetime
 from wine_spider.items import AuctionItem, LotItem
+from wine_spider.spiders.logging_utils import build_spider_log_file
 from wine_spider.helpers import (
     remove_commas,
     wineauctioneer_parse_date,
@@ -22,7 +23,7 @@ class WineAuctioneerSpider(scrapy.Spider):
 
     custom_settings = {
         "ROBOTSTXT_OBEY": False,
-        "LOG_FILE": "wineauctioneer_log.txt",
+        "LOG_FILE": build_spider_log_file("wineauctioneer.log"),
         "WINEAUCTIONEER_STATE_PATH": "wine_spider/login_state/wineauctioneer_cookies.json",
         "WINEAUCTIONEER_STATE_EXPIRE_DAYS" : 107,
         "WINEAUCTIONEER_LOGIN_SCRIPT": "wine_spider/helpers/wineauctioneer/login.py",

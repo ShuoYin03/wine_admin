@@ -3,6 +3,7 @@ import json
 import scrapy
 import dotenv
 from wine_spider.items import AuctionItem, LotItem
+from wine_spider.spiders.logging_utils import build_spider_log_file
 from wine_spider.helpers import (
     get_current_timestamp
 )
@@ -20,7 +21,7 @@ class MadisonSpider(scrapy.Spider):
 
     custom_settings = {
         "ROBOTSTXT_OBEY": False,
-        "LOG_FILE": "madison_log.txt",
+        "LOG_FILE": build_spider_log_file("madison.log"),
         # "JOBDIR": "wine_spider/crawl_state/madison",
 
         "PLAYWRIGHT_CONTEXTS": {

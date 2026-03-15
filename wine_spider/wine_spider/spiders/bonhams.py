@@ -3,6 +3,7 @@ import json
 import scrapy
 import dotenv
 from shared.database.auctions_client import AuctionsClient
+from wine_spider.spiders.logging_utils import build_spider_log_file
 from wine_spider.services.bonhams_client import BonhamsClient
 from wine_spider.services.lot_information_finder import LotInformationFinder
 
@@ -18,7 +19,7 @@ class BonhamsSpider(scrapy.Spider):
 
     custom_settings = {
         "ROBOTSTXT_OBEY": False,
-        "LOG_FILE": "bonhams_log.txt",
+        "LOG_FILE": build_spider_log_file("bonhams.log"),
         # "JOBDIR": "wine_spider/crawl_state/bonhams",
         "DOWNLOADER_MIDDLEWARES": {
             'wine_spider.middlewares.bonhams_header_middleware.BonhamsHeadersMiddleware': 543,

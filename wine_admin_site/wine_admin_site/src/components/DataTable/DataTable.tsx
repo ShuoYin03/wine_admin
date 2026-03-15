@@ -61,7 +61,8 @@ const TableCell = styled.td`
     font-size: 14px;
 `;
 
-const DataTable = <T extends Record<string, any>>({ columns, data }: TableProps<T>) => {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const DataTableComponent = <T extends Record<string, any>>({ columns, data }: TableProps<T>) => {
     return (
         <TableComponentComtainer>
             <TableContainer>
@@ -92,4 +93,5 @@ const DataTable = <T extends Record<string, any>>({ columns, data }: TableProps<
     );
 };
 
+const DataTable = React.memo(DataTableComponent) as typeof DataTableComponent;
 export default DataTable;

@@ -59,7 +59,7 @@ const Sorter = ({
     useEffect(() => {
         const sortDirectionSymbol = sortDirection === "asc" ? "" : "-";
         callback(`${sortDirectionSymbol}${sortField}`);
-    }, [sortField, sortDirection]);
+    }, [sortField, sortDirection, callback]);
 
     return (
         <SortWrapper>

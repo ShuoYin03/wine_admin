@@ -4,6 +4,7 @@ from datetime import datetime
 from shared.currency.currency_service import CurrencyService
 from shared.currency.models import CurrencyCode
 from wine_spider.items import FxRateItemList
+from wine_spider.spiders.logging_utils import build_spider_log_file
 
 dotenv.load_dotenv()
 
@@ -12,6 +13,10 @@ class FxRatesSpider(scrapy.Spider):
     allowed_domains = [
         "api.ofx.com",
     ]
+
+    custom_settings = {
+        "LOG_FILE": build_spider_log_file("fx_rates.log"),
+    }
     
     def __init__(self, *args, **kwargs):
         super(FxRatesSpider, self).__init__(*args, **kwargs)

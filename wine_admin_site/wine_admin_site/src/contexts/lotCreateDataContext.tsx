@@ -1,9 +1,9 @@
 import { createDataContext } from '@/contexts/DataContext';
-import { LotType } from '@/types/lotApi';
+import { LotDisplayType } from '@/types/lotApi';
 
-const extractPrice = (lot: LotType) => lot.end_price || 0;
+const extractPrice = (lot: LotDisplayType) => lot.end_price || 0;
 
 export const {
   DataProvider: LotDataProvider,
   useDataContext: useLotDataContext,
-} = createDataContext<LotType>(extractPrice);
+} = createDataContext<LotDisplayType>(extractPrice);

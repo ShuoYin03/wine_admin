@@ -1,11 +1,11 @@
-type FilterTriple = [string, string, any];
+import { FilterTuple, FilterValue } from "@/contexts/FilterContext";
 
 export const toggleFilter = (
-  filters: FilterTriple[],
+  filters: FilterTuple[],
   column: string,
   operator: string,
-  value: any
-): FilterTriple[] => {
+  value: FilterValue
+): FilterTuple[] => {
   const exists = filters.some(
     ([col, op, val]) => col === column && op === operator && val === value
   );
@@ -20,11 +20,11 @@ export const toggleFilter = (
 };
 
 export const toggleDateFilter = (
-  filters: FilterTriple[],
+  filters: FilterTuple[],
   column: string,
   operator: string,
-  value: any
-): FilterTriple[] => {
+  value: FilterValue
+): FilterTuple[] => {
   const sameExists = filters.some(
     ([col, op, val]) => col === column && op === operator && val === value
   );
@@ -39,7 +39,7 @@ export const toggleDateFilter = (
     );
   } else if (exists){
     const newFilters = filters.filter(
-      ([col, op, _]) => !(col === column && op === operator)
+      ([col, op]) => !(col === column && op === operator)
     );
     return [...newFilters, [column, operator, value]];
   } else {
@@ -48,11 +48,11 @@ export const toggleDateFilter = (
 };
 
 export const togglePriceRangeFilter = (
-  filters: FilterTriple[],
+  filters: FilterTuple[],
   column: string,
   operator: string,
   value: [number, number]
-): FilterTriple[] => {
+): FilterTuple[] => {
   const sameExists = filters.some(
     ([col, op, val]) => col === column && op === operator && val === value
   );
@@ -67,7 +67,7 @@ export const togglePriceRangeFilter = (
     );
   } else if (exists){
     const newFilters = filters.filter(
-      ([col, op, _]) => !(col === column && op === operator)
+      ([col, op]) => !(col === column && op === operator)
     );
     return [...newFilters, [column, operator, value]];
   } else {

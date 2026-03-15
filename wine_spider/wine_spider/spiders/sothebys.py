@@ -9,6 +9,7 @@ import dotenv
 import asyncio
 import pandas as pd
 from bs4 import BeautifulSoup
+from wine_spider.spiders.logging_utils import build_spider_log_file
 from wine_spider.services import (
     lots_client,
     auctions_client,
@@ -41,7 +42,7 @@ class SothebysSpider(scrapy.Spider):
     ]
 
     custom_settings = {
-        "LOG_FILE": "sothebys_log.txt",
+        "LOG_FILE": build_spider_log_file("sothebys.log"),
         # "JOBDIR": "wine_spider/crawl_state/sothebys",
         "SOTHEBYS_STATE_PATH": "wine_spider/login_state/sothebys_cookies.json",
         "SOTHEBYS_STATE_EXPIRE_DAYS" : 10,

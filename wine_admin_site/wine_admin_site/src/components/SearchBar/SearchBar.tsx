@@ -5,7 +5,7 @@ import FilterWindow from "./FilterWindow";
 import Button from "../Button/Button";
 import Container from "../Container/Container";
 import Sorter from "../Sorter/Sorter";
-import { useFilterContext } from "@/contexts/FilterContext";
+import { useFilterContext, FilterTuple } from "@/contexts/FilterContext";
 import Search from "../Search/Search";
 import { Download } from "lucide-react";
 
@@ -107,10 +107,10 @@ const SearchBar: React.FC<SearchBarProps> = ({
         }
 
         const cleanedFilters = filters.filter(
-            ([field, operator]) => operator !== "like"
+            ([, operator]) => operator !== "like"
         );
 
-        const newFilters: [string, string, string][] = [
+        const newFilters: FilterTuple[] = [
             ...cleanedFilters,
             [searchField, "like", searchText]
         ];
@@ -119,7 +119,7 @@ const SearchBar: React.FC<SearchBarProps> = ({
     };
 
     const handleFilterChange = (
-        filters: Array<[string, string, string]>, 
+        filters: FilterTuple[],
         count: Record<string, number>
     ) => {
         setFilters(filters);

@@ -5,6 +5,7 @@ import dotenv
 import pandas as pd
 from bs4 import BeautifulSoup
 from wine_spider.items import AuctionItem, LotItem, LotDetailItem
+from wine_spider.spiders.logging_utils import build_spider_log_file
 from wine_spider.helpers import (
     extract_price_range,
     symbol_to_currency,
@@ -24,7 +25,7 @@ class SylviesSpider(scrapy.Spider):
 
     custom_settings = {
         "ROBOTSTXT_OBEY": False,
-        "LOG_FILE": "sylvies_log.txt",
+        "LOG_FILE": build_spider_log_file("sylvies.log"),
         # "JOBDIR": "wine_spider/crawl_state/sylvies",
     }
 

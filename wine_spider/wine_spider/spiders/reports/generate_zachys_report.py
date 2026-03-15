@@ -6,6 +6,7 @@ import dotenv
 import asyncio
 from bs4 import BeautifulSoup
 from wine_spider.services import ZachysClient
+from wine_spider.spiders.logging_utils import build_spider_log_file
 from wine_spider.spiders.reports.auction_scraping_report_generator import AuctionScrapingReportGenerator
 
 dotenv.load_dotenv()
@@ -19,7 +20,7 @@ class ZachysReportSpider(scrapy.Spider):
 
     custom_settings = {
         "ROBOTSTXT_OBEY": False,
-        "LOG_ENABLED": False,
+        "LOG_FILE": build_spider_log_file("zachys_report.log"),
         "DOWNLOADER_MIDDLEWARES": {
             "wine_spider.middlewares.aws_waf_bypass.AwsWafBypassMiddleware": 543,
         },

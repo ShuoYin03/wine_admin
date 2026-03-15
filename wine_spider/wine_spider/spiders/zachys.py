@@ -10,6 +10,7 @@ from bs4 import BeautifulSoup
 from collections import defaultdict
 from wine_spider.services import ZachysClient
 from wine_spider.items import AuctionItem, LotItem
+from wine_spider.spiders.logging_utils import build_spider_log_file
 from wine_spider.helpers import (
     symbol_to_currency, 
     remove_commas,
@@ -32,7 +33,7 @@ class ZachysSpider(scrapy.Spider):
 
     custom_settings = {
         "ROBOTSTXT_OBEY": False,
-        "LOG_FILE": "zachys_log.txt",
+        "LOG_FILE": build_spider_log_file("zachys.log"),
         # "JOBDIR": "wine_spider/crawl_state/zachys",
         "DOWNLOADER_MIDDLEWARES": {
             "wine_spider.middlewares.aws_waf_bypass.AwsWafBypassMiddleware": 543,

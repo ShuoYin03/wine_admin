@@ -89,7 +89,7 @@ type FilterOptionsProps = {
   onClose: () => void;
 };
 
-const FilterOptions: React.FC<FilterOptionsProps> = ({ filterType, position, selected, onClick, onClose }: FilterOptionsProps) => {
+const FilterOptions: React.FC<FilterOptionsProps> = ({ filterType, position, selected, onClick }: FilterOptionsProps) => {
   const [options, setOptions] = useState<string[]>([]);
   const [displayOptions, setDisplayOptions] = useState<string[]>([]);
   

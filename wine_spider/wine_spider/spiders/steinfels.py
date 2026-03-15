@@ -1,6 +1,7 @@
 import os
 import scrapy
 import dotenv
+from wine_spider.spiders.logging_utils import build_spider_log_file
 from wine_spider.services.steinfels_client import SteinfelsClient
 
 dotenv.load_dotenv()
@@ -14,7 +15,7 @@ class SteinfelsSpider(scrapy.Spider):
 
     custom_settings = {
         "ROBOTSTXT_OBEY": False,
-        "LOG_FILE": "steinfels_log.txt",
+        "LOG_FILE": build_spider_log_file("steinfels.log"),
         # "JOBDIR": "wine_spider/crawl_state/steinfels",
     }
 

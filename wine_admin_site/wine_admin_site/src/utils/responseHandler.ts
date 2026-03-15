@@ -4,7 +4,7 @@ export const handleResponse = async (response: object) => {
         result.push(response.join(','));
         
     } else {
-        for (const [_, value] of Object.entries(response)) {
+        for (const value of Object.values(response)) {
             result.push(String(value));
         }
     }

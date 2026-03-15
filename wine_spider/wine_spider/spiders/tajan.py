@@ -4,6 +4,7 @@ import scrapy
 import dotenv
 import pandas as pd
 from wine_spider.items import AuctionItem, LotItem
+from wine_spider.spiders.logging_utils import build_spider_log_file
 from wine_spider.helpers import (
     generate_external_id,
     extract_month_year_and_format,
@@ -27,7 +28,7 @@ class TajanSpider(scrapy.Spider):
 
     custom_settings = {
         "ROBOTSTXT_OBEY": False,
-        "LOG_FILE": "tajan_log.txt",
+        "LOG_FILE": build_spider_log_file("tajan.log"),
         # "JOBDIR": "wine_spider/crawl_state/tajan",
     }
 

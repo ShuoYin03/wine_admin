@@ -1,6 +1,6 @@
-import { NextRequest, NextResponse } from 'next/server';
+import { NextResponse } from 'next/server';
 
-export async function GET(req: NextRequest) {
+export async function GET() {
     const response = await fetch(`http://localhost:5000/lwin_query_count`);
     const data = await response.json();
 

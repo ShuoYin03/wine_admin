@@ -54,7 +54,6 @@ CREATE TABLE IF NOT EXISTS auction_sales (
     Total_High_Estimate INT,
     Total_Sales INT,
     Volume_Sold REAL,
-    Value_Sold REAL,
     Top_Lot TEXT,
     Sale_Type VARCHAR(50),
     Single_Cellar BOOLEAN,

@@ -4,6 +4,7 @@ import scrapy
 import dotenv
 from dateutil import parser
 from wine_spider.items import AuctionItem, LotItem, LotDetailItem
+from wine_spider.spiders.logging_utils import build_spider_log_file
 from wine_spider.services.baghera_client import BagheraClient
 from wine_spider.helpers import (
     extract_year
@@ -30,7 +31,7 @@ class BagheraSpider(scrapy.Spider):
 
     custom_settings = {
         "ROBOTSTXT_OBEY": False,
-        "LOG_FILE": "baghera_log.txt",
+        "LOG_FILE": build_spider_log_file("baghera.log"),
         # "JOBDIR": "wine_spider/crawl_state/baghera",
     }
 

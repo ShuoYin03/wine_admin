@@ -44,8 +44,12 @@ export function createDataContext<T>(
         minPrice: number;
     } | undefined>(undefined);
 
-    const DataProvider = ({ children }: { children: React.ReactNode }) => {
-        const [data, setData] = useState<T[]>([]);
+    const DataProvider = ({ children, initialData = [] }: { children: React.ReactNode, initialData?: T[] }) => {
+        const [data, setData] = useState<T[]>(initialData);
+
+        React.useEffect(() => {
+            setData(initialData);
+        }, [initialData]);
 
         const { max, min } = useMemo(() => {
             if (!extractPrice || data.length === 0) return { max: 0, min: 0 };
