@@ -13,7 +13,7 @@ import { keyMap } from "@/utils/staticData";
 import FullCalendar from "../Calendar/FullCalendar";
 import CustomYearCalendar from "../Calendar/CustomYearCalendar";
 import PriceRange from "../PriceRange/PriceRange";
-import { useFilterContext, FilterTuple } from "@/contexts/FilterContext";
+import { useFilterContext, FilterItem } from "@/contexts/FilterContext";
 import flexibleContext from "@/contexts/FlexibleContext";
 
 const FilterWindowContainer = styled.div<{ top: number; left: number; numberfilters: number; }>`
@@ -129,7 +129,7 @@ const ClearFilterButton = styled.button`
 type FilterWindowProps = {
     position: { top: number, left: number }
     callback: (
-        filters: FilterTuple[],
+        filters: FilterItem[],
         count: Record<string, number>
       ) => void;
     onClose: () => void;

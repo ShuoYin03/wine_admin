@@ -35,6 +35,37 @@ async def query():
     except Exception as e:
         return Response(json.dumps({"error": str(e)}), mimetype='application/json', status=500)
 
+@lot_query_blueprint.route('/auction/<auction_id>/lots', methods=['POST'])
+async def auction_lots_query(auction_id: str) -> Response:
+    try:
+        payload = request.get_json() or {}
+        extra_filters: list = justify_ops(payload.get('filters', []))
+        order_by = payload.get('order_by')
+        page = int(payload.get('page', 1))
+        page_size = int(payload.get('page_size', 30))
+        return_count: bool = payload.get('return_count', False)
+        offset = (page - 1) * page_size
+
+        filters = [["auction_id", "=", auction_id]] + extra_filters
+
+        results, count = current_app.lots_client.query_lots_with_items_and_auction(
+            filters=filters,
+            order_by=order_by,
+            limit=page_size,
+            offset=offset,
+            return_count=True,
+        )
+
+        body: dict = {"lots": serialize_for_json(results)}
+        if return_count:
+            body["count"] = count
+
+        return Response(json.dumps(body), mimetype='application/json')
+
+    except Exception as e:
+        return Response(json.dumps({"error": str(e)}), mimetype='application/json', status=500)
+
+
 @lot_query_blueprint.route('/lot_export_csv', methods=['POST'])
 async def lot_export_csv():
     try:

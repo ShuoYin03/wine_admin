@@ -1,0 +1,37 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "wine-spider"
+version = "0.1.0"
+description = "WineAdmin Scrapy spider package"
+requires-python = ">=3.12"
+dependencies = [
+    "wine-admin",
+    "scrapy",
+    "scrapy-playwright",
+    "camoufox",
+    "python-dotenv",
+    "sqlalchemy",
+    "psycopg2",
+    "PyPDF2",
+    "python-dateutil",
+    "rapidfuzz",
+    "scikit-learn",
+    "pandas",
+    "demjson3",
+    "aiohttp",
+    "itemadapter",
+    "beautifulsoup4",
+]
+
+[tool.uv.sources]
+wine-admin = { workspace = true }
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["wine_spider*"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

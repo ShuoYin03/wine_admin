@@ -1,10 +1,15 @@
 export const AuctionDetailFilterOptions = [
+    "Lot Producer",
+    "Region",
+    "Colour",
+    "Format",
+    "Vintage",
     "Price Range",
 ];
 
 export const AuctionDetailOrderByOptions = {
     "": "",
-    "auction_title": "Auction Title",
-    "start_date": "Start Date",
-    "total_sales": "Total Sales",
+    "lot_title": "Lot Title",
+    "vintage": "Vintage",
+    "end_price": "End Price",
 };

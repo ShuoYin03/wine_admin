@@ -4,6 +4,8 @@ from itemadapter import ItemAdapter
 from psycopg2.errors import ForeignKeyViolation
 from sqlalchemy.exc import IntegrityError
 
+from .helpers.auction_aggregator import compute_auction_sales_stats
+
 from shared.database.fx_rates_client import FxRatesClient
 
 from .items import (
@@ -25,10 +27,17 @@ from .services.database import (
 
 
 class BaseStoragePipeline:
-    def open_spider(self, spider):
+    @classmethod
+    def from_crawler(cls, crawler):
+        obj = cls()
+        obj.crawler = crawler
+        return obj
+
+    def open_spider(self):
         self._retry_queue = []
 
-    def safe_upsert(self, fn, data, spider, context):
+    def safe_upsert(self, fn, data, context):
+        spider = self.crawler.spider
         try:
             fn(data)
             return True
@@ -44,7 +53,8 @@ class BaseStoragePipeline:
                 return False
             raise
 
-    def close_spider(self, spider):
+    def close_spider(self):
+        spider = self.crawler.spider
         if not getattr(self, "_retry_queue", None):
             return
 
@@ -68,7 +78,7 @@ class BaseStoragePipeline:
 
 
 class LwinMatchingPipeline(BaseStoragePipeline):
-    def process_item(self, item, spider):
+    def process_item(self, item):
         if not isinstance(item, LwinMatchingItem):
             return item
 
@@ -77,58 +87,54 @@ class LwinMatchingPipeline(BaseStoragePipeline):
         self.safe_upsert(
             lwin_matching_client.upsert_by_external_id,
             data,
-            spider,
             f"lwin_matching lot_id={lot_id}",
         )
         return item
 
 
 class AuctionStoragePipeline(BaseStoragePipeline):
-    def process_item(self, item, spider):
+    def process_item(self, item):
         if not isinstance(item, AuctionItem):
             return item
 
         self.safe_upsert(
             auctions_client.upsert_by_external_id,
             ItemAdapter(item).asdict(),
-            spider,
             f"auction external_id={item.get('external_id')}",
         )
         return item
 
 
 class LotPipeline(BaseStoragePipeline):
-    def open_spider(self, spider):
-        super().open_spider(spider)
+    def open_spider(self):
+        super().open_spider()
         self._processed_lots = set()
         self._pending_details = defaultdict(list)
 
     def _upsert_lot_detail(self, data):
         lot_items_client.upsert_by_external_id(data)
 
-    def _flush_pending_details(self, lot_id, spider):
+    def _flush_pending_details(self, lot_id):
         pending_details = self._pending_details.pop(lot_id, [])
         for pending_detail in pending_details:
             self.safe_upsert(
                 self._upsert_lot_detail,
                 pending_detail,
-                spider,
                 f"lot_detail lot_id={lot_id}",
             )
 
-    def process_item(self, item, spider):
+    def process_item(self, item):
         if isinstance(item, LotItem):
             data = ItemAdapter(item).asdict()
             lot_id = data["external_id"]
             inserted = self.safe_upsert(
                 lots_client.upsert_by_external_id,
                 data,
-                spider,
                 f"lot external_id={lot_id} auction_id={data.get('auction_id')}",
             )
             if inserted:
                 lot_items_client.delete_by_external_id(lot_id)
-                self._flush_pending_details(lot_id, spider)
+                self._flush_pending_details(lot_id)
                 self._processed_lots.add(lot_id)
             return item
 
@@ -139,19 +145,19 @@ class LotPipeline(BaseStoragePipeline):
                 self.safe_upsert(
                     self._upsert_lot_detail,
                     data,
-                    spider,
                     f"lot_detail lot_id={lot_id}",
                 )
             else:
                 self._pending_details[lot_id].append(data)
-                spider.logger.debug(
+                self.crawler.spider.logger.debug(
                     "Buffered lot detail for lot_id=%s until parent lot arrives",
                     lot_id,
                 )
         return item
 
-    def close_spider(self, spider):
-        super().close_spider(spider)
+    def close_spider(self):
+        super().close_spider()
+        spider = self.crawler.spider
         for lot_id, pending_details in self._pending_details.items():
             spider.logger.error(
                 "Dropping %s pending lot details because parent lot never arrived for lot_id=%s",
@@ -161,7 +167,7 @@ class LotPipeline(BaseStoragePipeline):
 
 
 class AuctionSalesAggregatorPipeline:
-    def open_spider(self, spider):
+    def open_spider(self):
         self.auction_sales = defaultdict(
             lambda: {
                 "lots": 0,
@@ -179,7 +185,7 @@ class AuctionSalesAggregatorPipeline:
         )
         self.lots_id_to_auction_id = {}
 
-    def process_item(self, item, spider):
+    def process_item(self, item):
         data = ItemAdapter(item).asdict()
 
         if isinstance(item, LotItem):
@@ -223,7 +229,7 @@ class AuctionSalesAggregatorPipeline:
 
         return item
 
-    def close_spider(self, spider):
+    def close_spider(self):
         for auction_id, stats in self.auction_sales.items():
             as_item = AuctionSalesItem()
             as_item["auction_id"] = auction_id
@@ -243,10 +249,10 @@ class AuctionSalesAggregatorPipeline:
 
 
 class FxRatesStoragePipeline:
-    def open_spider(self, spider):
+    def open_spider(self):
         self.db_client = FxRatesClient()
 
-    def process_item(self, item, spider):
+    def process_item(self, item):
         if isinstance(item, FxRateItemList):
             item_data = ItemAdapter(item).asdict()
             rows = item_data.get("rows") or []

@@ -7,7 +7,7 @@ from database import DatabaseClient
 
 BASE_URL = 'http://localhost:5000'
 
-class TestLwinMatching:
+class LwinMatching:
     def __init__(self):
         self.database_client = DatabaseClient()
         self.df = pd.read_excel('../../files/LWIN & Auction match.xlsx', header=6)

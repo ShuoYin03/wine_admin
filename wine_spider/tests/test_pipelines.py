@@ -11,8 +11,8 @@ from sqlalchemy.exc import IntegrityError
 
 sys.modules.setdefault("PyPDF2", Mock())
 
-from wine_spider.wine_spider.items import LotDetailItem, LotItem
-from wine_spider.wine_spider import pipelines
+from wine_spider.items import LotDetailItem, LotItem
+from wine_spider import pipelines
 
 
 def make_spider():

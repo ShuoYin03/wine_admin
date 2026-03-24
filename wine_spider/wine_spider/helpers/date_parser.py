@@ -49,6 +49,12 @@ def extract_year(date_string):
         return match.group(0)
     return None
 
+def extract_years_from_text(text: str, min_year: int = 1500) -> list[int]:
+    """Extract all wine-vintage years from arbitrary text."""
+    pattern = rf"\b(1[5-9]\d{{2}}|20\d{{2}}|2100)\b" if min_year <= 1500 else r"\b(?:19|20)\d{2}\b"
+    return [int(y) for y in re.findall(pattern, text or "")]
+
+
 def get_current_timestamp(one_hour_ago=False):
     if one_hour_ago:
         return str(int((datetime.now().timestamp() - 3600) * 1000))

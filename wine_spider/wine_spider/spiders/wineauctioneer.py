@@ -1,9 +1,7 @@
-import os
-import scrapy
-import dotenv
 from datetime import datetime
+import scrapy
 from wine_spider.items import AuctionItem, LotItem
-from wine_spider.spiders.logging_utils import build_spider_log_file
+from wine_spider.spiders.base_auction_spider import BaseAuctionSpider
 from wine_spider.helpers import (
     remove_commas,
     wineauctioneer_parse_date,
@@ -12,30 +10,29 @@ from wine_spider.helpers import (
     expand_to_lot_items
 )
 
-dotenv.load_dotenv()
-FULL_FETCH = os.getenv("FULL_FETCH")
 
-class WineAuctioneerSpider(scrapy.Spider):
+class WineAuctioneerSpider(BaseAuctionSpider):
     name = "wineauctioneer_spider"
     allowed_domains = [
         "www.wineauctioneer.com"
     ]
 
-    custom_settings = {
-        "ROBOTSTXT_OBEY": False,
-        "LOG_FILE": build_spider_log_file("wineauctioneer.log"),
-        "WINEAUCTIONEER_STATE_PATH": "wine_spider/login_state/wineauctioneer_cookies.json",
-        "WINEAUCTIONEER_STATE_EXPIRE_DAYS" : 107,
-        "WINEAUCTIONEER_LOGIN_SCRIPT": "wine_spider/helpers/wineauctioneer/login.py",
-        "PLAYWRIGHT_CONTEXTS": {
-            "wineauctioneer": {
-                "storage_state": "wine_spider/login_state/wineauctioneer_cookies.json"
-            }
+    custom_settings = BaseAuctionSpider.build_custom_settings(
+        "wineauctioneer.log",
+        extra={
+            "WINEAUCTIONEER_STATE_PATH": "wine_spider/login_state/wineauctioneer_cookies.json",
+            "WINEAUCTIONEER_STATE_EXPIRE_DAYS": 107,
+            "WINEAUCTIONEER_LOGIN_SCRIPT": "wine_spider/helpers/wineauctioneer/login.py",
+            "PLAYWRIGHT_CONTEXTS": {
+                "wineauctioneer": {
+                    "storage_state": "wine_spider/login_state/wineauctioneer_cookies.json"
+                }
+            },
+            "DOWNLOADER_MIDDLEWARES": {
+                "wine_spider.middlewares.wineauctioneer_login_middleware.WineauctioneerLoginMiddleware": 100,
+            },
         },
-        "DOWNLOADER_MIDDLEWARES": {
-            'wine_spider.middlewares.wineauctioneer_login_middleware.WineauctioneerLoginMiddleware': 100,
-        }
-    }
+    )
 
     start_urls = [
         f"https://wineauctioneer.com/wine-auctions?page=0,{idx},0,0,0#past-auctions"
@@ -43,7 +40,7 @@ class WineAuctioneerSpider(scrapy.Spider):
     ]
 
     def __init__(self, *args, **kwargs):
-        super(WineAuctioneerSpider, self).__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
 
     def parse(self, response):
         auction_links = response.css("a.btn[href*='/wine-auctions/'][href$='/lots']::attr(href)").getall()

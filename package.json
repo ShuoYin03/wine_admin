@@ -1,0 +1,14 @@
+{
+  "name": "wine-admin",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "frontend": "npm --prefix wine_admin_site/wine_admin_site run dev",
+    "backend": "cd lwin_matcher && ..\\.venv\\Scripts\\python run.py",
+    "dev": "concurrently -n frontend,backend -c cyan,green \"npm run frontend\" \"npm run backend\"",
+    "spider": "cd wine_spider && ..\\.venv\\Scripts\\python.exe -m wine_spider.run_spiders"
+  },
+  "devDependencies": {
+    "concurrently": "^9.0.0"
+  }
+}

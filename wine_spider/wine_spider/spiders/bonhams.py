@@ -1,33 +1,29 @@
-import os
 import json
-import scrapy
-import dotenv
 from shared.database.auctions_client import AuctionsClient
-from wine_spider.spiders.logging_utils import build_spider_log_file
+from wine_spider.spiders.base_auction_spider import BaseAuctionSpider
 from wine_spider.services.bonhams_client import BonhamsClient
 from wine_spider.services.lot_information_finder import LotInformationFinder
 
-dotenv.load_dotenv()
-FULL_FETCH = os.getenv("FULL_FETCH")
 
-class BonhamsSpider(scrapy.Spider):
+class BonhamsSpider(BaseAuctionSpider):
     name = "bonhams_spider"
     allowed_domains = [
-        "bonhams.com", 
-        "api01.bonhams.com"
+        "bonhams.com",
+        "api01.bonhams.com",
     ]
 
-    custom_settings = {
-        "ROBOTSTXT_OBEY": False,
-        "LOG_FILE": build_spider_log_file("bonhams.log"),
-        # "JOBDIR": "wine_spider/crawl_state/bonhams",
-        "DOWNLOADER_MIDDLEWARES": {
-            'wine_spider.middlewares.bonhams_header_middleware.BonhamsHeadersMiddleware': 543,
+    custom_settings = BaseAuctionSpider.build_custom_settings(
+        "bonhams.log",
+        extra={
+            # "JOBDIR": "wine_spider/crawl_state/bonhams",
+            "DOWNLOADER_MIDDLEWARES": {
+                "wine_spider.middlewares.bonhams_header_middleware.BonhamsHeadersMiddleware": 543,
+            },
         },
-    }
+    )
 
     def __init__(self, *args, **kwargs):
-        super(BonhamsSpider, self).__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
         self.bonhams_client = BonhamsClient()
         self.auction_client = AuctionsClient()
         self.lot_information_finder = LotInformationFinder()
@@ -48,8 +44,7 @@ class BonhamsSpider(scrapy.Spider):
 
         auctions = self.bonhams_client.parse_auction_api_response(data)
         for auction in auctions:
-            if not FULL_FETCH and self.auction_client.query_single_auction(auction.external_id) is not None:
-                self.logger.info(f"Auction {auction.external_id} already exists in database. Skipping.")
+            if self.check_auction_exists(auction.external_id, self.auction_client):
                 return
         
             yield auction

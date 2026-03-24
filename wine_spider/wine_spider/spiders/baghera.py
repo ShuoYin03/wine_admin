@@ -1,46 +1,35 @@
-import os
 import re
-import scrapy
-import dotenv
+from collections import defaultdict
 from dateutil import parser
 from wine_spider.items import AuctionItem, LotItem, LotDetailItem
-from wine_spider.spiders.logging_utils import build_spider_log_file
+from wine_spider.spiders.base_auction_spider import BaseAuctionSpider
 from wine_spider.services.baghera_client import BagheraClient
 from wine_spider.helpers import (
-    extract_year
+    extract_year, unit_format_to_volume, filter_to_params,
+    region_to_country, expand_to_lot_items, extract_lot_part,
 )
-from wine_spider.exceptions import (
-    NoPreDefinedVolumeIdentifierException
-)
-from collections import defaultdict
-from wine_spider.helpers import unit_format_to_volume
-from wine_spider.helpers import filter_to_params
-from wine_spider.helpers import region_to_country
+from wine_spider.exceptions import NoPreDefinedVolumeIdentifierException
 from wine_spider.services import PDFParser
-from wine_spider.helpers import expand_to_lot_items
-from wine_spider.helpers import extract_lot_part
 from shared.database.auctions_client import AuctionsClient
 
-dotenv.load_dotenv()
-FULL_FETCH = os.getenv("FULL_FETCH").lower() == "true"
 
-class BagheraSpider(scrapy.Spider):
+class BagheraSpider(BaseAuctionSpider):
     name = "baghera_spider"
-    allowed_domains = [
-    ]
+    allowed_domains = []
 
-    custom_settings = {
-        "ROBOTSTXT_OBEY": False,
-        "LOG_FILE": build_spider_log_file("baghera.log"),
-        # "JOBDIR": "wine_spider/crawl_state/baghera",
-    }
+    custom_settings = BaseAuctionSpider.build_custom_settings(
+        "baghera.log",
+        extra={
+            # "JOBDIR": "wine_spider/crawl_state/baghera",
+        },
+    )
 
     start_urls = [
         "https://www.bagherawines.auction/en/catalogue/archive"
     ]
 
     def __init__(self, *args, **kwargs):
-        super(BagheraSpider, self).__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
         self.baghera_client = BagheraClient()
         self.pdf_parser = PDFParser()
         self.auction_client = AuctionsClient()
@@ -62,8 +51,7 @@ class BagheraSpider(scrapy.Spider):
         auction_info = response.css("ul.infos.text-uppercase")
         auction_id_text_split = auction_info.css("li:nth-child(4)::text").get().strip().split(" ")
         auction_id = "".join(auction_id_text_split[1:])
-        if not FULL_FETCH and self.auction_client.query_single_auction(auction_id) is not None:
-            self.logger.info(f"Auction {auction_id} already exists in database. Skipping.")
+        if self.check_auction_exists(auction_id, self.auction_client):
             return
         
         yield from self.parse_auction(auction_info, response.css("h1::text").get().strip(), response.url)

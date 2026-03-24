@@ -9,3 +9,35 @@ description = "Utilities and services for WineAdmin"
 authors = [ { name = "shuoyin", email = "shuoyin03@gmail.com" } ]
 readme = "README.md"
 license = { text = "MIT" }
+dependencies = [
+    "flask",
+    "flask-sqlalchemy",
+    "flask-cors",
+    "sqlalchemy",
+    "psycopg2",
+    "python-dotenv",
+    "pandas",
+    "curl-cffi",
+    "pydantic",
+    "alembic",
+    "bm25s",
+    "openai",
+    "PyStemmer",
+    "xlrd",
+    "asgiref",
+]
+
+[tool.uv.workspace]
+members = [
+    "wine_spider",
+]
+
+[dependency-groups]
+dev = [
+    "pytest>=9.0.2",
+]
+
+[tool.pytest.ini_options]
+testpaths = ["lwin_matcher/tests", "wine_spider/tests"]
+pythonpath = ["wine_spider", "lwin_matcher"]
+addopts = "-p no:cacheprovider"

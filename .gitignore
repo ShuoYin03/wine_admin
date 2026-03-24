@@ -33,13 +33,5 @@ overall.py
 *.bak
 .DS_Store
 Thumbs.db
-scrapy_log.txt
-christies_log.txt
-wineauctioneer_log.txt
-tajan_log.txt
-sylvies_log.txt
-baghera_log.txt
-bonhams_log.txt
-steinfels_log.txt
-zachys_log.txt
 .bm25_cache/
+node_modules/

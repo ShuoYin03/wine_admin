@@ -9,6 +9,7 @@ from io import BytesIO
 from bs4 import BeautifulSoup
 from collections import defaultdict
 from wine_spider.services import ZachysClient
+from wine_spider.services.lot_information_finder import LotInformationFinder
 from wine_spider.items import AuctionItem, LotItem
 from wine_spider.spiders.logging_utils import build_spider_log_file
 from wine_spider.helpers import (
@@ -73,11 +74,12 @@ class ZachysSpider(scrapy.Spider):
     def __init__(self, *args, **kwargs):
         super(ZachysSpider, self).__init__(*args, **kwargs)
         self.zachys_client = ZachysClient()
+        self.lot_information_finder = LotInformationFinder()
 
         if os.name == 'nt':
             asyncio.set_event_loop_policy(asyncio.WindowsProactorEventLoopPolicy())
 
-    def start_requests(self):
+    async def start(self):
         max_page = 3
         for page in range(1, max_page + 1):
             url = f"https://bid.zachys.com/auctions?page={page}&status=5"
@@ -94,19 +96,28 @@ class ZachysSpider(scrapy.Spider):
 
     async def parse(self, response):
         page = response.meta.get("playwright_page")
-        
+
         try:
             if "container" in response.text and "challenge-container" not in response.text:
                 self.logger.info("Successfully loaded page content!")
                 
                 soup = BeautifulSoup(response.body, "html.parser")
-                script_text = soup.find("script", string=re.compile("auctionRows")).string
-                match = re.search(r"auctionRows\"\s*,\s*(\[\{.*?\}\])\);", script_text, re.DOTALL)
-                if not match:
+                data_script = None
+                for s in soup.find_all("script", attrs={"data-server": True}):
+                    if "auctionRows" in s.get_text():
+                        data_script = s
+                        break
+
+                self.logger.info(f"DEBUG data_script found: {data_script is not None}")
+                if not data_script:
                     raise ValueError("auctionRows JSON not found")
-                
-                auction_data_raw = match.group(1)
-                auction_datas = json.loads(auction_data_raw)
+
+                page_data = json.loads(data_script.get_text())
+                self.logger.info(f"DEBUG page_data top-level keys: {list(page_data.keys())}")
+                auction_datas = (page_data.get("default") or {}).get("auctionRows")
+                self.logger.info(f"DEBUG auctionRows count: {len(auction_datas) if auction_datas else 0}")
+                if not auction_datas:
+                    raise ValueError("auctionRows JSON not found")
 
                 for auction_data in auction_datas:
                     auction_item = AuctionItem()
@@ -119,8 +130,8 @@ class ZachysSpider(scrapy.Spider):
                     auction_item['end_date'] = auction_data.get("end_date")
                     auction_item['year'] = auction_item['start_date'].split("-")[0]
                     auction_item['quarter'] = int(auction_item['start_date'].split("-")[1]) // 4 + 1 if auction_item['start_date'].split("-")[1] else None
-                    auction_item['auction_type'] = auction_data.get("type")
-                    auction_item['url'] = auction_data.get("url")
+                    auction_item['auction_type'] = "PAST"
+                    auction_item['url'] = f"https://bid.zachys.com/auctions/catalog/id/{auction_data.get('id')}/{auction_data.get('name').join('-')}"
                     yield auction_item
 
                     url = self.zachys_client.get_lots_url(

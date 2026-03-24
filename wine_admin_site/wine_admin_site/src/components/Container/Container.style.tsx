@@ -6,7 +6,7 @@ export const DefaultContainer = styled.div`
   flex-direction: column;
   background-color: #FDF8F5;
   padding: 0 160px;
-  min-height: 82vh;
+  min-height: 100vh;
   padding-bottom: 160px; 
 `;
 

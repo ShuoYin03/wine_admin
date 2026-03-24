@@ -37,7 +37,7 @@ async def auctions() -> Response:
         mapper = partial(map_auction, include_lots=include_lots)
 
         if request.method == 'GET':
-            data, count = current_app.auctions_client.query_auctions_with_sales(mapper=mapper)
+            data, count = current_app.auctions_client.query_auctions(mapper=mapper)
             logger.info(f"[GET /auctions] returned {len(data)} records")
             return Response(
                 json.dumps({
@@ -55,7 +55,7 @@ async def auctions() -> Response:
         return_count: bool = payload.get('return_count', False)
         offset: int = (page - 1) * page_size
 
-        data, count = current_app.auctions_client.query_auctions_with_sales(
+        data, count = current_app.auctions_client.query_auctions(
             mapper=mapper,
             filters=filters,
             order_by=order_by,
@@ -85,7 +85,7 @@ async def auctions_export() -> Response:
         order_by: str | None = payload.get('order_by')
 
         mapper = partial(map_auction, include_lots=False)
-        data, _ = current_app.auctions_client.query_auctions_with_sales(
+        data, _ = current_app.auctions_client.query_auctions(
             mapper=mapper,
             filters=filters,
             order_by=order_by,
@@ -103,7 +103,7 @@ async def auction_lots_export(auction_id: str) -> Response:
     """Export all lots of a single auction to CSV."""
     try:
         results = current_app.lots_client.query_lots_with_items_and_auction(
-            filters=[["auction_id", "eq", auction_id]]
+            filters=[["auction_id", "=", auction_id]]
         )
         return CsvExportService.to_response(
             serialize_for_json(results),

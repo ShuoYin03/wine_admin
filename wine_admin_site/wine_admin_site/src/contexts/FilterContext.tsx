@@ -1,12 +1,46 @@
 'use client';
 import React, { createContext, useContext, useState } from 'react';
+import { keyMap } from '@/utils/staticData';
 
 export type FilterValue = string | number | boolean | number[];
-export type FilterTuple = [string, string, FilterValue];
+
+export type FilterOperator = '=' | '~' | '>' | '<' | '>=' | '<=' | '><' | '@>';
+
+export type FilterItem = {
+    field: string;
+    op: FilterOperator;
+    value: FilterValue;
+};
+
+const reverseKeyMap: Record<string, string> = Object.fromEntries(
+    Object.entries(keyMap).map(([label, field]) => [field, label])
+);
+
+function deriveFilterCount(filterOptions: string[], initialFilters: FilterItem[]): Record<string, number> {
+    const counts = filterOptions.reduce<Record<string, number>>((acc, f) => ({ ...acc, [f]: 0 }), {});
+    for (const { field } of initialFilters) {
+        const label = reverseKeyMap[field];
+        if (label !== undefined && label in counts) {
+            counts[label] += 1;
+        }
+    }
+    return counts;
+}
+
+function deriveSelectedOptions(initialFilters: FilterItem[]): Record<string, Set<string>> {
+    const result: Record<string, Set<string>> = {};
+    for (const { field, op, value } of initialFilters) {
+        const label = reverseKeyMap[field];
+        if (!label || op === '><' || op === '<=' || op === '>=') continue;
+        if (!result[label]) result[label] = new Set<string>();
+        result[label].add(String(value));
+    }
+    return result;
+}
 
 interface FilterContextType {
-    filters: FilterTuple[];
-    setFilters: React.Dispatch<React.SetStateAction<FilterTuple[]>>;
+    filters: FilterItem[];
+    setFilters: React.Dispatch<React.SetStateAction<FilterItem[]>>;
     orderBy: string;
     setOrderBy: React.Dispatch<React.SetStateAction<string>>;
     filterCount: Record<string, number>;
@@ -23,18 +57,19 @@ type FilterProviderProps = {
     children: React.ReactNode;
     filterOptions: string[];
     orderByOptions: Record<string, string>;
-    initialFilters?: FilterTuple[];
+    initialFilters?: FilterItem[];
     initialOrderBy?: string;
 };
 
 export const FilterProvider: React.FC<FilterProviderProps> = ({ children, filterOptions, orderByOptions, initialFilters = [], initialOrderBy = "" }) => {
-    const [filters, setFilters] = useState<FilterTuple[]>(initialFilters);
+    const [filters, setFilters] = useState<FilterItem[]>(initialFilters);
     const [orderBy, setOrderBy] = useState<string>(initialOrderBy);
     const [filterCount, setFilterCount] = useState<Record<string, number>>(
-        filterOptions.map((filter) => [filter, 0]).reduce((acc, [key, value]) => ({ ...acc, [key]: value }), {})
+        () => deriveFilterCount(filterOptions, initialFilters)
     );
-
-    const [selectedOptions, setSelectedOptions] = useState<Record<string, Set<string>>>({});
+    const [selectedOptions, setSelectedOptions] = useState<Record<string, Set<string>>>(
+        () => deriveSelectedOptions(initialFilters)
+    );
 
     return (
         <FilterContext.Provider

@@ -21,15 +21,12 @@ def do_login():
         ctx = browser.new_context(user_agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64)")
         page = ctx.new_page()
 
-        # Go to the page and accept cookies
         page.goto("https://wineauctioneer.com/")
         page.click("text=Accept all")
 
-        # Click svg to open login menu
         page.click('svg[id="icon-circle-user-light"]')
         page.wait_for_selector("#collapseUserMenu .user-login-form h4", state="visible")
 
-        # Fill in the login form
         login_container = page.locator("#collapseUserMenu")
         email_input = login_container.locator('input[data-drupal-selector="edit-name"]')
         email_input.wait_for(state="visible")
@@ -38,7 +35,6 @@ def do_login():
         password_input = login_container.locator('input[data-drupal-selector="edit-pass"]')
         password_input.fill(PASSWORD)
 
-        # Click the login button
         login_container.locator('input[data-drupal-selector="edit-submit"]').click()
         
         page.wait_for_load_state("networkidle", timeout=20000)

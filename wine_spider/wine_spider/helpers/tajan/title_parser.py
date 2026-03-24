@@ -1,4 +1,5 @@
-import re
+from wine_spider.helpers.date_parser import extract_years_from_text
+
 
 def extract_years(text: str) -> list[int]:
-    return [int(year) for year in re.findall(r"\b(1[5-9]\d{2}|20\d{2}|2100)\b", text)]
+    return extract_years_from_text(text, min_year=1500)

@@ -5,7 +5,7 @@ from contextlib import contextmanager
 from sqlalchemy.orm import Session
 from sqlalchemy.orm.attributes import InstrumentedAttribute
 from sqlalchemy import and_, or_, func, text
-from sqlalchemy.dialects.postgresql import insert
+from sqlalchemy.dialects.postgresql import insert, ARRAY as PG_ARRAY
 from sqlalchemy.sql import quoted_name
 from shared.database.session_factory import get_shared_session_factory, dispose_shared_engine
 
@@ -126,7 +126,9 @@ class BaseDatabaseClient:
         and_conditions = []
         or_conditions = []
 
-        for column, op, value in filters or []:
+        for f in filters or []:
+            column, op, value = f["field"], f["op"], f["value"]
+            
             col = None
             for table in table_map.values():
                 if hasattr(table, column):
@@ -136,26 +138,26 @@ class BaseDatabaseClient:
                 continue
 
             condition = None
-            if op == "eq":
+            if op == "=":
                 condition = col == value
-            elif op == "like":
+            elif op == "~":
                 condition = col.ilike(f"%{value}%")
-            elif op == "gt":
+            elif op == ">":
                 condition = col > value
-            elif op == "lt":
+            elif op == "<":
                 condition = col < value
-            elif op == "gte":
+            elif op == ">=":
                 condition = col >= value
-            elif op == "lte":
+            elif op == "<=":
                 condition = col <= value
-            elif op == "between" and isinstance(value, (tuple, list)) and len(value) == 2:
+            elif op == "><" and isinstance(value, (tuple, list)) and len(value) == 2:
                 condition = col.between(value[0], value[1])
-            elif op == "contains":
-                # if isinstance(col.type, ARRAY):
-                condition = col.any(value)
-                # else:
-                #     print(f"[WARNING] 'contains' operator is not supported for {col.type} type.")
-                #     condition = col.ilike(f'%{value}%')
+            elif op == "@>":
+                col_type = getattr(col, 'type', None)
+                if isinstance(col_type, PG_ARRAY):
+                    condition = col.any(value)
+                else:
+                    condition = col == value
             # elif op == "isnull":
             #     if value:
             #         condition = col == None  # 或 col.is_(None)
@@ -163,7 +165,7 @@ class BaseDatabaseClient:
             #         condition = col != None
 
             if condition is not None:
-                if op == "contains":
+                if op == "@>":
                     or_conditions.append(condition)
                 else:
                     and_conditions.append(condition)

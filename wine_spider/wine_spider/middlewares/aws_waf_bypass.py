@@ -1,3 +1,4 @@
+import asyncio
 import time
 import random
 import logging
@@ -23,6 +24,7 @@ class AwsWafBypassMiddleware:
     @classmethod
     def from_crawler(cls, crawler):
         middleware = cls(crawler.settings)
+        middleware.crawler = crawler
         crawler.signals.connect(middleware.spider_closed, signal=signals.spider_closed)
         return middleware
     
@@ -39,8 +41,9 @@ class AwsWafBypassMiddleware:
             
         self.logger.info(f"AWS WAF Bypass Middleware closed for {spider.name}")
     
-    def process_request(self, request, spider):
-        if self.enabled_spiders and spider.name not in self.enabled_spiders:
+    def process_request(self, request):
+        spider_name = self.crawler.spider.name if self.crawler.spider else None
+        if self.enabled_spiders and spider_name not in self.enabled_spiders:
             return None
         
         if not request.meta.get('playwright', False):
@@ -59,8 +62,9 @@ class AwsWafBypassMiddleware:
             
         return None
     
-    def process_response(self, request, response, spider):
-        if self.enabled_spiders and spider.name not in self.enabled_spiders:
+    async def process_response(self, request, response):
+        spider_name = self.crawler.spider.name if self.crawler.spider else None
+        if self.enabled_spiders and spider_name not in self.enabled_spiders:
             return response
             
         if not response.meta.get('playwright_page'):
@@ -78,9 +82,9 @@ class AwsWafBypassMiddleware:
                     self.logger.info(f"Scheduling retry {retry_count}/{self.max_retries} for {url}")
                     
                     retry_delay = 10 * (2 ** (retry_count - 1))
-                    time.sleep(retry_delay)
+                    await asyncio.sleep(retry_delay)
                     
-                    self._handle_waf_page(response, url)
+                    await self._handle_waf_page(response, url)
                     
                     new_request = request.replace(dont_filter=True)
                     return new_request

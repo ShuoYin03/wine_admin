@@ -37,7 +37,7 @@ const PageSizeText = styled.span`
 const PageSizeSwitcher = styled.select`
     display: flex;
     margin-left: 20px;
-    padding: 10px;
+    padding: 0 10px;
     width: 80px;
     height: 35px;
     color: #705C61;

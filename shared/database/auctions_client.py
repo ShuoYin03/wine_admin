@@ -20,7 +20,7 @@ class AuctionsClient(BaseDatabaseClient):
             result = session.query(AuctionModel).filter_by(external_id=auction_id).first()
             return mapper(result) if result else None
 
-    def query_auctions_with_sales(
+    def query_auctions(
         self,
         mapper: Callable[[AuctionModel], T],
         filters: list | None = None,

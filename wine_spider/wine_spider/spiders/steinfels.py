@@ -1,30 +1,27 @@
-import os
 import scrapy
-import dotenv
-from wine_spider.spiders.logging_utils import build_spider_log_file
+from wine_spider.spiders.base_auction_spider import BaseAuctionSpider
 from wine_spider.services.steinfels_client import SteinfelsClient
 
-dotenv.load_dotenv()
-FULL_FETCH = os.getenv("FULL_FETCH")
 
-class SteinfelsSpider(scrapy.Spider):
+class SteinfelsSpider(BaseAuctionSpider):
     name = "steinfels_spider"
     allowed_domains = [
         "auktionen.steinfelsweine.ch"
     ]
 
-    custom_settings = {
-        "ROBOTSTXT_OBEY": False,
-        "LOG_FILE": build_spider_log_file("steinfels.log"),
-        # "JOBDIR": "wine_spider/crawl_state/steinfels",
-    }
+    custom_settings = BaseAuctionSpider.build_custom_settings(
+        "steinfels.log",
+        extra={
+            # "JOBDIR": "wine_spider/crawl_state/steinfels",
+        },
+    )
 
     custom_headers = {
         "x-api-version": "1.15",
     }
 
     def __init__(self, *args, **kwargs):
-        super(SteinfelsSpider, self).__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
         self.steinfels_client = SteinfelsClient()
 
     def start_requests(self):
@@ -49,13 +46,13 @@ class SteinfelsSpider(scrapy.Spider):
                     'auction_catalog_id': auction_catalog_id
                 }
             )
-    
+
     def parse_lots(self, response):
         auction_catalog_id = response.meta.get('auction_catalog_id')
         current_page = response.meta.get('page', 1)
 
         results = self.steinfels_client.parse_lot_api_response(
-            response=response.json(), 
+            response=response.json(),
             auction_catalog_id=auction_catalog_id,
             url=response.url
         )
@@ -65,7 +62,7 @@ class SteinfelsSpider(scrapy.Spider):
 
             for lot_detail_item in result[1]:
                 yield lot_detail_item
-        
+
         if results:
             yield scrapy.Request(
                 url=self.steinfels_client.get_lot_api_url(auction_catalog_id, page=current_page + 1),

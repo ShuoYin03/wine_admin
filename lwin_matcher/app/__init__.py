@@ -39,7 +39,6 @@ def create_app():
     app.register_blueprint(match_blueprint)
     app.register_blueprint(lot_query_blueprint)
     app.register_blueprint(lwin_query_blueprint)
-    # app.register_blueprint(fx_rates_blueprint)
     app.register_blueprint(auction_query_blueprint)
     
     return app

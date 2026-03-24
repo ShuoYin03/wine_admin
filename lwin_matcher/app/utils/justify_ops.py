@@ -7,8 +7,12 @@ def justify_ops(filters):
         "wine_type"
     ]
 
-    for filter in filters:
-        if filter[0] in justify_keys:
-            filter[1] = "contains"
+    for f in filters:
+        field = f["field"] if isinstance(f, dict) else f[0]
+        if field in justify_keys:
+            if isinstance(f, dict):
+                f["op"] = "@>"
+            else:
+                f[1] = "@>"
 
     return filters
