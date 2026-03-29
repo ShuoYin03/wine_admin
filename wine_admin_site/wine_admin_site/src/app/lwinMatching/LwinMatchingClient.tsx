@@ -9,7 +9,7 @@ import { LwinDisplayType, LwinMatchingColumns } from "@/types/lwinApi";
 import DataTableBottom from "@/components/DataTable/DataTableBottom";
 import SwitchFilter from "@/components/SwitchFilter/SwitchFilter";
 import LwinInfo from "@/components/LwinInfo/LwinInfo";
-import { FilterProvider, useFilterContext } from "@/contexts/FilterContext";
+import { FilterProvider, useFilterContext, FilterItem } from "@/contexts/FilterContext";
 import { lwinMatchingFilterOptions, lwinMatchingOrderByOptions } from "./lwinMatching.utils";
 
 const LwinMatchingContainer = styled.div`
@@ -26,8 +26,7 @@ type LwinMatchingClientProps = {
     initialCount: number;
     initialPage: number;
     initialPageSize: number;
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    initialFilters: any[];
+    initialFilters: FilterItem[];
     initialOrderBy: string;
     counts: {
         exactCount: number;
@@ -40,16 +39,14 @@ const LwinMatchingContent = ({ initialData, initialCount, initialPage, initialPa
     const { filters, setFilters, orderBy } = useFilterContext();
     const router = useRouter();
     const [, startTransition] = React.useTransition();
-    
-    // We synchronize our local page and pageSize
     const [page, setPage] = useState<number>(initialPage);
     const [page_size, setPageSize] = useState<number>(initialPageSize);
 
-    // Sync selected option for SwitchFilter based on matched filter
     const getInitialSelectedOption = () => {
-        const matchFilter = initialFilters.find(f => f[0] === "matched");
+        console.log("Initial filters in client:", initialFilters);
+        const matchFilter = initialFilters.find(f => f.field === "matched");
         if (!matchFilter) return "All Results";
-        switch (matchFilter[2]) {
+        switch (matchFilter.value) {
             case "exact_match": return "Exact Match";
             case "multi_match": return "Multi Match";
             case "not_match": return "Not Match";
@@ -58,7 +55,6 @@ const LwinMatchingContent = ({ initialData, initialCount, initialPage, initialPa
     };
     const [selectedOption, setSelectedOption] = useState<string>(getInitialSelectedOption());
 
-    // Sync to URL when state changes
     useEffect(() => {
         const payload = {
             filters: JSON.stringify(filters),
@@ -92,14 +88,14 @@ const LwinMatchingContent = ({ initialData, initialCount, initialPage, initialPa
 
     const handleSelectChange = (option: string) => {
         setFilters((prevFilters) => {
-            const clearedFilters = prevFilters.filter((filter) => filter[0] !== "matched");
+            const clearedFilters = prevFilters.filter((filter) => filter.field !== "matched");
             switch (option) {
                 case "Exact Match":
-                    return [...clearedFilters, ["matched", "eq", "exact_match"]];
+                    return [...clearedFilters, {field: "matched", op: "=" as const, value: "exact_match"}];
                 case "Multi Match":
-                    return [...clearedFilters, ["matched", "eq", "multi_match"]];
+                    return [...clearedFilters, {field: "matched", op: "=" as const, value: "multi_match"}];
                 case "Not Match":
-                    return [...clearedFilters, ["matched", "eq", "not_match"]];
+                    return [...clearedFilters, {field: "matched", op: "=" as const, value: "not_match"}];
                 case "All Results":
                 default:
                     return clearedFilters;
@@ -127,7 +123,7 @@ const LwinMatchingContent = ({ initialData, initialCount, initialPage, initialPa
 };
 
 export default function LwinMatchingClient(props: LwinMatchingClientProps) {
-    const defaultFilters = props.initialFilters.length > 0 ? props.initialFilters : [["matched", "eq", "exact_match"]];
+    const defaultFilters = props.initialFilters.length > 0 ? props.initialFilters : [{field: "matched", op: "=" as const, value: "exact_match"}];
     
     return (
         <FilterProvider 

@@ -33,7 +33,7 @@ export default async function LotsPage(props: { searchParams: Promise<{ [key: st
     let count = 0;
 
     try {
-        const response = await fetch(`http://localhost:5000/lot_query`, {
+        const response = await fetch(`${process.env.PYTHON_API_URL}/lot_query`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(payload),
@@ -42,8 +42,8 @@ export default async function LotsPage(props: { searchParams: Promise<{ [key: st
         
         if (response.ok) {
             const rawData = await response.json();
-            data = filterData(rawData.lots);
-            count = rawData.count;
+            data = filterData(rawData.data);
+            count = rawData.meta.count;
         }
     } catch (e) {
         console.error("Failed to fetch lots", e);

@@ -32,7 +32,7 @@ export default async function AuctionsPage(props: { searchParams: Promise<{ [key
     let count = 0;
 
     try {
-        const response = await fetch(`http://localhost:5000/auctions`, {
+        const response = await fetch(`${process.env.PYTHON_API_URL}/auctions`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(payload),
@@ -41,8 +41,8 @@ export default async function AuctionsPage(props: { searchParams: Promise<{ [key
         
         if (response.ok) {
             const rawData = await response.json();
-            data = rawData.auctions;
-            count = rawData.count;
+            data = rawData.data;
+            count = rawData.meta.count;
         }
     } catch (e) {
         console.error("Failed to fetch auctions", e);

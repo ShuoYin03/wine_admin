@@ -1,10 +1,9 @@
 import json
 import logging
 import asyncio
-import numpy as np
-import pandas as pd
 from flask import current_app, Blueprint, request, Response
 from app.models.lwin_matching_params import LwinMatchingParams
+from app.utils.build_response import json_response
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
@@ -32,13 +31,6 @@ async def match():
             current_app.lwin_matching_engine.match, lwin_matching_params, topk=topk
         )
 
-        for item in match_item:
-            item['id'] = int(item['id']) if isinstance(item['id'], np.int64) else item['id']
-            item['lwin'] = int(item['lwin']) if isinstance(item['lwin'], np.int64) else item['lwin']
-            item['date_added'] = item['date_added'].isoformat() if isinstance(item['date_added'], pd.Timestamp) else item['date_added']
-            item['date_updated'] = item['date_updated'].isoformat() if isinstance(item['date_updated'], pd.Timestamp) else item['date_updated']
-            item['reference'] = int(float(item['reference'])) if 'reference' in item and item['reference'] else None
-
         lwin_11_code = None
         if lwin_code and vintage and isinstance(vintage, str) and len(vintage) == 4:
             if isinstance(lwin_code, list):
@@ -48,13 +40,13 @@ async def match():
 
         result = {
             "matched": matched.value,
-            "lwin_code": to_native(lwin_code),
+            "lwin_code": lwin_code,
             "lwin_11_code": lwin_11_code,
             "match_score": match_score,
             "match_item": match_item
         }
 
-        return Response(json.dumps(result), mimetype='application/json')
+        return json_response(result)
     except Exception as e:
         print(f"[ERROR] /match encountered an exception: {e}")
         return Response(json.dumps({"error": str(e)}), mimetype='application/json', status=400)
@@ -109,13 +101,8 @@ async def match_target():
             "target_idx": target_idx,
         }
 
-        return Response(json.dumps(result), mimetype='application/json')
+        return json_response(result)
     except Exception as e:
         print(f"[ERROR] /match encountered an exception: {e}")
         return Response(json.dumps({"error": str(e)}), mimetype='application/json', status=400)
 
-def to_native(x):
-    if isinstance(x, np.integer): return int(x)
-    if isinstance(x, pd.Timestamp): return x.isoformat()
-    if isinstance(x, list): return [to_native(i) for i in x]
-    return x

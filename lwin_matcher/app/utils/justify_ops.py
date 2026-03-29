@@ -1,4 +1,4 @@
-def justify_ops(filters):
+def justify_ops(filters: list) -> list:
     justify_keys = [
         "lot_producer",
         "vintage",
@@ -8,11 +8,7 @@ def justify_ops(filters):
     ]
 
     for f in filters:
-        field = f["field"] if isinstance(f, dict) else f[0]
-        if field in justify_keys:
-            if isinstance(f, dict):
-                f["op"] = "@>"
-            else:
-                f[1] = "@>"
+        if isinstance(f, dict) and f.get("field") in justify_keys:
+            f["op"] = "@>"
 
     return filters

@@ -26,4 +26,3 @@ class LotModel(Base):
 
     auction = relationship("AuctionModel", back_populates="lots")
     items = relationship("LotItemModel", back_populates="lot")
-    # lwin = relationship("LwinMatchingModel", back_populates="lot", uselist=False)

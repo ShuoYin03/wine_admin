@@ -5,6 +5,16 @@ export type ApiPayload = {
     page_size: number;
 }
 
+export type ApiMeta = {
+    count: number | null;
+};
+
+export type BackendResponse<T> = {
+    meta: ApiMeta;
+    data: T;
+};
+
+/** @deprecated Use BackendResponse<T> */
 export type ApiResponse = {
     status_code: number;
 }

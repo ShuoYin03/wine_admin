@@ -1,6 +1,8 @@
 import React from 'react';
 import LwinMatchingClient from './LwinMatchingClient';
 import { filterData } from '../api/lwin/lwin.utils';
+import { FilterItem } from '@/contexts/FilterContext';
+import { LwinDisplayType } from '@/types/lwinApi';
 
 export const metadata = {
   title: 'Lwin Matching - Wine Admin Site'
@@ -8,15 +10,23 @@ export const metadata = {
 
 export default async function LwinMatchingPage(props: { searchParams: Promise<{ [key: string]: string | string[] | undefined }> }) {
     const searchParams = await props.searchParams;
-    let rawFilters = [];
+    let rawFilters: FilterItem[] = [];
     if (searchParams.filters) {
         try {
-            rawFilters = JSON.parse(searchParams.filters as string);
+            const parsed = JSON.parse(searchParams.filters as string);
+            if (Array.isArray(parsed)) {
+                rawFilters = parsed.filter(
+                    (f): f is import('@/contexts/FilterContext').FilterItem =>
+                        typeof f === 'object' && f !== null && !Array.isArray(f) &&
+                        typeof f.field === 'string' && f.field.length > 0 &&
+                        typeof f.op === 'string' && 'value' in f
+                );
+            }
         } catch (e) {
             console.error("Failed to parse filters", e);
         }
     } else {
-        rawFilters = [["matched", "eq", "exact_match"]];
+        rawFilters = [{field: "matched", op: "=", value: "exact_match"}];
     }
     
     const orderBy = (searchParams.orderBy as string) || '';
@@ -31,7 +41,7 @@ export default async function LwinMatchingPage(props: { searchParams: Promise<{ 
         return_count: true
     };
 
-    let data: import('@/types/lwinApi').LwinDisplayType[] = [];
+    let data: LwinDisplayType[] = [];
     let count = 0;
     let counts = {
         exactCount: 0,
@@ -41,13 +51,13 @@ export default async function LwinMatchingPage(props: { searchParams: Promise<{ 
 
     try {
         const [dataResponse, countResponse] = await Promise.all([
-            fetch(`http://localhost:5000/lwin_query`, {
+            fetch(`${process.env.PYTHON_API_URL}/lwin_query`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(payload),
                 cache: 'no-store'
             }),
-            fetch(`http://localhost:5000/lwin_count`, {
+            fetch(`${process.env.PYTHON_API_URL}/lwin_count`, {
                 method: 'GET',
                 headers: { 'Content-Type': 'application/json' },
                 cache: 'no-store'
@@ -58,12 +68,12 @@ export default async function LwinMatchingPage(props: { searchParams: Promise<{ 
             const rawData = await dataResponse.json();
             const lwins = rawData.data || [];
             data = filterData(lwins);
-            count = rawData.count || 0;
+            count = rawData.meta?.count || 0;
         }
 
         if (countResponse.ok) {
             const rawCount = await countResponse.json();
-            const countData = rawCount.result?.data || rawCount.data || rawCount;
+            const countData = rawCount.data;
             counts = {
                 exactCount: countData.exact_match_count || 0,
                 multiCount: countData.multi_match_count || 0,

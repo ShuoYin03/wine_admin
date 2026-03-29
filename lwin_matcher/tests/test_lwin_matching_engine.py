@@ -8,9 +8,9 @@ from __future__ import annotations
 
 import math
 import tempfile
-from collections import OrderedDict
 from unittest.mock import patch
 
+import numpy as np
 import pandas as pd
 import pytest
 
@@ -142,13 +142,35 @@ class TestClassify:
     def test_empty_matches_not_match(self):
         assert self.engine._classify([]) == MatchResult.NOT_MATCH
 
-    def test_single_match_exact(self):
+    def test_score_below_07_not_match(self):
+        """score < 0.7 → not_match."""
         row = pd.Series(make_row())
-        assert self.engine._classify([(row, 0.9)]) == MatchResult.EXACT_MATCH
+        assert self.engine._classify([(row, 0.6)]) == MatchResult.NOT_MATCH
 
-    def test_multiple_matches_multi(self):
+    def test_single_high_score_exact_match(self):
+        """Single candidate with score >= 0.93 → exact_match."""
         row = pd.Series(make_row())
-        assert self.engine._classify([(row, 0.9), (row, 0.8)]) == MatchResult.MULTI_MATCH
+        assert self.engine._classify([(row, 0.93)]) == MatchResult.EXACT_MATCH
+
+    def test_single_medium_score_multi_match(self):
+        """Single candidate with 0.7 <= score < 0.93 → multi_match."""
+        row = pd.Series(make_row())
+        assert self.engine._classify([(row, 0.8)]) == MatchResult.MULTI_MATCH
+
+    def test_two_high_scores_top1_exact_match(self):
+        """Two candidates, top1 >= 0.93 → exact_match regardless of gap."""
+        row = pd.Series(make_row())
+        assert self.engine._classify([(row, 0.96), (row, 0.93)]) == MatchResult.EXACT_MATCH
+
+    def test_two_scores_top1_exact_match(self):
+        """Top1 >= 0.93, second below → exact_match."""
+        row = pd.Series(make_row())
+        assert self.engine._classify([(row, 0.97), (row, 0.85)]) == MatchResult.EXACT_MATCH
+
+    def test_moderate_scores_multi_match(self):
+        """Top1 between 0.7 and 0.93 → multi_match."""
+        row = pd.Series(make_row())
+        assert self.engine._classify([(row, 0.82), (row, 0.75)]) == MatchResult.MULTI_MATCH
 
 
 # ── _score ───────────────────────────────────────────────────────────────────
@@ -211,11 +233,55 @@ class TestMatch:
         for s in scores:
             assert isinstance(s, float)
 
-    def test_match_items_are_dicts(self):
+    def test_match_items_are_plain_dicts(self):
+        """match_items must be plain dicts, not OrderedDict or pandas Series."""
         params = self._params("Chateau Petrus")
         _, _, _, items = self.engine.match(params, limit=CORPUS_SIZE)
         for item in items:
-            assert isinstance(item, (dict, OrderedDict))
+            assert type(item) is dict
+
+    def test_match_item_id_and_lwin_are_python_int(self):
+        """id and lwin must be Python int, not numpy.int64."""
+        params = self._params("Chateau Petrus")
+        _, _, _, items = self.engine.match(params, limit=CORPUS_SIZE)
+        for item in items:
+            assert type(item["id"]) is int, f"id type: {type(item['id']).__name__}"
+            assert type(item["lwin"]) is int, f"lwin type: {type(item['lwin']).__name__}"
+
+    def test_match_item_date_fields_are_str_or_none(self):
+        """date_added and date_updated must be ISO strings, not pd.Timestamp."""
+        params = self._params("Chateau Petrus")
+        _, _, _, items = self.engine.match(params, limit=CORPUS_SIZE)
+        for item in items:
+            for field in ("date_added", "date_updated"):
+                val = item.get(field)
+                assert val is None or isinstance(val, str), (
+                    f"{field} should be str|None, got {type(val).__name__}"
+                )
+
+    def test_match_item_values_have_no_numpy_types(self):
+        """No numpy scalar types must appear in match_items values."""
+        params = self._params("Chateau Petrus")
+        _, _, _, items = self.engine.match(params, limit=CORPUS_SIZE)
+        for item in items:
+            for key, val in item.items():
+                assert not isinstance(val, (np.integer, np.floating, np.ndarray)), (
+                    f"Field '{key}' has numpy type {type(val).__name__}"
+                )
+
+    def test_lwin_codes_are_python_ints(self):
+        """lwin_codes list must contain Python int, not numpy.int64."""
+        params = self._params("Chateau Petrus")
+        _, lwin_codes, _, _ = self.engine.match(params, limit=CORPUS_SIZE)
+        for code in lwin_codes:
+            assert type(code) is int, f"lwin_code type: {type(code).__name__}"
+
+    def test_scores_are_python_floats(self):
+        """Scores must be Python float, not numpy.float64."""
+        params = self._params("Chateau Petrus")
+        _, _, scores, _ = self.engine.match(params, limit=CORPUS_SIZE)
+        for s in scores:
+            assert type(s) is float, f"score type: {type(s).__name__}"
 
     def test_no_producer_returns_not_match(self):
         params = LwinMatchingParams(wine_name="Chateau Petrus", lot_producer="")

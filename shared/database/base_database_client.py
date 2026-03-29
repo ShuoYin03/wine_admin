@@ -4,7 +4,7 @@ from flask import current_app
 from contextlib import contextmanager
 from sqlalchemy.orm import Session
 from sqlalchemy.orm.attributes import InstrumentedAttribute
-from sqlalchemy import and_, or_, func, text
+from sqlalchemy import ARRAY as SA_ARRAY, and_, or_, func, text
 from sqlalchemy.dialects.postgresql import insert, ARRAY as PG_ARRAY
 from sqlalchemy.sql import quoted_name
 from shared.database.session_factory import get_shared_session_factory, dispose_shared_engine
@@ -128,7 +128,7 @@ class BaseDatabaseClient:
 
         for f in filters or []:
             column, op, value = f["field"], f["op"], f["value"]
-            
+
             col = None
             for table in table_map.values():
                 if hasattr(table, column):
@@ -154,15 +154,10 @@ class BaseDatabaseClient:
                 condition = col.between(value[0], value[1])
             elif op == "@>":
                 col_type = getattr(col, 'type', None)
-                if isinstance(col_type, PG_ARRAY):
+                if isinstance(col_type, (PG_ARRAY, SA_ARRAY)):
                     condition = col.any(value)
                 else:
                     condition = col == value
-            # elif op == "isnull":
-            #     if value:
-            #         condition = col == None  # 或 col.is_(None)
-            #     else:
-            #         condition = col != None
 
             if condition is not None:
                 if op == "@>":

@@ -12,3 +12,4 @@ class LotItemModel(Base):
     wine_colour = Column(String(50))
 
     lot = relationship("LotModel", back_populates="items")
+    lwin_matching = relationship("LwinMatchingModel", back_populates="lot_item", uselist=False)

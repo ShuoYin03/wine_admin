@@ -1,38 +1,28 @@
 import json
 from flask import Blueprint, request, Response, current_app
-from app.utils import serialize_for_json, justify_ops
+from app.utils import serialize_for_json, parse_query_payload, json_response
 
 lwin_query_blueprint = Blueprint('lwin_query', __name__)
 
 @lwin_query_blueprint.route('/lwin_query', methods=['POST'])
 async def lwin_query():
     try:
-        payload = request.get_json() or {}
-        filters = payload.get('filters', [])
-        filters = justify_ops(filters)
-        order_by = payload.get('order_by')
-        page = int(payload.get('page', 1))
-        page_size = int(payload.get('page_size', 30))
-        return_count = payload.get('return_count', False)
-        offset = (page - 1) * page_size
+        q = parse_query_payload()
 
-        results, count = current_app.lwin_matching_client.query_lwin_with_lots(
-            filters=filters,
-            order_by=order_by,
-            limit=page_size,
-            offset=offset,
-            return_count=return_count
+        results, count = current_app.lwin_matching_client.query_lwin_with_lot_items(
+            filters=q.filters,
+            order_by=q.order_by,
+            limit=q.page_size,
+            offset=q.offset,
+            return_count=q.return_count
         )
 
-        results = serialize_for_json(results)
-        if return_count:
-            return Response(json.dumps({"data": results, "count": count}), mimetype='application/json')
-        return Response(json.dumps({"data": results}), mimetype='application/json')
+        return json_response(serialize_for_json(results), count=count)
 
     except Exception as e:
         return Response(json.dumps({"error": str(e)}), mimetype='application/json', status=500)
     
-@lwin_query_blueprint.route('/lwin_query_count', methods=['GET'])
+@lwin_query_blueprint.route('/lwin_count', methods=['GET'])
 async def lwin_query_count():
     try:
         exact_match_count = current_app.lwin_matching_client.query_exact_match_count()
@@ -45,6 +35,6 @@ async def lwin_query_count():
             "not_match_count": not_match_count
         }
 
-        return Response(json.dumps({"data": payload}), mimetype='application/json')
+        return json_response(payload)
     except Exception as e:
         return Response(json.dumps({"error": str(e)}), mimetype='application/json', status=500)

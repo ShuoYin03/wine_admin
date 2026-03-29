@@ -5,19 +5,20 @@ import json
 import bm25s
 import pickle
 import Stemmer
+import datetime
 import numpy as np
 import unicodedata
 import pandas as pd
 from rapidfuzz import fuzz
 from collections import OrderedDict
-from app.utils.map_wine_name import map_wine_name
-from app.utils.standardize_text import standardize_text
-from shared.database.models.lwin_database_db import LwinDatabaseModel
 from app.models.match_result import MatchResult
 from app.models.lwin_matching_params import LwinMatchingParams
 from app.service.matching_rules.matching_context import MatchingContext
 from app.service.matching_rules.bordeaux_rule import BordeauxRule
 from app.service.matching_rules.burgundy_rule import BurgundyRule
+from app.utils.map_wine_name import map_wine_name
+from app.utils.standardize_text import standardize_text
+from shared.database.models.lwin_database_db import LwinDatabaseModel
 from app.service.matching_rules.colour_should_match_rule import ColourShouldMatchRule
 from app.service.matching_rules.not_assortment_case_rule import NotAssortmentCaseRule
 from app.service.matching_rules.fuzzy_score_should_above_threshold_rule import FuzzyScoreShouldAboveThresholdRule
@@ -53,7 +54,7 @@ class LwinMatcherEngine:
                 pickle.dump(self.retriever, f)
 
     # -------------- Public Interface ----------------
-    def match(self, lwinMatchingParams: LwinMatchingParams, limit=50, topk=1):
+    def match(self, lwinMatchingParams: LwinMatchingParams, limit=50, topk=5):
         query_cleaned = self._clean_title(lwinMatchingParams.wine_name)
         lwinMatchingParams.wine_name = query_cleaned
         producer_cleaned = self._clean_title(lwinMatchingParams.lot_producer)
@@ -66,29 +67,32 @@ class LwinMatcherEngine:
 
         scored_matches = self._rerank_main_label_priority(scored_matches, query_cleaned, producer_cleaned)
         scored_matches.sort(key=lambda x: x[1], reverse=True)
-        # with open("debug_scores.txt", "w", encoding="utf-8") as f:
-        #     for row, score in scored_matches:
 
-        #         dump = {
-        #             "id": row['id'],
-        #             "score": score,
-        #             **row.to_dict(),
-        #         }
-        #         dump = self._to_native(dump)
-        #         json.dump(dump, f, ensure_ascii=False)
-        #         f.write("\n")
         filtered_matches = self._filter_matches(scored_matches, lwinMatchingParams)
         filtered_matches = filtered_matches[:topk]
 
         match_result = self._classify(filtered_matches)
 
+        # exact_match: return only top-1; multi_match: return all candidates; not_match: return empty
+        if match_result == MatchResult.EXACT_MATCH:
+            output_matches = filtered_matches[:1]
+        elif match_result == MatchResult.NOT_MATCH:
+            output_matches = []
+        else:
+            output_matches = filtered_matches
+
         columns = [col.name for col in LwinDatabaseModel.__table__.columns]
-        return (
-            match_result,
-            [m[0]['lwin'] if m[0]['reference'] is None else int(math.floor(float(m[0]['reference']))) for m in filtered_matches],
-            self._convert_scores([m[1] for m in filtered_matches]),
-            [m[0][columns].to_dict(into=OrderedDict) for m in filtered_matches]
-        )
+        lwin_codes: list[int] = [
+            int(m[0]['lwin']) if m[0]['reference'] is None
+            else int(math.floor(float(m[0]['reference'])))
+            for m in output_matches
+        ]
+        scores: list[float] = [float(m[1]) for m in output_matches]
+        match_items: list[dict] = [
+            self._to_native(m[0][columns].to_dict())
+            for m in output_matches
+        ]
+        return match_result, lwin_codes, scores, match_items
     
     def match_target_by_id(self, lwinMatchingParams, record_id):
         target_idx = self.table_items[self.table_items['id'] == record_id].index[0]
@@ -112,7 +116,7 @@ class LwinMatcherEngine:
             return []
         query_tokens = bm25s.tokenize([title], stopwords="en", stemmer=self.stemmer)
         results, scores = self.retriever.retrieve(query_tokens, k=limit)
-        return [(self.table_items.iloc[idx], score) for idx, score in zip(results[0], scores[0])]
+        return [(self.table_items.iloc[idx], float(score)) for idx, score in zip(results[0], scores[0])]
 
     def _score(self, row, query_cleaned, bm25_score):
         wine_cleaned = self._clean_title(row['display_name'])
@@ -205,8 +209,15 @@ class LwinMatcherEngine:
     def _classify(self, matches):
         if not matches:
             return MatchResult.NOT_MATCH
-        if len(matches) == 1:
+
+        top1_score = matches[0][1]
+
+        if top1_score < 0.7:
+            return MatchResult.NOT_MATCH
+
+        if top1_score >= 0.85:
             return MatchResult.EXACT_MATCH
+
         return MatchResult.MULTI_MATCH
 
     # -------------- 清洗预处理逻辑 ----------------
@@ -283,6 +294,10 @@ class LwinMatcherEngine:
         elif obj is np.nan:
             return None
         elif isinstance(obj, pd.Timestamp):
+            return obj.isoformat()
+        elif isinstance(obj, datetime.datetime):
+            return obj.isoformat()
+        elif isinstance(obj, datetime.date):
             return obj.isoformat()
         else:
             return obj

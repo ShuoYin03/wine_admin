@@ -1,6 +1,6 @@
 from .base_database_client import BaseDatabaseClient
 from shared.database.models.lwin_matching_db import LwinMatchingModel
-from shared.database.models.lot_db import LotModel
+from shared.database.models.lot_item_db import LotItemModel
 from sqlalchemy import func
 from sqlalchemy.dialects.postgresql import insert
 
@@ -8,18 +8,19 @@ class LwinMatchingClient(BaseDatabaseClient):
     def __init__(self, db_instance=None):
         super().__init__(LwinMatchingModel, db_instance=db_instance)
 
-    def query_lwin_with_lots(self, filters=None, order_by=None, limit=None, offset=None, return_count=False):
+    def query_lwin_with_lot_items(self, filters=None, order_by=None, limit=None, offset=None, return_count=False):
         with self.session_scope() as session:
             lwin_matching = LwinMatchingModel
-            lots = LotModel
-            table_map = {"lwin_matching": lwin_matching, "lots": lots}
+            lot_items = LotItemModel
+            table_map = {"lwin_matching": lwin_matching, "lot_items": lot_items}
 
             query = session.query(lwin_matching)
-            query = query.select_from(lwin_matching).join(lots.lwin).add_entity(lots)
+            query = query.select_from(lwin_matching).join(LotItemModel, LwinMatchingModel.lot_item_id == LotItemModel.id).add_entity(lot_items)
 
             query = self.apply_filters(query, filters, table_map)
             query = self.apply_sort(query, order_by, table_map)
             query = self.apply_pagination(query, limit, offset)
+
 
             count = None
             if return_count:
@@ -28,10 +29,10 @@ class LwinMatchingClient(BaseDatabaseClient):
             results = query.all()
             data = [
                 {
-                    **lot.model_to_dict(),
-                    **auction.model_to_dict(),
+                    **matching.model_to_dict(),
+                    **lot_item.model_to_dict(),
                 }
-                for lot, auction in results
+                for matching, lot_item in results
             ]
             
             return (data, count) if return_count else (data, None)
@@ -54,14 +55,14 @@ class LwinMatchingClient(BaseDatabaseClient):
             count = query.scalar()
             return count
         
-    def get_by_external_id(self, external_id):
+    def get_by_lot_item_id(self, lot_item_id: int):
         with self.session_scope() as session:
-            instance = session.query(self.model).filter_by(lot_id=external_id).first()
+            instance = session.query(self.model).filter_by(lot_item_id=lot_item_id).first()
             return instance.model_to_dict() if instance else None
         
-    def upsert_by_external_id(self, data_dict):
+    def upsert_by_lot_item_id(self, data_dict):
         with self.session_scope() as session:
-            instance = session.query(self.model).filter_by(lot_id=data_dict.get("lot_id")).first()
+            instance = session.query(self.model).filter_by(lot_item_id=data_dict.get("lot_item_id")).first()
             if instance:
                 for key, value in data_dict.items():
                     setattr(instance, key, value)
@@ -69,9 +70,9 @@ class LwinMatchingClient(BaseDatabaseClient):
                 instance = self.model(**data_dict)
                 session.add(instance)
     
-    def get_all_lot_ids(self):
+    def get_all_lot_item_ids(self):
         with self.session_scope() as session:
-            return [item.lot_id for item in session.query(self.model.lot_id).all()]
+            return [item.lot_item_id for item in session.query(self.model.lot_item_id).all()]
     
     def bulk_insert(self, rows):
         if not rows:
@@ -84,7 +85,7 @@ class LwinMatchingClient(BaseDatabaseClient):
     def bulk_upsert(self, rows, conflict_columns=None, update_columns=None):
         if not rows:
             return 0
-        conflict_columns = conflict_columns or ['lot_id']
+        conflict_columns = conflict_columns or ['lot_item_id']
 
         if update_columns is None:
             model_cols = set(self.model.__table__.columns.keys())

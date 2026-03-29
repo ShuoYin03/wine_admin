@@ -3,7 +3,7 @@ from shared.database.models.lot_db import LotModel
 from shared.database.models.lot_item_db import LotItemModel
 from shared.database.models.auction_db import AuctionModel
 from sqlalchemy import func
-from sqlalchemy.orm import joinedload, selectinload
+from sqlalchemy.orm import joinedload, selectinload, contains_eager
 
 class LotsClient(BaseDatabaseClient):
     def __init__(self, db_instance=None):
@@ -71,32 +71,51 @@ class LotsClient(BaseDatabaseClient):
             
             return (data, count) if return_count else (data, None)
         
-    def query_lots_with_items_and_auction(self, filters=None, order_by=None, limit=None, offset=None, return_count=False, return_auction=False):
+    def query_lots_with_items_and_auction(self, filters=None, order_by=None, limit=None, offset=None, return_count=False, return_auction=False, auction_house=None):
         with self.session_scope() as session:
             lots = LotModel
             table_map = {"lots": lots, "auctions": AuctionModel, "items": LotItemModel}
 
-            # 基础查询
             query = session.query(lots)
 
-            # 预加载关联
-            if return_auction:
-                query = query.options(
-                    joinedload(lots.auction),      # 一次性加载 auction
-                    selectinload(lots.items)       # 批量加载 items（对一对多更高效）
+            if auction_house is not None:
+                # Explicit JOIN required for filtering; use contains_eager if we also
+                # need to load the relationship (avoids a duplicate join).
+                query = query.join(LotModel.auction).filter(
+                    AuctionModel.auction_house == auction_house
                 )
+                if return_auction:
+                    query = query.options(
+                        contains_eager(lots.auction),
+                        selectinload(lots.items),
+                    )
+                else:
+                    query = query.options(selectinload(lots.items))
             else:
-                query = query.options(selectinload(lots.items))
+                if return_auction:
+                    query = query.options(
+                        joinedload(lots.auction),
+                        selectinload(lots.items),
+                    )
+                else:
+                    query = query.options(selectinload(lots.items))
 
-            # 过滤 + 排序 + 分页
             query = self.apply_filters(query, filters, table_map)
             query = self.apply_sort(query, order_by, table_map)
             query = self.apply_pagination(query, limit, offset)
 
-            # count
+            # count — inline to support auction_house join
             count = None
             if return_count:
-                count = self.get_table_count(session, filters=filters, table_map=table_map)
+                count_query = session.query(func.count(LotModel.id))
+                if auction_house is not None:
+                    count_query = count_query.join(LotModel.auction).filter(
+                        AuctionModel.auction_house == auction_house
+                    )
+                conditions = self.parse_filters(filters, table_map)
+                if conditions is not None:
+                    count_query = count_query.filter(conditions)
+                count = count_query.scalar()
 
             # 执行查询
             results = query.all()

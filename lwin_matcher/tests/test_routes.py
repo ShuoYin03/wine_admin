@@ -2,6 +2,9 @@
 
 All database clients and the matching engine are replaced with mocks
 so these tests run without a real database or BM25 index.
+
+Mocks simulate the engine's CURRENT contract: match() returns pure Python
+types (int, float, str, dict) — no numpy scalars, no pd.Timestamp.
 """
 from __future__ import annotations
 
@@ -11,6 +14,19 @@ from unittest.mock import MagicMock, AsyncMock, patch
 import pytest
 
 from app.models.match_result import MatchResult
+
+
+# Canonical clean match_item as returned by the engine after our isolation fix
+def _clean_match_item(**overrides) -> dict:
+    base = {
+        "id": 1,
+        "lwin": 1000001,
+        "display_name": "Chateau Petrus",
+        "reference": None,
+        "date_added": "2020-01-01T00:00:00",
+        "date_updated": "2020-01-01T00:00:00",
+    }
+    return {**base, **overrides}
 
 
 # ── App factory with mocked dependencies ─────────────────────────────────────
@@ -54,20 +70,12 @@ def client():
 class TestMatchRoute:
     def test_match_returns_200_on_success(self, client):
         c, app = client
-        import pandas as pd
-        from collections import OrderedDict
-
         app.lwin_matching_engine.match.return_value = (
             MatchResult.EXACT_MATCH,
             [1000001],
             [0.95],
-            [OrderedDict([
-                ("id", 1), ("lwin", 1000001), ("display_name", "Chateau Petrus"),
-                ("reference", None), ("date_added", pd.Timestamp("2020-01-01")),
-                ("date_updated", pd.Timestamp("2020-01-01")),
-            ])],
+            [_clean_match_item()],
         )
-
         payload = {
             "wine_name": "Chateau Petrus",
             "lot_producer": "Petrus",
@@ -81,22 +89,15 @@ class TestMatchRoute:
 
     def test_match_response_has_required_keys(self, client):
         c, app = client
-        import pandas as pd
-        from collections import OrderedDict
-
         app.lwin_matching_engine.match.return_value = (
             MatchResult.EXACT_MATCH,
             [1000001],
             [0.95],
-            [OrderedDict([
-                ("id", 1), ("lwin", 1000001), ("display_name", "Chateau Petrus"),
-                ("reference", None), ("date_added", pd.Timestamp("2020-01-01")),
-                ("date_updated", pd.Timestamp("2020-01-01")),
-            ])],
+            [_clean_match_item()],
         )
-
         resp = c.post("/match", json={"wine_name": "Petrus", "lot_producer": "Petrus"})
-        data = json.loads(resp.data)
+        body = json.loads(resp.data)
+        data = body["data"]
         assert "matched" in data
         assert "lwin_code" in data
         assert "match_score" in data
@@ -108,8 +109,8 @@ class TestMatchRoute:
             MatchResult.NOT_MATCH, [], [], []
         )
         resp = c.post("/match", json={"wine_name": "Unknown", "lot_producer": ""})
-        data = json.loads(resp.data)
-        assert data["matched"] == "not_match"
+        body = json.loads(resp.data)
+        assert body["data"]["matched"] == "not_match"
 
     def test_match_engine_exception_returns_400(self, client):
         c, app = client
@@ -121,43 +122,27 @@ class TestMatchRoute:
 
     def test_match_lwin_11_code_generated_for_4digit_vintage(self, client):
         c, app = client
-        import pandas as pd
-        from collections import OrderedDict
-
         app.lwin_matching_engine.match.return_value = (
             MatchResult.EXACT_MATCH,
             [1000001],
             [0.95],
-            [OrderedDict([
-                ("id", 1), ("lwin", 1000001), ("display_name", "Chateau Petrus"),
-                ("reference", None), ("date_added", pd.Timestamp("2020-01-01")),
-                ("date_updated", pd.Timestamp("2020-01-01")),
-            ])],
+            [_clean_match_item()],
         )
-
         resp = c.post("/match", json={"wine_name": "Petrus", "lot_producer": "Petrus", "vintage": "2015"})
-        data = json.loads(resp.data)
-        assert data["lwin_11_code"] == [10000012015]
+        body = json.loads(resp.data)
+        assert body["data"]["lwin_11_code"] == [10000012015]
 
     def test_match_lwin_11_code_none_for_nv(self, client):
         c, app = client
-        import pandas as pd
-        from collections import OrderedDict
-
         app.lwin_matching_engine.match.return_value = (
             MatchResult.EXACT_MATCH,
             [1000001],
             [0.95],
-            [OrderedDict([
-                ("id", 1), ("lwin", 1000001), ("display_name", "Chateau Petrus"),
-                ("reference", None), ("date_added", pd.Timestamp("2020-01-01")),
-                ("date_updated", pd.Timestamp("2020-01-01")),
-            ])],
+            [_clean_match_item()],
         )
-
         resp = c.post("/match", json={"wine_name": "Petrus", "lot_producer": "Petrus", "vintage": "nv"})
-        data = json.loads(resp.data)
-        assert data["lwin_11_code"] is None
+        body = json.loads(resp.data)
+        assert body["data"]["lwin_11_code"] is None
 
 
 # ── /match_target route ───────────────────────────────────────────────────────
@@ -190,7 +175,8 @@ class TestMatchTargetRoute:
         app.lwin_matching_engine.match_target_by_id.return_value = 0.87
         resp = c.post("/match_target", json={"wine_name": "Petrus", "target_name": "Chateau Petrus"})
         assert resp.status_code == 200
-        data = json.loads(resp.data)
+        body = json.loads(resp.data)
+        data = body["data"]
         assert "match_score" in data
         assert data["match_score"] == pytest.approx(0.87)
         assert data["target_idx"] == 42
@@ -201,7 +187,7 @@ class TestMatchTargetRoute:
 class TestLwinQueryRoute:
     def test_returns_data_list(self, client):
         c, app = client
-        app.lwin_matching_client.query_lwin_with_lots.return_value = (
+        app.lwin_matching_client.query_lwin_with_lot_items.return_value = (
             [{"id": 1, "display_name": "Petrus"}],
             None,
         )
@@ -212,19 +198,18 @@ class TestLwinQueryRoute:
 
     def test_returns_count_when_requested(self, client):
         c, app = client
-        app.lwin_matching_client.query_lwin_with_lots.return_value = (
+        app.lwin_matching_client.query_lwin_with_lot_items.return_value = (
             [{"id": 1}],
             42,
         )
         resp = c.post("/lwin_query", json={"return_count": True})
         assert resp.status_code == 200
-        data = json.loads(resp.data)
-        assert "count" in data
-        assert data["count"] == 42
+        body = json.loads(resp.data)
+        assert body["meta"]["count"] == 42
 
     def test_exception_returns_500(self, client):
         c, app = client
-        app.lwin_matching_client.query_lwin_with_lots.side_effect = RuntimeError("db error")
+        app.lwin_matching_client.query_lwin_with_lot_items.side_effect = RuntimeError("db error")
         resp = c.post("/lwin_query", json={})
         assert resp.status_code == 500
 
@@ -233,11 +218,11 @@ class TestLwinQueryRoute:
         app.lwin_matching_client.query_exact_match_count.return_value = 100
         app.lwin_matching_client.query_multi_match_count.return_value = 20
         app.lwin_matching_client.query_not_match_count.return_value = 5
-        resp = c.get("/lwin_query_count")
+        resp = c.get("/lwin_count")
         assert resp.status_code == 200
-        data = json.loads(resp.data)
-        assert data["data"]["exact_match_count"] == 100
-        assert data["data"]["multi_match_count"] == 20
-        assert data["data"]["not_match_count"] == 5
+        body = json.loads(resp.data)
+        assert body["data"]["exact_match_count"] == 100
+        assert body["data"]["multi_match_count"] == 20
+        assert body["data"]["not_match_count"] == 5
 
 

@@ -31,7 +31,7 @@ export default async function AuctionDetailPage(props: {
 
     let auctionData = null;
     try {
-        const response = await fetch(`http://localhost:5000/auction/${auction_id}`, {
+        const response = await fetch(`${process.env.PYTHON_API_URL}/auction/${auction_id}`, {
             method: 'GET',
             headers: { 'Content-Type': 'application/json' },
             cache: 'no-store',
@@ -39,7 +39,7 @@ export default async function AuctionDetailPage(props: {
 
         if (response.ok) {
             const rawData = await response.json();
-            auctionData = rawData.auction || rawData;
+            auctionData = rawData.data;
         }
     } catch (e) {
         console.error("Failed to fetch auction details", e);
@@ -48,7 +48,7 @@ export default async function AuctionDetailPage(props: {
     let lotsData: LotDisplayType[] = [];
     let totalCount = 0;
     try {
-        const lotsResponse = await fetch(`http://localhost:5000/auction/${auction_id}/lots`, {
+        const lotsResponse = await fetch(`${process.env.PYTHON_API_URL}/auction/${auction_id}/lots`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
@@ -60,11 +60,11 @@ export default async function AuctionDetailPage(props: {
             }),
             cache: 'no-store',
         });
-        
+
         if (lotsResponse.ok) {
             const lotsRaw = await lotsResponse.json();
-            lotsData = filterData(lotsRaw.lots ?? []);
-            totalCount = lotsRaw.count ?? 0;
+            lotsData = filterData(lotsRaw.data ?? []);
+            totalCount = lotsRaw.meta?.count ?? 0;
         }
     } catch (e) {
         console.error("Failed to fetch lots", e);
