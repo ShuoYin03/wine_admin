@@ -8,6 +8,9 @@ export const keyMap: Record<string, string> = {
     "Auction Before": "start_date",
     "Auction After": "end_date",
     "Price Range": "end_price",
+    "Rates From": "rates_from",
+    "Rates To": "rates_to",
+    "Date": "date",
 };
 
 export const AuctionHouseOptions = [

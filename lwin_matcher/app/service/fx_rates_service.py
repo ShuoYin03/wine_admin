@@ -1,23 +1,42 @@
-import sys
+from __future__ import annotations
+import datetime
 import requests
-from datetime import datetime, timedelta
+from flask import current_app
 from app.exception.rates_not_found_exception import RatesNotFoundException
+from app.mappers.fx_rate_mapper import map_fx_rate
+from app.models.fx_rate import FxRate
+
 
 class FxRatesService:
-    def __init__(self):
+    def __init__(self) -> None:
         pass
 
-    def url_construct(self, rates_from: str, rates_to: str) -> str:
-        current_date = datetime.now().strftime('%Y-%m-%d')
-        previous_date = (datetime.now() - timedelta(days=1)).strftime('%Y-%m-%d')
-        return f"https://fxds-hcc.oanda.com/api/data/update/?&source=OANDA&adjustment=0&base_currency={rates_to}&start_date={previous_date}&end_date={current_date}&period=daily&price=bid&view=graph&quote_currency_0={rates_from}"
+    def get_rate(
+        self,
+        rates_from: str,
+        rates_to: str,
+        date: datetime.date,
+    ) -> FxRate | None:
+        return current_app.fx_rates_client.get_single_rate(
+            mapper=map_fx_rate,
+            rates_from=rates_from,
+            rates_to=rates_to,
+            date=date,
+        )
 
-    def get_rates(self, rates_from: str, rates_to: str) -> float:
-        url = self.url_construct(rates_from, rates_to)
-        response = requests.get(url)
-
-        if response.status_code != 200:
-            raise RatesNotFoundException(rates_from, rates_to)
-        
-        rates = response.json()['widget'][0]['data'][0][1]
-        return rates
+    def get_rates(
+        self,
+        filters: list | None = None,
+        order_by: str | None = None,
+        limit: int | None = None,
+        offset: int | None = None,
+        return_count: bool = False,
+    ) -> tuple[list[FxRate], int | None]:
+        return current_app.fx_rates_client.get_rates(
+            mapper=map_fx_rate,
+            filters=filters,
+            order_by=order_by,
+            limit=limit,
+            offset=offset,
+            return_count=return_count,
+        )

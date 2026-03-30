@@ -4,6 +4,7 @@ export type RatesDisplayType = {
     id: number;
     rates_from: string;
     rates_to: string;
+    date: string;
     rates: number;
 };
 
@@ -21,7 +22,11 @@ export const RatesColumns: Column[] = [
         accessor: "rates_to",
     },
     {
+        header: "Date",
+        accessor: "date",
+    },
+    {
         header: "Rates",
         accessor: "rates",
-    }
+    },
 ]

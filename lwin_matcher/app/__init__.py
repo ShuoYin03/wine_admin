@@ -2,7 +2,7 @@ from flask import Flask
 from app.routes.match import match_blueprint
 from app.routes.lot_query import lot_query_blueprint
 from app.routes.lwin_query import lwin_query_blueprint
-# from app.routes.fx_rates import fx_rates_blueprint
+from app.routes.fx_rates_query import fx_rates_query_blueprint
 from app.routes.auction_query import auction_query_blueprint
 from flask_cors import CORS
 from flask_sqlalchemy import SQLAlchemy
@@ -40,5 +40,6 @@ def create_app():
     app.register_blueprint(lot_query_blueprint)
     app.register_blueprint(lwin_query_blueprint)
     app.register_blueprint(auction_query_blueprint)
+    app.register_blueprint(fx_rates_query_blueprint)
     
     return app

@@ -63,7 +63,7 @@ class CurrencyService:
         date: datetime
     ) -> float:
         try:
-            fx_rate = self.fx_rates_client.get_by_date_and_currencies(from_currency.value, to_currency.value, date)
+            fx_rate = self.fx_rates_client.get_single_rate(from_currency.value, to_currency.value, date)
             if fx_rate:
                 return fx_rate.rates
         except Exception:
