@@ -1,12 +1,15 @@
+import os
 import re
+import scrapy
 from collections import defaultdict
 from dateutil import parser
 from wine_spider.items import AuctionItem, LotItem, LotDetailItem
 from wine_spider.spiders.base_auction_spider import BaseAuctionSpider
 from wine_spider.services.baghera_client import BagheraClient
 from wine_spider.helpers import (
-    extract_year, unit_format_to_volume, filter_to_params,
+    extract_year, unit_format_to_volume, convert_to_volume, filter_to_params,
     region_to_country, expand_to_lot_items, extract_lot_part,
+    build_lot_external_id,
 )
 from wine_spider.exceptions import NoPreDefinedVolumeIdentifierException
 from wine_spider.services import PDFParser
@@ -16,6 +19,7 @@ from shared.database.auctions_client import AuctionsClient
 class BagheraSpider(BaseAuctionSpider):
     name = "baghera_spider"
     allowed_domains = []
+    handle_httpstatus_list = [400, 403, 429, 500, 502, 503, 504]
 
     custom_settings = BaseAuctionSpider.build_custom_settings(
         "baghera.log",
@@ -33,6 +37,11 @@ class BagheraSpider(BaseAuctionSpider):
         self.baghera_client = BagheraClient()
         self.pdf_parser = PDFParser()
         self.auction_client = AuctionsClient()
+        self.backfill_auction_ids = {
+            auction_id.strip()
+            for auction_id in os.getenv("BACKFILL_AUCTION_IDS", "").split(",")
+            if auction_id.strip()
+        }
 
     def parse(self, response):
         auction_links = response.css("div.col-8 a::attr(href)").getall()
@@ -51,6 +60,10 @@ class BagheraSpider(BaseAuctionSpider):
         auction_info = response.css("ul.infos.text-uppercase")
         auction_id_text_split = auction_info.css("li:nth-child(4)::text").get().strip().split(" ")
         auction_id = "".join(auction_id_text_split[1:])
+        if self.backfill_auction_ids and auction_id not in self.backfill_auction_ids:
+            self.logger.debug(f"Auction {auction_id} is not in BACKFILL_AUCTION_IDS. Skipping...")
+            return
+
         if self.check_auction_exists(auction_id, self.auction_client):
             return
         
@@ -91,10 +104,13 @@ class BagheraSpider(BaseAuctionSpider):
                 self.logger.error(f"Error processing lot unit format: {e}")
             
             sequence_external_id = lot_html.css("p.numero.mb0::text").get().strip()
+            source_lot_id = lot_html.css("a.lien-lot::attr(href)").get().split("/")[-1]
+            lot_name = lot_html.css("h3 span::text").get()
+            lot_name = lot_name.strip() if lot_name and lot_name.strip() else f"Lot {sequence_external_id}"
             lot_item = LotItem(
-                external_id = lot_html.css("a.lien-lot::attr(href)").get().split("/")[-1],
-                auction_id = "".join(auction_info.css("li:nth-child(4)::text").get().strip().split(" ")[1:]),
-                lot_name = lot_html.css("h3 span::text").get().strip(),
+                external_id = build_lot_external_id(auction_id, source_lot_id),
+                auction_id = auction_id,
+                lot_name = lot_name,
                 unit = lot_unit,
                 original_currency = currency,
                 low_estimate = int(lot_info_html.css("tr:nth-last-child(2) span.estimation_basse_ori::text").get().replace(" ", "")),
@@ -141,23 +157,21 @@ class BagheraSpider(BaseAuctionSpider):
 
             filters[filter_search_param] = [(search_value[i].split("_")[-1], labels[i]) for i in range(len(search_value))]
 
-        for filter in filters.keys():
-            if filters[filter]:
-                search_value, data = filters[filter].pop(0)
-                yield scrapy.Request(
-                    url=self.baghera_client.get_filtered_auction_url(original_url, filter, search_value), 
-                    callback=self.parse_filters, 
-                    meta={
-                        "original_url": original_url,
-                        "current_filter": filter,
-                        "current_data": data,
-                        "filters": filters,
-                        "lots": lots,
-                        "processed_lots": processed_lots,
-                    }
-                )
-
-            break
+        filter_request = self.next_filter_request(
+            original_url=original_url,
+            filters=filters,
+            lots=lots,
+            processed_lots=processed_lots,
+            pdf_url=pdf_url,
+        )
+        if filter_request:
+            yield filter_request
+        else:
+            yield from self.finalize_filtered_lots(
+                original_url=original_url,
+                lots=lots,
+                pdf_url=pdf_url,
+            )
     
     def parse_filters(self, response):
         original_url = response.meta.get("original_url")
@@ -166,6 +180,16 @@ class BagheraSpider(BaseAuctionSpider):
         filters = response.meta.get("filters")
         lots = response.meta.get("lots")
         processed_lots = response.meta.get("processed_lots")
+        pdf_url = response.meta.get("pdf_url")
+
+        if response.status >= 400:
+            self.logger.warning(
+                "Baghera filter returned HTTP %s for %s. Continuing without this filter.",
+                response.status,
+                response.url,
+            )
+            yield from self.continue_filter_chain(response.meta)
+            return
 
         lot_htmls = response.css("div#liste_lots div.lot_item")
         for lot_html in lot_htmls:
@@ -181,15 +205,46 @@ class BagheraSpider(BaseAuctionSpider):
                         self.logger.error(f"Error adding data for lot {sequence_external_id}: {e}")
                         self.logger.debug(filters)
         
-        trigered = False
+        response_pdf_url = response.xpath('//a[@class="lien-noir" and @target="_blank" and (contains(text(), "Sale results") or contains(text(), "Sale result"))]/@href').get()
+        response.meta["pdf_url"] = response_pdf_url or pdf_url
+        yield from self.continue_filter_chain(response.meta)
+
+    def parse_filter_error(self, failure):
+        request = failure.request
+        self.logger.warning(
+            "Baghera filter request failed for %s: %s. Continuing without this filter.",
+            request.url,
+            failure.getErrorMessage(),
+        )
+        yield from self.continue_filter_chain(request.meta)
+
+    def continue_filter_chain(self, meta):
+        request = self.next_filter_request(
+            original_url=meta.get("original_url"),
+            filters=meta.get("filters"),
+            lots=meta.get("lots"),
+            processed_lots=meta.get("processed_lots"),
+            pdf_url=meta.get("pdf_url"),
+        )
+        if request:
+            yield request
+            return
+
+        yield from self.finalize_filtered_lots(
+            original_url=meta.get("original_url"),
+            lots=meta.get("lots"),
+            pdf_url=meta.get("pdf_url"),
+        )
+
+    def next_filter_request(self, original_url, filters, lots, processed_lots, pdf_url=None):
         for filter in filters.keys():
             if filters[filter]:
-                trigered = True
                 search_value, data = filters[filter].pop(0)
-
-                yield scrapy.Request(
-                    url=self.baghera_client.get_filtered_auction_url(original_url, filter, search_value), 
-                    callback=self.parse_filters, 
+                return scrapy.Request(
+                    url=self.baghera_client.get_filtered_auction_url(original_url, filter, search_value),
+                    callback=self.parse_filters,
+                    errback=self.parse_filter_error,
+                    dont_filter=True,
                     meta={
                         "original_url": original_url,
                         "current_filter": filter,
@@ -197,37 +252,258 @@ class BagheraSpider(BaseAuctionSpider):
                         "filters": filters,
                         "lots": lots,
                         "processed_lots": processed_lots,
+                        "pdf_url": pdf_url,
+                        "handle_httpstatus_list": [400, 403, 429, 500, 502, 503, 504],
+                        "dont_retry": True,
                     }
                 )
-                break
 
-        if not trigered:
-            pdf_url = response.xpath('//a[@class="lien-noir" and @target="_blank" and (contains(text(), "Sale results") or contains(text(), "Sale result"))]/@href').get()
-            if pdf_url:
-                yield scrapy.Request(
-                    url=pdf_url,
-                    callback=self.parse_pdf,
-                    meta={
-                        "lots": lots,
-                    }
-                )
-            else:
-                self.logger.info(f"No sales PDF found for auction at {original_url}.")
-                yield from self.yield_items(lots)
+        return None
 
-    def parse_lot_page(self, response):
-        lot_item = response.meta.get("lot_item")
-        sequence_external_id = response.meta.get("sequence_external_id")
-        pdf_url = response.meta.get("pdf_url")
-
-        lot_detail_information_section = response.css("span.ecart.style7").get()
-        if not lot_detail_information_section:
-            self.logger.warning(f"Lot detail information section not found for lot {sequence_external_id}.")
+    def finalize_filtered_lots(self, original_url, lots, pdf_url=None):
+        detail_sequence_ids = self.detail_fallback_sequence_ids(lots)
+        detail_request = self.next_detail_fallback_request(
+            original_url=original_url,
+            lots=lots,
+            pending_detail_sequence_ids=detail_sequence_ids,
+            pdf_url=pdf_url,
+        )
+        if detail_request:
+            yield detail_request
             return
 
+        yield from self.finalize_lots_with_pdf(original_url, lots, pdf_url=pdf_url)
+
+    def finalize_lots_with_pdf(self, original_url, lots, pdf_url=None):
+        if pdf_url:
+            yield scrapy.Request(
+                url=pdf_url,
+                callback=self.parse_pdf,
+                dont_filter=True,
+                meta={
+                    "lots": lots,
+                }
+            )
+        else:
+            self.logger.info(f"No sales PDF found for auction at {original_url}.")
+            yield from self.yield_items(lots)
+
+    def detail_fallback_sequence_ids(self, lots):
+        sequence_ids = []
+        for sequence_external_id, lot in (lots or {}).items():
+            if self.needs_detail_fallback(lot):
+                sequence_ids.append(sequence_external_id)
+        return sequence_ids
+
+    def needs_detail_fallback(self, lot):
+        lot_item = (lot or {}).get("lot_item")
+        lot_detail_info = (lot or {}).get("lot_detail_info") or {}
+        if not lot_item or not lot_item.get("url"):
+            return False
+
+        has_producer = any(
+            str(value).strip()
+            for value in lot_detail_info.get("lot_producer", [])
+            if value is not None
+        )
+        has_wine_colour = any(
+            str(value).strip()
+            for value in lot_detail_info.get("wine_colour", [])
+            if value is not None
+        )
+        return not (has_producer and has_wine_colour)
+
+    def next_detail_fallback_request(
+        self,
+        original_url,
+        lots,
+        pending_detail_sequence_ids,
+        pdf_url=None,
+    ):
+        while pending_detail_sequence_ids:
+            sequence_external_id = pending_detail_sequence_ids.pop(0)
+            lot = (lots or {}).get(sequence_external_id)
+            lot_item = (lot or {}).get("lot_item")
+            lot_url = lot_item.get("url") if lot_item else None
+            if not lot_url:
+                continue
+
+            return scrapy.Request(
+                url=lot_url,
+                callback=self.parse_detail_fallback,
+                errback=self.parse_detail_fallback_error,
+                dont_filter=True,
+                meta={
+                    "original_url": original_url,
+                    "lots": lots,
+                    "sequence_external_id": sequence_external_id,
+                    "pending_detail_sequence_ids": pending_detail_sequence_ids,
+                    "pdf_url": pdf_url,
+                    "handle_httpstatus_list": [400, 403, 429, 500, 502, 503, 504],
+                    "dont_retry": True,
+                },
+            )
+        return None
+
+    def parse_detail_fallback(self, response):
+        sequence_external_id = response.meta.get("sequence_external_id")
+        lots = response.meta.get("lots")
+        lot = (lots or {}).get(sequence_external_id)
+        lot_item = (lot or {}).get("lot_item")
+
+        if response.status >= 400:
+            self.logger.warning(
+                "Baghera detail fallback returned HTTP %s for lot %s at %s.",
+                response.status,
+                sequence_external_id,
+                response.url,
+            )
+            yield from self.continue_detail_fallback_chain(response.meta)
+            return
+
+        if lot_item:
+            lot_detail_items = self.parse_lot_detail_items_from_page(response, lot_item)
+            if lot_detail_items:
+                self.apply_lot_detail_items(lot["lot_detail_info"], lot_detail_items)
+            else:
+                self.logger.warning(
+                    "Baghera detail fallback found no detail fields for lot %s.",
+                    sequence_external_id,
+                )
+
+        yield from self.continue_detail_fallback_chain(response.meta)
+
+    def parse_detail_fallback_error(self, failure):
+        request = failure.request
+        self.logger.warning(
+            "Baghera detail fallback request failed for %s: %s. Continuing.",
+            request.url,
+            failure.getErrorMessage(),
+        )
+        yield from self.continue_detail_fallback_chain(request.meta)
+
+    def continue_detail_fallback_chain(self, meta):
+        detail_request = self.next_detail_fallback_request(
+            original_url=meta.get("original_url"),
+            lots=meta.get("lots"),
+            pending_detail_sequence_ids=meta.get("pending_detail_sequence_ids") or [],
+            pdf_url=meta.get("pdf_url"),
+        )
+        if detail_request:
+            yield detail_request
+            return
+
+        yield from self.finalize_lots_with_pdf(
+            original_url=meta.get("original_url"),
+            lots=meta.get("lots"),
+            pdf_url=meta.get("pdf_url"),
+        )
+
+    def apply_lot_detail_items(self, lot_detail_info, lot_detail_items):
+        field_map = {
+            "lot_producer": "lot_producer",
+            "vintage": "vintage",
+            "unit_format": "unit_format",
+            "wine_colour": "wine_colour",
+        }
+        for detail_key, item_key in field_map.items():
+            values = [
+                lot_detail_item.get(item_key)
+                for lot_detail_item in lot_detail_items
+                if lot_detail_item.get(item_key)
+            ]
+            if values:
+                lot_detail_info[detail_key] = values
+
+    def parse_label_value_details(self, response):
+        details = {}
+        for label_html in response.css(".information_label"):
+            label = label_html.xpath("normalize-space(.)").get()
+            value = label_html.xpath("normalize-space(following-sibling::*[1])").get()
+            if label and value:
+                details[label.strip().lower()] = value.strip()
+        return details
+
+    def normalize_unit_format(self, unit_format):
+        if not unit_format:
+            return None
+        normalized = re.sub(r'\([^)]*\)', '', unit_format).replace(":", "").lower().strip()
+        if normalized in {"mganum", "mganums"}:
+            return "magnum"
+        return normalized
+
+    def yield_single_lot_items(self, lot_item, lot_detail_items, sequence_external_id, pdf_url=None):
+        if pdf_url:
+            yield scrapy.Request(
+                url=pdf_url,
+                callback=self.parse_pdf_for_single_lot,
+                dont_filter=True,
+                meta={
+                    "lot_item": lot_item,
+                    "lot_detail_items": lot_detail_items,
+                    "sequence_external_id": sequence_external_id,
+                }
+            )
+        else:
+            yield lot_item
+            for lot_detail_item in lot_detail_items:
+                yield lot_detail_item
+
+    def parse_flat_lot_detail_items(self, response, lot_item):
+        details = self.parse_label_value_details(response)
+        if not details:
+            return []
+
+        capacity = self.normalize_unit_format(details.get("capacity"))
+        format_label = self.normalize_unit_format(details.get("format"))
+        unit_format = capacity or format_label
+        quantity_text = details.get("quantity")
+        quantity = int(quantity_text) if quantity_text and quantity_text.isdigit() else lot_item.get("unit") or 1
+
+        if unit_format:
+            volume_per_unit = convert_to_volume(unit_format)
+            if volume_per_unit is None:
+                try:
+                    volume_per_unit = unit_format_to_volume(unit_format)
+                except NoPreDefinedVolumeIdentifierException as e:
+                    self.logger.error(e)
+            if volume_per_unit is not None:
+                lot_item["volume"] = quantity * volume_per_unit
+
+        nature = details.get("nature")
+        lot_item["lot_type"] = [nature] if nature else []
+        lot_item["region"] = details.get("area")
+        lot_item["country"] = details.get("country of origin")
+        lot_item["sub_region"] = details.get("subdivision")
+
+        if not any(details.get(key) for key in ("producer", "vintage", "format", "type")):
+            return []
+
+        return [
+            LotDetailItem(
+                lot_id=lot_item["external_id"],
+                lot_producer=details.get("producer"),
+                vintage=details.get("vintage"),
+                unit_format=unit_format,
+                wine_colour=details.get("type"),
+            )
+        ]
+
+    def parse_lot_detail_items_from_page(self, response, lot_item):
+        lot_detail_information_section = response.css("span.ecart.style7").get()
+        if not lot_detail_information_section:
+            return self.parse_flat_lot_detail_items(response, lot_item)
+
+        return self.parse_mixed_lot_detail_items(response, lot_item)
+
+    def parse_mixed_lot_detail_items(self, response, lot_item):
         first_run = True
         lot_detail_items = []
         volume = 0
+        lot_type = None
+        region = None
+        sub_region = None
+        country = None
         wine_htmls = response.css("div.row.lot_mixte_item")
         for wine_html in wine_htmls:
             vintage = wine_html.xpath(".//div[@class='information_label' and text()='Vintage']").xpath("following-sibling::*[1]/text()").get()
@@ -265,21 +541,25 @@ class BagheraSpider(BaseAuctionSpider):
         lot_item["country"] = country if country else None
         lot_item["sub_region"] = sub_region if sub_region else None
 
-        if pdf_url:
-            yield scrapy.Request(
-                url=pdf_url,
-                callback=self.parse_pdf_for_single_lot,
-                meta={
-                    "lot_item": lot_item,
-                    "lot_detail_items": lot_detail_items,
-                    "sequence_external_id": sequence_external_id,
-                }
-            )
-        else:
+        return lot_detail_items
+
+    def parse_lot_page(self, response):
+        lot_item = response.meta.get("lot_item")
+        sequence_external_id = response.meta.get("sequence_external_id")
+        pdf_url = response.meta.get("pdf_url")
+
+        lot_detail_items = self.parse_lot_detail_items_from_page(response, lot_item)
+        if not lot_detail_items:
+            self.logger.warning(f"Lot detail information section not found for lot {sequence_external_id}.")
+
+        if not pdf_url:
             self.logger.info(f"No sales PDF found for lot {sequence_external_id}.")
-            yield lot_item
-            for lot_detail_item in lot_detail_items:
-                yield lot_detail_item
+        yield from self.yield_single_lot_items(
+            lot_item,
+            lot_detail_items,
+            sequence_external_id,
+            pdf_url=pdf_url,
+        )
 
     def parse_pdf_for_single_lot(self, response):
         lot_item = response.meta.get("lot_item")
@@ -326,7 +606,7 @@ class BagheraSpider(BaseAuctionSpider):
                     self.logger.warning(f"Lot {sequence_external_id} not found in lots dictionary while parsing PDF.")
             next_line_number += 1
 
-        self.yield_items(lots)
+        yield from self.yield_items(lots)
 
     def yield_items(self, lots):
         for lot in lots.values():

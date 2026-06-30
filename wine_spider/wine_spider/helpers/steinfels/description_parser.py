@@ -35,8 +35,11 @@ def extract_quantity_and_unit(line: str) -> Tuple[Optional[float], Optional[str]
                         qty = float(raw_qty.replace(',', '.'))
                     except:
                         qty = None
-            
-            return qty, unit.strip() if unit else None
+            unit = unit.strip() if unit else None
+            if qty is None or get_volume_from_unit(unit) is None:
+                return None, None
+
+            return qty, unit
     
     return None, None
 
@@ -102,22 +105,23 @@ def get_volume_from_unit(unit_format: str) -> Optional[float]:
         return None
         
     unit_format_clean = unit_format.lower().strip()
-    
-    volume_patterns = [
-        (r'(\d+(?:\.\d+)?)\s*cl', lambda x: float(x) * 10),  # cl 转 ml
-        (r'(\d+(?:\.\d+)?)\s*ml', lambda x: float(x)),       # ml
-        (r'(\d+(?:\.\d+)?)\s*l', lambda x: float(x) * 1000), # l 转 ml
+
+    precise_volume_patterns = [
+        (r'\b(\d+(?:\.\d+)?)\s*cl\b', lambda x: float(x) * 10),
+        (r'\b(\d+(?:\.\d+)?)\s*ml\b', lambda x: float(x)),
+        (r'\b(\d+(?:\.\d+)?)\s*l\b', lambda x: float(x) * 1000),
     ]
-    
-    for pattern, converter in volume_patterns:
+
+    for pattern, converter in precise_volume_patterns:
         match = re.search(pattern, unit_format_clean)
         if match:
             return converter(match.group(1))
-    
-    for key in VOLUME_IDENTIFIER:
-        if key in unit_format_clean:
+
+    for key in sorted(VOLUME_IDENTIFIER, key=len, reverse=True):
+        pattern = rf'(?<!\w){re.escape(key.lower())}(?!\w)'
+        if re.search(pattern, unit_format_clean):
             return VOLUME_IDENTIFIER[key]
-    
+
     return None
 
 def parse_mixed_quantity_unit(text: str) -> Tuple[Optional[List], Optional[List]]:
@@ -141,15 +145,25 @@ def clean_title(title: str) -> str:
     title = re.sub(r'[,;:]', '', title)
     return title.strip()
 
+def is_volume_heading(text: str) -> bool:
+    qty, unit = extract_quantity_and_unit(text)
+    return qty is not None and unit is not None
+
 def parse_description(description: str) -> Dict[str, Any]:
     soup = BeautifulSoup(description, 'html.parser')
     cleaned = soup.get_text("\n").strip()
     lines = [line.strip() for line in cleaned.split('\n') if line.strip()]
     
-    strong_tag = soup.find('strong')
+    title_tag = None
+    for tag in soup.find_all(['strong', 'b']):
+        text = tag.get_text(" ", strip=True)
+        if text and not is_volume_heading(text):
+            title_tag = tag
+            break
+
     span_tag = soup.find('span')
     div_tag = soup.find('div')
-    title = strong_tag.get_text(strip=True) if strong_tag else None
+    title = title_tag.get_text(" ", strip=True) if title_tag else None
 
     vintages = extract_vintages(cleaned)
     sub_items = extract_sub_items(cleaned)
@@ -183,6 +197,9 @@ def parse_description(description: str) -> Dict[str, Any]:
                 quantity = qty
                 unit_format = unit
                 break
+        if quantity is None and sub_items:
+            quantity = sum(sub_item["quantity"] for sub_item in sub_items)
+            unit_format = "flaschen"
     
     if isinstance(quantity, list) and isinstance(unit_format, list):
         total_volume_ml = 0

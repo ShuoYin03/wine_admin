@@ -6,13 +6,52 @@ from wine_spider.spiders.reports.auction_scraping_report_generator import Auctio
 SEM_LIMIT = 10
 REPORT_FILE = "sothebys_report.csv"
 
+
+GRAPHQL_HEADERS = {
+    "Content-Type": "application/json",
+    "Origin": "https://www.sothebys.com",
+    "Referer": "https://www.sothebys.com/",
+    "User-Agent": (
+        "Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
+        "AppleWebKit/537.36 (KHTML, like Gecko) "
+        "Chrome/133.0.0.0 Safari/537.36"
+    ),
+}
+
+
+def extract_algolia_key(payload: dict) -> str | None:
+    return (
+        (payload.get("data") or {})
+        .get("algoliaSearchKey", {})
+        .get("key")
+    )
+
+
 async def fetch_hits(session: aiohttp.ClientSession, sem: asyncio.Semaphore,
                      client: SothebysClient, external_id: str, url: str, lot_count: int):
     async with sem:
-        async with session.get(url) as resp:
-            html = await resp.text()
+        async with session.post(
+            client.api_url,
+            headers=GRAPHQL_HEADERS,
+            json=client.algolia_search_key_query(external_id),
+        ) as key_resp:
+            key_data = await key_resp.json()
 
-        api_key = client.extract_algolia_api_key(html)
+        api_key = extract_algolia_key(key_data)
+        if not api_key and url:
+            async with session.get(url) as resp:
+                html = await resp.text()
+            api_key = client.extract_algolia_api_key(html)
+
+        if not api_key:
+            return {
+                "external_id": external_id,
+                "hits": 0,
+                "lot_count": lot_count,
+                "match": lot_count == 0,
+                "error": f"missing_algolia_key: {key_data}",
+            }
+
         api_url, headers, payload = client.algolia_api(
             auction_id=external_id,
             api_key=api_key,
@@ -29,7 +68,8 @@ async def fetch_hits(session: aiohttp.ClientSession, sem: asyncio.Semaphore,
         "external_id": external_id,
         "hits": hits,
         "lot_count": lot_count,
-        "match": hits == lot_count
+        "match": hits == lot_count,
+        "error": None,
     }
 
 async def main():

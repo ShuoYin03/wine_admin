@@ -4,9 +4,12 @@ import json
 import unittest
 
 import requests
-from scrapy.http import HtmlResponse, TextResponse
+from scrapy.http import HtmlResponse, Request, TextResponse
 
+from wine_spider.items import CombinedLotItem, LotDetailItem, LotItem
 from wine_spider.services import SothebysClient
+from wine_spider.spiders import sothebys as sothebys_module
+from wine_spider.spiders.sothebys import SothebysSpider
 
 HEADERS = {
     "User-Agent": (
@@ -240,6 +243,283 @@ class TestSothebysAlgoliaAPIStructure(unittest.TestCase):
         _, _, payload1 = self.client.algolia_api(self.viking_id, self.dummy_key, 1)
         self.assertEqual(payload0.get("page"), 0)
         self.assertEqual(payload1.get("page"), 1)
+
+    def test_algolia_search_key_query_filters_by_auction(self):
+        payload = self.client.algolia_search_key_query(self.viking_id)
+
+        self.assertEqual(payload["operationName"], "AlgoliaSearchKeyQuery")
+        self.assertIn("algoliaSearchKey", payload["query"])
+        self.assertEqual(
+            payload["variables"]["filters"],
+            [{"key": "auctionId", "value": self.viking_id}],
+        )
+
+    def test_extract_algolia_api_key_returns_none_when_page_uses_graphql_key(self):
+        html = """
+        <html>
+          <script id="__NEXT_DATA__" type="application/json">
+            {"props":{"pageProps":{"auctionId":"auction-1"}}}
+          </script>
+        </html>
+        """
+
+        self.assertIsNone(self.client.extract_algolia_api_key(html))
+
+
+class TestSothebysAlgoliaFlow(unittest.TestCase):
+    def setUp(self):
+        self.spider = SothebysSpider.__new__(SothebysSpider)
+        self.spider.client = SothebysClient()
+        self.spider.base_url = "https://www.sothebys.com"
+
+    def make_json_response(self, payload, meta=None):
+        request = Request(
+            url="https://clientapi.prod.sothelabs.com/graphql",
+            meta=meta or {},
+        )
+        return TextResponse(
+            url=request.url,
+            request=request,
+            body=json.dumps(payload).encode("utf-8"),
+            encoding="utf-8",
+        )
+
+    def test_parse_algolia_key_response_creates_first_lot_request(self):
+        response = self.make_json_response(
+            {"data": {"algoliaSearchKey": {"key": "real-key"}}},
+            meta={"viking_id": "auction-1", "token": None},
+        )
+
+        results = list(self.spider.parse_algolia_key_response(response))
+
+        self.assertEqual(len(results), 1)
+        request = results[0]
+        self.assertIn("algolia.net", request.url)
+        self.assertEqual(request.meta["viking_id"], "auction-1")
+        self.assertEqual(request.meta["page"], 0)
+        self.assertEqual(request.headers["x-algolia-api-key"].decode(), "real-key")
+
+    def test_parse_lots_page_uses_nb_pages_for_followup_requests(self):
+        response = self.make_json_response(
+            {
+                "hits": [],
+                "nbPages": 3,
+            },
+            meta={
+                "viking_id": "auction-1",
+                "token": None,
+                "algolia_api_key": "real-key",
+                "page": 0,
+            },
+        )
+
+        requests = list(self.spider.parse_lots_page(response))
+        pages = [json.loads(request.body.decode("utf-8"))["page"] for request in requests]
+
+        self.assertEqual(pages, [1, 2])
+
+    def test_parse_lots_page_uses_common_db_id_but_raw_lot_card_id(self):
+        response = self.make_json_response(
+            {
+                "hits": [
+                    {
+                        "objectID": "lot-raw-1",
+                        "auctionId": "auction-1",
+                        "title": "Producer A 2001 (1 BT75)",
+                        "departments": ["Wine"],
+                        "currency": "GBP",
+                        "lowEstimate": 100,
+                        "highEstimate": 200,
+                        "Region": ["Bordeaux"],
+                        "Country": ["France"],
+                        "Winery": ["Producer A"],
+                        "Vintage": ["2001"],
+                        "Spirit Bottle Size": [],
+                        "Wine Type": ["Red"],
+                        "slug": "/en/buy/auction/2025/test/producer-a-2001",
+                    }
+                ],
+                "nbPages": 1,
+            },
+            meta={
+                "viking_id": "auction-1",
+                "token": None,
+                "algolia_api_key": "real-key",
+                "page": 0,
+            },
+        )
+
+        requests = list(self.spider.parse_lots_page(response))
+
+        self.assertEqual(len(requests), 1)
+        lot_card_request = requests[0]
+        body = json.loads(lot_card_request.body.decode("utf-8"))
+        self.assertEqual(body["variables"]["lotIds"], ["lot-raw-1"])
+        self.assertEqual(
+            lot_card_request.meta["lots"][0]["external_id"],
+            "auction-1_lot-raw-1",
+        )
+        self.assertEqual(
+            lot_card_request.meta["lot_items"][0]["lot_id"],
+            "auction-1_lot-raw-1",
+        )
+        self.assertEqual(
+            lot_card_request.meta["lot_card_ids_by_external_id"],
+            {"auction-1_lot-raw-1": "lot-raw-1"},
+        )
+
+    def test_parse_viking_ids_uses_graphql_key_request_without_playwright(self):
+        response = self.make_json_response(
+            {
+                "asset-1": {
+                    "vikingId": "auction-1",
+                    "url": "https://www.sothebys.com/en/buy/auction/2026/test-sale",
+                }
+            }
+        )
+        self.spider.check_exists = lambda _id, _type: False
+
+        requests = list(self.spider.parse_viking_ids(response))
+
+        self.assertEqual(len(requests), 2)
+        key_request = requests[1]
+        body = json.loads(key_request.body.decode("utf-8"))
+        self.assertEqual(body["operationName"], "AlgoliaSearchKeyQuery")
+        self.assertEqual(key_request.meta["viking_id"], "auction-1")
+        self.assertEqual(key_request.meta["url"], "https://www.sothebys.com/en/buy/auction/2026/test-sale")
+        self.assertNotIn("playwright", key_request.meta)
+
+    def test_parse_viking_ids_filters_to_target_auction_ids(self):
+        original_target_ids = sothebys_module.TARGET_AUCTION_IDS
+        sothebys_module.TARGET_AUCTION_IDS = {"auction-2"}
+        try:
+            response = self.make_json_response(
+                {
+                    "asset-1": {
+                        "vikingId": "auction-1",
+                        "url": "https://www.sothebys.com/en/buy/auction/2026/skipped-sale",
+                    },
+                    "asset-2": {
+                        "vikingId": "auction-2",
+                        "url": "https://www.sothebys.com/en/buy/auction/2026/target-sale",
+                    },
+                }
+            )
+            self.spider.check_exists = lambda _id, _type: False
+
+            requests = list(self.spider.parse_viking_ids(response))
+
+            self.assertEqual(len(requests), 2)
+            auction_request_body = json.loads(requests[0].body.decode("utf-8"))
+            self.assertEqual(auction_request_body["variables"]["id"], "auction-2")
+            self.assertEqual(requests[0].meta.get("url"), "https://www.sothebys.com/en/buy/auction/2026/target-sale")
+            self.assertEqual(requests[1].meta.get("viking_id"), "auction-2")
+        finally:
+            sothebys_module.TARGET_AUCTION_IDS = original_target_ids
+
+    def test_parse_lot_api_response_handles_missing_is_sold_and_keeps_lwin(self):
+        lot = LotItem()
+        lot["external_id"] = "auction-1_lot-raw-1"
+        lot["auction_id"] = "auction-1"
+        lot["lot_name"] = "Producer A 2001 (1 BT75)"
+        lot["region"] = "Bordeaux"
+        lot["sub_region"] = "Pauillac"
+        lot["country"] = "France"
+
+        lot_detail = LotDetailItem()
+        lot_detail["lot_id"] = "auction-1_lot-raw-1"
+        lot_detail["lot_producer"] = "Producer A"
+        lot_detail["vintage"] = "2001"
+        lot_detail["unit_format"] = "BT75"
+        lot_detail["wine_colour"] = "Red"
+
+        combined = CombinedLotItem()
+        combined["lot"] = lot
+        combined["lot_items"] = lot_detail
+
+        response = self.make_json_response(
+            {
+                "data": {
+                    "auction": {
+                        "lot_ids": [
+                            {
+                                "lotId": "lot-raw-1",
+                                "bidState": {
+                                    "startingBid": {"amount": 100},
+                                    "sold": {"__typename": "ResultHidden"},
+                                    "closingTime": "2026-01-01T00:00:00Z",
+                                },
+                            }
+                        ]
+                    }
+                }
+            },
+            meta={
+                "lots": [lot],
+                "lot_items": [lot_detail],
+                "combined_lot_items": [combined],
+                "lot_card_ids_by_external_id": {"auction-1_lot-raw-1": "lot-raw-1"},
+            },
+        )
+
+        results = list(self.spider.parse_lot_api_response(response))
+
+        self.assertIs(results[0], lot)
+        self.assertEqual(lot["start_price"], 100)
+        self.assertFalse(lot["sold"])
+        self.assertEqual(lot["sold_date"], "2026-01-01T00:00:00Z")
+        self.assertIs(results[1], lot_detail)
+        self.assertEqual(results[2].url, "http://localhost:5000/match")
+
+    def test_handle_lwin_response_reads_wrapped_match_payload(self):
+        lot = LotItem()
+        lot["external_id"] = "auction-1_lot-raw-1"
+
+        response = self.make_json_response(
+            {
+                "meta": {"count": None},
+                "data": {
+                    "matched": "exact_match",
+                    "lwin_code": [1234567],
+                    "lwin_11_code": [12345672001],
+                    "match_score": [0.98],
+                    "match_item": [{"display_name": "Producer A 2001"}],
+                },
+            },
+            meta={"item": lot},
+        )
+
+        results = list(self.spider.handle_lwin_response(response))
+
+        self.assertEqual(len(results), 1)
+        self.assertEqual(results[0]["lot_id"], "auction-1_lot-raw-1")
+        self.assertEqual(results[0]["matched"], "exact_match")
+        self.assertEqual(results[0]["lwin"], [1234567])
+        self.assertEqual(results[0]["lwin_11"], [12345672001])
+        self.assertEqual(results[0]["match_score"], [0.98])
+        self.assertEqual(
+            json.loads(results[0]["match_item"]),
+            [{"display_name": "Producer A 2001"}],
+        )
+
+
+class TestSothebysDiscovery(unittest.TestCase):
+    def test_parse_schedules_all_result_pages_from_page_count(self):
+        spider = SothebysSpider.__new__(SothebysSpider)
+        response = HtmlResponse(
+            url=RESULTS_URL,
+            body=(
+                b"<html><li class='SearchModule-pageCounts'>"
+                b"<span data-page-count>3</span>"
+                b"</li></html>"
+            ),
+            encoding="utf-8",
+        )
+
+        requests = list(spider.parse(response))
+
+        self.assertEqual(len(requests), 3)
+        self.assertEqual([request.url.rsplit("p=", 1)[1] for request in requests], ["1", "2", "3"])
 
 
 if __name__ == "__main__":

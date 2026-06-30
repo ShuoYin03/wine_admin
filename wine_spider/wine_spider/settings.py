@@ -15,8 +15,8 @@ LOG_LEVEL = "DEBUG"
 
 AUTOTHROTTLE_ENABLED = True
 AUTOTHROTTLE_START_DELAY = 1.0   # Initial download delay
-AUTOTHROTTLE_MAX_DELAY = 5.0    # Maximum download delay in high latencies
-AUTOTHROTTLE_TARGET_CONCURRENCY = 1.0
+AUTOTHROTTLE_MAX_DELAY = 3    # Maximum download delay in high latencies
+AUTOTHROTTLE_TARGET_CONCURRENCY = 16
 
 DOWNLOADER_MIDDLEWARES = {
    'wine_spider.middlewares.playwright_resource_blocker_middleware.PlaywrightResourceBlockerMiddleware': 200,

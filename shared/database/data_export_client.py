@@ -6,6 +6,23 @@ from shared.database.models.lot_item_db import LotItemModel
 from shared.database.models.lwin_matching_db import LwinMatchingModel
 from .base_database_client import BaseDatabaseClient
 
+
+def format_export_array(value):
+    if value is None:
+        return None
+    if not isinstance(value, (list, tuple)):
+        return value
+
+    cleaned = [item for item in value if item is not None]
+    if not cleaned:
+        return None
+
+    if all(isinstance(item, str) and len(item) <= 1 for item in cleaned):
+        return "".join(cleaned).strip() or None
+
+    return "; ".join(str(item) for item in cleaned)
+
+
 class DataExportClient(BaseDatabaseClient):
     def __init__(self, db_instance=None):
         super().__init__(LotModel, db_instance=db_instance)
@@ -16,7 +33,7 @@ class DataExportClient(BaseDatabaseClient):
                 session.query(LotModel, LotItemModel, AuctionModel, LwinMatchingModel)
                 .join(AuctionModel, LotModel.auction_id == AuctionModel.external_id)
                 .outerjoin(LotItemModel, LotModel.external_id == LotItemModel.lot_id)
-                .outerjoin(LwinMatchingModel, LotItemModel.id == LwinMatchingModel.lot_id)
+                .outerjoin(LwinMatchingModel, LotItemModel.id == LwinMatchingModel.lot_item_id)
                 .filter(AuctionModel.auction_house == auction_house)
             )
 
@@ -33,9 +50,9 @@ class DataExportClient(BaseDatabaseClient):
                 data.append({
                     "id": lot.id,
                     "name": lot.lot_name,
-                    "type": lot.lot_type,
-                    "lwin_7": lwin.lwin if lwin else None,
-                    "lwin_11": lwin.lwin_11 if lwin else None,
+                    "type": format_export_array(lot.lot_type),
+                    "lwin_7": format_export_array(lwin.lwin) if lwin else None,
+                    "lwin_11": format_export_array(lwin.lwin_11) if lwin else None,
                     "volume": lot.volume,
                     "unit": lot.unit,
                     "original_currency": lot.original_currency,

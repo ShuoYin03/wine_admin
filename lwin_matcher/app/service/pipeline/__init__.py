@@ -1,6 +1,7 @@
 from .config import AUCTION_HOUSES, LOT_TYPE_FILTERS, PipelineConfig
 from .csv_match_result_consumer import CsvMatchResultConsumer, CsvStats
 from .lwin_matching_pipeline import LwinMatchingPipeline, PipelineResult
+from .lot_item_producer import LotItemProducer
 from .sample_lot_producer import SampleLotProducer
 
 __all__ = [
@@ -9,6 +10,7 @@ __all__ = [
     "PipelineConfig",
     "LwinMatchingPipeline",
     "PipelineResult",
+    "LotItemProducer",
     "SampleLotProducer",
     "CsvMatchResultConsumer",
     "CsvStats",

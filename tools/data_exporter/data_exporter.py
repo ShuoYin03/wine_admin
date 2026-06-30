@@ -13,6 +13,9 @@ def _parse_date(value: str):
         return None
     return datetime.fromisoformat(value)
 
+def resolve_date_filters(start_date: str | None, end_date: str | None):
+    return _parse_date(start_date), _parse_date(end_date)
+
 def lot_export_to_csv(auction_house: str, output_path: str, start_date=None, end_date=None):
     client = DataExportClient()
     data = client.export_lots_with_items_by_house(auction_house, start_date=start_date, end_date=end_date)
@@ -70,8 +73,7 @@ if __name__ == "__main__":
 
     args = parser.parse_args()
 
-    start_date = _parse_date(args.start_date)
-    end_date = _parse_date(args.end_date) if args.end_date else datetime.now()
+    start_date, end_date = resolve_date_filters(args.start_date, args.end_date)
 
     if args.auction_house == "all":
         auction_houses = [

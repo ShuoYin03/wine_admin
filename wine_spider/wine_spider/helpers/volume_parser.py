@@ -56,7 +56,7 @@ def parse_volume(volume_str: str) -> float:
         return VOLUME_IDENTIFIER[volume_str]
 
     match_number_unit = re.match(
-        r"^(\d+(?:\.\d+)?)\s*(ml|l|cl|qt|pint|gallon|litres?|litrs?|ounces)$",
+        r"^(\d+(?:\.\d+)?)\s*(ml|l|cl|qt|pint|gallon|litres?|litrs?|oz|ounces)$",
         volume_str,
     )
     if match_number_unit:

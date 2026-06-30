@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import queue
 import threading
-from dataclasses import dataclass, field
+from dataclasses import dataclass
 from typing import Any
 
 from .checkpoint_manager import CheckpointManager
@@ -17,17 +17,14 @@ class ConsumerStats:
 
 class MatchResultConsumer:
     """
-    Drains the result_queue, batches results up to flush_size, then
-    bulk_upserts to DB and writes a checkpoint.
-
-    Terminates after receiving one sentinel (None) per worker thread.
-    Runs in a single dedicated thread.
+    Drains the result queue, bulk-upserts match rows, and writes a checkpoint
+    only after all workers have completed successfully.
     """
 
     def __init__(
         self,
         lwin_client: Any,
-        checkpoint_manager: CheckpointManager,
+        checkpoint_manager: CheckpointManager | None,
         flush_size: int,
         result_queue: queue.Queue,
         worker_count: int,
@@ -43,26 +40,23 @@ class MatchResultConsumer:
     def run(self) -> ConsumerStats:
         stats = ConsumerStats()
         buffer: list[dict] = []
-        min_offset: int | None = None
+        max_checkpoint_id: int | None = None
         sentinels_received = 0
 
         while True:
             try:
                 result = self._result_queue.get(timeout=1.0)
             except queue.Empty:
-                # No results yet — flush buffer if shutdown signalled externally
                 if self._shutdown_event.is_set() and buffer:
-                    self._flush(buffer, min_offset, stats)
+                    self._flush(buffer, stats)
                     buffer = []
-                    min_offset = None
                 continue
 
             if result is None:
                 sentinels_received += 1
                 if sentinels_received >= self._worker_count:
-                    # All workers done — final flush
                     if buffer:
-                        self._flush(buffer, min_offset, stats)
+                        self._flush(buffer, stats)
                     break
                 continue
 
@@ -70,9 +64,11 @@ class MatchResultConsumer:
                 stats.total_failed += 1
                 continue
 
-            lot_offset: int = result.get("lot_offset", 0)
-            if min_offset is None or lot_offset < min_offset:
-                min_offset = lot_offset
+            checkpoint_id = result.get("checkpoint_id", result.get("lot_offset"))
+            if checkpoint_id is not None:
+                checkpoint_id = int(checkpoint_id)
+                if max_checkpoint_id is None or checkpoint_id > max_checkpoint_id:
+                    max_checkpoint_id = checkpoint_id
 
             data_dict = clean_nan({
                 "lot_item_id": result["lot_item_id"],
@@ -85,9 +81,16 @@ class MatchResultConsumer:
             buffer.append(data_dict)
 
             if len(buffer) >= self._flush_size:
-                self._flush(buffer, min_offset, stats)
+                self._flush(buffer, stats)
                 buffer = []
-                min_offset = None
+
+        if (
+            self._checkpoint_manager is not None
+            and max_checkpoint_id is not None
+            and stats.total_failed == 0
+        ):
+            self._checkpoint_manager.save(max_checkpoint_id)
+            print(f"[Consumer] Checkpoint saved at lot_item_id={max_checkpoint_id}")
 
         print(
             f"[Consumer] Done. Upserted: {stats.total_upserted}, "
@@ -95,21 +98,17 @@ class MatchResultConsumer:
         )
         return stats
 
-    def _flush(self, buffer: list[dict], lot_offset: int | None, stats: ConsumerStats) -> None:
+    def _flush(self, buffer: list[dict], stats: ConsumerStats) -> None:
         try:
             upserted = self._lwin_client.bulk_upsert(
                 buffer, conflict_columns=["lot_item_id"]
             )
             stats.total_upserted += upserted
-            if lot_offset is not None:
-                self._checkpoint_manager.save(lot_offset)
             print(
                 f"[Consumer] Flushed {len(buffer)} rows "
-                f"(checkpoint offset={lot_offset}, total={stats.total_upserted})"
+                f"(total={stats.total_upserted})"
             )
         except Exception as e:
             first_line = str(e).split("\n")[0][:300]
             print(f"[Consumer] Flush error ({type(e).__name__}): {first_line}")
             stats.total_failed += len(buffer)
-
-

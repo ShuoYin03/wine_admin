@@ -1,6 +1,8 @@
 import re
 import asyncio
 import unicodedata
+from urllib.parse import parse_qsl, urlencode, urlsplit, urlunsplit
+from urllib.parse import urljoin
 from bs4 import BeautifulSoup
 from playwright.async_api import async_playwright
 from wine_spider.spiders.reports.auction_scraping_report_generator import AuctionScrapingReportGenerator
@@ -15,6 +17,40 @@ def generate_external_id(title: str) -> str:
     title = re.sub(r'\s+', ' ', title).strip()
     slug = title.replace(' ', '-')
     return slug
+
+def is_catalog_link(href: str | None) -> bool:
+    if not href:
+        return False
+    lower_href = href.lower()
+    if ".pdf" in lower_href or "calameo.com" in lower_href or "image.invaluable.com" in lower_href:
+        return False
+    return "auction-catalog" in urlsplit(href).path.lower()
+
+def build_catalog_url(auction_link: str, page_num: int | str = 1) -> str:
+    parts = urlsplit(auction_link)
+    query = dict(parse_qsl(parts.query, keep_blank_values=True))
+    query["displayNum"] = "180"
+    query["pageNum"] = str(page_num)
+    return urlunsplit((parts.scheme, parts.netloc, parts.path, urlencode(query), parts.fragment))
+
+def select_auction_catalog_link(soup: BeautifulSoup) -> str | None:
+    lot_link_text = (
+        "view auction",
+        "browse lots",
+        "view lots",
+        "view lot",
+    )
+    links = list(soup.select("div.sale-ctas a"))
+    for a in links:
+        text = a.get_text(strip=True).lower()
+        href = a.get("href")
+        if any(marker in text for marker in lot_link_text) and is_catalog_link(href):
+            return href
+    for a in links:
+        href = a.get("href")
+        if is_catalog_link(href):
+            return href
+    return None
 
 async def extract_listing_urls(page):
     base_url = "https://www.tajan.com/en/past/"
@@ -52,26 +88,23 @@ async def extract_listing_urls(page):
 
 async def fetch_hits(page, url, report):
     try:
-        await page.goto(url, timeout=60000)
+        await page.goto(url, wait_until="domcontentloaded", timeout=60000)
+        try:
+            await page.wait_for_selector("div.sale-ctas a, div#catLotCountInfoM", timeout=10000)
+        except Exception:
+            pass
         content = await page.content()
         soup = BeautifulSoup(content, 'html.parser')
 
-        auction_link = None
-        for a in soup.select("div.sale-ctas a"):
-            text = a.get_text(strip=True)
-            href = a.get("href")
-            if href and href.startswith("https://www.calameo.com"):
-                continue
-            if text and (
-            "view auction" in text.lower() or
-            "browse lots" in text.lower() or
-            "view lots" in text.lower() or
-            "view lot" in text.lower()):
-                auction_link = href
-                break
+        auction_link = select_auction_catalog_link(soup)
         
         if auction_link:
-            await page.goto(auction_link, timeout=60000)
+            auction_link = urljoin(page.url, auction_link)
+            await page.goto(build_catalog_url(auction_link), wait_until="domcontentloaded", timeout=60000)
+            try:
+                await page.wait_for_selector("div#catLotCountInfoM", timeout=10000)
+            except Exception:
+                pass
             content = await page.content()
             soup = BeautifulSoup(content, 'html.parser')
             hits_tag = soup.select_one("div#catLotCountInfoM")
@@ -98,7 +131,7 @@ async def main():
     auction_lots_data = report.load_lot_counts_from_db()
 
     async with async_playwright() as p:
-        browser = await p.chromium.launch(headless=False)
+        browser = await p.chromium.launch(headless=True)
         context = await browser.new_context(
             user_agent=(
                 "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36"
@@ -112,13 +145,13 @@ async def main():
             java_script_enabled=True
         )
 
-        page = await browser.new_page()
+        page = await context.new_page()
         listing_urls = await extract_listing_urls(page)
         await page.close()
 
         async def process_url(url, external_id):
             async with sem:
-                page = await browser.new_page()
+                page = await context.new_page()
                 hits = await fetch_hits(page, url, report)
                 await page.close()
                 

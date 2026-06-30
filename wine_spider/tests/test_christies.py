@@ -4,11 +4,17 @@ import re
 import json
 import unittest
 from datetime import datetime
+from unittest.mock import Mock
 
 import demjson3
 import requests
+from scrapy.http import Request, TextResponse
 
 from tests.utils import live_html, live_json
+from wine_spider.helpers import build_lot_external_id
+from wine_spider.items import LotDetailItem, LotItem
+from wine_spider.services.christies_client import ChristiesClient
+from wine_spider.spiders.christies import ChristiesSpider
 
 HEADERS = {
     "User-Agent": (
@@ -173,6 +179,192 @@ class TestChristiesLotsAPI(unittest.TestCase):
         for lot in lots[:5]:
             self.assertIn("estimate_low", lot, f"Lot missing 'estimate_low'. Keys: {list(lot.keys())}")
             self.assertIn("estimate_high", lot, f"Lot missing 'estimate_high'")
+
+
+class TestChristiesLotIds(unittest.TestCase):
+    def test_common_lot_id_rule_combines_auction_and_source_lot_id(self):
+        self.assertEqual(
+            build_lot_external_id("31303#24697", "280563"),
+            "31303#24697_280563",
+        )
+
+    def test_lot_and_detail_ids_are_namespaced_by_auction(self):
+        spider = ChristiesSpider.__new__(ChristiesSpider)
+        spider.lot_information_finder = Mock()
+        spider.lot_information_finder.find_lot_information.return_value = (
+            "Producer A",
+            None,
+            None,
+            None,
+        )
+
+        request = Request(
+            url="https://www.christies.com/api/lots",
+            meta={
+                "auction_id": "31303#24697",
+                "sale_id": "4013",
+                "sale_number": "24697",
+                "all_filters": [],
+                "saved": True,
+            },
+        )
+        body = json.dumps(
+            {
+                "lots": [
+                    {
+                        "object_id": "280563",
+                        "title_primary_txt": "Test Wine 2001",
+                        "title_secondary_txt": "1 bottle",
+                        "estimate_txt": "GBP 100 - 200",
+                        "estimate_low": "100",
+                        "estimate_high": "200",
+                        "price_realised": None,
+                        "end_date": "2025-12-06T00:00:00",
+                    }
+                ]
+            }
+        ).encode("utf-8")
+        response = TextResponse(
+            url=request.url,
+            request=request,
+            body=body,
+            encoding="utf-8",
+        )
+
+        results = list(spider.parse_initial_request(response))
+        lot = next(item for item in results if isinstance(item, LotItem))
+        detail = next(item for item in results if isinstance(item, LotDetailItem))
+
+        self.assertEqual(lot["external_id"], "31303#24697_280563")
+        self.assertEqual(detail["lot_id"], "31303#24697_280563")
+        self.assertEqual(lot["auction_id"], "31303#24697")
+
+
+class TestChristiesFilterFlow(unittest.TestCase):
+    def make_spider(self):
+        spider = ChristiesSpider.__new__(ChristiesSpider)
+        spider.client = ChristiesClient()
+        spider.lot_information_finder = Mock()
+        spider.lot_information_finder.find_lot_information.return_value = (
+            "Producer A",
+            None,
+            None,
+            None,
+        )
+        return spider
+
+    def make_lots(self):
+        lot = LotItem()
+        lot["external_id"] = "23300#5603_5356888"
+        lot["auction_id"] = "23300#5603"
+        lot["lot_name"] = "Petrus 1982"
+        return {
+            "5356888": {
+                "lot_item": lot,
+                "lot_detail_info": {
+                    "lot_producer": [],
+                    "vintage": ["1982"],
+                    "unit_format": [],
+                    "wine_colour": [],
+                },
+            }
+        }
+
+    def make_filter_response(self, status, all_filters, retry_count=0, body=None):
+        request = Request(
+            url="https://www.christies.com/api/discoverywebsite/auctionpages/lotsearch",
+            meta={
+                "auction_id": "23300#5603",
+                "sale_id": 23300,
+                "sale_number": 5603,
+                "all_filters": all_filters,
+                "saved": True,
+                "lots": self.make_lots(),
+                "current_filter": "CoaArtists{Vega-Sicilia%2c%22Unico%22}",
+                "filter_retry_count": retry_count,
+            },
+        )
+        if body is None:
+            body = b"" if status >= 400 else b'{"lots":[]}'
+        return TextResponse(
+            url=request.url,
+            request=request,
+            status=status,
+            body=body,
+            encoding="utf-8",
+        )
+
+    def test_filter_request_allows_400_response_to_reach_callback(self):
+        spider = self.make_spider()
+
+        request = next(
+            spider.yield_request(
+                saved=True,
+                auction_id="23300#5603",
+                sale_id=23300,
+                sale_number=5603,
+                all_filters=[],
+                current_filter="CoaArtists{Vega-Sicilia%2c%22Unico%22}",
+                lots=self.make_lots(),
+                callback=spider.parse_filters,
+            )
+        )
+
+        self.assertEqual(request.meta["handle_httpstatus_list"], [400])
+
+    def test_parse_filters_retries_400_filter_before_continuing(self):
+        spider = self.make_spider()
+        response = self.make_filter_response(
+            status=400,
+            all_filters=["Producer{Yquem}"],
+        )
+
+        results = list(spider.parse_filters(response))
+
+        self.assertEqual(len(results), 1)
+        self.assertIsInstance(results[0], Request)
+        self.assertEqual(results[0].meta["current_filter"], "CoaArtists{Vega-Sicilia%2c%22Unico%22}")
+        self.assertEqual(results[0].meta["filter_retry_count"], 1)
+        self.assertEqual(results[0].meta["all_filters"], ["Producer{Yquem}"])
+
+    def test_parse_filters_retries_malformed_filter_response(self):
+        spider = self.make_spider()
+        response = self.make_filter_response(
+            status=200,
+            all_filters=["Producer{Yquem}"],
+            body=b"",
+        )
+
+        results = list(spider.parse_filters(response))
+
+        self.assertEqual(len(results), 1)
+        self.assertIsInstance(results[0], Request)
+        self.assertEqual(results[0].meta["current_filter"], "CoaArtists{Vega-Sicilia%2c%22Unico%22}")
+        self.assertEqual(results[0].meta["filter_retry_count"], 1)
+
+    def test_parse_filters_continues_after_400_filter_retries_are_exhausted(self):
+        spider = self.make_spider()
+        response = self.make_filter_response(
+            status=400,
+            all_filters=["Producer{Yquem}"],
+            retry_count=2,
+        )
+
+        results = list(spider.parse_filters(response))
+
+        self.assertEqual(len(results), 1)
+        self.assertIsInstance(results[0], Request)
+        self.assertIn("filterids=%7CProducer%7BYquem%7D%7C", results[0].url)
+        self.assertEqual(results[0].meta["filter_retry_count"], 0)
+
+    def test_parse_filters_yields_lots_after_last_400_filter_response(self):
+        spider = self.make_spider()
+        response = self.make_filter_response(status=400, all_filters=[], retry_count=2)
+
+        results = list(spider.parse_filters(response))
+
+        self.assertTrue(any(isinstance(item, LotItem) for item in results))
+        self.assertTrue(any(isinstance(item, LotDetailItem) for item in results))
 
 
 if __name__ == "__main__":

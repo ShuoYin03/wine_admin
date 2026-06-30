@@ -8,13 +8,14 @@ import pandas as pd
 from app.service.lwin_matching_engine import LwinMatcherEngine
 from shared.database.lwin_database_client import LwinDatabaseClient
 from app.models.lwin_matching_params import LwinMatchingParams
+from app.utils import serialize_for_json
 
 
 if (os.getcwd() == "E:\\Upwork\\WineAdmin\\lwin_matcher"):
     df = pd.read_excel("./scripts/base_matches_new.xlsx")
 else:
-    df = pd.read_excel("./lwin_matcher/scripts/base_matches_new.xlsx")
-# df = pd.read_excel("./app/scripts/base_matches_new.xlsx")
+    # df = pd.read_excel("./lwin_matcher/scripts/base_matches_new.xlsx")
+    df = pd.read_excel("./app/scripts/base_matches_new.xlsx")
 
 def lwin_match_direct(payload: Dict[str, Any], external_id: str) -> Optional[Dict[str, Any]]:
         params = LwinMatchingParams(
@@ -36,9 +37,9 @@ def lwin_match_direct(payload: Dict[str, Any], external_id: str) -> Optional[Dic
             if "lwin" in item:
                 item["lwin"] = int(item["lwin"])
             if item.get("date_added"):
-                item["date_added"] = item["date_added"].isoformat()
+                item["date_added"] = serialize_for_json(item["date_added"])
             if item.get("date_updated"):
-                item["date_updated"] = item["date_updated"].isoformat()
+                item["date_updated"] = serialize_for_json(item["date_updated"])
             if item.get("reference"):
                 item["reference"] = int(float(item["reference"]))
 
@@ -68,8 +69,8 @@ with app.app_context():
     count = 1
     for index, row in df.iterrows():
         #  and row.get("region") != "Burgundy"
-        # if row.get("region") != "Burgundy":
-            # continue
+        if row.get("region") != "Bordeaux":
+            continue
         # count -= 1
         # if count < 0:
         #     break
@@ -93,8 +94,8 @@ with app.app_context():
         # if not row.get("lot_name") == "Château La Serre--Vintage 2002 Saint-Emilion, grand cru classé":
         #     continue
 
-        if not row.get("lot_name") == "Glenlivet 12 Year Old All Malt Scotch":
-            continue
+        # if not row.get("lot_name") == "Glenlivet 12 Year Old All Malt Scotch":
+        #     continue
         payload = {
             "wine_name": row.get("lot_name", "") or "",
             "lot_producer": row.get("lot_producer", "") or "",

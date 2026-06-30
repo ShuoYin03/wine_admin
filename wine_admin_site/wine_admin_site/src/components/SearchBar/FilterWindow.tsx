@@ -313,10 +313,12 @@ const FilterWindow = ({ position, callback, onClose, type }: FilterWindowProps) 
                 <div ref={optionsRef}>
                 {(activeFilter === "Auction House" ||
                   activeFilter === "Lot Producer" ||
-                  activeFilter === "Region" || 
-                  activeFilter === "Colour" || 
-                  activeFilter === "Format"
-                ) && 
+                  activeFilter === "Region" ||
+                  activeFilter === "Colour" ||
+                  activeFilter === "Format" ||
+                  activeFilter === "Rates From" ||
+                  activeFilter === "Rates To"
+                ) &&
                     <FilterOptions 
                         filterType={activeFilter}
                         position={filterPosition}
@@ -348,6 +350,15 @@ const FilterWindow = ({ position, callback, onClose, type }: FilterWindowProps) 
                         callback={(value) => handleAddDateFilter(activeFilter, "gte", value)}
                         onClose={() => setActiveFilter(null)}
                         setDate={(value) => setAuctionAfterDate(value)}
+                    />
+                )}
+                {activeFilter === "Date" && (
+                    <FullCalendar
+                        position={filterPosition}
+                        initialDate={auctionBeforeDate}
+                        callback={(value) => handleAddDateFilter(activeFilter, "eq", value)}
+                        onClose={() => setActiveFilter(null)}
+                        setDate={(value) => setAuctionBeforeDate(value)}
                     />
                 )}
                 {activeFilter === "Price Range" && (

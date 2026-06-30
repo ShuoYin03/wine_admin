@@ -7,6 +7,7 @@
     "backend": "cd lwin_matcher && ..\\.venv\\Scripts\\python run.py",
     "dev": "concurrently -n frontend,backend -c cyan,green \"npm run frontend\" \"npm run backend\"",
     "spider": "cd wine_spider && ..\\.venv\\Scripts\\python.exe -m wine_spider.run_spiders",
+    "scraping-report": ".\\.venv\\Scripts\\python.exe wine_spider\\scripts\\run_scraping_reports.py",
     "match": "cd lwin_matcher && ..\\.venv\\Scripts\\python scripts/lwin_full_database_matching.py",
     "match:sample": "cd lwin_matcher && ..\\.venv\\Scripts\\python scripts/lwin_full_database_matching.py --mode sample",
     "match:christies": "cd lwin_matcher && ..\\.venv\\Scripts\\python scripts/lwin_full_database_matching.py --auction-house \"Christie's\"",

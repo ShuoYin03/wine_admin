@@ -4,6 +4,8 @@ import argparse
 import os
 import re
 
+os.environ.setdefault("SCRAPY_SETTINGS_MODULE", "wine_spider.settings")
+
 from scrapy.crawler import CrawlerProcess, AsyncCrawlerProcess
 from scrapy.utils.project import get_project_settings
 

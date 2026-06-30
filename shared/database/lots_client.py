@@ -2,6 +2,7 @@ from .base_database_client import BaseDatabaseClient
 from shared.database.models.lot_db import LotModel
 from shared.database.models.lot_item_db import LotItemModel
 from shared.database.models.auction_db import AuctionModel
+from shared.database.models.lwin_matching_db import LwinMatchingModel
 from sqlalchemy import func
 from sqlalchemy.orm import joinedload, selectinload, contains_eager
 
@@ -13,6 +14,13 @@ class LotsClient(BaseDatabaseClient):
         with self.session_scope() as session:
             lots = session.query(LotModel).filter_by(auction_id=auction_id).all()
             return [lot.model_to_dict() for lot in lots]
+
+    def count_by_auction(self, auction_id):
+        with self.session_scope() as session:
+            return session.query(func.count(LotModel.id)).filter_by(auction_id=auction_id).scalar()
+
+    def has_lots_for_auction(self, auction_id):
+        return (self.count_by_auction(auction_id) or 0) > 0
         
     def sample_lots_with_lot_items(self, sample_size=10, auction_house=None, filters=None, lot_type=None):
         with self.session_scope() as session:
@@ -128,5 +136,68 @@ class LotsClient(BaseDatabaseClient):
                 if return_auction:
                     lot_dict["auction"] = lot.auction.model_to_dict() if lot.auction else None
                 data.append(lot_dict)
+
+            return (data, count) if return_count else (data, None)
+
+    def query_lot_items_for_lwin_matching(
+        self,
+        filters=None,
+        auction_house=None,
+        last_lot_item_id=0,
+        limit=None,
+        only_missing=False,
+        return_count=False,
+    ):
+        with self.session_scope() as session:
+            lots = LotModel
+            items = LotItemModel
+            auctions = AuctionModel
+            lwin_matching = LwinMatchingModel
+            table_map = {"lots": lots, "items": items, "auctions": auctions}
+
+            def apply_common_filters(query):
+                query = query.select_from(items).join(
+                    lots, items.lot_id == lots.external_id
+                )
+                if auction_house is not None:
+                    query = query.join(
+                        auctions, lots.auction_id == auctions.external_id
+                    ).filter(auctions.auction_house == auction_house)
+                if only_missing:
+                    query = query.outerjoin(
+                        lwin_matching,
+                        lwin_matching.lot_item_id == items.id,
+                    ).filter(lwin_matching.id.is_(None))
+                conditions = self.parse_filters(filters, table_map)
+                if conditions is not None:
+                    query = query.filter(conditions)
+                if last_lot_item_id is not None:
+                    query = query.filter(items.id > last_lot_item_id)
+                return query
+
+            count = None
+            if return_count:
+                count_query = apply_common_filters(session.query(func.count(items.id)))
+                count = count_query.scalar()
+
+            query = apply_common_filters(session.query(items, lots))
+            query = query.order_by(items.id.asc())
+            if limit is not None:
+                query = query.limit(limit)
+
+            results = query.all()
+            data = []
+            for item, lot in results:
+                data.append({
+                    "lot_item_id": item.id,
+                    "wine_name": lot.lot_name,
+                    "lot_producer": item.lot_producer,
+                    "vintage": item.vintage,
+                    "region": lot.region,
+                    "sub_region": lot.sub_region,
+                    "country": lot.country,
+                    "colour": item.wine_colour,
+                    "lot_external_id": lot.external_id,
+                })
 
             return (data, count) if return_count else (data, None)

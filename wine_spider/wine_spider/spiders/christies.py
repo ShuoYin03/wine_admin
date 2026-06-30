@@ -15,14 +15,17 @@ from wine_spider.helpers import (
     expand_to_lot_items,
     map_filter_to_field,
     extract_years_from_json,
-    parse_qty_and_unit_from_secondary_title
+    parse_qty_and_unit_from_secondary_title,
+    build_lot_external_id,
 )
 from wine_spider.services import ChristiesClient
 from wine_spider.services.lot_information_finder import LotInformationFinder
-from wine_spider.services import auctions_client
+from wine_spider.services import auctions_client, lots_client
+from wine_spider.spiders.base_auction_spider import should_skip_existing_auction_record
 
 dotenv.load_dotenv()
 FULL_FETCH = os.getenv("FULL_FETCH")
+FILTER_RETRY_TIMES = int(os.getenv("CHRISTIES_FILTER_RETRY_TIMES", "2"))
 
 class ChristiesSpider(scrapy.Spider):
     name = "christies_spider"
@@ -43,7 +46,7 @@ class ChristiesSpider(scrapy.Spider):
         self.lot_information_finder = LotInformationFinder()
 
     def start_requests(self):
-        year_list = [i for i in range(2007, 2026)]
+        year_list = [i for i in range(2007, datetime.now().year + 1)]
 
         for year in year_list:
             for month in range(1, 13):
@@ -97,22 +100,28 @@ class ChristiesSpider(scrapy.Spider):
                     if not sale_number or not sale_id:
                         raise ValueError("Sale number or Sale ID is missing")
                     
-                    if (auctions_client.get_by_external_id(f"{sale_id}#{sale_number}") and FULL_FETCH == "True") \
-                    or not auctions_client.get_by_external_id(f"{sale_id}#{sale_number}"):
-                        auctionItem["external_id"] = f"{sale_id}#{sale_number}"
-                        yield auctionItem
+                    auction_id = f"{sale_id}#{sale_number}"
+                    if should_skip_existing_auction_record(
+                        auction_id,
+                        auctions_client,
+                        lot_client=lots_client,
+                        full_fetch=FULL_FETCH == "True",
+                        logger=self.logger,
+                    ):
+                        continue
 
-                        yield scrapy.Request(
-                            url=auctionItem["url"],
-                            callback=self.parse_auctions,
-                            meta={
-                                "auction_id": auctionItem["external_id"],
-                                "sale_id": sale_id,
-                                "sale_number": sale_number,
-                            }
-                        )
-                    else:
-                        self.logger.debug(f"Skipping auction {sale_id}#{sale_number} as it already exists in the database or FULL_FETCH is not set.")
+                    auctionItem["external_id"] = auction_id
+                    yield auctionItem
+
+                    yield scrapy.Request(
+                        url=auctionItem["url"],
+                        callback=self.parse_auctions,
+                        meta={
+                            "auction_id": auctionItem["external_id"],
+                            "sale_id": sale_id,
+                            "sale_number": sale_number,
+                        }
+                    )
 
                 except Exception as e:
                     self.logger.error(f"Error parsing auction: {e}")      
@@ -194,8 +203,13 @@ class ChristiesSpider(scrapy.Spider):
         
         response_data = response.json()['lots']
         for lot in response_data:
+            object_id = lot.get("object_id", None)
+            if not object_id:
+                self.logger.warning(f"Skipping Christie's lot without object_id in auction {auction_id}")
+                continue
+
             lot_item = LotItem()
-            lot_item["external_id"] = lot.get("object_id", None)
+            lot_item["external_id"] = build_lot_external_id(auction_id, object_id)
             lot_item["auction_id"] = auction_id
             lot_item["lot_name"] = lot.get("title_primary_txt", None)
             lot_item["lot_type"] = ["Wine & Spirits"]
@@ -219,10 +233,10 @@ class ChristiesSpider(scrapy.Spider):
             lot_item["unit"] = unit
             lot_item['success'] = True
             
-            lots[lot_item["external_id"]]["lot_item"] = lot_item
+            lots[object_id]["lot_item"] = lot_item
 
             vintage = extract_years_from_json(lot)
-            lots[lot_item["external_id"]]["lot_detail_info"]["vintage"] += vintage
+            lots[object_id]["lot_detail_info"]["vintage"] += vintage
         
         if not all_filters:
             self.logger.debug(len(lots))
@@ -241,14 +255,60 @@ class ChristiesSpider(scrapy.Spider):
         lots = response.meta.get("lots", {})
         saved = response.meta.get("saved", False)
         current_filter = response.meta.get("current_filter", None)
+        filter_retry_count = response.meta.get("filter_retry_count", 0)
 
-        lots_data = response.json().get("lots", [])
+        lots_data = []
+        filter_error = None
+        if response.status >= 400:
+            filter_error = f"HTTP {response.status}"
+        else:
+            try:
+                lots_data = response.json().get("lots", [])
+            except Exception as e:
+                filter_error = f"invalid JSON: {e}"
+
+        if filter_error:
+            if filter_retry_count < FILTER_RETRY_TIMES:
+                self.logger.warning(
+                    "Retrying Christie's filter %s for auction %s after %s (%s/%s)",
+                    current_filter,
+                    auction_id,
+                    filter_error,
+                    filter_retry_count + 1,
+                    FILTER_RETRY_TIMES,
+                )
+                yield from self.yield_request(
+                    saved,
+                    auction_id,
+                    sale_id,
+                    sale_number,
+                    list(all_filters),
+                    current_filter,
+                    lots,
+                    self.parse_filters,
+                    filter_retry_count=filter_retry_count + 1,
+                )
+                return
+
+            self.logger.warning(
+                "Skipping Christie's filter %s for auction %s after %s retries: %s",
+                current_filter,
+                auction_id,
+                FILTER_RETRY_TIMES,
+                filter_error,
+            )
+
         if lots_data:
             try:
                 for lot in lots_data:
                     id = lot.get("object_id", None)
-                    lot_item = lots.get(id, None).get("lot_item", None)
-                    lot_detail_info = lots.get(id, None).get("lot_detail_info", None)
+                    lot_data = lots.get(id, None)
+                    if not lot_data:
+                        self.logger.error(f"Lot {id} not found in lots dictionary for auction {auction_id}")
+                        continue
+
+                    lot_item = lot_data.get("lot_item", None)
+                    lot_detail_info = lot_data.get("lot_detail_info", None)
                     if not lot_item:
                         self.logger.error(f"Lot {id} not found in lots dictionary for auction {auction_id}")
                         continue
@@ -288,34 +348,51 @@ class ChristiesSpider(scrapy.Spider):
                 lot_detail_item["lot_id"] = lot["lot_item"]["external_id"]
                 yield lot_detail_item
 
-    def yield_request(self, saved, auction_id, sale_id, sale_number, all_filters, current_filter, lots, callback):
+    def yield_request(
+        self,
+        saved,
+        auction_id,
+        sale_id,
+        sale_number,
+        all_filters,
+        current_filter,
+        lots,
+        callback,
+        filter_retry_count=0,
+    ):
         if not saved:
             yield scrapy.Request(
                 url=self.client.lots_query("refinecoa", sale_id, filterids=current_filter),
                 callback=callback,
                 meta={
+                    "handle_httpstatus_list": [400],
+                    "filter_retry_count": filter_retry_count,
                     "auction_id": auction_id,
                     "sale_id": sale_id,
                     "sale_number": sale_number,
-                    "all_filters": all_filters,
+                    "all_filters": list(all_filters),
                     "saved": saved,
                     "lots": lots,
                     "current_filter": current_filter,
-                }
+                },
+                dont_filter=filter_retry_count > 0,
             )
         else:
             yield scrapy.Request(
                 url=self.client.saved_lots_query("refinecoa", sale_id, sale_number, filterids=current_filter),
                 callback=callback,
                 meta={
+                    "handle_httpstatus_list": [400],
+                    "filter_retry_count": filter_retry_count,
                     "auction_id": auction_id,
                     "sale_id": sale_id,
                     "sale_number": sale_number,
-                    "all_filters": all_filters,
+                    "all_filters": list(all_filters),
                     "saved": saved,
                     "lots": lots,
                     "current_filter": current_filter,
-                }
+                },
+                dont_filter=filter_retry_count > 0,
             )
 
     def add_data(self, filter, lot_item, lot_detail_info):

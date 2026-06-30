@@ -6,16 +6,38 @@ from playwright.sync_api import sync_playwright
 
 load_dotenv()
 EMAIL = os.getenv("EMAIL")
-PASSWORD = os.getenv("PASSWORD")
+PASSWORD = "@Qazsedcft123qa"
 STATE_PATH = os.path.join(PROJECT_ROOT, "wine_spider", "login_state", "wineauctioneer_cookies.json")
+DEFAULT_CHROME_PATHS = (
+    r"C:\Program Files\Google\Chrome\Application\chrome.exe",
+    r"C:\Program Files (x86)\Google\Chrome\Application\chrome.exe",
+)
+
+
+def get_chrome_executable_path():
+    configured_path = os.getenv("WINEAUCTIONEER_CHROME_PATH")
+    if configured_path:
+        return configured_path
+
+    for path in DEFAULT_CHROME_PATHS:
+        if os.path.exists(path):
+            return path
+    return None
 
 def do_login():
     with sync_playwright() as pw:
+        launch_options = {
+            "headless": False,
+            "args": [
+                "--disable-blink-features=AutomationControlled",
+            ],
+        }
+        chrome_path = get_chrome_executable_path()
+        if chrome_path:
+            launch_options["executable_path"] = chrome_path
+
         browser = pw.chromium.launch(
-            headless=False, 
-            args=[
-                "--disable-blink-features=AutomationControlled",    
-                ]
+            **launch_options
             )
         
         ctx = browser.new_context(user_agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64)")

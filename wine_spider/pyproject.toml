@@ -11,6 +11,7 @@ dependencies = [
     "wine-admin",
     "scrapy",
     "scrapy-playwright",
+    "curl_cffi",
     "camoufox",
     "python-dotenv",
     "sqlalchemy",

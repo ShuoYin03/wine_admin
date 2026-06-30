@@ -1,4 +1,8 @@
 from scrapy_playwright.page import PageMethod
+
+
+def should_abort_request(request):
+    return request.resource_type in ["image", "stylesheet", "font", "media"]
     
 class PlaywrightResourceBlockerMiddleware:
     def process_request(self, request, spider):
@@ -8,7 +12,7 @@ class PlaywrightResourceBlockerMiddleware:
             )
 
     async def _abort_resources(self, route, request):
-        if request.resource_type in ["image", "stylesheet", "font"]:
+        if should_abort_request(request):
             await route.abort()
         else:
             await route.continue_()

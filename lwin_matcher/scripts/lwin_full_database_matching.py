@@ -59,7 +59,16 @@ def _build_arg_parser():
     )
     parser.add_argument(
         "--no-resume", action="store_false", dest="resume",
-        help="Ignore existing checkpoint and restart from offset 0",
+        help="Ignore existing checkpoint and restart from lot_item_id 0",
+    )
+    parser.add_argument(
+        "--only-missing",
+        action="store_true",
+        dest="only_missing",
+        help=(
+            "Only match eligible lot_items that do not have lwin_matching rows. "
+            "This mode ignores checkpoints and is safe to rerun."
+        ),
     )
     parser.add_argument("--workers", type=int, default=32, help="Worker thread count")
     parser.add_argument("--batch-size", type=int, default=500, dest="batch_size")
@@ -87,6 +96,7 @@ if __name__ == "__main__":
         worker_count=args.workers,
         fetch_batch_size=args.batch_size,
         resume=args.resume,
+        only_missing=args.only_missing,
         sample_size=args.sample_size if args.mode == "sample" else None,
         sample_seed=args.seed,
         output_csv=args.output if args.mode == "sample" else None,

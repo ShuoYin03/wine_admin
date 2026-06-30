@@ -1,4 +1,7 @@
 import re
+import logging
+from collections import Counter
+
 from wine_spider.items import AuctionItem, LotItem, LotDetailItem
 from wine_spider.helpers import (
     extract_date,
@@ -10,18 +13,15 @@ from wine_spider.helpers import (
     parse_unit_format,
     extract_all_volume_units,
     convert_to_volume,
-    split_title_by_valid_brackets
+    build_lot_external_id,
+    BonhamsLotParser,
 )
-from wine_spider.services.lot_information_finder import LotInformationFinder
-from wine_spider.exceptions import AmbiguousRegionAndCountryMatchException, NoMatchedRegionAndCountryException
-import logging
-from collections import Counter
 
 class BonhamsClient:
     def __init__(self):
         self.base_url = "https://www.bonhams.com"
         self.api_url = "https://api01.bonhams.com/search-proxy/multi_search?use_cache=true&enable_lazy_filter=true"
-        self.lot_information_finder = LotInformationFinder()
+        self.lot_parser = BonhamsLotParser()
         self.logger = logging.getLogger(__name__)
         self.headers = {
             "accept": "application/json, text/plain, */*",
@@ -64,7 +64,7 @@ class BonhamsClient:
             "searches": [
                 {
                     "collection": "lots",
-                    "exclude_fields": "footnotes,catalogDesc",
+                    "exclude_fields": "footnotes",
                     "filter_by": f"(auctionId:={auction_id})",
                     "facet_by": "",
                     "query_by": "lotId,title",
@@ -118,8 +118,8 @@ class BonhamsClient:
             document = document.get("document")
 
             lot_item = LotItem()
-            lot_item['external_id'] = document.get("id")
             lot_item['auction_id'] = document.get("auctionId")
+            lot_item['external_id'] = build_lot_external_id(lot_item['auction_id'], document.get("id"))
             lot_item['lot_name'] = document.get("title")
             lot_item['lot_type'] = [document.get("department").get("name")] if document.get("department") else ["Wine & Spirits"]
             lot_item['original_currency'] = document.get("currency").get("iso_code")
@@ -142,49 +142,31 @@ class BonhamsClient:
                 self.logger.error(f"Error parsing volume and unit from title: {e}")
                 lot_item['success'] = False
 
-            items = split_title_by_valid_brackets(document.get("title"))
-            
             lot_detail_items = []
             region_list = []
-            sub_region_list = []
             country_list = []
-            for item in items:
-                try:
-                    if lot_item['lot_type'] != 'Whisky':
-                        producer, region, sub_region, country = self.lot_information_finder.find_lot_information(item[0])
-                        region_list.append(region) if region else None
-                        sub_region_list.append(sub_region) if sub_region else None
-                        country_list.append(country) if country else None
-                    else:
-                        producer = None
-                except AmbiguousRegionAndCountryMatchException as e:
-                    self.logger.error(f"Ambiguous match for region and country: {e}")
-                    producer = None
-                except NoMatchedRegionAndCountryException as e:
-                    self.logger.error(f"No match found for region and country: {e}")
-                    producer = None
-                
-                try:
-                    results = parse_all_valid_quantity_volume(item[1])
-                    unit_format = results[0][1] if len(results) > 0 else None
-                except Exception as e:
-                    self.logger.error(f"Error parsing volume and unit format: {e}")
-                    unit_format = None
-                vintage = re.search(r'\b\d{4}\b', item[0])
+
+            components = self.lot_parser.parse_components(
+                document.get("title"),
+                document.get("catalogDesc"),
+            )
+
+            for component in components:
+                region_list.append(component.region) if component.region else None
+                inferred_country = self.lot_parser.infer_country(component.region)
+                country_list.append(inferred_country) if inferred_country else None
+
                 lot_detail_item = LotDetailItem()
                 lot_detail_item['lot_id'] = lot_item['external_id']
-                lot_detail_item['lot_producer'] = producer if producer else None
-                lot_detail_item['vintage'] = int(vintage.group(0)) if vintage else None
-                lot_detail_item['unit_format'] = unit_format if unit_format else None
+                lot_detail_item['lot_producer'] = component.producer
+                lot_detail_item['vintage'] = int(component.vintage) if component.vintage else None
+                lot_detail_item['unit_format'] = component.unit_format
                 lot_detail_items.append(lot_detail_item)
 
-            if not(lot_item['region'] and lot_item['country']):
-                if region_list:
-                    lot_item['region'] = Counter(region_list).most_common(1)[0][0]
-                if sub_region_list:
-                    lot_item['sub_region'] = Counter(sub_region_list).most_common(1)[0][0]
-                if country_list:
-                    lot_item['country'] = Counter(country_list).most_common(1)[0][0]
+            if region_list:
+                lot_item['region'] = Counter(region_list).most_common(1)[0][0]
+            if country_list:
+                lot_item['country'] = Counter(country_list).most_common(1)[0][0]
 
             lots.append((lot_item, lot_detail_items))
 

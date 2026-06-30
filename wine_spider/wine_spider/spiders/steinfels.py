@@ -1,4 +1,6 @@
+import os
 import scrapy
+from shared.database.auctions_client import AuctionsClient
 from wine_spider.spiders.base_auction_spider import BaseAuctionSpider
 from wine_spider.services.steinfels_client import SteinfelsClient
 
@@ -23,6 +25,12 @@ class SteinfelsSpider(BaseAuctionSpider):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.steinfels_client = SteinfelsClient()
+        self.auction_client = AuctionsClient()
+        self.backfill_auction_ids = {
+            auction_id.strip()
+            for auction_id in os.getenv("BACKFILL_AUCTION_IDS", "").split(",")
+            if auction_id.strip()
+        }
 
     def start_requests(self):
         yield scrapy.Request(
@@ -36,6 +44,13 @@ class SteinfelsSpider(BaseAuctionSpider):
         for i in range(len(auctions)):
             auction = auctions[i]
             auction_catalog_id = auction_catalog_ids[i]
+            if self.backfill_auction_ids and auction["external_id"] not in self.backfill_auction_ids:
+                self.logger.debug(f"Auction {auction['external_id']} is not in BACKFILL_AUCTION_IDS. Skipping...")
+                continue
+
+            if self.should_skip_existing_auction(auction["external_id"], self.auction_client):
+                continue
+
             yield auction
 
             yield scrapy.Request(

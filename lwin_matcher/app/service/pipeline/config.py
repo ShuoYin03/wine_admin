@@ -39,6 +39,7 @@ class PipelineConfig:
     flush_size: int = 500
     work_queue_maxsize: int = 2000
     resume: bool = True
+    only_missing: bool = False
     # Sample mode (output_csv != None activates sample mode)
     sample_size: int | None = None
     sample_seed: int = 42

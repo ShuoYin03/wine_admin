@@ -40,8 +40,28 @@ class SothebysClient:
                 }
             """
         }
-        
+
         return payload
+
+    def algolia_search_key_query(self, auction_id):
+        return {
+            "operationName": "AlgoliaSearchKeyQuery",
+            "variables": {
+                "filters": [
+                    {
+                        "key": "auctionId",
+                        "value": auction_id,
+                    }
+                ]
+            },
+            "query": """
+                query AlgoliaSearchKeyQuery($filters: [KeyValuePair!]) {
+                    algoliaSearchKey(requestedFilters: $filters) {
+                        key
+                    }
+                }
+            """,
+        }
     
     def lot_card_query(self, viking_id, lot_ids):
         payload = {
@@ -103,7 +123,14 @@ class SothebysClient:
     def extract_algolia_api_key(self, html):
         soup = BeautifulSoup(html, "html.parser")
         script_tag = soup.find("script", {"id": "__NEXT_DATA__", "type": "application/json"})
-        algolia_api_key = json.loads(script_tag.string)['props']['pageProps']['algoliaSearchKey']
+        if not script_tag or not script_tag.string:
+            return None
+
+        page_data = json.loads(script_tag.string)
+        page_props = page_data.get("props", {}).get("pageProps", {})
+        algolia_api_key = page_props.get("algoliaSearchKey")
+        if isinstance(algolia_api_key, dict):
+            algolia_api_key = algolia_api_key.get("key")
 
         return algolia_api_key
 

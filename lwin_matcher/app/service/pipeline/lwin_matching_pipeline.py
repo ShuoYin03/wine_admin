@@ -12,7 +12,7 @@ from app.models.lwin_matching_params import LwinMatchingParams
 from .checkpoint_manager import CheckpointManager
 from .config import LOT_TYPE_FILTERS, PipelineConfig
 from .csv_match_result_consumer import CsvMatchResultConsumer, CsvStats
-from .lot_producer import LotProducer
+from .lot_item_producer import LotItemProducer
 from .match_result_consumer import ConsumerStats, MatchResultConsumer
 from .sample_lot_producer import SampleLotProducer
 
@@ -37,7 +37,11 @@ class LwinMatchingPipeline:
         self._engine = engine
         self._lots_client = lots_client
         self._lwin_client = lwin_client
-        self._checkpoint_manager = CheckpointManager(config.auction_house)
+        checkpoint_kind = "missing_items" if config.only_missing else "all_items"
+        self._checkpoint_manager = CheckpointManager(
+            config.auction_house,
+            checkpoint_kind=checkpoint_kind,
+        )
 
     def run(self) -> PipelineResult:
         start_time = time.monotonic()
@@ -67,20 +71,21 @@ class LwinMatchingPipeline:
                 shutdown_event=shutdown_event,
             )
         else:
-            start_offset = self._resolve_start_offset(cfg)
-            producer = LotProducer(
+            start_after_id = 0 if cfg.only_missing else self._resolve_start_checkpoint(cfg)
+            producer = LotItemProducer(
                 lots_client=self._lots_client,
                 filters=LOT_TYPE_FILTERS,
                 auction_house=cfg.auction_house,
                 fetch_batch_size=cfg.fetch_batch_size,
-                start_offset=start_offset,
+                start_after_id=start_after_id,
+                only_missing=cfg.only_missing,
                 work_queue=work_queue,
                 worker_count=cfg.worker_count,
                 shutdown_event=shutdown_event,
             )
             consumer = MatchResultConsumer(
                 lwin_client=self._lwin_client,
-                checkpoint_manager=self._checkpoint_manager,
+                checkpoint_manager=None if cfg.only_missing else self._checkpoint_manager,
                 flush_size=cfg.flush_size,
                 result_queue=result_queue,
                 worker_count=cfg.worker_count,
@@ -151,19 +156,18 @@ class LwinMatchingPipeline:
             duration_seconds=duration,
         )
 
-    def _resolve_start_offset(self, cfg: PipelineConfig) -> int:
+    def _resolve_start_checkpoint(self, cfg: PipelineConfig) -> int:
         if not cfg.resume:
             self._checkpoint_manager.clear()
-            print("[Pipeline] --no-resume: cleared checkpoint, starting from offset 0.")
+            print("[Pipeline] --no-resume: cleared checkpoint, starting from lot_item_id 0.")
             return 0
 
         last = self._checkpoint_manager.load()
         if last >= 0:
-            start = last + cfg.fetch_batch_size
-            print(f"[Pipeline] Resuming from offset {start} (last checkpoint: {last}).")
-            return start
+            print(f"[Pipeline] Resuming after lot_item_id {last}.")
+            return last
 
-        print("[Pipeline] No checkpoint found, starting from offset 0.")
+        print("[Pipeline] No checkpoint found, starting from lot_item_id 0.")
         return 0
 
     def process_item(self, item: dict) -> dict:
@@ -187,7 +191,11 @@ class LwinMatchingPipeline:
 
         return {
             "lot_item_id": item["lot_item_id"],
-            "lot_offset": item["lot_offset"],
+            "checkpoint_id": item.get(
+                "checkpoint_id",
+                item.get("lot_offset", item["lot_item_id"]),
+            ),
+            "lot_offset": item.get("lot_offset", item["lot_item_id"]),
             "matched": match_result.value,
             "lwin_codes": lwin_codes,
             "lwin_11_codes": lwin_11_codes,
